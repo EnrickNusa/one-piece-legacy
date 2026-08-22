@@ -2844,7 +2844,7 @@ var ADV = [
  xf:"Gura Gura no Mi",
  k:"L'homme le plus fort du monde",
  i:"Il est branché à des perfusions et il est toujours l'homme le plus fort du monde. Le Fruit des Tremblements peut casser l'air lui-même et couler une île.<br><br>Il t'appelle mon fils avant même de savoir ton nom. Il appelle tout le monde comme ça.",
- s:["Il fend l'air d'un coup de naginata et la mer se soulève de cinquante mètres.",
+ s:["Il fend l'air d'un coup de bisento et la mer se soulève de cinquante mètres.",
     "Une secousse traverse l'île entière et la fait pencher.",
     "Il tousse, il crache du sang, et il se relève quand même."],
  w:"Tu bats l'homme le plus fort du monde. Il rit en tombant, il dit que c'est bien, et rien dans ta vie ne sera plus jamais aussi grand que cet instant.",
@@ -3808,7 +3808,7 @@ var NEWS = [
 
   /* ------------------- Acte III : le monde te devient lisible ---------- */
   {a:3, w:9, t:"L'Amiral aveugle demande publiquement la fin du système des Grands Corsaires. Lévely note la demande et passe au point suivant."},
-  {a:3, w:9, t:"Le Cross Guild met une prime sur la tête d'un Vice-Amiral. C'est la première fois qu'un chasseur devient chassé sur du papier officiel."},
+  {a:4, w:9, t:"Le Cross Guild met une prime sur la tête d'un Vice-Amiral. C'est la première fois qu'un chasseur devient chassé sur du papier officiel."},
   {a:3, w:8, t:"Un tireur de l'équipage de Barbe Noire abat une cible à quatre îles de distance. Les experts balistiques rendent un rapport vide."},
   {a:3, w:8, t:"Le second de Shanks règle une affaire sans que son capitaine descende du navire. Le rapport de la Marine tient en deux lignes et beaucoup de blancs."},
   {a:3, w:8, t:"Un All-Star de l'équipage aux Cent Bêtes est photographié sans son masque. Le cliché est retiré de toutes les éditions le lendemain."},
@@ -4440,7 +4440,7 @@ opts:[
    r:"Le capitaine de port que tu as payé se vend au double dès le lendemain. En une semaine, trois ports savent ce que tu as tenté. Ton rival, lui, ne dit rien, et ce silence dure."}}
 ]});
 
-E({id:"a2_geant", act:3, scene:"calmbelt", w:10, dt:1,
+E({id:"a2_geant", act:3, scene:"reverse", w:10, dt:1,
 kicker:"Little Garden", title:"Dorry et Brogy",
 text:"Dorry le Roi Bleu et Brogy le Roi Rouge se battent en duel depuis plus de cent ans, pour un honneur dont ils ont oublié l'objet. Chez eux, Elbaf tranche.<br><br>Le soir ils boivent comme deux frères. Le matin ils recommencent. Ils s'arrêtent pour te regarder.",
 opts:[
@@ -4535,7 +4535,11 @@ text:"La barque est morte depuis longtemps. Il te faut maintenant une coque capa
 opts:[
  {t:"Faire construire un navire sur mesure", tag:"Investissement", eff:{ruse:6, renom:7, vol:4, arm:-5}, f:"navire",
   why:"Une quille en Bois d'Adam encaisse une pression que rien d'autre ne tient.",
-  r:"Huit mois de chantier et toutes tes économies. Du chêne de mer renforcé pour la quille : la coque tiendra là où les autres s'ouvrent. Tu lui donnes un nom, tu ne l'écriras qu'une fois.",
+  /* La reussite livrait du « chene de mer renforce » alors que le why promet
+     du Bois d'Adam, et que l'echec explique justement qu'un chantier qui
+     REMPLACE le Bois d'Adam livre quand meme un navire, et que c'est le
+     probleme. Le texte de reussite decrivait donc l'arnaque de l'echec. */
+  r:"Huit mois de chantier et toutes tes économies. Du Bois d'Adam pour la quille, le seul qui encaisse ce que le Nouveau Monde met dessus : la coque tiendra là où les autres s'ouvrent. Tu lui donnes un nom, tu ne l'écriras qu'une fois.",
   fail:{p:.28, on:"ruse", eff:{ruse:3, renom:-3}, f:"navire",
    why:"Un chantier qui remplace le Bois d'Adam livre quand même un navire, et c'est le problème.",
    r:"Le contremaître empoche la différence et te livre une coque honnête en bois ordinaire. Tu le découvres au premier gros temps. Le navire flotte, et rien de plus."}},
@@ -4731,7 +4735,7 @@ opts:[
   die:{p:.06, t:"Ils étaient dix-neuf navires et tu es monté seul sur le premier. Personne ne saura jamais lequel a tiré."}},
  {t:"Ouvrir le feu et régler ça à la vieille méthode", tag:"Frontal", d:1, s:11, eff:{combat:14, arm:9, renom:8, vol:-6},
   why:"Dix-neuf coques en ligne contre la tienne, c'est une affaire d'artillerie et de sang-froid, et ça se paie des deux côtés.",
-  r:"Ça dure onze heures. Tu en coules sept et tu en captures trois. Deux des tiens ne rentrent pas. On raconte la bataille pendant des années et tu ne la racontes jamais.",
+  r:"Ça dure onze heures. Tu en coules sept et tu en captures trois. Tu paies la journée cher, en hommes et en bois. On raconte la bataille pendant des années et tu ne la racontes jamais.",
   flotteLoss:1,
   fail:{p:.36, on:"combat", eff:{combat:7, renom:-9, vol:-5},
    why:"Dix-neuf navires bien rangés ont l'avantage du nombre et le gardent tant que personne ne casse la ligne.",
@@ -4892,7 +4896,7 @@ opts:[
 
 E({id:'a3_warlord_moria', gr:'warlord', act:3, scene:'water7', w:3, dt:1,
 kicker:"Le Triangle de Florian", title:"Gecko Moria",
-text:"Un Grand Corsaire a un titre, un territoire, et le droit de piller tant qu'il obéit.<br><br>Thriller Bark est un navire de la taille d'une île. Gecko Moria te reçoit du haut de ses cinq mètres, et derrière lui trois cents cadavres debout attendent une ombre.",
+text:"Un Grand Corsaire a un titre, un territoire, et le droit de piller tant qu'il obéit.<br><br>Thriller Bark est un navire de la taille d'une île. Gecko Moria te reçoit du haut de ses sept mètres, et derrière lui trois cents cadavres debout attendent une ombre.",
 opts:[
  {t:"Le combattre", tag:"Frontal", d:1, eff:{combat:14, arm:8, renom:14}, bounty:1.8,
   why:"Quatre affrontements contre un homme qui a tenu tête à la Marine quinze ans.",
@@ -4917,7 +4921,7 @@ opts:[
 
 E({id:'a3_warlord_kuma', gr:'warlord', act:3, scene:'sabaody', w:3, dt:1,
 kicker:"Bosquet 1, un homme assis qui lit", title:"Bartholomew Kuma",
-text:"Un Grand Corsaire a un titre, un territoire, et le droit de piller tant qu'il obéit.<br><br>Kuma, lui, obéit à la lettre. Deux mètres et demi, une Bible ouverte sur les genoux, des lunettes noires. Il referme le livre : « Où veux-tu aller ? »",
+text:"Un Grand Corsaire a un titre, un territoire, et le droit de piller tant qu'il obéit.<br><br>Kuma, lui, obéit à la lettre. Près de sept mètres, une Bible ouverte sur les genoux, des lunettes noires. Il referme le livre : « Où veux-tu aller ? »",
 opts:[
  {t:"Le combattre", tag:"Frontal", d:1, eff:{combat:14, arm:8, renom:14}, bounty:1.8,
   why:"Quatre affrontements contre un homme qui a tenu tête à la Marine quinze ans.",
@@ -5183,7 +5187,7 @@ opts:[
   fail:{p:.30, on:'renom', eff:{vol:10, renom:-10, ruse:-4}, f:'integre',
    why:"Tu gardes ta droiture entière et tu perds tout le reste : c'est le prix affiché.",
    r:"Les arrestations tiennent quatre jours. Roswald récupère ses hommes et ses excuses officielles. On t'envoie tenir un poste de guet dans West Blue. Tu y restes trois ans."},
-  r:"Trente-huit arrestations et Charloss menotté devant les journaux. On te retire ton secteur dans la semaine et six cents marins demandent leur mutation sous tes ordres."},
+  r:"Trente-huit arrestations, tout le réseau démonté, et pas un seul noble inquiété : ils sont au-dessus de ce que tu peux signer. On te retire ton secteur dans la semaine et six cents marins demandent leur mutation sous tes ordres."},
  {t:"Monter un dossier et attendre le bon moment", tag:"Patience", eff:{ruse:16, obs:7, renom:4, vol:-5, arm:-4}, f:'dossier',
   why:"Quatre ans de noms, de dates et de transferts : la ruse la plus lente et la plus sûre.",
   r:"Tu ne dis rien pendant quatre ans. Tu accumules des noms, des dates, des transferts. Le jour où tu ouvriras ce dossier, il fera tomber plus de monde qu'une flotte entière.",
@@ -5575,7 +5579,7 @@ opts:[
 
 E({id:'a4_guerre', gr:'guerre', act:4, scene:'marineford', w:18, dt:1,
 kicker:"La place d'exécution", title:"La guerre au sommet",
-text:"Le Gouvernement a annoncé l'exécution publique de Portgas D. Ace. C'était un appel, et Edward Newgate a répondu.<br><br>D'un côté Akainu, Aramaki, Fujitora, Kizaru, cent navires et la baie gelée. De l'autre le Moby Dick et quarante-trois équipages alliés.",
+text:"Le Gouvernement a annoncé l'exécution publique de Portgas D. Ace. C'était un appel, et Edward Newgate a répondu.<br><br>D'un côté Akainu, Aokiji, Kizaru, cent navires et la baie gelée. De l'autre le Moby Dick et quarante-trois équipages alliés.",
 opts:[
  {t:"Entrer dans la baie au premier rang", tag:"Légende", d:1, eff:{combat:16, arm:12, renom:24, vol:10}, bounty:2.0, flotteLoss:2,
   why:"Six heures au cœur de la plus grande bataille depuis Roger, plus une photographie.",
@@ -5797,7 +5801,7 @@ opts:[
    r:"Tu vois tout venir et tu ne te déplaces plus assez vite pour l'éviter. Deux combats de suite tournent au repli. Un capitaine de vingt-six ans raconte partout qu'il t'a fait reculer."}},
  {t:"Prendre du recul et commander", tag:"Stratège", eff:{ruse:16, renom:10, obs:-10, vol:-6}, crew:5,
   why:"Une flotte pensée au lieu d'être portée double, et ton corps n'y sert plus.",
-  r:"Tu passes de l'épée à la carte. Ta {FLOTTE} double parce que tu la penses au lieu de la porter. Certains de tes hommes ne t'ont jamais vu te battre et racontent quand même des histoires."},
+  r:"Tu passes de l'épée à la carte. Ce que tu commandes grossit parce que tu le penses au lieu de le porter. Certains de tes hommes ne t'ont jamais vu te battre et racontent quand même des histoires."},
  {t:"Refuser de ralentir", tag:"Orgueil", d:1, eff:{combat:11, vol:12, arm:5},
   why:"Se battre au premier rang à quarante ans tient de la volonté seule.",
   die:{p:.13, t:"Le corps t'avait prévenu. Tu as répondu que tu n'avais pas le temps de l'écouter, et il a arrêté de prévenir."},
@@ -5949,7 +5953,7 @@ opts:[
 
 E({id:'a5_challenger', act:5, scene:'newworld', slot:0,
 kicker:"La nouvelle génération", title:"Eustass \"Captain\" Kid",
-text:"Eustass Kid, vingt et un ans, un bras gauche en métal qui n'est pas à lui. Prime triplée en huit mois, deux mers traversées pour te trouver.<br><br>La ferraille du port crisse quand il tend la main. Il te regarde comme tu regardais les vieux.",
+text:"Eustass Kid, vingt et un ans, les cheveux rouges dressés et le regard de quelqu'un qui n'a jamais reculé. Prime triplée en huit mois, deux mers traversées pour te trouver.<br><br>La ferraille du port crisse quand il tend la main. Il te regarde comme tu regardais les vieux.",
 opts:[
  {t:"L'écraser pour que ça se sache", tag:"Le trône", d:1,
   eff:{combat:9, renom:14, arm:6},
@@ -5986,7 +5990,7 @@ opts:[
  {t:"Réduire ton rôle et commander depuis l'arrière", tag:"Lucide",
   eff:{ruse:14, obs:9, vol:-8, renom:-6}, crew:3,
   why:"Ce que le corps perd, la lecture du combat le rattrape en partie.",
-  r:"Tu passes de la première ligne à la carte. Ta {FLOTTE} grossit parce que tu la penses au lieu de la porter. Sengoku a fait ce chemin, personne ne l'a pris pour un faible."},
+  r:"Tu passes de la première ligne à la carte. Ce que tu commandes grossit parce que tu le penses au lieu de le porter. Sengoku a fait ce chemin, personne ne l'a pris pour un faible."},
  {t:"Te battre plus fort, comme si de rien n'était", tag:"Déni", d:1,
   eff:{combat:11, arm:8, vol:9},
   why:"Forcer un corps abîmé donne des résultats immédiats et une facture différée.",
@@ -5995,7 +5999,12 @@ opts:[
 ]});
 
 
-E({id:'a5_supernovas', act:5, scene:'sabaody', w:15,
+/* CARTE DE PIRATE, SERVIE A TOUT LE MONDE. Trouve en relecture le 22 aout.
+   Elle propose de prendre un Supernova sous son pavillon, d'accepter
+   l'alliance de Law et de doubler sa flotte : un Contre-amiral, un agent du
+   Cipher Pol et un revolutionnaire se voyaient proposer de recruter leur
+   propre remplacant. C'est le meme defaut que a2_crew1, deja corrige. */
+E({id:'a5_supernovas', act:5, scene:'sabaody', w:15, ineed:'pirate',
 kicker:"Ils sont onze", title:"La génération suivante",
 text:"Ils ont entre dix-huit et vingt-trois ans, tous au-dessus de cent millions. La presse les appelle les Onze Supernovas : Luffy, Zoro, Kid, Killer, Law, Hawkins, Drake, Apoo, Bege, Bonney, Urouge.<br><br>Ta génération a fait pareil, il y a une vie de ça.",
 opts:[
@@ -6021,7 +6030,10 @@ opts:[
   r:"Tu ne bouges pas de trois ans. Le son d'Apoo, les poupées de Hawkins, la forteresse dans le ventre de Bege, l'âge que vole Bonney. Le jour où l'un vient, tu le connais par cœur."}
 ]});
 
-E({id:'a5_conteste', act:5, scene:'marineford', w:14,
+/* Meme defaut, plus une presupposition : la carte parle de ports vassaux
+   qui cessent de payer tribut, ce qui suppose un territoire. Elle ne lisait
+   pas le drapeau. */
+E({id:'a5_conteste', act:5, scene:'marineford', w:14, ineed:'pirate', also:'territoire',
 kicker:"Ta place", title:"On conteste ton titre",
 text:"Ce que tu as mis vingt-cinq ans à construire, quelqu'un le trouve discutable. Un rapport circule, deux ports qui te devaient allégeance ont cessé de payer.<br><br>Ça ne commence jamais par une bataille. Ça commence par une rumeur.",
 opts:[
@@ -6344,7 +6356,7 @@ opts:[
  {t:"Lui retirer son île avant de monter dessus", tag:"Ruse",
   eff:{ruse:20, obs:14, renom:9}, f:"ile_videe",
   why:"Un Empereur n'est pas seulement un homme, c'est une armée, des armes et un approvisionnement, et les trois se coupent sans jamais le croiser.",
-  r:"Tu ne montes pas. Tu passes deux ans à parler aux trois Fléaux, qui se détestent entre eux : King l'Incendie, qui n'adresse la parole à personne sous son masque, Queen, qui l'adresse à tout le monde et beaucoup trop fort, et Jack la Sécheresse, qui ne parle pas du tout. Tu coupes les convois d'armes qui remontent depuis le sud, à vider les caves d'Onigashima une cale à la fois. Kaidou reste le plus fort du monde et il reste debout. Il n'a simplement plus d'armée derrière lui. Personne n'écrit ça nulle part, donc ton nom n'y gagne pas une ligne.",
+  r:"Tu ne montes pas. Tu passes deux ans à parler aux trois Fléaux, qui se détestent entre eux : King l'Incendie, qui n'adresse la parole à personne sous son masque, Queen, qui l'adresse à tout le monde et beaucoup trop fort, et Jack la Sécheresse, qui ne parle pas du tout. Tu coupes les convois d'armes qui remontent depuis le sud, à vider les caves d'Onigashima une cale à la fois. Kaidou reste la créature la plus puissante du monde et il reste debout. Il n'a simplement plus d'armée derrière lui. Personne n'écrit ça nulle part, donc ton nom n'y gagne pas une ligne.",
   fail:{p:.35, on:"ruse", eff:{ruse:8, obs:7, vol:-8}, f:"marque_kaidou",
    why:"Retourner les seconds d'un homme marche tant qu'aucun d'eux ne calcule ce qu'il gagnerait à le prévenir.",
    r:"Queen écoute tout, rit très fort, remercie, et va tout répéter à Kaidou le soir même. Les convois reprennent avec une escorte, tes intermédiaires disparaissent, et un des tiens revient sans pouvoir dire ce qu'il a vu. Kaidou trouve l'histoire assez drôle pour la raconter en buvant, ce qui est la pire chose qui pouvait t'arriver."}},
@@ -6562,7 +6574,7 @@ opts:[
    why:"Un refus qui ne change rien ne sauve personne et coûte tout, ce qui est exactement le tarif affiché.",
    r:"Tu poses l'escargophone. Ton adjoint le reprend, prononce la phrase à ta place, et l'île brûle quand même avec un jour de retard. On te relève en mer, devant l'escadre.",
    f:"integre"},
-  r:"Tu rends l'appareil et tu écris ton refus, avec ton matricule. Sengoku a signé Ohara et il n'en a plus jamais parlé. Ta carrière s'arrête net. Quatre cents officiers apprennent ton nom."}
+  r:"Tu rends l'appareil et tu écris ton refus, avec ton matricule. Spandine a signé Ohara et il n'en a plus jamais parlé. Ta carrière s'arrête net. Quatre cents officiers apprennent ton nom."}
 ]});
 
 E({id:"mar4_b", gr:'pegre', act:4, scene:"marineford", w:13, ineed:"marine",
@@ -6997,7 +7009,7 @@ opts:[
    r:"Il répète ta question à son conseil, mot pour mot, devant huit personnes. Elle remonte jusqu'au bureau qui t'emploie. On te retire toutes les invitations officielles."}}
 ]});
 
-E({id:"gvt3_c2", gr:'rapport', act:3, scene:"newworld", w:13, ineed:"gm",
+E({id:"gvt3_c2", gr:'rapport', act:3, scene:"water7", w:13, ineed:"gm",
 kicker:"Surveillance de Gecko Moria", title:"Le rapport qu'on classera quand même",
 text:"Un galion géant à la dérive dans le Triangle Florian. Les navires marchands y entrent et n'en ressortent plus.<br><br>Hogback recoud des morts au sous-sol, Moria découpe l'ombre des vivants. Ton ordre dit observer et rapporter.",
 opts:[
@@ -8858,7 +8870,7 @@ opts:[
  {t:"Boire avec lui et parler d'égal à égal", tag:"Reconnaissance",
   eff:{renom:18, combat:9, vol:8, ruse:-7, obs:-4}, fait:"pacte_c_wb", f:"pair_empereur",
   why:"Être reçu debout par Barbe Blanche devant les deux bords vaut tous les titres.",
-  r:"Il verse, tu verses. Des routes, des hommes perdus, un capitaine mort sur un échafaud il y a vingt-deux ans. À la fin il dit ton nom en entier, sans titre devant.",
+  r:"Il verse, tu verses. Des routes, des hommes perdus, un capitaine mort sur un échafaud il y a une vie de ça. À la fin il dit ton nom en entier, sans titre devant.",
   fail:{p:.22, on:"vol", eff:{renom:6, ruse:4},
    why:"Une conversation entre égaux échoue quand l'un des deux se met à demander.",
    r:"La soirée est bonne jusqu'au moment où tu glisses une demande dans une phrase. Il finit sa chope, dit que c'était agréable, et rentre chez lui. Vous ne reboirez plus ensemble."}},
@@ -9823,7 +9835,7 @@ opts:[
    r:"Le sable soulevé fausse ta hausse et la balle part dans un mur. Kalim disparaît dans la foule avant que tu sois redescendu. Tu le rattrapes au port trois jours plus tard."}}
 ]});
 
-E({id:"mis_mar_2", act:2, scene:"eastblue", w:26, ineed:"marine",
+E({id:"mis_mar_2", act:2, scene:"reverse", w:26, ineed:"marine",
 kicker:"Ordre de mission · Mock Town, Jaya", title:"Le rookie qu'on laisse monter",
 text:"Brannew te fait porter une fiche humide d'encre : <b>Dorian Vask dit le Chien de Mock Town</b>, crocs d'acier sur la peau. Il boit à Jaya et il attend le prochain courant ascendant.<br><br>Ordre : l'arrêter avant qu'il quitte l'île.",
 opts:[
@@ -9871,7 +9883,15 @@ opts:[
    why:"Un intendant qui compte ses bougies remarque celle qui a brûlé de trop, et le reste suit.",
    r:"L'intendant retrouve une page reposée à l'envers. Le palais double la garde et tu ressors avec la moitié des colonnes. Un rapport incomplet vaut un rapport faux."}},
  {t:"Te présenter au roi avec le sceau du Gouvernement", tag:"Conforme",
-  eff:{rois:12, renom:7, obs:-6},
+  /* PAS DE HAKI DES ROIS ICI. Le moteur pose le drapeau haki_rois des que
+     la statistique rois atteint 4 (core.js). Quatre options de mission en
+     donnaient de 6 a 12 points sur des actes purement administratifs :
+     poser un sceau de cire sur une table reveillait donc le Fluide des Rois,
+     ouvrait la manoeuvre de combat « Le figer d'un seul regard » et les
+     quatre cartes rois_a*. Trouve en relecture le 22 aout.
+     Ce qui se joue ici, c'est l'autorite d'une institution, pas la volonte
+     d'un homme : renommee et ruse. */
+  eff:{renom:14, ruse:7, obs:-6},
   why:"Un sceau posé sur une table royale ouvre les coffres plus vite que trois semaines d'infiltration, et il place l'agent du bon côté du registre.",
   r:"Tu poses le sceau, le roi devient très pâle et fait apporter les livres lui-même. Tu obtiens le chiffre en une audience, et tu apprends ce que pèse un morceau de cire.",
   fail:{p:.24, on:"rois", eff:{rois:4, renom:-6},
@@ -10019,7 +10039,7 @@ opts:[
    why:"Les visas d'accès d'Enies Lobby sont archivés par un service qui n'aime pas qu'on regarde ses propres archives.",
    r:"Le chef du service des visas fait remonter que tu fouilles chez lui sans mandat. On te renvoie sur le balcon. La Porte se referme derrière le convoi, et personne ne saura qui a ouvert."}},
  {t:"Lui obtenir la corde plutôt que la Porte de la Justice", tag:"Conscience",
-  eff:{vol:12, rois:6, obs:-6},
+  eff:{vol:12, ruse:6, obs:-6},
   why:"Demander une mort rapide pour une condamnée qu'on ne peut pas sauver ne change rien au verdict et se remarque énormément.",
   r:"Tu montes voir le juge avec un argument de procédure sorti de nulle part et tu obtiens la corde. Elle ne franchira pas la Porte vivante. Lucci te regarde revenir à ta place.",
   fail:{p:.31, on:"rois", eff:{vol:5, renom:-8},
@@ -10055,7 +10075,7 @@ opts:[
    why:"Éteindre une rumeur trop brutalement en crée une autre, et la seconde parle de vous.",
    r:"Le port comprend très bien et se met à raconter autre chose : que le Gouvernement brûle des tavernes pour une pierre. On t'envoie ailleurs, vite."}},
  {t:"Négocier avec les Shandias au lieu de forcer", tag:"Conscience",
-  eff:{rois:12, vol:9, obs:-7}, f:"integre",
+  eff:{renom:12, vol:9, obs:-7}, f:"integre",
   why:"Traiter des gardiens comme des interlocuteurs est contraire à toute la doctrine du service et prend dix fois plus de temps.",
   r:"Tu poses tes armes à l'entrée du bois et tu attends trois jours qu'on vienne te chercher. Ils te laissent regarder la pierre, une fois, sans rien noter.",
   fail:{p:.32, on:"rois", eff:{vol:5, renom:-7},
@@ -10144,17 +10164,22 @@ opts:[
 
 E({id:"mis_mar_6", act:4, scene:"sabaody", w:27, ineed:"marine",
 kicker:"Ordre de mission · Bosquet 1", title:"Escorte du Dragon Céleste",
-text:"Le contre-amiral ne te regarde pas en face. <b>Saint Vergolf</b>, Dragon Céleste, descend au Bosquet 1, et ton escadre l'escorte jusqu'à la Salle de Vente.<br><br>Ordre : il ne doit rien lui arriver. Ce qu'il tire n'est pas ton affaire.",
+text:"Le contre-amiral ne te regarde pas en face. <b>Saint Jalmack</b>, Dragon Céleste, descend au Bosquet 1, et ton escadre l'escorte jusqu'à la Salle de Vente.<br><br>Ordre : il ne doit rien lui arriver. Ce qu'il tire n'est pas ton affaire.",
 opts:[
  {t:"Escorter, encaisser, ne rien voir", tag:"Doctrine",
-  eff:{ruse:8, renom:12, obs:-6}, f:"adoube",
+  /* PAS D'ADOUBEMENT ICI NON PLUS. Le drapeau adoube est lu par le moteur
+     comme le rang de CHEVALIER DIVIN : il ecrase le rang de puissance, pose
+     le surnom « l'Armure blanche » et sort dans le bilan. Un officier qui
+     baisse les yeux pendant une escorte finissait sa carriere avec l'armure
+     blanche. Le drapeau juste est celui d'un service sans faute. */
+  eff:{ruse:8, renom:12, obs:-6}, f:"loyal_gm",
   why:"Un officier qui ramène un Dragon Céleste content et une escorte silencieuse gagne en une journée ce que dix arrestations ne donnent pas.",
   r:"Il tire sur un marchand qui a mis un genou trop lentement. Tes hommes regardent le sol, toi tu regardes devant. Le rapport te cite en exemple de tenue, et Kizaru retient ton nom.",
   fail:{p:.24, on:"ruse", eff:{renom:-6, vol:-8},
    why:"Une escorte qui ne réagit à rien finit toujours par croiser un homme dans la foule qui, lui, réagit.",
    r:"Un jeune de ton escadre s'interpose entre le pistolet et une famille. Le Dragon Céleste exige une sanction sur place. Tu ramènes le cortège intact et ce garçon rayé des cadres."}},
  {t:"Vider le chemin avant son passage, quartier par quartier", tag:"Méthode",
-  eff:{obs:12, rois:8, renom:6, ruse:-8},
+  eff:{obs:12, renom:8, ruse:6, arm:-8},
   why:"Un Dragon Céleste ne tire que sur ce qu'il voit, et faire disparaître la foule est la seule protection réelle pour tout le monde.",
   r:"Tu fais évacuer le Bosquet 1 par les ruelles deux heures avant, avec des motifs administratifs. Il traverse un quartier vide et s'ennuie profondément. Personne ne meurt.",
   fail:{p:.3, on:"obs", eff:{obs:5, renom:-7},
@@ -10175,7 +10200,7 @@ opts:[
   r:"Tu lis les toits et les mains au lieu des visages. Deux tireurs cueillis avant le premier coup, et une escorte qui n'a jamais su qu'elle était visée.",
   fail:{p:.28, on:"obs", eff:{obs:5, renom:-6},
    why:"Chercher partout à la fois revient à ne surveiller nulle part, et une foule de Sabaody a trop d'angles morts.",
-   r:"Tu prends le premier tireur et tu manques le second. Un de tes hommes reçoit la balle destinée à Saint Vergolf. Le Dragon Céleste se plaint du bruit."}}
+   r:"Tu prends le premier tireur et tu manques le second. Un de tes hommes reçoit la balle destinée à Saint Jalmack. Le Dragon Céleste se plaint du bruit."}}
 ]});
 
 E({id:"mis_gvt_6", act:4, scene:"newworld", w:28, ineed:"gm",
