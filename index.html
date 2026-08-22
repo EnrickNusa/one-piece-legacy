@@ -8377,6 +8377,151 @@ opts:[
    r:"Il ne dégaine pas. Il se contente d'exister en face de toi et tes jambes refusent d'avancer. Shakky te sert un verre en te disant que ça arrive à tout le monde."}}
 ]});
 
+/* CHAQUE VOIE DOIT CROISER SON PAIR, PAS SEULEMENT LE SABRE.
+   Mesure du 22 aout, 700 carrieres : le sabreur croise un sabreur dans 88 %
+   des cas depuis que renc3_b est forcee, le porteur de Fruit 78 %, le corps
+   modifie 69 %. Les arts martiaux et le tir : 11 %, et uniquement par
+   accident de combat. Ces deux voies n'avaient AUCUNE carte de rencontre.
+   Enrick au playtest : « le sabre qui croise notre sabre, ca vaut pour tout
+   le monde. Quelqu'un qui a des poings doit croiser quelqu'un qui a des
+   poings. Un sniper doit pouvoir croiser Yasopp, Beckman ou Van Augur. »
+   Les deux cartes ci-dessous comblent le trou, et le moteur les force en fin
+   d'acte 3 comme il force renc3_b. Aucun portrait n'est necessaire : ce sont
+   des rencontres, pas des combats. */
+
+E({id:"renc3_luffy", gr:'pair_arts', nmin:40, act:3, scene:"wano", w:11, ineed:"sp_arts",
+kicker:"Une auberge qui a arrêté de servir", title:"Le chapeau de paille",
+text:"Il mange depuis une heure et demie et personne n'ose plus rien dire. Il porte un chapeau de paille qui a manifestement plus d'histoire que lui, et une cicatrice sous l'œil qu'il s'est faite tout seul.<br><br>Sa prime est parmi les plus lourdes du monde. Il te propose de t'asseoir avant de savoir qui tu es.",
+opts:[
+ {t:"Lui demander comment il frappe", tag:"La question",
+  eff:{combat:11, vol:10, obs:5, ruse:-7},
+  why:"Le voir répondre apprend au moins autant que la réponse elle-même.",
+  r:"Il réfléchit, sérieusement, et il n'y arrive pas. Il finit par te montrer avec les mains en faisant des bruits avec la bouche.<br><br>Tu comprends en repartant que c'est vrai : il ne sait pas. Ça ne l'a jamais empêché de le faire, et c'est ça qu'il fallait voir.",
+  fail:{p:.24, on:"obs", eff:{vol:5, renom:-3},
+   why:"Chercher une méthode chez quelqu'un qui n'en a pas fait perdre du temps aux plus sérieux.",
+   r:"Tu prends des notes pendant vingt minutes sur quelqu'un qui n'a rien à t'apprendre de la manière dont tu veux l'apprendre. Il est ravi. Tu repars agacé, et tu y repenseras longtemps."}},
+ {t:"Lui demander de te frapper une fois, sans retenir", tag:"Mesure", d:1,
+  eff:{arm:13, vol:12, combat:7, obs:-6},
+  why:"Prendre un coup de quelqu'un de ce niveau donne un étalon que plus rien ne fera bouger.",
+  r:"Il refuse trois fois en riant, puis il comprend que tu ne demandes pas ça pour te vanter. Ce qui arrive ensuite, tu ne l'oublieras pas. Tu te relèves. Il trouve ça normal, et c'est le plus étrange.",
+  die:{p:.06, t:"Il a dit non trois fois. Il n'aurait pas dû dire oui la quatrième, et il le sait. On raconte qu'il n'a plus jamais accepté ce genre de demande."},
+  fail:{p:.34, on:"arm", eff:{vol:9, arm:5, renom:-5},
+   why:"Un corps qui n'est pas prêt à ça découvre la différence entre encaisser et être frappé.",
+   r:"Tu ne vois pas le coup partir. Quand tu reviens à toi, l'auberge s'est vidée et il est assis à côté de toi, inquiet, avec de la viande dans les deux mains."}},
+ {t:"Manger avec lui et ne parler de rien", tag:"La table",
+  eff:{vol:12, renom:8, obs:5, ruse:-6},
+  why:"Passer une soirée entière avec quelqu'un de ce calibre sans rien lui demander est un luxe que personne ne prend.",
+  r:"Vous mangez, il raconte des choses sans intérêt avec un enthousiasme total, et à aucun moment il ne demande ce que tu vaux. En repartant tu réalises que c'est la première fois depuis des années.",
+  fail:{p:.20, on:"ruse", eff:{vol:5, renom:-4},
+   why:"Une table partagée avec quelqu'un dont la tête vaut ce prix-là finit par se savoir.",
+   r:"Quelqu'un vous a vus. La note qui remonte au Quartier Général la semaine suivante ne dit pas que vous n'avez parlé de rien."}},
+ {t:"Ne pas t'asseoir", tag:"Prudence",
+  eff:{ruse:9, obs:6, combat:-5, renom:-4},
+  why:"Être vu à la table de quelqu'un que le monde entier cherche coûte plus cher qu'un repas.",
+  r:"Tu refuses poliment et tu sors. Il ne le prend pas mal une seconde, ce qui te reste en travers plus longtemps que prévu."}
+]});
+
+E({id:"renc3_corps", nmin:40, act:3, scene:"water7", w:11, ineed:"sp_science",
+kicker:"Un atelier ouvert sur la rue", title:"Celui qui s'est refait lui-même",
+text:"L'homme est bâti comme une armoire et la moitié de ce qui le compose n'est pas né avec lui. Il s'est reconstruit seul, avec ce qu'il avait, après s'être fait couper en deux par un train.<br><br>Franky travaille torse nu au milieu de la rue, sans rien cacher de ce qu'il y a dessous. C'est la seule personne au monde qui te regardera sans faire la tête que font les autres.",
+opts:[
+ {t:"Lui faire regarder ce que tu as sous la peau", tag:"L'avis",
+  eff:{ruse:11, obs:9, arm:8, vol:-5},
+  why:"Un homme qui s'est monté lui-même voit en dix minutes ce qu'un chirurgien met trois ans à comprendre.",
+  r:"Il regarde longtemps, siffle une fois, et te dit ce qui va lâcher en premier et dans combien de temps. Personne ne te l'avait jamais dit, et personne d'autre ne pouvait le savoir.",
+  fail:{p:.26, on:"ruse", eff:{obs:5, renom:-4},
+   why:"Montrer ce qu'on a dans le corps demande de savoir ce qu'on y a mis, et ce n'est pas toujours le cas.",
+   r:"Il ne reconnaît pas la moitié de ce qu'il voit. Ce qui l'inquiète, ce n'est pas ce qui est monté de travers, c'est qu'on ne t'ait jamais expliqué ce qu'on t'avait fait."}},
+ {t:"Lui demander de te monter une pièce de plus", tag:"Le métier", d:1,
+  eff:{arm:13, combat:9, ruse:6, obs:-6}, f:"cyborg",
+  why:"Ajouter une pièce à un corps déjà modifié demande quelqu'un qui l'a fait sur lui-même avant de le faire sur toi.",
+  r:"Trois semaines dans son atelier, dont deux à ne pas dormir. Ce qu'il te monte n'est ni élégant ni discret, et ça tient. Il refuse d'être payé et te dit de revenir si ça grince.",
+  die:{p:.05, t:"Il t'avait prévenu que le raccord au niveau du thorax n'était pas fait pour ce que tu voulais lui demander. Il a arrêté au bout de deux heures, et il n'a plus jamais travaillé sur personne."},
+  fail:{p:.32, on:"arm", eff:{arm:6, vol:5, renom:-5},
+   why:"Un corps ne reçoit pas tout ce qu'on veut lui donner, et c'est lui qui décide.",
+   r:"Ton corps refuse la pièce en quatre jours. Il la retire lui-même, proprement, et il est plus contrarié que toi. Tu repars avec ce que tu avais en arrivant et une facture qu'il déchire."}},
+ {t:"Lui demander pourquoi il s'est fait ça", tag:"L'homme",
+  eff:{vol:13, obs:7, ruse:4, combat:-5},
+  why:"Un homme qui a choisi de remplacer son corps a une raison, et elle n'est jamais celle qu'on croit.",
+  r:"Il répond qu'il n'a rien choisi du tout : il ramassait ce qui restait de lui et il a fait avec. Le choix est venu après, quand il a décidé de continuer plutôt que de s'arrêter là.",
+  fail:{p:.22, on:"vol", eff:{vol:6, renom:-3},
+   why:"Cette question-là se pose une fois, et mal posée elle ne se repose pas.",
+   r:"Il change de sujet, met la musique plus fort et se remet au travail. Vous passez l'après-midi ensemble et il ne rouvre jamais la porte."}},
+ {t:"Repartir sans entrer dans l'atelier", tag:"Prudence",
+  eff:{ruse:8, obs:6, arm:-5, renom:-4},
+  why:"Se montrer chez quelqu'un qui travaille à ciel ouvert, c'est laisser une description de ce qu'on a dans le corps.",
+  r:"Tu regardes de l'autre côté de la rue et tu passes ton chemin. Ce qu'il y a dans ton corps ne regarde personne, et ça reste vrai le lendemain."}
+]});
+
+/* Deux pairs pour les arts martiaux, un seul par carriere.
+   Garp est le plus juste : sa force ne doit rien a un Fruit du Demon, il a
+   mis des Empereurs au sol au poing nu. Enrick voulait aussi Luffy, et il a
+   raison sur un point que Garp ne couvre pas : Luffy ne sait RIEN expliquer.
+   Les deux cartes racontent donc deux choses opposees, ce qui vaut mieux
+   qu'une variante de decor. */
+E({id:"renc3_poing", gr:'pair_arts', nmin:40, act:3, scene:"marineford", w:11, ineed:"sp_arts",
+kicker:"Un terrain d'exercice, tôt le matin", title:"Le Poing",
+text:"Un vieil homme en survêtement frappe un rocher de la taille d'une maison. Le rocher se fend. Il recommence sur le morceau d'à côté.<br><br>Monkey D. Garp a refusé le grade d'amiral toute sa vie et personne n'a jamais osé le lui reprocher. Il t'a vu arriver. Il continue.",
+opts:[
+ {t:"Lui demander de te montrer le geste", tag:"L'école",
+  eff:{combat:12, arm:10, vol:7, ruse:-6},
+  why:"Personne au monde ne frappe comme lui, et il n'a jamais fait mystère de la façon dont il s'y prend.",
+  r:"Il te montre trois fois, très lentement, et il n'y a rien à comprendre : il n'y a pas de secret, il y a soixante ans. Tu repars avec la seule chose qu'il pouvait te donner, qui est de savoir où tu en es.",
+  fail:{p:.28, on:"combat", eff:{combat:5, vol:4, renom:-4},
+   why:"Voir le geste et pouvoir le refaire sont deux choses que quarante ans séparent.",
+   r:"Tu reproduis la position, le transfert, la respiration. Le rocher ne bouge pas. Il hoche la tête et te dit de revenir dans dix ans, sans ironie, ce qui est pire."}},
+ {t:"Encaisser un seul de ses coups, pour savoir", tag:"Mesure", d:1,
+  eff:{arm:14, vol:12, combat:6, obs:-7},
+  why:"Prendre un coup de cet homme-là une seule fois donne un étalon que plus rien ne fera bouger.",
+  r:"Il retient largement et tu le sais. Tu te relèves quand même, ce qui n'était pas prévu, et c'est la seule chose de la matinée qui l'intéresse vraiment.",
+  die:{p:.05, t:"Il a retenu son coup comme il retient toujours. Ça n'a pas suffi. On raconte que ce jour-là, il est resté longtemps assis à côté, sans rien dire."},
+  fail:{p:.34, on:"arm", eff:{vol:9, arm:5, renom:-5},
+   why:"Un corps qui n'est pas prêt à ça apprend la différence entre encaisser et être frappé.",
+   r:"Tu es à terre avant d'avoir compris que c'était parti. Quand tu reviens à toi, il est assis sur le rocher et il mange. Il te dit que c'était une mauvaise idée et que tu le savais."}},
+ {t:"Le regarder travailler jusqu'au bout, sans parler", tag:"Observation",
+  eff:{obs:13, combat:7, ruse:5, vol:-5},
+  why:"Un homme qui répète le même geste depuis soixante ans le fait devant toi sans rien te cacher.",
+  r:"Il frappe pendant deux heures et tu ne bouges pas. Ce que tu emportes, ce n'est pas le coup : c'est de voir combien de fois il faut le refaire.",
+  fail:{p:.24, on:"obs", eff:{obs:6, renom:-3},
+   why:"Regarder n'apprend rien si on regarde la mauvaise chose.",
+   r:"Tu passes deux heures à regarder son bras. Ça se passait dans ses pieds, et tu le comprends trois ans plus tard, un soir, sans raison."}},
+ {t:"Ne pas te montrer", tag:"Prudence",
+  eff:{ruse:9, obs:6, combat:-5, renom:-4},
+  why:"Approcher un homme qui a mis des Empereurs au sol pour lui demander une leçon n'est pas sans conséquence sur un dossier.",
+  r:"Tu restes derrière la ligne d'arbres et tu repars avant qu'il se retourne. Personne ne saura que tu es venu, ce qui est exactement ce que tu voulais et te laisse un regret pour longtemps."}
+]});
+
+E({id:"renc3_tir", nmin:40, act:3, scene:"sabaody", w:11, ineed:"sp_tir",
+kicker:"Un pari au bout du bosquet", title:"Yasopp, le fusil du Roux",
+text:"Un homme accoudé au comptoir annonce à voix haute qu'il peut toucher une fourmi à la patte gauche, à cent mètres, sans la tuer. La salle rit. Il tire.<br><br>Personne ne va vérifier. Tout le monde sait déjà. Yasopp navigue avec Shanks depuis le début, et il n'a jamais raté ce qu'il visait.",
+opts:[
+ {t:"Lui demander sur quoi il règle son tir", tag:"Le métier",
+  eff:{obs:14, ruse:7, combat:5, arm:-6},
+  why:"Un tireur de ce niveau ne compte pas sur ses yeux, et ce qu'il utilise à la place s'apprend.",
+  r:"Il répond sans se retourner, en trois phrases, comme s'il parlait du temps. Le vent, la respiration, et la chose qu'on ne t'a jamais dite : ne jamais viser ce qui bouge, viser où ça va être.",
+  fail:{p:.26, on:"obs", eff:{obs:6, renom:-4},
+   why:"On ne prend pas des notes utiles auprès de quelqu'un qui explique ce qu'il ne sait pas expliquer.",
+   r:"Il te dit qu'il ne sait pas, et il est sincère. Il vise, ça touche, c'est tout ce qu'il peut en dire. Tu repars avec une vérité désagréable sur les gens très doués."}},
+ {t:"Lui proposer de départager au tir", tag:"Le pari", d:1,
+  eff:{obs:12, combat:10, renom:12, vol:6},
+  why:"Se mesurer au meilleur fusil du monde devant une salle pleine fait circuler un nom en une nuit.",
+  r:"Vous tirez chacun trois fois sur ce que la salle décide. Tu ne gagnes pas. Mais tu places tes trois coups, et quand il te sert à boire ensuite, la salle entière l'a vu faire.",
+  fail:{p:.36, on:"obs", eff:{obs:6, renom:-9},
+   why:"Défier publiquement quelqu'un qui ne rate jamais laisse peu de place à la mauvaise journée.",
+   r:"Ton deuxième coup part haut d'un cheveu et tout le monde le voit. Il ne dit rien, ne se moque pas, et c'est encore pire. On raconte l'histoire pendant des mois."}},
+ {t:"L'écouter parler de son fils", tag:"L'homme",
+  eff:{vol:11, obs:7, ruse:6, combat:-5},
+  why:"Un homme qui a quitté son village quand son fils avait quelques mois en parle d'une manière qui apprend autre chose que le tir.",
+  r:"Il en parle une heure sans qu'on lui demande, et il rit trop fort deux fois. Il dit qu'il rentrera quand le gamin sera devenu quelqu'un. Tu comprends qu'il ne rentrera pas, et qu'il le sait.",
+  fail:{p:.20, on:"vol", eff:{vol:5, renom:-3},
+   why:"On n'ouvre pas ce sujet-là avec quelqu'un qui ne l'a pas ouvert lui-même.",
+   r:"Tu poses la question de travers. Il se ferme d'un coup, paie sa tournée et sort. Tu restes avec la moitié d'une histoire et la certitude d'avoir mal fait."}},
+ {t:"Repartir sans te faire remarquer", tag:"Prudence",
+  eff:{ruse:8, obs:5, renom:-5},
+  why:"Se montrer dans la même salle qu'un homme de l'équipage du Roux se sait très vite, et pas seulement des gens qu'on voudrait.",
+  r:"Tu sors avant la fin du pari. Trois jours plus tard, tu apprends qui d'autre était dans la salle ce soir-là, et tu te félicites de ne pas t'être levé."}
+]});
+
 E({id:"renc3_b", nmin:45, act:3, scene:"calmbelt", w:11,
 kicker:"Kuraigana, un château en ruine", title:"Dracule Mihawk",
 text:"L'île est un royaume mort où il pleut sans arrêt. Des singes armés de sabres répètent, dans les ruines, des gardes volées à quelqu'un.<br><br>Ce quelqu'un est assis seul dans la salle du trône. Il t'a entendu venir avant que tu voies le château.",
@@ -12736,12 +12881,32 @@ function drawEvent(relax){
      qui la lisait ne s'executait jamais. */
   /* L'occasion decisive de la voie du Fruit est l'EVEIL, pas l'arme antique.
      C'est a4_eveil qui est forcee, et a4_arme redevient une carte ordinaire. */
-  var CLE = {fruit:{4:'a4_eveil'}, science:{4:'a4_vieux'}, sabre:{3:'renc3_b'}};
+  var CLE = {fruit:{4:'a4_eveil'}, science:{3:'renc3_corps', 4:'a4_vieux'},
+             sabre:{3:'renc3_b'}, arts:{3:['renc3_poing','renc3_luffy']},
+             tir:{3:'renc3_tir'}};
   if(S.spec && CLE[S.spec.id]){
     var vise = CLE[S.spec.id][act];
+    /* Une voie peut avoir DEUX pairs, et alors on tire lequel. Sans ca, la
+       carte forcee sortait dans 75 % des carrieres et sa variante dans 8 %,
+       ce qui n'est pas une rotation. */
+    if(vise && vise.length && typeof vise !== 'string'){
+      var dispo = [];
+      for(var vi=0; vi<vise.length; vi++){
+        var cand = byId(vise[vi]);
+        if(cand && cand.act===act && !S.used[cand.id] && condOk(cand)
+           && !(cand.gr && S.grp && S.grp[cand.gr])) dispo.push(vise[vi]);
+      }
+      vise = dispo.length ? dispo[ri(dispo.length)] : null;
+    }
     if(vise && S.idx >= ACTS[act].min-3){
       var ke2 = byId(vise);
-      if(ke2 && ke2.act===act && !S.used[ke2.id] && condOk(ke2)) return ke2;
+      /* On ne force pas une carte dont une variante du meme groupe est deja
+         sortie, sinon le joueur voit les deux versions de la meme scene.
+         KEYEV fait deja cette verification, le forcage de voie ne la faisait
+         pas : sans elle, un pratiquant d'arts martiaux pouvait rencontrer
+         Garp ET Luffy dans la meme carriere. */
+      if(ke2 && ke2.act===act && !S.used[ke2.id] && condOk(ke2)
+         && !(ke2.gr && S.grp && S.grp[ke2.gr])) return ke2;
     }
   }
   var key = KEYEV[S.camp];
