@@ -397,6 +397,12 @@ details.why[open]{padding-bottom:2px}
 .lr.no b{color:var(--faint);font-weight:700}
 .lr.no i{font-style:normal;color:var(--faint);font-weight:600;font-size:12.5px}
 .lr .sous{display:block;font-size:12px;font-weight:600;color:var(--faint);margin-top:2px}
+/* Les faits d'armes sont groupes par ce qu'ils racontent : sans intertitre,
+   vingt lignes de suite ne se lisent pas, et c'est comme ca qu'une
+   contradiction sur les Poneglyphes est restee visible sans etre vue. */
+.palm-sec{margin:16px 0 2px;font-size:11.5px;font-weight:800;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--faint)}
+.palm-sec:first-child{margin-top:0}
 .palm-note{margin-top:10px;font-size:12.5px;font-weight:600;color:var(--faint);line-height:1.5}
 /* L'historique : le bandeau de bilan se detache de la liste des fiches. */
 #hall_bilan{margin-bottom:4px}
@@ -497,8 +503,25 @@ details.why[open]{padding-bottom:2px}
 .moment{border-width:2px;border-color:var(--gold);box-shadow:none}
 .moment h2{color:var(--red2)}
 .moment .kicker{color:var(--gold2)}
+/* LES TROIS GRANDS MOMENTS : le reve, la quete du camp, le sommet de la voie.
+   Ils reprennent le violet et l'or de l'annonce du potentiel rang S, le seul
+   ecran du jeu dont Enrick ait dit qu'il marquait vraiment le coup. Un palier
+   de Haki garde le filet or ordinaire : si tout est exceptionnel, plus rien
+   ne l'est. */
+.moment.sacre{border-color:#7a1fb0;border-width:3px;
+  background:linear-gradient(180deg,#fbf3ff 0%,var(--paper) 55%)}
+.moment.sacre h2{color:#7a1fb0;text-shadow:2px 2px 0 #ffd45e}
+.moment.sacre .kicker{color:#a25ed6}
 
 /* ---------- AFFRONTEMENT ---------- */
+/* Le score en toutes lettres avant le texte de la manche : les textes
+   d'ambiance decrivent tous un coup que l'adversaire te met, donc sans cette
+   ligne on croit perdre alors qu'on mene. Vert quand on mene, rouge quand on
+   suit : la couleur porte le sens, comme les bordures ailleurs. */
+.cbetat{margin:0 0 10px;padding:8px 12px;border-left:3px solid var(--line);
+  border-radius:0 8px 8px 0;background:rgba(0,0,0,.04);font-size:14.5px;line-height:1.45}
+.cbetat.mene{border-left-color:#1f7a3d;background:rgba(31,122,61,.08)}
+.cbetat.suit{border-left-color:var(--red2);background:rgba(180,40,40,.07)}
 .duel{display:flex;align-items:center;gap:14px;margin:0 0 14px;padding:12px 14px;
   border:1px solid var(--line);border-radius:12px;background:rgba(0,0,0,.05)}
 .duel .dd{flex:1;min-width:0}
@@ -1552,24 +1575,42 @@ var CAMPS = [
    quete:"Trouver le One Piece", qid:'onepiece',
    avant:"Empereur", sommet:"Roi des Pirates",
    sd:"Réunir les quatre Ponéglyphes Rouges, atteindre Laugh Tale et poser ta main sur le One Piece.",
+   /* fd : la quete racontee AU PASSE, pour l'ecran qui annonce qu'elle est
+      accomplie. sd dit ce qu'il reste a faire et contient souvent la suite
+      (« puis prendre le fauteuil... ») : l'afficher sous un « C'est fait »
+      annoncait comme accompli ce que le joueur n'avait pas encore fait. */
+   fd:"Tu as réuni les quatre Ponéglyphes Rouges, tu as atteint Laugh Tale, et tu as posé la main sur ce que Roger y avait laissé.",
+   /* fdf : la phrase de cloture de l'ecran qui annonce la quete accomplie.
+      Elle etait commune aux quatre camps et disait « le monde ne le sait pas
+      encore, il va l'apprendre ». Vrai pour un pirate. Faux pour le
+      Gouvernement, dont toute la quete est que personne n'apprenne, et
+      contradictoire pour le revolutionnaire, dont le fd dit « devant le
+      monde entier ». */
+   fdf:"Le monde ne le sait pas encore. Il va l'apprendre, et il ne se racontera plus pareil.",
    eff:{vol:6, renom:4}},
   {id:'marine', n:"Marine", court:"Marine",
    d:"L'uniforme, la discipline, et une Justice dont on ne choisit pas toujours la définition.",
    quete:"Abolir la piraterie", qid:'mernette',
    avant:"Amiral", sommet:"Amiral en chef",
-   sd:"Rendre une mer entière à ceux qui y vivent, puis prendre le fauteuil qu'occupe Sengoku.",
+   sd:"Rendre une mer entière à ceux qui y vivent, puis prendre le fauteuil d'Amiral en chef.",
+   fd:"Tu as rendu une mer entière à ceux qui y vivent. Les pavillons noirs n'y remontent plus.",
+   fdf:"Une génération entière va grandir là-bas sans savoir ce que c'était.",
    eff:{arm:6, ruse:4}},
   {id:'revo', n:"Armée Révolutionnaire", court:"Révolutionnaire",
    d:"Le Gouvernement Mondial tient huit cents ans de mensonge. Dragon veut le faire tomber.",
    quete:"Faire tomber les Dragons Célestes", qid:'dragons',
    avant:"Chef d'état-major", sommet:"Chef de l'Armée Révolutionnaire",
    sd:"Abattre ceux d'en haut devant le monde entier, puis prendre le siège de Dragon.",
+   fd:"Tu as abattu ceux d'en haut devant le monde entier, et le monde a regardé sans qu'on puisse le lui interdire.",
+   fdf:"Ce qu'ils ont vu ce jour-là, on ne le leur reprendra pas.",
    eff:{ruse:7, obs:3}},
   {id:'gm', n:"Gouvernement Mondial", court:"Gouvernement",
    d:"Servir ceux d'en haut. Pas de nom, pas de matricule, et un pouvoir que la Marine n'aura jamais.",
    quete:"Effacer le Siècle Oublié", qid:'effacer',
    avant:"Chevalier Divin", sommet:"Doyen du Gouvernement",
-   sd:"Enterrer les cent ans que le monde n'a pas le droit de connaître, puis monter du rang de Chevalier Divin à celui de Doyen, comme Garling avant toi.",
+   sd:"Enterrer les cent ans que le monde n'a pas le droit de connaître, puis monter du rang de Chevalier Divin à celui de Doyen.",
+   fd:"Tu as enterré les cent ans que le monde n'a pas le droit de connaître. Ce qui restait de trace n'existe plus.",
+   fdf:"Personne ne l'apprendra jamais. C'était tout le travail.",
    eff:{ruse:5, renom:5}}
 ];
 
@@ -3410,7 +3451,24 @@ function cbManche(){
   faceAdv(a);
   $('cb_title').textContent = a.n;
   $('cb_res').innerHTML = '';
-  $('cb_text').innerHTML = cbBar() + '<p>' + tpl(a.s[r-1]) + '</p>';
+  /* ON DIT OU ON EN EST AVANT DE RACONTER LA MANCHE.
+     Les trois textes d'ambiance d'un adversaire decrivent tous un coup qu'il
+     TE met : c'est ce qui rend un Empereur impressionnant a la manche 1, mais
+     repete trois fois, meme quand le joueur mene deux a zero, ca se lit comme
+     une defaite en cours. Enrick au playtest du 22 aout : « on a l'impression
+     qu'on a perdu, mais en fait il reste deux manches ».
+     La barre de manches existait deja, mais trois pastilles numerotees ne
+     valent pas une phrase. On ecrit le score en toutes lettres. */
+  var etat = '';
+  if(r > 1){
+    var av = S.cb.av, dg = S.cb.dg;
+    etat = av > dg
+      ? '<p class="cbetat mene"><b>Tu mènes ' + av + ' à ' + dg + '.</b> Encore une manche gagnée et c\'est fini.</p>'
+      : dg > av
+      ? '<p class="cbetat suit"><b>Il mène ' + dg + ' à ' + av + '.</b> Tu ne peux plus en lâcher une seule.</p>'
+      : '<p class="cbetat"><b>Une manche partout.</b> Celle-ci décide de tout.</p>';
+  }
+  $('cb_text').innerHTML = cbBar() + etat + '<p>' + tpl(a.s[r-1]) + '</p>';
   var imm = immunite(a);
   if(imm) $('cb_text').innerHTML += '<div class="res bad"><b>Ce corps-là ne se frappe pas.</b><br>'+esc(imm.r)+'</div>';
   /* On ne propose pas de reveiller son Fruit ni d'ecraser au Fluide des Rois
@@ -3737,7 +3795,12 @@ var NEWS = [
 
   /* ------------------- Acte II : les noms commencent a compter --------- */
   {a:2, w:9, t:"L'Amiral Kizaru règle un incident en une seconde et repart avant l'arrivée des renforts. Deux témoins parlent de lumière, les autres ne parlent pas."},
-  {a:2, w:9, t:"Un Amiral qui n'avait rien mangé depuis trois ans se fait servir devant les caméras. La scène passe en boucle pendant une semaine."},
+  /* Sourcé : Ryokugyu dit ne pas avoir mangé depuis trois ans, il se nourrit
+     par photosynthese. Ecrite « un Amiral qui n'avait rien mange depuis trois
+     ans », la depeche se lisait comme une bizarrerie sans cause et Enrick a
+     cru qu'on parlait d'autre chose que de la Marine. On donne la cause : le
+     fait reste le meme, il devient lisible. */
+  {a:2, w:9, t:"L'Amiral qui vit de soleil et d'eau et n'avait rien mangé depuis trois ans se fait servir devant les caméras. La scène passe en boucle pendant une semaine."},
   {a:2, w:8, t:"L'Armée Révolutionnaire brûle un registre d'esclaves dans un royaume affilié. Le chef d'état-major signe le communiqué de son prénom."},
   {a:2, w:8, t:"Le Chirurgien de la Mort passe une alliance avec un équipage plus jeune que le sien. Les analystes ne comprennent pas ce qu'il y gagne."},
   {a:2, w:8, t:"Trois gardes d'Impel Down disparaissent la même nuit. Leur ancien chef est cité, puis le nom est retiré de l'édition suivante."},
@@ -4402,9 +4465,18 @@ opts:[
   die:{p:.12, t:"La hache de Brogy ne s'arrête pas parce qu'un humain a levé la main. Le duel a repris tout de suite après, et Dorry a mis un genou à terre le premier, comme la veille."}}
 ]});
 
-E({id:"a2_fruit_offer", act:2, scene:"loguetown", w:34, dt:0, once:1, ineed:"!fruit",
+/* REFUSER UN FRUIT DOIT TENIR PLUS DE DEUX CHAPITRES.
+   Cette carte tombait a l'acte 2 avec un poids de 34, donc quasiment tout de
+   suite apres l'ecran de creation ou le joueur venait de dire non. Enrick au
+   playtest du 22 aout : « je n'ai pas choisi de fruit dans une partie test et
+   ca m'a propose d'en prendre un dans un coffre un peu plus tard. A quoi bon
+   dire non pour l'avoir deux slides apres ? »
+   Elle passe a l'acte 3, et partage le groupe fruit_2e avec a3_fruit2 : on
+   reoffre le choix UNE fois dans la carriere, assez tard pour que ce soit un
+   changement d'avis et pas une annulation. */
+E({id:"a2_fruit_offer", act:3, scene:"water7", w:30, dt:0, once:1, gr:'fruit_2e', ineed:"!fruit",
 kicker:"Une caisse dans une cale", title:"Le fruit",
-text:"Il est là, dans un écrin, spirales et odeur écœurante. Un Fruit du Démon, celui qui part à cent millions au marché noir de Loguetown.<br><br>Personne ne sait lequel c'est avant la première bouchée. Et tu n'en mangeras qu'un : le second te tuerait.",
+text:"Il est là, dans un écrin, spirales et odeur écœurante. Un Fruit du Démon, celui qui part à cent millions au marché noir.<br><br>Tu as déjà dit non une fois, à dix-sept ans. Personne ne sait lequel c'est avant la première bouchée, et tu n'en mangeras qu'un : le second te tuerait.",
 opts:[
  {t:"Le manger", tag:"Le grand saut", fruit:1,
   why:"Personne ne connaît le pouvoir avant la première bouchée. La mer ne te reprendra plus.",
@@ -4415,6 +4487,16 @@ opts:[
   fail:{p:.3, on:"ruse", eff:{ruse:4, renom:-5},
    why:"Vendre un Fruit met en face de toi l'acheteur qui n'a pas envie de payer.",
    r:"L'acheteur arrive avec neuf hommes et une valise vide. Tu ressors de la cale avec le tiers du prix et une entaille à la cuisse. Le Fruit part quand même."}},
+ /* DONNER LE FRUIT, C'EST LE REFUSER. Precise par Enrick le 22 aout :
+    « evidemment que le donner a son equipage veut aussi dire refuser le
+    fruit, ca ne confere pas de puissance ». Les effets sont donc ceux d'un
+    refus, a un point pres. Ce qui monte, c'est l'equipage : deux hommes de
+    plus, parce qu'on se presse pour embarquer sur un navire ou le capitaine
+    donne un Fruit du Demon a son second. */
+ {t:"Le donner à quelqu'un de ton {EQUIPAGE}", tag:"Pour eux", ineed:"equipage",
+  eff:{vol:3, renom:3, obs:-6}, crew:2, f:'crew_fruit',
+  why:"Tu n'en tires aucun pouvoir. Ceux qui se battent à côté de toi, si, et ça se sait vite.",
+  r:"Tu tends l'écrin. Celui qui croque ne dort pas de la nuit, et au matin il fait quelque chose que personne autour de toi n'avait jamais vu.<br><br>Toi, tu n'as rien gagné : tu sais toujours nager et tu te bats toujours avec ce que tu as. Mais deux hommes se présentent au port suivant en disant qu'ils ont entendu parler de ce que tu as fait."},
  {t:"Le laisser où il est", tag:"Refus", eff:{vol:2, combat:1, obs:-6},
   why:"Refuser un pouvoir gratuit oblige à tout construire soi-même.",
   r:"Tu refermes l'écrin. La mer ne te rejettera jamais, aucun Granit Marin ne t'affaiblira, et ta force ne devra rien à un hasard. Les plus grands sabreurs ont fait ce choix.",
@@ -4744,9 +4826,23 @@ opts:[
   r:"Quatre semaines de dérive, de faim et de disputes à bord. Puis, un matin, une île. Tu ne sais pas comment tu l'as trouvée, et c'est ça qui commence à faire peur autour de toi."}
 ]});
 
+/* LE TITRE DE GRAND CORSAIRE EST EN SURSIS, ET LA CARTE LE DIT.
+   Signale par Enrick au playtest du 22 aout : « Crocodile ne doit plus etre
+   un corsaire. Si tu veux qu'il soit corsaire faut le mettre plus au debut,
+   et ensuite le remettre plus tard en disant qu'il est desormais Cross
+   Guild, et donc son truc est plus fort. »
+   Cette carte reste a l'acte 3, quand le systeme tient encore, et annonce
+   que le titre est en sursis. a5_crossguild raconte la suite a l'acte 5.
+
+   PIEGE EVITE ICI : un f: pose sur la carte E({...}) n'est JAMAIS lu. Le
+   moteur ne lit f que sur une OPTION ou sur son fail (br.f, core.js). Un
+   drapeau pose au niveau de la carte ne se serait jamais pose, sans une
+   seule erreur, et la carte d'acte 5 ne serait jamais sortie. La suite ne
+   depend donc d'aucun drapeau : le Cross Guild existe dans le monde, que le
+   joueur ait croise Crocodile ou non, et son texte tient dans les deux cas. */
 E({id:'a3_warlord', gr:'warlord', act:3, scene:'alabasta', w:4, dt:1,
 kicker:"Rainbase, le casino Rain Dinners", title:"Crocodile",
-text:"Un Grand Corsaire a un titre, un territoire, et le droit de piller tant qu'il obéit.<br><br>Crocodile tient Rainbase et la moitié d'Alabasta. Cigare, crochet en or, manteau de fourrure par quarante degrés. Le sable bouge tout seul autour de ses pieds.",
+text:"Un Grand Corsaire a un titre, un territoire, et le droit de piller tant qu'il obéit. Un amiral réclame publiquement la fin du système, et personne ne sait ce que feront les sept si ça arrive.<br><br>Crocodile tient Rainbase et la moitié d'Alabasta. Cigare, crochet en or, manteau de fourrure par quarante degrés. Le sable bouge tout seul autour de ses pieds.",
 opts:[
  {t:"Le combattre", tag:"Frontal", d:1, eff:{combat:14, arm:8, renom:14}, bounty:1.8,
   why:"Quatre affrontements contre un homme qui a tenu tête à la Marine quinze ans.",
@@ -4917,12 +5013,29 @@ E({id:'a3_ile_ciel', act:3, scene:'skypiea', w:10, dt:1,
 kicker:"Dix mille mètres au-dessus", title:"Skypiea, et le dieu Enel",
 text:"Un courant ascendant projette le navire hors de l'eau. Au-dessus des nuages : une mer, des îles, et les ruines de Shandora couvertes d'une écriture illisible.<br><br>Gan Fall te prévient : ici, un homme appelé Enel se fait appeler dieu, et il entend tout.",
 opts:[
- {t:"Déchiffrer les ruines de Shandora", tag:"Savoir", eff:{ruse:13, obs:7, renom:-6}, f:'poneglyphe',
+ /* RELEVER UN PONEGLYPHE EST UN CRIME CAPITAL, PAS UN PASSE-TEMPS.
+    Signale par Enrick le 22 aout : « pourquoi en tant que Marine je peux
+    relever des poneglyphes ? » Il a raison, et c'etait la seule carte du jeu
+    ou l'option etait ouverte aux quatre camps. Toutes les autres sont deja
+    reservees au pirate ou aux deux reves qui portent le sujet.
+    Le Gouvernement Mondial punit de mort la seule lecture de ces pierres et
+    a rase Ohara pour ca. Un officier en uniforme ne recopie pas un
+    Poneglyphe : il signale le site. On ferme une porte, on en ouvre une
+    autre, comme pour a2_crew1_uni. */
+ {t:"Déchiffrer les ruines de Shandora", tag:"Savoir", ineed:"pirate|revo",
+  eff:{ruse:13, obs:7, renom:-6}, f:'poneglyphe',
   why:"Relever un bloc entier au fusain sans en comprendre un mot, c'est de la patience.",
   r:"Un bloc de pierre indestructible, couvert de glyphes carrés, au pied de la cloche d'or. Tu ne comprends rien et tu recopies tout. Le Gouvernement tue pour ça.",
   fail:{p:.28, on:'obs', eff:{ruse:5, obs:3, renom:-4},
    why:"Le relevé était bon, la surveillance de ton propre bord ne l'était pas.",
    r:"Tes relevés partent avec un homme embarqué à Mock Town. Il les revend à un intermédiaire du Gouvernement. Tu ne gardes que quatre lignes sur trois cents, de mémoire."}},
+ {t:"Relever la position des ruines et la transmettre au Quartier Général", tag:"Rapport",
+  ineed:"marine|gm", eff:{ruse:9, obs:8, renom:7, vol:-4}, f:'signale_pierre',
+  why:"Un site couvert de cette écriture-là remonte la voie hiérarchique le jour même, et ce qui suit ne dépend plus de toi.",
+  r:"Tu ne recopies rien. Tu relèves la position, le nombre de blocs, et tu scelles le pli toi-même.<br><br>Six semaines plus tard, on te fait savoir que la question est réglée et qu'il n'y a pas de dossier. Personne ne te dit ce qui a été envoyé là-haut, et tu ne poses pas la question.",
+  fail:{p:.24, on:'ruse', eff:{obs:5, renom:-5},
+   why:"Un rapport de ce niveau ne circule pas comme un autre, et il passe par des mains qu'on ne choisit pas.",
+   r:"Ton pli arrive ouvert. On te convoque pour te demander qui d'autre a vu les ruines, trois fois, en te posant la même question autrement. Tu comprends que la bonne réponse était personne."}},
  {t:"Piller l'or de la cité", tag:"Butin", eff:{renom:8, ruse:5, combat:-4},
   why:"Des tonnes d'or de quatre siècles achètent des canons et l'attention des royaumes.",
   r:"Assez d'or de Shandora pour armer une {FLOTTE} entière et pour que trois royaumes acceptent soudain de te recevoir.",
@@ -5126,7 +5239,7 @@ opts:[
    r:"Tu touches un récif à la sortie des mangroves, de nuit, sans personne pour sonder devant. La coque encaisse. Tu restes à la barre jusqu'au matin sans lâcher un mot."}}
 ]});
 
-E({id:'a3_fruit2', act:3, scene:'fishman', w:26, dt:0, once:1, ineed:'!fruit',
+E({id:'a3_fruit2', act:3, scene:'fishman', w:26, dt:0, once:1, gr:'fruit_2e', ineed:'!fruit',
 kicker:"Dans le ventre d'un Roi des Mers", title:"Le second fruit",
 text:"On ouvre la bête pour récupérer la cargaison qu'elle avait avalée, et il est là, intact, au milieu des débris. Des spirales, une odeur infecte, aucun doute possible.<br><br>Une seconde occasion. Il n'y en aura pas de troisième.",
 opts:[
@@ -5139,6 +5252,12 @@ opts:[
   fail:{p:.30, on:'ruse', eff:{ruse:5, renom:-6},
    why:"Vendre une marchandise pareille demande de connaître l'acheteur.",
    r:"Le courtier de Sabaody te paie en billets d'une banque fermée dix jours plus tôt. Le fruit, lui, est déjà à Marie-Joie. Tu ressors avec une malle de papier."}},
+ /* Donner le fruit, c'est le refuser : aucun gain de puissance pour le
+    joueur, deux hommes de plus a bord. Voir a2_fruit_offer. */
+ {t:"Le donner à quelqu'un de ton {EQUIPAGE}", tag:"Pour eux", ineed:"equipage",
+  eff:{vol:3, renom:3, obs:-6}, crew:2, f:'crew_fruit',
+  why:"Tu n'en tires aucun pouvoir. Ceux qui se battent à côté de toi, si.",
+  r:"Tu le tends à celui qui te regardait le plus fixement. Trois jours plus tard, il fait une chose qui met tout le monde d'accord, et il ne te remercie jamais parce qu'il ne trouve pas les mots.<br><br>Toi, tu n'as rien gagné. Tu te bats toujours avec ce que tu avais.<br><br>Deux hommes se présentent au mouillage suivant : ce que tu as fait de ce fruit a fait le tour du port."},
  {t:"Le jeter à la mer", tag:"Définitif", eff:{vol:12, combat:7, renom:-6},
   why:"Refuser un pouvoir gratuit oblige à tout construire soi-même.",
   r:"Tu le lances par-dessus bord devant tout l'équipage. Personne ne comprend. Toi si : ta force ne devra rien à un hasard trouvé dans un ventre de poisson.",
@@ -5353,6 +5472,50 @@ opts:[
    r:"Tu bois, et tout ton pont regarde. Shanks repart content. Le rapport part quand même, écrit par quelqu'un d'autre, et il arrive au Quartier Général avant ton propre courrier. On ne te sanctionne pas. On te note."}}
 ]});
 
+/* L'EVEIL NE VIENT PAS D'UN OBJET.
+   Il etait accroche a la carte de l'arme antique : le joueur eveillait son
+   Fruit « en le laissant repondre a ce qui dort ici ». Enrick le 22 aout :
+   « pourquoi on eveille son fruit que pres d'une arme antique ? C'est quoi ce
+   choix de lore ? Ni Lucci ni Luffy ni Doflamingo ni Kaidou n'en ont une. »
+   Il a raison, et c'est net dans l'oeuvre : Doflamingo et Katakuri l'ont par
+   des annees de maitrise, les Zoan d'Impel Down par le temps passe enferme,
+   Lucci par l'entrainement, Luffy au bout de l'epuisement. Aucun objet, dans
+   aucun cas.
+   L'Eveil a donc sa carte, et sa cause est la seule qui soit sourcee : etre
+   pousse au-dela de ce que le corps sait faire. C'est elle, et plus a4_arme,
+   que le moteur force en fin d'acte 4 pour la voie du Fruit. */
+E({id:'a4_eveil', act:4, scene:'newworld', w:14, dt:1, once:1, ineed:'fruit',
+kicker:"Au bout de ce que ton corps sait faire", title:"L'Éveil",
+text:"Ton pouvoir a une limite et tu la connais par cœur : c'est le point où ça tire, où ça chauffe, où il faut s'arrêter.<br><br>Ceux qui sont allés plus loin n'ont pas trouvé d'astuce. Ils ont tenu au-delà, longtemps, et un jour ça a cédé dans l'autre sens.",
+opts:[
+ {t:"Le pousser tous les jours jusqu'au point de rupture", tag:"Répétition",
+  eff:{combat:11, vol:12, arm:5, obs:-6, ruse:-5}, f:'eveil',
+  why:"Katakuri s'est entraîné seul pendant des années sans que personne sache à quoi il travaillait.",
+  r:"Des mois sans rien montrer à personne. Puis un matin, sans que rien change dans ton geste, ce qui est autour de toi obéit à la même règle que ton corps.<br><br><b>L'Éveil.</b> Le décor cesse d'être du décor.",
+  fail:{pf:"eveil", eff:{vol:9, combat:4, arm:3},
+   why:"Tenir au-delà de la limite tous les jours use le corps avant d'ouvrir quoi que ce soit.",
+   r:"Tu y passes une saison entière. Ton pouvoir ne déborde pas d'un centimètre, et tu tiens maintenant deux fois plus longtemps qu'avant sans céder. Ce n'est pas ce que tu cherchais."}},
+ {t:"Aller le chercher au milieu d'un combat que tu ne peux pas gagner", tag:"Sous la contrainte", d:1,
+  eff:{combat:14, vol:10, arm:7, obs:-7}, f:'eveil',
+  why:"Luffy n'a rien débloqué à l'entraînement. Il l'a fait au bout de tout, en refusant de s'arrêter.",
+  r:"Tu prends la décision de ne pas t'arrêter alors qu'il n'y a plus de raison de continuer. Ce qui se passe ensuite, tu ne saurais pas le refaire volontairement.<br><br><b>L'Éveil.</b> Il fallait aller jusque-là.",
+  die:{p:.07, t:"Tu es allé chercher quelque chose qui n'est pas venu, dans un combat que tu savais perdu. Personne n'a rien vu d'exceptionnel ce jour-là, seulement quelqu'un qui n'a pas voulu s'arrêter."},
+  fail:{pf:"eveil", eff:{vol:11, combat:5},
+   why:"Se mettre en danger n'ouvre rien tout seul, sinon tout le monde l'aurait.",
+   r:"Tu encaisses jusqu'au bout et rien ne vient. On te ramasse. Tu gardes de cette journée quelque chose que les statistiques ne mesurent pas, et pas ce que tu étais venu chercher."}},
+ {t:"Chercher quelqu'un qui l'a déjà fait et le regarder travailler", tag:"L'école",
+  eff:{obs:13, ruse:8, vol:6, combat:-4}, f:'eveil',
+  why:"Personne n'explique l'Éveil avec des mots, mais on peut le regarder faire assez longtemps pour comprendre où poser sa volonté.",
+  r:"Tu ne poses pas de questions, tu regardes. Trois semaines. Le jour où tu essaies, ça marche du premier coup et tu ne sais toujours pas l'expliquer.<br><br><b>L'Éveil.</b> Personne ne te l'a appris, et pourtant.",
+  fail:{pf:"eveil", eff:{obs:9, ruse:5},
+   why:"Regarder quelqu'un de très fort ne donne pas ce qu'il a, ça montre l'écart.",
+   r:"Tu passes trois semaines à regarder et tu repars avec des dizaines de détails que tu n'avais jamais vus, et rien de ce que tu étais venu chercher. Tu observes mieux qu'avant. C'est tout."}},
+ {t:"T'en tenir à ce que tu maîtrises déjà", tag:"Refus",
+  eff:{arm:9, combat:7, obs:5, renom:-4},
+  why:"Un pouvoir tenu jusqu'au bout de sa maîtrise vaut mieux qu'un pouvoir instable, et ça se voit dès le premier échange.",
+  r:"Tu arrêtes de courir après ce que tu n'as pas. Tu passes la saison à durcir ce que tu sais déjà faire, et ça se voit tout de suite : plus rien ne t'échappe, plus rien ne rate."}
+]});
+
 E({id:'a4_arme', act:4, scene:'wano', w:12, dt:1, once:1,
 kicker:"Ce que le monde a enterré", title:"L'arme antique",
 text:"Sous une île morte, une coque de deux cents mètres attend depuis huit cents ans. Les plans ont brûlé à Water Seven avec la famille Tom.<br><br>Pluton. Pas une arme : un argument capable d'effacer une nation.",
@@ -5372,12 +5535,16 @@ opts:[
  {t:"Sceller le lieu et n'en parler à personne", tag:"Sagesse", eff:{ruse:13, obs:9, vol:8, renom:-11, combat:-7},
   why:"Effacer une position de toutes les cartes demande plus de sang-froid que de s'en servir.",
   r:"Tu refermes, tu effaces la position de toutes les cartes du bord et tu brûles la page du journal. Il y a peut-être trois personnes au monde capables de cette retenue."},
- {t:"Laisser ton Fruit répondre à ce qui dort ici", tag:"Éveil", ineed:'fruit', eff:{combat:12, arm:6, vol:10, renom:8, obs:-7, ruse:-5}, f:'eveil',
-  why:"L'Éveil ne renforce pas le corps, il fait déborder le pouvoir sur le décor.",
-  r:"Quelque chose ici appelle ton pouvoir et il répond tout seul. La pierre cesse d'être de la pierre quelques secondes. Doflamingo et Katakuri savent faire ça, personne n'explique comment.",
-  fail:{pf:"eveil", eff:{vol:7, combat:3, renom:-5},
-   why:"Un pouvoir qui déborde sans volonté pour le tenir écrase le décor, et toi avec.",
-   r:"Ça part, et ça ne s'arrête pas quand tu le décides. La galerie se transforme, se tord, puis se referme sur trente mètres. Tes hommes creusent deux jours pour te sortir de là."}}
+ /* L'EVEIL N'A JAMAIS EU SA PLACE ICI, voir a4_eveil dans ce meme fichier.
+    Enrick le 22 aout : « pourquoi on eveille son fruit que pres d'une arme
+    antique ? Ni Lucci ni Luffy ni Doflamingo ni Kaidou n'en ont une. » */
+ {t:"Faire parler ceux qui gardaient l'entrée depuis des générations", tag:"Enquête",
+  eff:{obs:12, ruse:10, renom:4},
+  why:"Une famille qui garde une porte depuis huit cents ans sait des choses qu'aucun Ponéglyphe ne dit.",
+  r:"Ils parlent au bout de trois jours, parce que personne ne leur avait jamais demandé. Ce qu'ils racontent ne t'apprend pas à t'en servir. Ça t'apprend pourquoi personne n'aurait dû.",
+  fail:{p:.28, on:'obs', eff:{obs:5, renom:-4},
+   why:"Une consigne tenue pendant huit siècles ne se lève pas en trois jours.",
+   r:"Ils te récitent une version pour les visiteurs, la même depuis des générations, et ils la récitent bien. Tu repars avec une légende propre et rien dedans."}}
 ]});
 
 E({id:'a4_guerre_kaidou', gr:'guerre', act:4, scene:'marineford', w:0, ineed:"jamais", dt:1,
@@ -5721,6 +5888,64 @@ opts:[
    On ne joue plus pour monter, on joue pour tenir. La generation suivante
    arrive, le corps lache, et la facon dont on sort devient un choix.
    ========================================================================= */
+
+/* CE QUI A REMPLACE LES GRANDS CORSAIRES.
+   Demande d'Enrick au playtest du 22 aout : Crocodile ne peut pas rester
+   Corsaire toute la carriere. a3_warlord le montre a l'acte 3, quand le titre
+   tient encore et qu'on parle deja de le supprimer. Ici, a l'acte 5, le
+   systeme est tombe et les trois qui en ont le plus profite ont monte leur
+   propre maison. Il est plus fort qu'avant, et il ne doit plus rien a
+   personne : c'est exactement la difference.
+
+   Sourcé : le Cross Guild est fonde par Crocodile avec Dracule Mihawk et
+   Baggy apres l'abolition du systeme des Sept Grands Corsaires. Il met des
+   primes sur la tete des officiers de la Marine, ce qui inverse le sens
+   habituel des avis de recherche. Baggy en est le president affiche.
+
+   Cinq options, trois au moins ouvertes a chaque camp : un pirate prend ou
+   refuse un contrat, un uniforme ne negocie pas avec une organisation qui
+   met sa tete a prix.
+
+   La treve est ecrite DANS le texte de la carte : sans elle, un officier de
+   Marine se retrouvait assis chez des gens qui impriment des primes sur les
+   officiers de Marine, on lui servait a boire, et il ressortait intact. */
+E({id:'a5_crossguild', act:5, scene:'newworld', w:14, dt:1, once:1, verrou:60,
+kicker:"La maison qui met des primes sur la Marine", title:"Le Cross Guild",
+text:"Le système des Grands Corsaires n'existe plus. Ceux qui en vivaient n'ont pas disparu avec lui : trois d'entre eux ont monté leur propre maison, et elle ne rend de comptes à personne.<br><br>Crocodile la dirige avec Dracule Mihawk. Baggy est le nom sur l'enseigne. Ils impriment des avis de recherche sur des officiers de la Marine, et des chasseurs les encaissent.<br><br>On reçoit ici sous trêve, parce qu'une maison qui vend des contrats a besoin qu'on puisse venir lui parler. Le cigare et le crochet en or sont ceux des affiches d'Alabasta. L'homme derrière, non : il n'a plus de titre à perdre.",
+opts:[
+ {t:"Prendre un contrat sur un officier", tag:"Chasseur", d:1, ineed:"pirate|revo",
+  eff:{combat:11, ruse:8, renom:12, obs:5}, bounty:1.5,
+  why:"Encaisser une prime signée Cross Guild place ton nom dans un registre que la Marine lit chaque matin.",
+  r:"Tu ramènes l'officier vivant, parce que c'est ce que paie le contrat. Crocodile compte devant toi, lentement, et ne te propose rien de plus. Ton nom circule maintenant dans un réseau que le Gouvernement n'arrive pas à fermer.",
+  fail:{p:.30, on:'obs', eff:{obs:6, vol:5, renom:-6},
+   why:"Un officier qu'on vient chercher a rarement prévu de se laisser prendre seul.",
+   r:"L'officier était l'appât. Tu ressors d'une baie fermée avec une balle dans l'épaule et rien à encaisser. Le contrat reste ouvert, et quelqu'un d'autre le prendra."}},
+ {t:"Proposer une entente d'égal à égal", tag:"Maison contre maison", ineed:"pirate|revo",
+  eff:{ruse:13, renom:9, vol:6, arm:-5}, f:'allie_corsaire',
+  why:"Traiter avec eux sans travailler pour eux est la seule façon de ne pas devenir un sous-traitant.",
+  r:"Crocodile t'écoute jusqu'au bout sans t'interrompre une seule fois. Vous ne signez rien, parce que des gens comme vous ne signent pas. Vos routes ne se croiseront plus par accident.",
+  fail:{p:.32, on:'ruse', eff:{ruse:6, renom:-7},
+   why:"Se présenter en égal devant Mihawk demande d'en être un.",
+   r:"Mihawk n'a pas levé les yeux de son verre pendant que tu parlais. Quand tu as fini, Crocodile a dit qu'il te recontacterait, et tout le monde dans la salle a compris ce que ça voulait dire."}},
+ {t:"Remonter le réseau qui paie les chasseurs", tag:"Enquête", ineed:"marine|gm",
+  eff:{obs:13, ruse:10, renom:7},
+  why:"Une organisation qui imprime des avis de recherche a forcément une imprimerie, des convoyeurs et une banque.",
+  r:"Tu ne remontes rien jusqu'à eux, et ce n'était pas le but. Tu trouves la banque, et deux ports qui acheminent le papier. C'est déjà plus que ce que le Quartier Général avait en trois ans de dossier.",
+  fail:{p:.30, on:'obs', eff:{obs:6, renom:-7},
+   why:"Remonter un réseau, c'est aussi se faire remonter.",
+   r:"Ton enquête arrive jusqu'à un comptoir de Karai Bari. Trois jours plus tard, ton propre nom sort sur une de leurs affiches, avec un chiffre en dessous. Tu apprends que tu vaux quelque chose pour des gens qui te veulent mort."}},
+ {t:"Repartir sans rien dire, et retenir ce que tu as vu", tag:"Prudence",
+  eff:{obs:9, ruse:7, renom:-5},
+  why:"Sortir d'une salle pareille sans s'être engagé à rien laisse toutes les portes ouvertes.",
+  r:"Tu bois ce qu'on t'a servi, tu remercies, et tu sors. Personne ne te retient. Tu emportes trois choses : qui parle en premier, qui décide vraiment, et où est la porte de derrière."},
+ {t:"Annoncer que tu les feras tomber, et le dire devant eux", tag:"Face à eux",
+  eff:{vol:14, renom:11, combat:6, obs:-6},
+  why:"Le dire en face à trois hommes de ce calibre coûte quelque chose, et c'est précisément ce qui lui donne du poids.",
+  r:"Tu le dis sans lever la voix. Baggy rit trop fort et trop longtemps. Mihawk te regarde pour la première fois. Crocodile écrase son cigare et te répond de ne pas mourir avant, parce que ça n'aurait aucun intérêt.",
+  fail:{p:.26, on:'vol', eff:{vol:7, renom:-8},
+   why:"Une déclaration ne vaut que ce que vaut celui qui la fait.",
+   r:"Personne ne réagit. Crocodile te fait raccompagner comme on fait raccompagner un fournisseur. Ce que tu as dit ce jour-là, tu es le seul à t'en souvenir."}}
+]});
 
 E({id:'a5_challenger', act:5, scene:'newworld', slot:0,
 kicker:"La nouvelle génération", title:"Eustass \"Captain\" Kid",
@@ -6414,13 +6639,20 @@ opts:[
   fail:{p:.3, on:"ruse", eff:{ruse:6, renom:-9},
    why:"Un homme sans protecteur devient le candidat idéal quand il faut un responsable.",
    r:"On te confie une mission dont personne ne voulait, avec des moyens que personne n'aurait acceptés. Elle échoue, comme prévu. Tu perds ton secteur et personne ne dit un mot pour toi."}},
- {t:"Aller chercher l'appui de Kuzan", tag:"Pari",
+ /* KUZAN N'EST PLUS DANS CETTE MAISON. Signale par Enrick le 22 aout :
+    il a quitte la Marine apres son duel contre Akainu et il navigue
+    aujourd'hui avec Barbe Noire. Aller chercher son appui dans une reunion
+    interne du Quartier General n'a pas de sens.
+    Remplace par Fujitora, qui est en poste, qui a ete recrute hors des voies
+    habituelles, et qui conteste publiquement la hierarchie qu'il sert : le
+    pari reste un pari, et il devient possible. */
+ {t:"Aller chercher l'appui de l'amiral aveugle", tag:"Pari",
   eff:{ruse:11, renom:8, arm:-6},
-  why:"S'adosser à un ancien amiral que personne n'arrive à lire écarte les rivaux prudents et attire tout le reste.",
-  r:"Il t'écoute allongé, les yeux fermés, et dit oui d'une phrase ambiguë. Deux dossiers se débloquent dans la semaine. Tu ne sauras jamais s'il t'a soutenu ou s'il s'est amusé.",
+  why:"S'adosser au seul amiral qui conteste la maison en public écarte les rivaux prudents et attire tout le reste.",
+  r:"Il t'écoute sans tourner la tête vers toi, fait rouler ses dés une fois sur la table, et dit oui. Deux dossiers se débloquent dans la semaine. Tu ne sauras jamais si c'est toi qu'il a soutenu ou l'idée que tu défendais.",
   fail:{p:.32, on:"ruse", eff:{ruse:5, renom:-7},
-   why:"Miser sur quelqu'un d'imprévisible est une stratégie jusqu'au jour où il est imprévisible.",
-   r:"Il change d'avis en pleine réunion, d'une voix traînante, comme s'il parlait du temps qu'il fait. Tu te retrouves seul dans une salle qui te croyait couvert."}},
+   why:"S'adosser à quelqu'un qui ne doit rien à personne suppose qu'il ait envie de te devoir quelque chose.",
+   r:"Il dit en pleine réunion, calmement, que ta demande est légitime et qu'il ne la soutiendra pas, parce qu'elle ne change rien au fond. Tu te retrouves seul dans une salle qui te croyait couvert."}},
  {t:"Refuser la politique et bâtir ta réputation au poing, comme Garp", tag:"Le poing",
   ineed:"sp_arts", d:1, eff:{combat:13, arm:10, renom:9, obs:-6, ruse:-4},
   why:"Garp a refusé le grade d'amiral toute sa vie et personne n'a jamais osé le lui reprocher, parce qu'il ramenait des résultats que les autres n'obtenaient pas.",
@@ -7301,14 +7533,21 @@ opts:[
   r:"Vous êtes deux à naviguer sous des couleurs cousines. Sa flotte grossit à côté de la tienne au lieu de l'attendre. Quand tu ne seras plus là, rien ne s'arrêtera."}
 ]});
 
-E({id:"pir5_c", act:5, scene:"laughtale", w:24, nmin:82, ineed:"pirate", also:"poneglyphes4",
-kicker:"La dernière île", title:"Au bout de la route",
-text:"Les positions se croisent en un seul point, au bout de la Route Sans Retour. Gol D. Roger est le seul homme à y avoir posé le pied. Il est monté sur l'échafaud de Loguetown deux ans plus tard sans avoir dit un mot de ce qu'il avait vu là-bas.<br><br>Ton {EQUIPAGE} regarde le Log Pose. Personne ne dit rien.",
+/* UNE SEULE ARRIVEE A LAUGH TALE PAR CARRIERE.
+   Trouve le 22 aout par outils/mesure_doublons.js : cette carte et
+   reve_onepiece_b racontent toutes les deux l'arrivee sur la derniere ile et
+   posent toutes les deux fait:"onepiece". Meme acte, meme scene, memes
+   conditions. Sur 500 carrieres, 9 les ont vues ensemble, soit 2 % : le
+   joueur trouvait le One Piece deux fois, sur le climax du jeu.
+   Le groupe laughtale n'en laisse plus sortir qu'une. */
+E({id:"pir5_c", gr:'laughtale', act:5, scene:"laughtale", w:24, nmin:82, ineed:"pirate", also:"poneglyphes4",
+kicker:"La dernière île", title:"Laugh Tale, au bout de la route",
+text:"Les positions se croisent en un seul point, au bout de Grand Line. Gol D. Roger et son équipage sont les seuls à y avoir posé le pied. Il s'est rendu peu après, et il est monté sur l'échafaud de Loguetown sans avoir dit un mot de ce qu'il avait vu là-bas.<br><br>Ton {EQUIPAGE} regarde le Log Pose. Personne ne dit rien.",
 opts:[
  {t:"Y aller, quoi qu'il en coûte", tag:"Tout ou rien", d:1,
   eff:{combat:12, renom:24, vol:16, ruse:8}, prime:3000000000, fait:"onepiece",
   why:"Atteindre la dernière île est la seule chose qui place un nom au-dessus de tous les autres.",
-  r:"La traversée coûte cher et tu n'aimes pas compter ce qu'elle a pris. Mais un matin, l'aiguille s'arrête, et devant vous il y a une île qui n'existe sur aucune carte. Ce que vous y trouvez, tu ne le raconteras jamais complètement, et le monde entier passera un siècle à le deviner.",
+  r:"La traversée coûte cher et tu n'aimes pas compter ce qu'elle a pris. Mais un matin, l'aiguille s'arrête, et devant vous il y a une île qui n'existe sur aucune carte.<br><br><b>Laugh Tale. Tu as trouvé le One Piece.</b> Ce que vous y voyez, tu ne le raconteras jamais complètement, et le monde entier passera un siècle à le deviner.",
   fail:{p:.3, on:"vol", eff:{vol:12, renom:10, ruse:6},
    why:"La dernière route ne pardonne ni l'équipement approximatif ni la précipitation.",
    r:"Vous n'arrivez pas. Une tempête que personne n'avait prévue vous renvoie à trois semaines de là, avec la moitié du gréement arraché et un Log Pose noyé. Vous savez que c'est possible. Vous savez aussi que ce ne sera pas vous.",
@@ -8683,7 +8922,18 @@ opts:[
   die:{p:.05, t:"Un docker frappe une fois de trop avec une gaffe. Tu coules entre deux coques, dans un port que tu connaissais par cœur."}}
 ]});
 
-E({id:"deb_pir_b", slot:2, imax:3, act:1, scene:"eastblue", w:40, ineed:"pirate",
+/* CETTE CARTE EST ECRITE POUR UN CORPS DE TAILLE HUMAINE.
+   Un drap vole sur une corde a linge, un marteau dans la poche, traverser le
+   bourg de nuit sans se faire voir : rien de tout ca ne marche pour un
+   Geant de douze metres. Pire, elle tombe au chapitre juste apres
+   deb_r_geant, qui vient d'expliquer que les navires d'en bas ont des ponts
+   trop bas et que personne ne construit rien pour lui. Le joueur lisait donc
+   « personne ne construit rien pour toi », puis « le bateau est a toi ».
+   Signale par Enrick le 22 aout : « quand tu prends geant il y a une double
+   scene de quittage de l'ile natale ».
+   deb_pir_b_geant prend le relais, et on ne ferme pas une porte sans en
+   ouvrir une : le geant garde une carte de camp, comme tout le monde. */
+E({id:"deb_pir_b", slot:2, imax:3, act:1, scene:"eastblue", w:40, ineed:"pirate", sauf:"race_geant",
 kicker:"Le premier pavillon", title:"Un drap noir et un peu de peinture",
 text:"Le bateau est à toi, plus ou moins. Il manque le pavillon.<br><br>Tu as un drap volé sur une corde à linge et un fond de peinture noire. Ce que tu peins dessus, le monde le lira pendant vingt ans.",
 opts:[
@@ -8938,6 +9188,40 @@ opts:[
   fail:{p:.32, on:"vol", eff:{vol:4, renom:-5},
    why:"Un géant à bord coûte en nourriture ce que trois hommes rapportent, et le calcul finit toujours par se faire.",
    r:"Ils te débarquent à la première escale, en te disant que tu manges trop. Tu restes sur ce quai des semaines, trop grand pour toutes les portes du bourg."}}
+]});
+
+/* Le pavillon d'un Geant. Il ne se decoupe pas dans un drap de lit et il ne
+   se cloue pas de nuit sur une porte : a douze metres, on ne passe nulle part
+   inapercu. C'est la contrainte du corps qui fait la scene, comme dans
+   deb_r_geant. Et la carte ne presuppose aucun bateau : le geant a pu partir
+   sur une coque qu'il a taillee lui-meme comme il a pu embarquer comme homme
+   de peine, les trois sorties de deb_r_geant restent vraies ici. */
+E({id:"deb_pir_b_geant", slot:2, imax:3, act:1, scene:"eastblue", w:40, ineed:"race_geant", also:"pirate",
+kicker:"Le premier pavillon", title:"Une voile entière, et de la peinture",
+text:"Un pavillon de pirate se taille dans un drap. Le tien, non : à ta taille, un drap tient dans la paume et ne se voit pas à cent mètres.<br><br>Il te faut une voile entière et de quoi la peindre. Ce que tu marques dessus, le monde le lira pendant deux cents ans, parce que les tiens vivent longtemps.",
+opts:[
+ {t:"Peindre ta marque, et la porter toi-même sur l'épaule", tag:"Sobre", s:6, eff:{vol:7, ruse:4, obs:-3},
+  why:"Une marque qu'on porte sur soi ne peut pas être prise avec un navire.",
+  r:"Tu la portes roulée sur l'épaule pendant des mois avant de la hisser quelque part. Le jour où elle monte enfin, ceux qui la voient de loin croient d'abord à une voile de guerre.",
+  fail:{p:.22, on:"vol", eff:{vol:3, renom:-2},
+   why:"Une toile de cette taille prend le sel, la pluie et le poids de tout ce qu'on lui fait traverser.",
+   r:"Le sel a mangé la peinture avant que tu aies trouvé où la hisser. Tu la repeins deux fois. La troisième tient, et plus personne ne se souvient des deux premières."}},
+ /* Le geant a QUITTE Elbaf au chapitre precedent, dans les six sorties de
+    deb_r_geant, et sur deux d'entre elles il est parti fache ou humilie. Il
+    ne peut donc pas faire coudre sa toile au village. Il la taille dans ce
+    qu'il a emporte, et le village l'apprend plus tard. */
+ {t:"La tailler dans la toile que tu as emportée d'Elbaf", tag:"Elbaf", s:9, eff:{renom:8, vol:5, ruse:3, arm:-4},
+  why:"Une toile d'Elbaf porte déjà un travail que personne d'autre ne sait faire, et la marquer engage plus que soi.",
+  r:"Tu la coupes toi-même, mal, et tu peins dessus ce que tu as décidé à dix-sept ans. La nouvelle remonte à Elbaf dans l'année : ce que tu feras sous cette toile, ils le porteront aussi.",
+  fail:{p:.26, on:"renom", eff:{vol:4, renom:-4},
+   why:"Couper une toile d'Elbaf sans savoir coudre gâche une pièce qu'on ne remplace pas.",
+   r:"Tu abîmes la moitié de la pièce avant d'obtenir quelque chose qui tienne. Ce qui te reste est plus petit que prévu, et deux anciens le diront assez fort pour que ça revienne jusqu'à toi."}},
+ {t:"La déployer en vue d'un port humain, pour voir", tag:"Provocation", d:1, s:11, eff:{renom:11, vol:5, obs:-4},
+  why:"Un géant sous pavillon noir devant un port habité ne se raconte pas, il se signale au Quartier Général le jour même.",
+  r:"Le port te voit venir une heure avant que tu arrives, ce qui est le principe. Personne ne sort. Au Quartier Général, une fiche s'ouvre à ton nom avec une mention que peu de fiches portent : la taille.",
+  fail:{p:.34, on:"ruse", eff:{renom:3, combat:-3},
+   why:"Se montrer à découvert quand on ne peut se cacher nulle part donne l'avantage à qui tire de loin.",
+   r:"Une batterie côtière ouvre le feu avant que tu aies fini d'approcher. Tu encaisses deux boulets dans l'épaule et tu repars à pied dans les hauts-fonds. On a noté ta silhouette, pas ton nom."}}
 ]});
 
 E({id:"deb_r_buccaneer", slot:1, imax:3, act:1, scene:"village", w:30, ineed:"race_buccaneer",
@@ -10102,22 +10386,30 @@ opts:[
   die:{p:.1, t:"On ne quitte pas l'équipage aux Cent Bêtes. Ton corps a été accroché à la porte du dôme, avec la marque encore fraîche sur l'épaule."}}
 ]});
 
-E({id:"reve_onepiece_b", verrou:79, act:5, scene:"laughtale", w:48, ineed:"pirate", also:"poneglyphes4",
-kicker:"Les quatre aiguilles se croisent", title:"L'île du rire",
-text:"Les quatre relevés donnent un point qui n'est sur aucune carte. Vous y arrivez sans vent.<br><br>Sur la plage, un campement vieux de vingt ans. Gravés dans la roche, au couteau, des noms que le monde entier connaît.",
+E({id:"reve_onepiece_b", gr:'laughtale', verrou:79, act:5, scene:"laughtale", w:48, ineed:"pirate", also:"poneglyphes4",
+/* LE CLIMAX DOIT SE LIRE COMME UN CLIMAX.
+   La carte s'appelait « L'ile du rire » et ne prononcait jamais les deux mots
+   que le monde entier repete depuis vingt-deux ans. Au playtest du 22 aout,
+   des joueurs sont arrives au bout du jeu sans se rendre compte qu'ils
+   venaient de trouver le One Piece. Enrick : « c'est le climax du manga,
+   c'est litteralement le but, et on passe a cote. »
+   Le nom de l'ile est maintenant le titre, le tresor est nomme dans le texte,
+   et chacune des trois sorties le dit noir sur blanc. */
+kicker:"Le bout de Grand Line", title:"Laugh Tale",
+text:"Les quatre relevés donnent un point qui n'est sur aucune carte. Vous y arrivez sans vent.<br><br>Sur la plage, un campement que personne n'a touché depuis. Gravés dans la roche, au couteau, des noms que le monde entier connaît.<br><br>Roger est venu ici avec son équipage, a vu ce qu'il y avait au bout, et a ri. Il s'est rendu peu après et il est mort sans en dire un mot. <b>Ce qui t'attend là-bas s'appelle le One Piece.</b>",
 opts:[
  {t:"Marcher jusqu'au bout et lire ce que Roger a lu", fait:"onepiece", tag:"Tout savoir",
   eff:{obs:10, ruse:9, renom:8, vol:3}, f:"poneglyphes4", prime:3400000000,
   why:"La dernière pierre raconte les huit cents ans que le monde a payé très cher pour oublier.",
-  r:"Le bloc fait quatre mètres. Il raconte tout, dans l'ordre. Tu comprends pourquoi Roger a ri, pourquoi il est mort sans rien dire, et ce que tu es devenu en sortant d'ici."},
- {t:"Ouvrir le coffre avant de lire quoi que ce soit", fait:"onepiece", tag:"Le trésor",
-  eff:{renom:11, vol:7, ruse:6}, f:"poneglyphe", prime:2200000000,
+  r:"Le bloc fait quatre mètres. Il raconte tout, dans l'ordre. Tu comprends pourquoi Roger a ri, pourquoi il est mort sans rien dire, et ce que tu es devenu en sortant d'ici.<br><br><b>Tu as trouvé le One Piece.</b> Le monde entier le cherche depuis la mort de Roger. C'est toi qui l'as."},
+ {t:"Aller droit à ce que Roger a laissé, sans rien lire avant", fait:"onepiece", tag:"Le trésor",
+  eff:{renom:11, vol:7, ruse:6}, f:"poneglyphes4", prime:2200000000,
   why:"Ce que Roger a laissé se compte aussi en or, et cet or-là finance tout ce qui viendra après.",
-  r:"Il y a de quoi acheter trois royaumes, et c'est la partie la moins intéressante de la pièce. Ton équipage rit et se roule par terre. Toi, tu regardes la pierre au fond, et tu sais déjà que tu reviendras."},
+  r:"Il y a de quoi acheter trois royaumes, et c'est la partie la moins intéressante de ce qu'il y a là. Ton {EQUIPAGE} rit et se roule par terre. Toi, tu regardes la pierre au fond, et tu sais déjà que tu reviendras.<br><br><b>Tu as trouvé le One Piece.</b> Il était là où Roger l'avait laissé, et personne d'autre ne l'avait revu depuis."},
  {t:"Tout regarder, ne rien emporter, et repartir", fait:"onepiece", tag:"Le rire",
   eff:{vol:12, ruse:8, renom:5}, prime:1500000000,
   why:"Arriver au bout sans rien prendre laisse l'île intacte pour ceux qui viendront, et te laisse quelque chose que personne ne peut te retirer.",
-  r:"Vous restez trois jours. Vous gravez vos noms sous les autres et vous repartez avec ce que vous aviez en arrivant. Le monde passera cent ans à deviner pourquoi vous êtes rentrés les mains vides en riant comme ça."}
+  r:"Vous restez trois jours. Vous gravez vos noms sous les autres et vous repartez avec ce que vous aviez en arrivant.<br><br><b>Tu as trouvé le One Piece</b>, et tu es le deuxième homme de l'Histoire à l'avoir laissé où il était. Le premier s'appelait Roger. Le monde passera cent ans à deviner pourquoi vous êtes rentrés les mains vides en riant comme ça."}
 ]});
 
 /* ==================== BATIR UN REFUGE POUR LES SIENS ===================== */
@@ -12176,15 +12468,74 @@ function detecteMoments(av){
     M.push({t:"Ton rêve", c:'reve',
       x:"<b>" + esc(S.reve.n) + ".</b><br><br>Tu l'as dit à dix-sept ans devant des gens qui ont haussé les épaules. Personne ne s'en souvenait, sauf toi.<br><br>C'est fait. Le reste de ta carrière, tu le joues pour autre chose."});
   }
+  /* LES TROIS AXES S'ANNONCENT, CHACUN A SON TOUR.
+     Le reve etait annonce, la quete du camp et le sommet de la voie ne
+     l'etaient pas : on trouvait le One Piece et rien ne le disait, le jeu
+     enchainait sur le chapitre suivant. Enrick au playtest du 22 aout :
+     « c'est le climax du manga, c'est litteralement le but, et on passe a
+     cote ». Les trois portent maintenant la couleur des grands moments. */
+  var CQ0 = campQuete();
+  if(CQ0 && !S.f.quete_atteinte && queteFaite()){
+    S.f.quete_atteinte = true;
+    /* On lit fd, la quete racontee AU PASSE, et surtout pas sd : sd dit ce
+       qu'il RESTE a faire et contient la suite (« puis prendre le fauteuil
+       d'Amiral en chef »). Colle sous un « C'est fait », ca annoncait comme
+       accompli ce que le joueur n'avait pas encore fait.
+       Et on ne dit plus « personne ne l'avait fait avant toi » : Roger a
+       trouve le One Piece, et effacer le Siecle Oublie est le metier du
+       Gouvernement depuis huit cents ans. Le jeu se contredisait lui-meme. */
+    M.push({t:CQ0.quete, c:'quete',
+      x:"<b>C'est fait.</b><br><br>Ce que ton camp attend d'un homme depuis qu'il existe, tu viens de le faire.<br><br>" +
+        esc(CQ0.fd || CQ0.quete) + "<br><br>" + esc(CQ0.fdf || "Ce qui vient de basculer ne se rebasculera pas.")});
+  }
+  if(S.spec && !S.f.voie_atteinte && typeof specResult === 'function' && specResult()){
+    S.f.voie_atteinte = true;
+    /* CE TEXTE NE PEUT PAS RACONTER UN DUEL.
+       Il disait « celui qui portait ce titre avant toi l'a porte jusqu'a ce
+       que quelqu'un vienne le lui prendre ». Faux sur trois voies sur cinq :
+       le tireur et la voie de la science n'ont AUCUN titre officiel, il se
+       gagne dans la presse, donc il n'y a pas de predecesseur ; et le tenant
+       des arts martiaux « n'a jamais perdu », ce que la phrase contredisait
+       frontalement.
+       Faux mecaniquement sur les cinq, aussi : specResult() ne teste que des
+       statistiques. On peut avoir le titre sans avoir jamais croise Mihawk.
+       Le texte ne presuppose donc plus ni predecesseur ni victoire. */
+    M.push({t:S.spec.titre, c:'voie',
+      x:"<b>Quand on cite ce titre, c'est ton nom qui vient.</b><br><br>Le jour où plus personne au monde ne peut te le disputer, il te tombe dessus, et il faudra venir te le prendre.<br><br>À partir d'aujourd'hui, on ne te compare plus à personne : on compare les autres à toi."});
+  }
   if(!av.rois && ap.rois && S.roisInne) M.push({
     t:"Le Haki des Rois", c:'rois',
     x:"Tu es acculé, et il monte de ta poitrine une chose que tu ne contrôles pas du tout. Deux cents hommes s'effondrent d'un coup, et personne ne les a touchés.<br><br>Un homme sur plusieurs millions naît avec. Ça ne s'apprend pas, ça se dompte. À partir d'aujourd'hui, une pièce se tait quand tu entres."});
   var NOMH = {arm:"Haki de l'Armement", obs:"Haki de l'Observation", rois:"Haki des Rois"};
   for(var k in ap.hk){
     if(!ap.hk.hasOwnProperty(k)) continue;
-    if(ap.hk[k] > av.hk[k] && av.hk[k] > 0) M.push({
-      t:NOMH[k] + " · " + hakiPalier(k).n, c:'haki',
-      x:"Ton "+NOMH[k]+" vient de franchir un palier. Ce que tu n'arrivais pas à tenir hier tient tout seul aujourd'hui, et tu ne saurais pas dire à quel moment ça a basculé.<br><br><b>"+hakiPalier(k).n+".</b> "+esc(HAKI[k].d)});
+    if(ap.hk[k] > av.hk[k] && av.hk[k] > 0){
+      /* UN PALIER PRIS EN AVANCE EST UN FAIT RARE, ET LE JEU DOIT LE DIRE.
+         Mesure du 22 aout, 400 carrieres : l'Enrobage complet tombait a
+         l'acte 2 pour 18 % des joueurs et l'Emission a distance a l'acte 3
+         pour 30 %. Dans l'oeuvre, recouvrir entierement son arme de Haki est
+         deja le niveau d'un commandant d'Empereur, et l'emission a distance
+         est celle de Rayleigh, de Garp et de Luffy tout a la fin.
+         Enrick a tranche : « ca equivaut a gagner un ballon d'or tres jeune,
+         c'est acceptable tant que c'est un fait fou ». On ne ferme donc pas
+         la porte, on nomme l'exception. Le palier N est « attendu » a partir
+         de l'acte N : le prendre avant, c'est ca, le fait fou.
+         REF garde l'acte de reference de chaque palier.
+         Et seulement a partir du palier 3 : le Durcissement pris a l'acte 1
+         tombait sous la meme phrase, or c'est le Haki de base de n'importe
+         quel combattant serieux. Mesure : la mention passe de 18 % des
+         annonces a 5 %, ce qui est le bon ordre de grandeur pour un fait
+         dont le jeu dit « personne n'a ca a ton age ». */
+      var REF = [0, 1, 2, 3, 4, 5];
+      var pal = hakiPalier(k), tot = HAKI[k].t.length;
+      var avance = pal.i >= 3 && REF[pal.i] !== undefined && S.act < REF[pal.i];
+      M.push({
+        t:NOMH[k] + " · " + pal.n, c:'haki',
+        x:(avance
+            ? "<b>Presque personne n'a ça à ton âge.</b><br><br>Ce palier-là, on le voit chez des hommes qui ont vingt ans de mer de plus que toi, et la plupart ne l'atteignent jamais. Toi, tu viens de le prendre à l'acte "+S.act+".<br><br>"
+            : "")
+          + "Ton "+NOMH[k]+" vient de franchir un palier. Ce que tu n'arrivais pas à tenir hier tient tout seul aujourd'hui, et tu ne saurais pas dire à quel moment ça a basculé.<br><br><b>"+pal.n+"</b>, "+pal.i+" sur "+tot+". "+esc(HAKI[k].d)});
+    }
   }
   if(!av.eveil && ap.eveil) M.push({
     t:"L'Éveil", c:'eveil',
@@ -12235,7 +12586,19 @@ function montreMoment(){
   if(!MOMENTS.length){ show('s_game'); nextChapter(); return; }
   var m = MOMENTS.shift();
   show('s_moment'); setScene(m.c==='rois' ? 'marineford' : m.c==='eveil' ? 'wano' : 'laughtale');
-  $('mo_kick').textContent = "Quelque chose vient de basculer";
+  /* LES GRANDS MOMENTS NE SONT PAS DE LA MEME COULEUR QUE LES AUTRES.
+     Un palier de Haki et l'accomplissement du reve d'une vie s'affichaient
+     sur la meme carte bleue a filet or, donc rien ne distinguait le sommet
+     d'une carriere d'une montee de statistique. Enrick voulait le traitement
+     de l'annonce du potentiel rang S, qui, elle, marque le coup.
+     Trois moments seulement portent le violet : le reve, la quete du camp,
+     le sommet de la voie. Si tout est exceptionnel, plus rien ne l'est. */
+  var SACRES = {reve:1, quete:1, voie:1};
+  var box = $('s_moment').querySelector('.sheet');
+  if(box) box.className = 'sheet ev fadein moment' + (SACRES[m.c] ? ' sacre' : '');
+  $('mo_kick').textContent = SACRES[m.c]
+    ? "Ce pour quoi tu as pris la mer"
+    : "Quelque chose vient de basculer";
   $('mo_title').textContent = m.t;
   $('mo_text').innerHTML = m.x;
   $('b_moment').textContent = MOMENTS.length ? 'Et ce n\'est pas tout' : 'Continuer';
@@ -12356,11 +12719,26 @@ function drawEvent(relax){
     var re3 = byId('a3_rois');
     if(re3 && !S.used[re3.id] && condOk(re3)) return re3;
   }
-  var CLE = {fruit:[null,'a4_arme'], science:[null,'a4_vieux']};
+  /* UN SABREUR DOIT CROISER UN SABREUR.
+     Mesure du 22 aout sur 300 carrieres de la voie du sabre : 24 % seulement
+     en affrontaient un, et c'etait Daz Bonez dans 18 % des cas, un homme
+     dont le corps est une lame, pas un sabreur. Mihawk 4 %, Zoro 2 %.
+     Trois sabreurs sur quatre finissaient leur carriere sans avoir jamais
+     croise leur monde. Enrick au playtest : « un sabreur ce serait bien
+     qu'il croise un autre sabreur au moins une fois ».
+     renc3_b, Mihawk a Kuraigana, est donc forcee en fin d'acte 3 comme
+     a4_arme l'est pour la voie du Fruit. Elle garde son nmin:45 : on ne
+     force pas une audience chez le meilleur sabreur du monde a un joueur qui
+     ne vaut pas le deplacement, et condOk s'en charge.
+
+     La table est passee d'un tableau [acte2, acte4] a un objet indexe par
+     acte, parce que la case acte 2 du Fruit valait null et que la branche
+     qui la lisait ne s'executait jamais. */
+  /* L'occasion decisive de la voie du Fruit est l'EVEIL, pas l'arme antique.
+     C'est a4_eveil qui est forcee, et a4_arme redevient une carte ordinaire. */
+  var CLE = {fruit:{4:'a4_eveil'}, science:{4:'a4_vieux'}, sabre:{3:'renc3_b'}};
   if(S.spec && CLE[S.spec.id]){
-    var vise = null;
-    if(act===2 && CLE[S.spec.id][0] && !S.fruit) vise = CLE[S.spec.id][0];
-    if(act===4 && CLE[S.spec.id][1]) vise = CLE[S.spec.id][1];
+    var vise = CLE[S.spec.id][act];
     if(vise && S.idx >= ACTS[act].min-3){
       var ke2 = byId(vise);
       if(ke2 && ke2.act===act && !S.used[ke2.id] && condOk(ke2)) return ke2;
@@ -12629,8 +13007,9 @@ function renderEvent(e){
        est etiquete, plus rien ne ressort. Ne restent que les marqueurs qui
        previennent d'un risque reel. */
     var o=PENDO[i], tag='';
-    if(o.fail && o.fail.pf === 'eveil')
-      tag = Math.round(chanceEveil()*100) + ' % DE RÉUSSITE';
+    /* PLUS DE POURCENTAGE SUR L'EVEIL. Meme raison que sur le Trone Vide :
+       un chiffre a cote d'une phrase, et le joueur ne lit plus la phrase.
+       Demande d'Enrick le 22 aout : « on doit pas savoir ». */
     /* 28 options sur 252 portaient d:1 sans aucun die: derriere : elles
        annoncaient la mort et ne pouvaient pas tuer. L etiquette dit
        desormais la verite. */
@@ -12994,12 +13373,20 @@ function chanceEveil(){
      aucun seuil de statistique : il tombait donc deux fois plus souvent que
      les quatre autres. La base descend de 0,13 a 0,08 et la voie rapporte
      0,28 au lieu de 0,34, pour le ramener dans la meme bande. */
-  var c = 0.08;
-  if(S.spec && S.spec.id === 'fruit') c += 0.28;   /* la voie de la devotion */
+  /* RECALE LE 22 AOUT, apres que l'Eveil a eu sa propre carte.
+     Tant qu'il pendait a une option de la carte de l'arme antique, peu de
+     joueurs la voyaient. Depuis que a4_eveil est forcee en fin d'acte 4 pour
+     la voie du Fruit, 57 % la voient et trois de ses quatre options mènent a
+     l'Eveil : le sommet de la voie est passe a 35 %, contre 6 a 7 % pour les
+     quatre autres voies. On rend l'occasion certaine et la reussite plus
+     dure, ce qui est le bon sens : ce n'est pas la rencontre qui doit etre
+     rare, c'est l'Eveil. */
+  var c = 0.02;
+  if(S.spec && S.spec.id === 'fruit') c += 0.06;   /* la voie de la devotion */
   c += S.fruit.pw / 260;                            /* un pouvoir puissant s'eveille plus volontiers */
   if(S.fruit.myth) c += 0.10;                       /* les Zoan mythiques ont une nature a part */
-  c += S.st.vol / 420;                              /* l'Eveil se declenche sous la contrainte */
-  if(S.pot) c += (S.pot.m - 1) * 0.30;
+  c += S.st.vol / 900;                              /* l'Eveil se declenche sous la contrainte */
+  if(S.pot) c += (S.pot.m - 1) * 0.15;
   return clamp(c, 0.05, 0.92);
 }
 
@@ -13139,7 +13526,30 @@ function reveResult(){
        pirate, le critere bloquant est la liberte (37 %), pas la puissance
        (niveau 72 %, Volonte 77 %). On detend donc la puissance, qui n'est pas
        le sujet, et on garde la Volonte, qui l'est. */
-    case 'libre':    return S.alive!==false && n>=38 && st.vol>=40 && !aServi();
+    /* ETRE LE PLUS LIBRE DU MONDE A VINGT-CINQ ANS NE VEUT RIEN DIRE.
+       Mesure du 22 aout, 400 carrieres : ce reve tombait au chapitre 18, au
+       niveau 38, a vingt-cinq ans, avec 20 M de prime. Les onze autres
+       tombent entre les chapitres 24 et 47. Enrick au playtest : « niveau 30
+       chapitre 17 on m'annonce que je suis deja le plus libre du monde, donc
+       a quoi bon ? »
+       La cause etait connue et documentee : le seuil avait ete descendu de 51
+       a 38 pour remonter un taux tombe a 9 %. On avait soigne le taux et
+       casse le moment.
+       Le levier n'etait pas la puissance mais la RENOMMEE : etre le plus
+       libre du monde suppose que le monde sache que tu existes et que
+       personne ne t'ait jamais mis la main dessus. Mesure sur 700 carrieres :
+       Deux mesures ont ete necessaires, et la premiere etait fausse : elle
+       testait « vrai au moins une fois » et surestimait tout d'un facteur
+       trois. Reevaluee A LA CLOTURE, comme le verdict le fait vraiment, une
+       condition avec renommee tombait a 11 %.
+       Le facteur limitant reste ce que le dossier disait deja : la LIBERTE,
+       que 37 % gardent. Aucune variante testee ne depasse 19 %, donc on ne
+       gagne rien a empiler des seuils. On garde le plus simple, et on le
+       place assez haut pour que le moment veuille dire quelque chose.
+       Mesure sur 900 carrieres : 18 % accompli, tombe au chapitre 35 au lieu
+       du chapitre 17. Echantillon de 72 carrieres, soit +/- 9 points : ne pas
+       reaffiner ce seuil sans un millier de carrieres de plus. */
+    case 'libre':    return S.alive!==false && n>=52 && st.vol>=55 && !aServi();
     case 'nom':      return prime()>=2000000000;
     case 'pavillon': return st.renom>=72 && st.vol>=72;                 /* 48 % */
     /* --- marine --- */
@@ -13229,16 +13639,38 @@ function imuRoute(){
 }
 
 var imuEtape = 0;
+/* LA FINALE SE JOUE A PILE OU FACE, ET AUCUN CHOIX N'EST UN PIEGE.
+   Refondu le 22 aout 2026 sur le playtest d'Enrick, avec les chiffres.
+
+   L'ancienne formule montait a 94 % et le meilleur choix valait 91, 84 et
+   93 % sur les trois echanges : un joueur qui prenait le plus gros
+   pourcentage gagnait dans 72 % des cas, mesure sur 40 finales. Le dernier
+   obstacle du monde etait donc surtout une formalite.
+
+   Deux regles maintenant, et elles vont ensemble :
+
+   - AUCUNE OPTION SOUS 52 %. On peut se tromper, on ne peut pas etre puni
+     gratuitement. C'est indispensable depuis qu'on n'affiche plus les
+     pourcentages : cacher un choix a 10 % derriere une jolie phrase serait
+     un piege, pas une decision.
+   - LE MEILLEUR CHOIX TOURNE AUTOUR DE 79 % PAR ECHANGE, soit une victoire
+     sur deux au bout des trois. C'est la cible d'Enrick, verifiee par
+     outils/mesure_imu.js et pas calculee de tete.
+
+   L'ecart entre les trois options vient de ce que le joueur est devenu, pas
+   d'un traquenard : au plus une quinzaine de points separent le meilleur du
+   pire. */
+var IMU_SOCLE = 0.705, IMU_PENTE = 280, IMU_BAS = 0.52, IMU_HAUT = 0.88;
 function imuChance(o){
-  var c = 0.24 + S.st[o.s]/145 + (S.pot?(S.pot.m-1)*0.22:0);
+  var c = IMU_SOCLE + (S.st[o.s] - 60)/IMU_PENTE + (S.pot?(S.pot.m-1)*0.08:0);
   /* Par la succession, on n'est pas juge sur la force mais sur le dossier.
      Trente ans de service propre comptent, et une seule tache suffit. */
   if(S.camp==='gm'){
-    if(S.f.traitre_gm) c -= 0.30;
-    if(S.f.loyal_gm)   c += 0.06;
-    if(S.f.ennemi_gm)  c -= 0.10;
+    if(S.f.traitre_gm) c -= 0.12;
+    if(S.f.loyal_gm)   c += 0.03;
+    if(S.f.ennemi_gm)  c -= 0.05;
   }
-  return clamp(c, 0.1, 0.94);
+  return clamp(c, IMU_BAS, IMU_HAUT);
 }
 function imuSeq(){
   show('s_imu'); setScene('mariejoie');
@@ -13249,8 +13681,15 @@ function imuSeq(){
   $('im_res').innerHTML = '';
   var h='';
   for(var i=0;i<E.o.length;i++){
+    /* PLUS DE POURCENTAGE SUR LE DERNIER ECRAN DU JEU.
+       « 91 % DE REUSSITE » a cote de « Frapper avant qu'il ait fini de te
+       regarder » : le joueur ne lisait plus la phrase, il lisait le chiffre,
+       et prenait le plus gros a tous les coups. Le climax du jeu devenait un
+       tableur. Demande d'Enrick au playtest du 22 aout : « ca biaise les
+       joueurs d'avoir le pourcentage, ils prendront jamais le moins bon ».
+       L'etiquette reste : elle dit ce que le geste engage, pas ce qu'il vaut. */
     h += '<button class="opt" data-i="'+i+'"><span class="n">'+(i+1)+'</span>'+esc(E.o[i].t)+
-         '<span class="tag">'+esc(E.o[i].tag)+'  ·  '+Math.round(imuChance(E.o[i])*100)+' % DE RÉUSSITE</span></button>';
+         '<span class="tag">'+esc(E.o[i].tag)+'</span></button>';
   }
   $('im_opts').innerHTML = h;
   var bs=$('im_opts').querySelectorAll('.opt');
@@ -13548,6 +13987,37 @@ function portrait(){
 }
 function embleme(){ return portrait(); }
 
+/* Le Haki tel qu'il se lit sur l'ecran de fin : le nom du palier et le rang
+   sur le total, exactement comme le panneau de jeu l'affiche en partie. */
+function hakiFin(k){
+  var P = hakiPalier(k), H = HAKI[k];
+  return P.lock ? P.n : P.n + '  ·  ' + P.i + '/' + H.t.length;
+}
+/* LES ADVERSAIRES, RANGES PAR CE QU'ILS SONT DANS LE MONDE.
+   L'ecran de fin posait vingt-cinq cases a cocher, dont TROIS parlaient des
+   memes pierres et pouvaient s'afficher ensemble : « Les quatre Poneglyphes
+   Rouges reunis » juste au-dessus de « Trois Poneglyphes Rouges releves ».
+   Mesure du 22 aout, 400 carrieres : 5 fiches portaient les deux lignes, 6
+   en portaient deux autres. Le bug passait inapercu parce qu'il y avait trop
+   de lignes pour qu'on les lise.
+   Et une case cochee ne dit pas COMBIEN : « A battu un Empereur » se lisait
+   pareil qu'on en ait mis un ou six a terre.
+   On compte donc, une ligne par corps constitue. Les 52 adversaires sont
+   couverts, chacun dans une categorie et une seule : outils/corps_adversaires.js
+   le verifie et doit rester a zero. */
+var CORPS = [
+  ['Empereurs',                        ['c_teach','c_bigmom','c_luffy','c_shanks','c_kaidou','c_wb']],
+  ['Amiraux',                          ['c_aokiji','c_fujitora','c_kizaru','c_ryokugyu','c_akainu','c_sengoku']],
+  ["Commandants d'Empereur",           ['c_kata','c_marco','c_jack','c_yasopp','c_king','c_beckman','c_augur','c_shiryu']],
+  ['Grands Corsaires',                 ['c_croco','c_doffy','c_moria','c_mihawk']],
+  ['Hauts gradés de la Marine',        ['c_garp','c_momonga','c_tsuru','c_smoker']],
+  ['Chevaliers Divins et Cinq Doyens', ['c_sommers','c_gunko','c_shamrock','c_doyens']],
+  ['Cipher Pol et Impel Down',         ['c_lucci','c_serafim','c_magellan']],
+  ['Capitaines et chefs de guerre',    ['c_alvida','c_kuro','c_krieg','c_baggy','c_arlong','c_wapol','c_daz',
+                                        'c_enel','c_ivankov','c_gaban','c_loki','c_zoro','c_law','c_kid',
+                                        'c_dragon','c_sabo','c_koala']]
+];
+
 function showEnd(){
   var r=campResult(), sp=specResult(), rv=reveResult(), sc=score(), rk=rankOf(sc), C=campObj() || {n:'Aucun', court:'—', sommet:'Aucun sommet visé'};
   /* L'AVIS DE RECHERCHE PORTE LE PLUS HAUT CHIFFRE QU'ON A VALU.
@@ -13606,7 +14076,13 @@ function showEnd(){
   $('po_badges').innerHTML = bh;
 
   $('end_badge').textContent = rk==='S'?'UNE LÉGENDE' : rk==='A'?'UN GRAND NOM' : rk==='B'?'UN NOM CONNU' : rk==='C'?'UN MARIN PARMI D\'AUTRES' : 'UN ANONYME';
-  $('end_title').textContent = r===2 ? C.sommet.toUpperCase() : (sp ? S.spec.titre.toUpperCase() : rankTitle().toUpperCase());
+  /* CELUI QUI S'EST ASSIS SUR LE TRONE N'EST PLUS ROI DES PIRATES.
+     Le titre prenait le sommet du camp des que la quete etait accomplie, donc
+     un joueur monte sur le Trone Vide lisait « ROI DES PIRATES » en gros, et
+     « Roi du Monde » en petit badge en dessous. Signale au playtest du
+     22 aout. Le rang le plus rare du jeu passe devant tout le reste. */
+  $('end_title').textContent = S.f.roi_du_monde ? 'ROI DU MONDE'
+    : r===2 ? C.sommet.toUpperCase() : (sp ? S.spec.titre.toUpperCase() : rankTitle().toUpperCase());
   $('end_score').textContent = sc;
   $('end_rank').textContent = 'Rang ' + rk;
 
@@ -13725,7 +14201,16 @@ function showEnd(){
     ['Équipage', equipagePalier().n + '  ·  ' + String(S.crew) + ' hommes'],
     ['Prime finale', b>0 ? berry(b)+' de Berrys' : (S.camp==='marine'||S.camp==='gm'?'Aucune, tu es du bon côté':'—')],
     ['Fruit du Démon', S.fruit ? S.fruit.fr + (S.eveil?' · ÉVEILLÉ':'') : 'Aucun'],
-    ['Haki des Rois', S.roisInne ? 'Oui · '+Math.round(S.st.rois)+'/100' : 'Non'],
+    /* LE HAKI SE LIT A LA FIN COMME IL SE LIT EN PARTIE.
+       En cours de carriere, le joueur voit trois Haki, chacun avec le nom de
+       son palier et son rang sur le total. A la fin, il ne restait qu'une
+       ligne, « Haki des Rois : Oui · 70/100 », et l'Armement et l'Observation
+       disparaissaient purement. Or l'Armement est ce qui fait monter le
+       niveau, et le joueur ne pouvait pas relire ou il en etait.
+       Signale au playtest du 22 aout. */
+    ['Haki de l\'Armement', hakiFin('arm')],
+    ['Haki de l\'Observation', hakiFin('obs')],
+    ['Haki des Rois', S.roisInne ? hakiFin('rois') : 'Jamais manifesté'],
     ['Fin de carrière', ft ? ft.v.n : (S.alive?'Toujours en mer':'Tombé en chemin')],
     ['Niveau de puissance', palierPuissance().t]
   ];
@@ -13747,51 +14232,6 @@ function showEnd(){
      flotte" a un agent du Cipher Pol : une case qu'on ne pouvait pas cocher
      n'est pas un manque, c'est du bruit. */
   var TOUS = 'pirate|marine|revo|gm';
-  var TRO=[
-    ['bat_empereur',"A battu un Empereur",TOUS],
-    ['poneglyphes4',"Les quatre Ponéglyphes Rouges réunis",'pirate|revo'],
-    ['arme_antique',"Détenteur d'une arme antique",TOUS],
-    ['detruit_arme',"A détruit une arme antique",TOUS],
-    ['adoube',"Adoubé Chevalier Divin",'gm'],
-    ['pair_empereur',"Reçu d'égal à égal par un Empereur",'pirate|revo'],
-    ['ennemi_gm',"A dit non aux Cinq Doyens",TOUS],
-    ['secret_imu',"A vu ce qu'il y a sous le Trône Vide",TOUS],
-    ['territoire',"Maître d'un territoire",'pirate|revo'],
-    ['flotte',"À la tête d'une flotte",'pirate'],
-    ['allie_empereur',"Allié d'un Empereur",'pirate|revo'],
-    ['buster',"A ordonné un Buster Call",'marine|gm'],
-    ['savant_cache',"Protège un lecteur de Ponéglyphes",TOUS],
-    ['integre',"N'a jamais plié devant un Dragon Céleste",TOUS],
-    ['archives',"A publié les archives du trafic",'revo|gm'],
-    ['rois_allies',"Trois couronnes retournées",'revo'],
-    ['poneglyphe3',"Trois Ponéglyphes Rouges relevés",'pirate|revo'],
-    ['poneglyphe',"A relevé un Ponéglyphe",TOUS],
-    ['heritier',"A formé un héritier",TOUS],
-    ['passation',"A transmis son pavillon",TOUS],
-    ['serment',"A tenu un serment jusqu'au bout",TOUS],
-    ['lame',"Porte une lame classée",TOUS,'sabre'],
-    ['navire',"A eu son propre navire",'pirate|revo'],
-    ['cyborg',"Corps modifié",TOUS,'science'],
-    ['reputation_pop',"A pris le parti du peuple",TOUS]
-  ];
-  /* « A battu un Empereur » tombait dans 35 % des carrieres, au niveau median
-     67 alors que le barreau d'Empereur est a 73. Un seul palier pour tout ce
-     qui se bat en haut ne dit rien. On gradue, en lisant les drapeaux bat_c_*
-     que le combat pose deja et que personne ne relisait jamais. */
-  var GRAD = [
-    ['__cp',       "A mis le Cipher Pol à terre",           'pirate|revo|marine',
-      ['bat_c_lucci','bat_c_serafim','bat_c_magellan']],
-    ['__viceam',   "A mis un Vice-Amiral à terre",          'pirate|revo',
-      ['bat_c_garp','bat_c_momonga','bat_c_tsuru']],
-    ['__corsaire', "A mis un Grand Corsaire à terre",       TOUS,
-      ['bat_c_croco','bat_c_doffy','bat_c_moria','bat_c_mihawk']],
-    ['__cmd',      "A mis un commandant d'Empereur à terre", TOUS,
-      ['bat_c_kata','bat_c_marco','bat_c_jack','bat_c_yasopp']],
-    ['__amiral',   "A mis un Amiral à terre",               'pirate|revo',
-      ['bat_c_aokiji','bat_c_kizaru','bat_c_akainu','bat_c_sengoku']]
-  ];
-  for(var g=0;g<GRAD.length;g++)
-    if(String(GRAD[g][2]).indexOf(S.camp) >= 0) TRO.push([GRAD[g][0], GRAD[g][1], GRAD[g][2]]);
   /* LES GRANDS TITRES. On affiche TOUT, obtenu ou pas. Un joueur qui n'a
      jamais vu le Trone Vide ne peut pas savoir qu'il aurait pu y aller, donc
      il ne relance pas. Ce qui manque doit se lire aussi clairement que ce
@@ -13846,32 +14286,80 @@ function showEnd(){
       + 'Une autre carrière, un autre camp, un autre rêve : rien ne se rejoue pareil.'
     : 'Tu as absolument tout pris. Personne ne fera mieux, on ne peut que refaire aussi bien.';
 
-  /* FAITS D'ARMES : la vitrine complete, cochee et non cochee */
-  var ph='', eus=0;
-  var TRO2 = [];
-  for(var t3=0;t3<TRO.length;t3++)
-    if(String(TRO[t3][2]).indexOf(S.camp) >= 0 &&
-       (!TRO[t3][3] || (S.spec && S.spec.id === TRO[t3][3]))) TRO2.push(TRO[t3]);
-  TRO2.push(['__rois', 'Né avec le Haki des Rois', TOUS]);
-  /* le Zoan Mythique ne se montre qu'a qui a mange un Fruit : on ne reproche
-     pas a un sabreur de ne pas avoir de Fruit, c'etait son choix de depart */
-  if(S.fruit) TRO2.push(['__myth', 'Porteur d\'un Zoan Mythique', TOUS]);
-  for(var t2=0;t2<TRO2.length;t2++){
-    var cle = TRO2[t2][0];
-    var eu;
-    if(cle==='__rois')      eu = !!S.roisInne;
-    else if(cle==='__myth') eu = !!(S.fruit && S.fruit.myth);
-    else if(cle.charAt(0)==='_'){
-      eu = false;
-      for(var g2=0;g2<GRAD.length;g2++) if(GRAD[g2][0]===cle)
-        for(var f2=0;f2<GRAD[g2][3].length;f2++) if(S.f[GRAD[g2][3][f2]]) eu = true;
-    }
-    else eu = !!S.f[cle];
-    if(eu) eus++;
-    ph += '<div class="lr'+(eu?'':' no')+'"><span>'+esc(TRO2[t2][1])+'</span><b>'+(eu?'✓':'✗')+'</b></div>';
+  /* FAITS D'ARMES : ON COMPTE, ON NE COCHE PLUS.
+     Trois lignes parlaient des memes pierres et pouvaient s'afficher
+     ensemble ; une coche ne disait pas combien d'Empereurs on avait mis a
+     terre ; et vingt-cinq lignes de suite ne se lisent pas, ce qui est
+     precisement pourquoi la contradiction est passee inapercue jusqu'au
+     playtest du 22 aout.
+     Chaque ligne repond maintenant a une question par un chiffre ou par non,
+     et les lignes sont groupees par ce qu'elles racontent. */
+  var ph='', eus=0, tot=0;
+  function lp(titre, val, ok){
+    tot++; if(ok) eus++;
+    return '<div class="lr'+(ok?'':' no')+'"><span>'+esc(titre)+'</span><b>'+esc(val)+'</b></div>';
   }
+  function sec(t){ return '<div class="palm-sec">'+esc(t)+'</div>'; }
+  function oui(cle, titre){ return lp(titre, S.f[cle] ? 'oui' : 'non', !!S.f[cle]); }
+  function pourMoi(camps){ return String(camps).indexOf(S.camp) >= 0; }
+
+  /* ce qu'on a mis a terre, corps par corps */
+  ph += sec('Ce que tu as mis à terre');
+  for(var ci=0; ci<CORPS.length; ci++){
+    var ids = CORPS[ci][1], nb = 0;
+    for(var cj=0; cj<ids.length; cj++) if(S.f['bat_'+ids[cj]]) nb++;
+    ph += lp(CORPS[ci][0], nb ? nb + ' sur ' + ids.length : 'non', nb>0);
+  }
+
+  /* ce qu'on a reuni : les pierres et les armes, une ligne chacune */
+  ph += sec('Ce que tu as réuni');
+  /* Depuis que relever un Poneglyphe est ferme aux uniformes, un Marine ne
+     peut plus en relever un seul : toutes les cartes qui en posent sont
+     reservees au pirate, au reve du revolutionnaire ou a celui du
+     Gouvernement. Une case qu'on ne pouvait pas cocher n'est pas un manque,
+     c'est du bruit, et le dossier le dit deja pour le palmares. */
+  var pier = S.f.poneglyphes4 ? 4 : S.f.poneglyphe3 ? 3 : S.f.poneglyphe ? 1 : 0;
+  if(S.camp !== 'marine')
+    ph += lp('Ponéglyphes relevés',
+             pier===4 ? 'les quatre Rouges' : pier===3 ? 'trois Rouges' :
+             pier===1 ? 'un' : 'non', pier>0);
+  var aA = !!S.f.arme_antique, aD = !!S.f.detruit_arme;
+  ph += lp('Armes antiques',
+           aA&&aD ? 'détenue et détruite' : aA ? 'détenue' : aD ? 'détruite' : 'non',
+           aA||aD);
+  ph += oui('secret_imu', "Le secret du Trône Vide");
+  if(S.fruit) ph += lp('Zoan Mythique', S.fruit.myth ? 'oui' : 'non', !!S.fruit.myth);
+  if(S.spec && S.spec.id==='sabre') ph += oui('lame', 'Lame classée');
+  if(S.spec && S.spec.id==='science') ph += oui('cyborg', 'Corps modifié');
+
+  /* ce qu'on a bati derriere soi */
+  ph += sec('Ce que tu as bâti');
+  if(pourMoi('pirate|revo')) ph += oui('territoire', 'Territoire tenu');
+  if(pourMoi('pirate'))      ph += oui('flotte', 'Flotte sous ton pavillon');
+  if(pourMoi('pirate|revo')) ph += oui('navire', 'Ton propre navire');
+  ph += oui('heritier', 'Héritier formé');
+  ph += oui('passation', 'Pavillon transmis');
+
+  /* ce qu'on a tenu quand ca coutait */
+  ph += sec('Ce que tu as tenu');
+  ph += oui('integre', "Jamais plié devant un Dragon Céleste");
+  ph += oui('serment', 'Serment tenu jusqu\'au bout');
+  ph += oui('reputation_pop', 'Pris le parti du peuple');
+  ph += oui('savant_cache', 'Lecteur de Ponéglyphes protégé');
+  if(pourMoi('revo|gm')) ph += oui('archives', 'Archives du trafic publiées');
+  if(pourMoi('revo'))    ph += oui('rois_allies', 'Trois couronnes retournées');
+  ph += oui('ennemi_gm', 'Dit non aux Cinq Doyens');
+
+  /* ce que le monde t'a reconnu */
+  ph += sec('Ce que le monde t\'a reconnu');
+  ph += lp('Né avec le Haki des Rois', S.roisInne ? 'oui' : 'non', !!S.roisInne);
+  if(pourMoi('pirate|revo')) ph += oui('pair_empereur', "Reçu d'égal à égal par un Empereur");
+  if(pourMoi('pirate|revo')) ph += oui('allie_empereur', "Allié d'un Empereur");
+  if(pourMoi('gm'))          ph += oui('adoube', 'Adoubé Chevalier Divin');
+  if(pourMoi('marine|gm'))   ph += oui('buster', 'Buster Call ordonné');
+
   $('end_palm_h').textContent = 'Faits d\'armes';
-  if($('end_palm_c')) $('end_palm_c').textContent = eus + ' sur ' + TRO2.length;
+  if($('end_palm_c')) $('end_palm_c').textContent = eus + ' sur ' + tot;
   $('end_palm').innerHTML = ph;
 
   /* parcours : uniquement les moments structurants. Lister les quarante
