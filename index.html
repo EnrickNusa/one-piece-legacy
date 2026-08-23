@@ -391,6 +391,11 @@ details.why[open]{padding-bottom:2px}
 .lr span{color:var(--ink2);font-weight:600}
 .lr b{font-family:var(--disp);font-weight:700;font-size:16px;color:var(--red2);white-space:nowrap;font-variant-numeric:tabular-nums}
 .lr b.dn{color:var(--faint)}
+/* Une valeur longue doit pouvoir passer a la ligne. « Pirate 3 · Marine 2 ·
+   Revolutionnaire 1 · Gouvernement 4 » debordait de la carte parce que
+   .lr b interdit le retour a la ligne, ce qui est bon pour un nombre et
+   mauvais pour une enumeration. */
+.lr b.wrap{white-space:normal;text-align:right;min-width:0}
 /* Ce qu'on n'a PAS eu doit rester lisible : c'est ce qui donne envie de
    relancer une carriere. Grise, mais jamais efface. */
 .lr.no span{color:var(--faint);font-weight:600}
@@ -403,6 +408,9 @@ details.why[open]{padding-bottom:2px}
 .palm-sec{margin:16px 0 2px;font-size:11.5px;font-weight:800;letter-spacing:.12em;
   text-transform:uppercase;color:var(--faint)}
 .palm-sec:first-child{margin-top:0}
+/* Les trois axes de la carriere, mis en avant sur la fiche d'aventure :
+   c'est la colonne vertebrale du jeu, ca passe avant la race et le Fruit. */
+.hax{font-size:13.5px;font-weight:700;color:var(--ink2);margin:3px 0 1px;line-height:1.4}
 .palm-note{margin-top:10px;font-size:12.5px;font-weight:600;color:var(--faint);line-height:1.5}
 /* L'historique : le bandeau de bilan se detache de la liste des fiches. */
 #hall_bilan{margin-bottom:4px}
@@ -2873,7 +2881,10 @@ var ADV = [
  m:"Une balle unique, à une distance que personne ne croira dans le rapport.",
  f:"Tu quittes la ligne de vue et tu changes de mer. C'est la seule façon connue de mettre fin à ça."},
 
-{id:'c_zoro', nat:'pirate', only:'marine|gm|revo', n:"Le sabreur aux trois lames", niv:68, sc:'wano', pr:3.0,
+/* Enrick le 22 aout : « tu dis le sabreur aux trois lames mais tu dis pas
+   Zoro une seule fois, change ». Le surnom seul ne suffit pas : le joueur
+   affrontait quelqu'un sans savoir qui. */
+{id:'c_zoro', nat:'pirate', only:'marine|gm|revo', n:"Roronoa Zoro, aux trois sabres", niv:68, sc:'wano', pr:3.0,
  k:"Un homme qui s'est perdu en venant",
  i:"Le second du Chapeau de Paille porte trois sabres, dont un qui a noirci. Il est arrivé ici en se trompant deux fois de direction et il ne s'en excusera pas.<br><br>Il attache son bandana. Tu n'avais pas besoin de ce signal, tu l'as quand même.",
  s:["Trois lames partent en même temps depuis trois hauteurs différentes.",
@@ -8507,13 +8518,26 @@ E({id:"renc3_tir", nmin:40, act:3, scene:"sabaody", w:11, ineed:"sp_tir",
 kicker:"Un pari au bout du bosquet", title:"Yasopp, le fusil du Roux",
 text:"Un homme accoudé au comptoir annonce à voix haute qu'il peut toucher une fourmi à la patte gauche, à cent mètres, sans la tuer. La salle rit. Il tire.<br><br>Personne ne va vérifier. Tout le monde sait déjà. Yasopp navigue avec Shanks depuis le début, et il n'a jamais raté ce qu'il visait.",
 opts:[
- {t:"Lui demander sur quoi il règle son tir", tag:"Le métier",
+ /* CETTE RENCONTRE NE PEUT PAS ETRE LA MEME AVANT ET APRES LE TITRE.
+    Enrick le 22 aout : « je vois Yasopp et il me dit comment regler mon tir
+    alors que je suis meilleur que lui, ca n'a pas de sens ». Le drapeau
+    voie_atteinte est pose des que le titre tombe : l'option d'apprentissage
+    se ferme alors, et une autre s'ouvre a sa place, ou c'est LUI qui vient
+    voir ce que fait celui qu'on cite maintenant avant lui. */
+ {t:"Lui demander sur quoi il règle son tir", tag:"Le métier", sauf:"voie_atteinte",
   eff:{obs:14, ruse:7, combat:5, arm:-6},
   why:"Un tireur de ce niveau ne compte pas sur ses yeux, et ce qu'il utilise à la place s'apprend.",
   r:"Il répond sans se retourner, en trois phrases, comme s'il parlait du temps. Le vent, la respiration, et la chose qu'on ne t'a jamais dite : ne jamais viser ce qui bouge, viser où ça va être.",
   fail:{p:.26, on:"obs", eff:{obs:6, renom:-4},
    why:"On ne prend pas des notes utiles auprès de quelqu'un qui explique ce qu'il ne sait pas expliquer.",
    r:"Il te dit qu'il ne sait pas, et il est sincère. Il vise, ça touche, c'est tout ce qu'il peut en dire. Tu repars avec une vérité désagréable sur les gens très doués."}},
+ {t:"Le laisser regarder comment tu t'y prends, toi", tag:"L'autre sens", also:"voie_atteinte",
+  eff:{obs:11, renom:13, vol:7, ruse:5},
+  why:"Quand c'est ton nom qu'on cite en premier, ce n'est plus toi qui viens apprendre, et l'homme en face le sait avant toi.",
+  r:"Il te laisse tirer, deux fois, et il ne dit rien pendant longtemps. Puis il demande à voir ta position de main, comme on demande un service.<br><br>Tu comprends à ce moment-là ce que ça veut dire d'avoir le titre : ce n'est pas de ne jamais rater, c'est que les autres viennent voir.",
+  fail:{p:.24, on:"renom", eff:{obs:5, renom:-6},
+   why:"Un titre ne dispense pas d'être bon le jour où quelqu'un regarde.",
+   r:"Tu tires deux fois devant lui et le second part large. Il ne relève pas, il commande une tournée et parle d'autre chose. C'est exactement ce que tu aurais fait à sa place, et ça ne console de rien."}},
  {t:"Lui proposer de départager au tir", tag:"Le pari", d:1,
   eff:{obs:12, combat:10, renom:12, vol:6},
   why:"Se mesurer au meilleur fusil du monde devant une salle pleine fait circuler un nom en une nuit.",
@@ -13622,7 +13646,19 @@ function specResult(){
   if(id==='sabre')   return st.combat>=66 && st.arm>=50 && !!f.lame;
   if(id==='arts')    return st.combat>=72 && st.vol>=76 && st.arm>=44;
   if(id==='fruit')   return !!S.fruit && S.eveil && S.fruit.pw>=15;
-  if(id==='tir')     return st.obs>=50 && st.ruse>=68;
+  /* LE TITRE DE TIREUR TOMBAIT AU CHAPITRE 34, NIVEAU 52.
+     Enrick le 22 aout : « j'ai eu le titre de sniper trop vite, du coup
+     apres je vois Yasopp et il me dit comment regler mon tir alors que je
+     suis meilleur que lui, ca n'a pas de sens ».
+     La cause : c'etait la seule voie a n'exiger que DEUX statistiques et
+     aucun fait rare. Le sabre demande une lame classee, le Fruit demande
+     l'Eveil, la science demande un corps modifie. Et la ruse, dont le titre
+     depend, est la statistique la plus haute du jeu, mediane 67 : le seuil
+     de 68 etait donc franchi par la moitie des joueurs.
+     Mesure sur 400 carrieres de la voie du tir : ce bareme le fait tomber au
+     chapitre 44, niveau 69, ce qui le range avec les quatre autres
+     (chapitre 39 a 50, niveau 65 a 80). */
+  if(id==='tir')     return st.obs>=64 && st.ruse>=74 && st.combat>=48;
   if(id==='science') return !!f.cyborg && st.ruse>=68 && st.combat>=56;
   return false;
 }
@@ -14729,7 +14765,13 @@ function hallRend(){
     if(!meilleure  || (c.nv || 0) > (meilleure.nv || 0)) meilleure = c;
   }
   var pct = function(x){ return Math.round(x * 100 / n) + ' %'; };
-  var lig = function(g, d){ return '<div class="lr"><span>' + g + '</span><b>' + d + '</b></div>'; };
+  /* Une valeur longue ne tenait pas : .lr b porte white-space:nowrap, ce qui
+     est bon pour un nombre et desastreux pour « Pirate 3 · Marine 2 ·
+     Revolutionnaire 1 · Gouvernement 4 », qui debordait de la carte.
+     Signale par Enrick le 22 aout. Le second parametre autorise le retour
+     a la ligne, sans toucher aux lignes chiffrees. */
+  var lig = function(g, d, large){ return '<div class="lr"><span>' + g + '</span><b' +
+    (large ? ' class="wrap"' : '') + '>' + d + '</b></div>'; };
   var bh = '';
   bh += lig('Carrières jouées', String(n));
   bh += lig('Mortes en mer', (n - vivants) + ' sur ' + n + '  ·  ' + pct(n - vivants));
@@ -14738,16 +14780,16 @@ function hallRend(){
   bh += lig('Sommet du camp atteint', sommets + '  ·  ' + pct(sommets));
   bh += lig('Assis sur le Trône Vide', rois ? (rois + '  ·  ' + pct(rois)) : 'jamais');
   bh += lig('Nés avec le Haki des Rois', hakis + '  ·  ' + pct(hakis));
-  if(meilleure) bh += lig('Ton plus haut niveau', meilleure.nv + '  ·  ' + esc(meilleure.n));
-  if(plusRiche && plusRiche.p > 0) bh += lig('Ta plus grosse prime', berry(plusRiche.p) + '  ·  ' + esc(plusRiche.n));
-  if(plusVieux) bh += lig('Ta plus longue carrière', plusVieux.a + ' ans  ·  ' + esc(plusVieux.n));
+  if(meilleure) bh += lig('Ton plus haut niveau', meilleure.nv + '  ·  ' + esc(meilleure.n), 1);
+  if(plusRiche && plusRiche.p > 0) bh += lig('Ta plus grosse prime', berry(plusRiche.p) + '  ·  ' + esc(plusRiche.n), 1);
+  if(plusVieux) bh += lig('Ta plus longue carrière', plusVieux.a + ' ans  ·  ' + esc(plusVieux.n), 1);
   var cl = [];
   for(var k in camps) cl.push(CN[k] + ' ' + camps[k]);
-  bh += lig('Camps essayés', cl.join('  ·  '));
+  bh += lig('Camps essayés', cl.join('  ·  '), 1);
   /* ce qu'on n'a JAMAIS fait : c'est la ligne qui fait relancer */
   var jamais = [];
   for(var k2 in CN) if(!camps[k2]) jamais.push(CN[k2]);
-  if(jamais.length) bh += '<div class="lr no"><span>Camps jamais joués</span><b>' +
+  if(jamais.length) bh += '<div class="lr no"><span>Camps jamais joués</span><b class="wrap">' +
     esc(jamais.join(', ')) + '</b></div>';
   if(!rois) bh += '<div class="lr no"><span>Le Trône Vide</span><b>jamais approché</b></div>';
   $('hall_bilan').innerHTML = bh;
@@ -14758,10 +14800,22 @@ function hallRend(){
   var h = '';
   for(i = L.length - 1; i >= 0; i--){
     c = L[i];
+    /* LES TROIS AXES D'ABORD, c'est la colonne vertebrale du jeu.
+       La fiche montrait race, voie et Fruit, et le REVE n'apparaissait que
+       sous forme de pastille « reve » quand il etait accompli : une carriere
+       ratee ne disait donc jamais ce que le joueur etait venu chercher.
+       Le champ existait pourtant, stocke dans `re` par hallAjoute, et
+       personne ne le lisait. Meme piege que le champ jamais lu du dossier.
+       Enrick le 22 aout : « l'historique de partie est mal retranscrit, on
+       devait voir camp voie reve ». */
+    var axes = [];
+    if(CN[c.c]) axes.push(esc(CN[c.c]));
+    if(c.vo) axes.push(esc(c.vo));
+    if(c.re) axes.push('rêve : ' + esc(c.re) + (c.rv ? ' ✓' : ''));
     var ligne1 = [];
     if(c.ra) ligne1.push(esc(c.ra));
-    if(c.vo) ligne1.push(esc(c.vo));
     if(c.fr) ligne1.push(esc(c.fr) + (c.ev ? ' éveillé' : ''));
+    if(c.qu) ligne1.push('quête : ' + esc(c.qu) + (c.qf ? ' ✓' : ''));
     var marques = '';
     if(c.qf) marques += '<span class="mq ok">quête</span>';
     if(c.rv) marques += '<span class="mq ok">rêve</span>';
@@ -14771,7 +14825,8 @@ function hallRend(){
     if(!c.v) marques += '<span class="mq ko">mort à ' + c.a + ' ans</span>';
     h += '<div class="hc' + (c.so ? ' top' : '') + '">' +
          '<div class="hn">' + esc(c.n) +
-           '<span class="hrg">' + esc(CN[c.c] || '') + '  ·  ' + esc(c.t || '') + '</span></div>' +
+           '<span class="hrg">' + esc(c.t || '') + '</span></div>' +
+         (axes.length ? '<div class="hax">' + axes.join('  ·  ') + '</div>' : '') +
          (ligne1.length ? '<div class="hm">' + ligne1.join('  ·  ') + '</div>' : '') +
          (marques ? '<div class="hmq">' + marques + '</div>' : '') +
          '<div class="hf"><span>' + c.a + ' ans</span>' +
