@@ -4640,7 +4640,7 @@ function cbFin(){
        volonte, jamais sur tes competences ».
        La Volonte monte encore, elle seule : tenir une defaite serree est
        exactement ce qui l'entraine. Tout le reste recule. */
-    d = applyEff({vol:3, combat:-6, arm:-4, renom:-6});
+    d = applyEff({vol:4, combat:-4, arm:-3, renom:-5});
     mortP = clamp(0.055 + ecart*0.005, 0.03, 0.18);
     S.cb.ecrase = false;
     S.n.losses = (S.n.losses||0)+1;
@@ -4651,7 +4651,7 @@ function cbFin(){
        des chapitres. */
     /* Se faire ecraser abime la technique avant la reputation : on repart avec
        un geste qui ne sort plus pareil. */
-    d = applyEff({vol:3, combat:-10, arm:-7, obs:-4, ruse:-3, renom:-14});
+    d = applyEff({vol:4, combat:-7, arm:-5, obs:-3, renom:-10});
     /* ON MOURAIT ZERO FOIS EN COMBAT. Mesure du 24 aout, 300 carrieres :
        96 % rentraient vivants et AUCUNE mort ne venait d'un affrontement, les
        quatre pour cent restants venaient tous d'un die: pose sur une carte.
@@ -4682,6 +4682,16 @@ function cbFin(){
      de l'Armement, il peut te faire perdre le combat, pas te tuer. */
   if(joueurIntouchable(a)) mortP = 0;
   if(mortP > 0){
+    /* LE RISQUE MONTE AVEC LA CARRIERE, EN COMBAT AUSSI.
+       Les cartes appliquent depuis toujours une table RISQUE par acte, 0,28 a
+       l'acte 1 contre 1,20 a l'acte 5, parce que « mourir a vingt ans apres
+       huit chapitres n'est pas une histoire, c'est du temps perdu ». J'ai
+       releve la mortalite en combat ce soir SANS reprendre cette table : le
+       taux etait plat, identique au premier port et sous Marie-Joie.
+       Enrick, apres avoir joue : « je suis mort trois fois dans la vingtaine ».
+       Meme table que les cartes. Un debutant survit, une legende tombe. */
+    var RISQUE_CB = {1:0.22, 2:0.40, 3:0.75, 4:1.00, 5:1.15};
+    mortP *= (RISQUE_CB[S.act] || 1);
     if(S.st.vol) mortP *= (1 - S.st.vol/190);
     /* on ne tue pas facilement quelqu'un dont la seule volonte fait tomber
        une salle entiere */
@@ -14774,7 +14784,7 @@ function pickOpt(i){
   if(rate && eff0){
     var rabot = {};
     for(var rk in eff0){ if(!eff0.hasOwnProperty(rk)) continue;
-      rabot[rk] = eff0[rk] > 0 ? Math.round(eff0[rk]*0.15) : eff0[rk]; }
+      rabot[rk] = eff0[rk] > 0 ? Math.round(eff0[rk]*0.22) : eff0[rk]; }
     var teste = br.on;
     if(teste && teste !== 'rois' && S.st[teste] !== undefined){
       /* DOSAGE, demande d'Enrick le 24 aout : « il faut vraiment doser les
@@ -14788,8 +14798,13 @@ function pickOpt(i){
            plancher 12  ->  echec -17,5  rapport 1,07
          On s'arrete a 10 : bien jouer paye encore, mal jouer se voit. A 12 un
          joueur qui reussit une fois sur deux n'avance plus du tout. */
+      /* REDESCENDU DE 10 A 6 le 24 aout au soir. Enrick apres deux parties :
+         « c'est beaucoup trop dur ». A 10, la mesure donnait 20 % de carrieres
+         atteignant l'acte 5 contre 37 % le matin, et un niveau median tombe de
+         58 a 45. La statistique ratee recule toujours, c'etait le vrai sujet,
+         elle recule juste moins fort. */
       var base = Math.abs(eff0[teste] || 0);
-      rabot[teste] = -Math.max(10, Math.round(base * 0.70));
+      rabot[teste] = -Math.max(6, Math.round(base * 0.60));
     }
     eff0 = rabot;
   }
