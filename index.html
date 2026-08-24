@@ -248,7 +248,13 @@ b,strong{font-weight:800}
   border-radius:0 12px 12px 0;padding:13px 15px;font-size:16px;line-height:1.6;animation:pop .35s ease}
 /* Le combat ecrit « res ok », le reste du jeu « res good ». Seule la seconde
    avait un style : une manche gagnee restait doree au lieu d'etre verte. */
-.res.good,.res.ok{border-left-color:var(--ok)}
+/* ET LA REUSSITE N'AVAIT PAS DE FOND, L'ECHEC SI.
+   .res.bad posait un fond rose, .res.good ne changeait qu'un filet de 5 px sur
+   un fond blanc pose sur une carte blanche. Sur le dernier ecran du jeu, celui
+   du Trone Vide, on ne voyait donc pas si on avait gagne ou si on etait mort.
+   Enrick le 24 aout : « il faut les couleurs pour savoir si c'est gagne ou
+   non ». Les deux issues se lisent maintenant de la meme facon. */
+.res.good,.res.ok{border-left-color:var(--ok);background:rgba(223,246,234,.8)}
 .res.bad{border-left-color:var(--bad);background:rgba(255,236,232,.75)}
 @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 /* Le combat ecrit « deltas » avec un s, le reste du jeu « delta ». Seule la
@@ -587,8 +593,14 @@ details.why[open]{padding-bottom:2px}
    ecran du jeu dont Enrick ait dit qu'il marquait vraiment le coup. Un palier
    de Haki garde le filet or ordinaire : si tout est exceptionnel, plus rien
    ne l'est. */
+/* --paper N'EXISTE PAS. La variable du papier s'appelle --parch, et un var()
+   inconnu rend TOUTE la declaration invalide : le fond retombait sur
+   transparent, donc du violet ecrit sur le bleu de la scene. Les trois cartes
+   les plus importantes du jeu, le reve, la quete et le sommet, etaient
+   illisibles. Signale deux fois par Enrick avant qu'on trouve la cause.
+   Une faute de frappe dans un nom de variable ne leve aucune alerte. */
 .moment.sacre{border-color:#7a1fb0;border-width:3px;
-  background:linear-gradient(180deg,#fbf3ff 0%,var(--paper) 55%)}
+  background:linear-gradient(180deg,#fbf3ff 0%,var(--parch) 55%)}
 .moment.sacre h2{color:#7a1fb0;text-shadow:2px 2px 0 #ffd45e}
 .moment.sacre .kicker{color:#a25ed6}
 
@@ -815,7 +827,14 @@ details.why[open]{padding-bottom:2px}
 
 
 /* ===================== CARTE DE FIN, PENSEE POUR LA CAPTURE ===================== */
-.po-badges{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:14px}
+/* LES PASTILLES DE L'AVIS DE RECHERCHE, EN TROIS FAMILLES.
+   C'etait une seule rangee de douze pastilles identiques : le conteneur porte
+   maintenant les groupes, et c'est chaque groupe qui aligne ses pastilles. */
+.po-badges{display:block;margin-top:16px}
+.po-fam+.po-fam{margin-top:13px}
+.po-fl{display:block;font-size:9.5px;font-weight:900;letter-spacing:.24em;
+  text-transform:uppercase;color:rgba(255,225,160,.5);margin-bottom:7px}
+.po-fam .pbs{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
 .po-badges .pb{font-size:11.5px;font-weight:800;letter-spacing:.03em;
   padding:5px 10px;border-radius:99px;border:1px solid rgba(255,225,160,.35);
   background:rgba(255,225,160,.12);color:#ffffff}
@@ -979,6 +998,10 @@ h1,h2,h3{text-wrap:balance}
   color:rgba(242,230,200,.55)}
 .fin-sum{font-family:var(--disp);font-size:clamp(38px,12vw,62px);line-height:1;margin-top:8px;
   color:var(--gold);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+/* LE NIVEAU SOUS LA PRIME. Meme bloc, meme grammaire, taille plus basse :
+   la prime reste le chiffre qui claque, le niveau est le verdict froid. */
+#po_niv{font-size:clamp(28px,8vw,42px);color:var(--gold)}
+#po_niv .bcur{color:rgba(242,230,200,.6)}
 .fin-sum .bsym{font-size:inherit;color:inherit}
 .fin-sum .bsym.none{font-size:clamp(19px,5.4vw,26px);color:rgba(242,230,200,.68);letter-spacing:.1em}
 .fin-sum .bcur{display:block;font-family:var(--body);font-size:11px;font-weight:900;
@@ -1323,6 +1346,11 @@ h1,h2,h3{text-wrap:balance}
         <div class="fin-sum" id="po_sum">—</div>
         <div class="fin-pal" id="po_pal">—</div>
       </div>
+      <div class="fin-money">
+        <div class="fin-lab">Niveau atteint</div>
+        <div class="fin-sum" id="po_niv">—</div>
+        <div class="fin-pal" id="po_grade">—</div>
+      </div>
       <div class="po-badges" id="po_badges"></div>
       <div class="hide" id="po_emb"></div>
     </div>
@@ -1330,10 +1358,7 @@ h1,h2,h3{text-wrap:balance}
     <div class="sheet" style="margin-top:12px">
       <div class="badge" id="end_badge">—</div>
       <h2 class="cardtitle" id="end_title">—</h2>
-      <div class="ratebox">
-        <div class="rate"><div class="n" id="end_score">0</div><div class="r" id="end_rank">—</div></div>
-        <div class="pcbox" id="end_pc"></div>
-      </div>
+      <div class="pjs" id="end_niv"></div>
       <div class="tro" id="end_traits"></div>
       <div class="cardtext" id="end_text"></div>
     </div>
@@ -3523,7 +3548,7 @@ function cbOuverture(id){
       var d = applyEff({ruse:10, renom:9, obs:5});
       S.cb.done = true;
       S.tl.push({a:S.age, t:a.n, l:a.sc, c:'Parole', rate:0, maj:1});
-      return cbSortie('<b>Il t\'écoute.</b><br>'+esc(a.n)+' te laisse finir, réfléchit, et remet son arme au fourreau. Vous ne vous battrez pas aujourd\'hui, et vous savez tous les deux que ce n\'est que partie remise.', d, 'ok');
+      return cbSortie('<b>Il t\'écoute.</b><br>'+esc(a.n)+' te laisse finir, réfléchit, et laisse retomber sa garde. Vous ne vous battrez pas aujourd\'hui, et vous savez tous les deux que ce n\'est que partie remise.', d, 'ok');
     }
     S.cb.dg = 1; S.cb.res[0] = 0; S.cb.r = 2;
     $('cb_res').innerHTML = '<div class="res bad"><b>Il ne t\'écoute pas.</b><br>Tu parles encore quand le premier coup part. Tu commences le combat avec une manche de retard.</div>';
@@ -5819,10 +5844,13 @@ opts:[
 
 
 E({id:'a4_laugh', act:4, scene:'laughtale', w:13, dt:2, once:1, ineed:'pirate',
-/* Les quatre pierres rouges dorment chez Kaidou, Big Mom et Shanks. On ne
-   les prend pas a trois Empereurs quand on est capitaine de second rang :
-   il faut deja peser au niveau d'un commandant d'Empereur. */
-verrou:58, sauf:"poneglyphes4",
+/* Les quatre pierres rouges dorment chez Kaidou, Big Mom et Shanks. Le verrou
+   etait a 58, le barreau d'un commandant d'Empereur : un joueur reussissait
+   donc a ce rang ce que deux Empereurs n'ont jamais reussi. Kaidou et Big Mom
+   pesent 73 et n'en ont que deux chacun ; Roger, le seul a les avoir reunies,
+   pese 85. Enrick le 24 aout : on monte au barreau d'Empereur.
+   On ne prend pas trois Empereurs sans peser ce qu'ils pesent. */
+verrou:73, sauf:"poneglyphes4",
 kicker:"Quatre pierres rouges, quatre gardiens", title:"La route de Laugh Tale",
 text:"Quatre Ponéglyphes Rouges se croisent en un seul point. Personne ne les a réunis depuis Gol D. Roger.<br><br>Kaidou en garde un à Onigashima, Big Mom un autre à Whole Cake Island, le troisième dort sous le pavillon de Shanks. Le quatrième, personne ne sait.",
 opts:[
@@ -10387,7 +10415,10 @@ opts:[
   fail:{p:.31, on:"ruse", eff:{obs:7, renom:-9},
    why:"Enquêter sur ses pairs quand on figure soi-même au dossier se retourne vite.",
    r:"Trois des onze te devancent et te désignent ensemble. Tsuru clôt le dossier sans conclusion, et ton nom y reste."}},
- {t:"Aller voir le septième nom en face", tag:"Frontal", d:1, eff:{vol:13, combat:9, renom:6},
+ /* « Ton nom est dessus, en septieme » puis « aller voir le septieme nom » :
+   le joueur etait envoye se voir lui-meme. L'option a toujours parle de
+   celui qui a INSCRIT le nom, comme le disent le why et la reussite. */
+ {t:"Trouver qui a écrit ton nom, et aller le voir en face", tag:"Frontal", d:1, eff:{vol:13, combat:9, renom:6},
   why:"Se présenter devant celui qui vous a inscrit change le rapport de force ou le termine.",
   die:{p:.11, t:"Il t'attendait, et il n'était pas seul. Le dossier se referme sur onze noms dont un ne répond plus."},
   r:"Tu frappes à sa porte sans escorte. Il t'explique pourquoi il a mis ton nom, et sa raison tient debout. Tu repars avec la vérité et sans savoir quoi en faire.",
@@ -11884,7 +11915,7 @@ function newState(){
        mesurees partaient toutes avec le repli, « ta mere ». */
     proche: (typeof PROCHES !== 'undefined' && PROCHES.length) ? wpick(PROCHES) : null,
     st:{combat:12, arm:0, obs:0, rois:0, vol:14, ruse:12, renom:4},
-    seed:0, pot:null, roisInne:false, primeHaute:0,
+    seed:0, pot:null, roisInne:false, primeHaute:0, nvHaut:0,
     fruit:null, eveil:false, bmul:1,
     crew:0, crewList:[], shipCls:0, shipName:'', prime:0, etat:null, flotte:[], routes:{},
     age:17, agef:17, act:1, idx:0, chapter:0,
@@ -13212,6 +13243,11 @@ function nextChapter(){
      Releve ici parce que tout chapitre passe par cette porte, plutot que
      disperse dans les trois endroits qui poussent l'historique. */
   S.primeHaute = Math.max(S.primeHaute || 0, prime());
+  /* ET LE PLUS HAUT NIVEAU, pour la meme raison exactement.
+     Le niveau redescend avec l'age. Depuis que l'ecran de fin ne note plus
+     sur 100 et affiche le NIVEAU comme unique verdict, ce chiffre porte tout :
+     il doit dire ce qu'on a valu, pas ce qu'on vaut le dernier matin. */
+  S.nvHaut = Math.max(S.nvHaut || 0, niveau());
   /* Trois cents ans de vie : un Geant traverse chaque mer plus longtemps que
      les autres, et c'est la tout son avantage. */
   var Z = ACTS[S.act], rab = (donRace()==='age' ? 2 : 0);
@@ -14128,21 +14164,13 @@ function finType(){
   return null;
 }
 
-function score(){
-  var st=S.st;
-  var sv = (st.combat+st.arm+st.obs+st.vol+st.ruse+st.renom)/6;
-  var s = sv*0.58 + st.rois*0.10 + Math.min(S.crew,24)*0.22 + (S.fruit?S.fruit.pw*0.22:0);
-  var r = campResult();
-  s += r===2 ? 28 : r===1 ? 11 : 0;
-  if(specResult()) s += 9;
-  if(reveResult()) s += 8;
-  if(S.alive) s += 6;
-  if(S.pot) s += (S.pot.m-1)*10;
-  return clamp(Math.round(s), 1, 100);
-}
+/* score() et rankOf() ont ete SUPPRIMES le 24 aout. Ils fabriquaient une
+   seconde echelle, sur 100 et notee S/A/B/C/D, qui contredisait le niveau sur
+   l'ecran de fin : « Commandant d'Empereur » et « rang D » sur la meme
+   carriere. Ils n'avaient aucun autre appelant. Ne pas les reintroduire sans
+   supprimer le niveau d'abord : le jeu ne doit porter qu'une echelle. */
 /* cale sur la distribution reelle : S au 94e centile, A au 78e, B au 50e.
    Un rang S qui sort une fois sur trois ne veut rien dire. */
-function rankOf(n){ return n>=93?'S' : n>=80?'A' : n>=66?'B' : n>=48?'C' : 'D'; }
 
 /* surnom : construit a partir de ce qui a reellement marque la carriere */
 function surnom(){
@@ -14397,7 +14425,16 @@ var CORPS = [
 ];
 
 function showEnd(){
-  var r=campResult(), sp=specResult(), rv=reveResult(), sc=score(), rk=rankOf(sc), C=campObj() || {n:'Aucun', court:'—', sommet:'Aucun sommet visé'};
+  /* UNE SEULE ECHELLE, ET C'EST CELLE QUE LE JOUEUR A LUE TOUTE LA PARTIE.
+     L'ecran de fin en portait TROIS qui se contredisaient sur la meme
+     carriere : le grade tire de niveau() disait « Commandant d'Empereur »,
+     la note tiree de score() disait « 39 sur 100, rang D, UN ANONYME », et
+     le palier de prime disait « Nom qui circule » a 450 millions. Enrick le
+     24 aout : « pas tres clair, a refondre ». C'est exactement le defaut que
+     le jeu avait deja eu avec ses trois echelles de grades, reintroduit par
+     la fenetre. Le score sur 100 et le rang S/A/B/C/D sont donc supprimes :
+     il reste le NIVEAU, sur les 92 barreaux de l'echelle. */
+  var r=campResult(), sp=specResult(), rv=reveResult(), C=campObj() || {n:'Aucun', court:'—', sommet:'Aucun sommet visé'};
   /* L'AVIS DE RECHERCHE PORTE LE PLUS HAUT CHIFFRE QU'ON A VALU.
      La prime suit le niveau, et le niveau redescend avec l'age : une carriere
      se terminait donc sur un chiffre plus bas que celui qu'elle avait atteint.
@@ -14432,28 +14469,56 @@ function showEnd(){
   /* Personne ne partage du texte copie. La carte du haut doit se suffire a
      elle-meme : une capture d'ecran et tout y est, le rang, le palier, le reve
      et le sommet. C'est le seul canal de partage du jeu. */
-  var bd = [];
-  bd.push(['r', 'Rang ' + rk]);
-  /* le grade ultime et le sommet du camp sont desormais la meme chose : on
-     n'affiche qu'un seul badge, en or quand il est atteint. */
-  bd.push([r===2 ? 'or' : '', palierPuissance().t]);
+  /* LE GRADE A SA PROPRE LIGNE, comme la prime a la sienne.
+     Il etait une pastille perdue au milieu de onze autres, et il etait en
+     meme temps le titre en gros de la carte du dessous : ecrit deux fois,
+     lisible nulle part. Le niveau retenu est le PLUS HAUT atteint, pas celui
+     du dernier matin, pour la meme raison que la prime. */
+  var nvh = Math.max(S.nvHaut || 0, niveau());
+  $('po_niv').innerHTML = nvh + '<span class="bcur">sur 92</span>';
+  $('po_grade').textContent = palierPuissance().t;
+
+  /* LES PASTILLES, RANGEES PAR CE QU'ELLES SONT.
+     Douze pastilles de forme identique a la queue leu leu : un rang, un
+     grade, deux objectifs, un pouvoir, un archetype et trois compteurs. Rien
+     ne disait lesquelles etaient une reussite et lesquelles un simple fait.
+     Trois familles, trois intertitres, et on lit chaque groupe pour ce qu'il
+     est. */
+  var FAM = [['Ce que tu visais', []], ['Ce que tu étais', []], ['Ce que tu as fait', []]];
   /* deux lignes separees : ce que le camp attendait de toi, et ce que TOI tu
      etais venu chercher. On peut tres bien reussir l'un sans l'autre. */
-  if(C.quete) bd.push([queteFaite()?'ok':'no', 'Quête : ' + C.quete]);
-  if(sp) bd.push(['or', S.spec.titre]);
-  if(S.reve) bd.push([rv?'ok':'no', 'Rêve : ' + reveNom(S.reve)]);
-  if(S.f.roi_du_monde) bd.push(['or', 'Roi du Monde']);
-  if(S.fruit) bd.push(['', S.fruit.fr + (S.eveil ? ' éveillé' : '')]);
+  if(C.quete) FAM[0][1].push([queteFaite()?'ok':'no', 'Quête : ' + C.quete]);
+  if(S.reve) FAM[0][1].push([rv?'ok':'no', 'Rêve : ' + reveNom(S.reve)]);
+  if(sp) FAM[0][1].push(['or', S.spec.titre]);
+  if(r===2) FAM[0][1].push(['or', 'Sommet : ' + C.sommet]);
+  if(S.f.roi_du_monde) FAM[0][1].push(['or', 'Roi du Monde']);
+  if(S.fruit) FAM[1][1].push(['', S.fruit.fr + (S.eveil ? ' éveillé' : '')]);
   var arc = archetype();
-  if(arc) bd.push(['r', arc.n]);
+  if(arc) FAM[1][1].push(['r', arc.n]);
+  /* « Les quatre Poneglyphes Rouges reunis ×4 » se lisait comme si on l'avait
+     fait quatre fois. Un fait unique n'a pas de compteur : comptes() rend
+     zero quand le nombre ne veut rien dire, et le libelle se suffit. */
   var cpt = comptes();
-  for(var ci=0;ci<cpt.length;ci++) bd.push(['', cpt[ci][0] + ' ×' + cpt[ci][1]]);
+  for(var ci=0;ci<cpt.length;ci++)
+    FAM[2][1].push(['', cpt[ci][1] ? cpt[ci][0] + ' ×' + cpt[ci][1] : cpt[ci][0]]);
   var bh='';
-  for(var bi=0;bi<bd.length;bi++)
-    bh += '<span class="pb ' + bd[bi][0] + '">' + esc(bd[bi][1]) + '</span>';
+  for(var fi=0;fi<FAM.length;fi++){
+    var LF = FAM[fi][1];
+    if(!LF.length) continue;
+    bh += '<div class="po-fam"><span class="po-fl">' + esc(FAM[fi][0]) + '</span><div class="pbs">';
+    for(var bi=0;bi<LF.length;bi++)
+      bh += '<span class="pb ' + LF[bi][0] + '">' + esc(LF[bi][1]) + '</span>';
+    bh += '</div></div>';
+  }
   $('po_badges').innerHTML = bh;
 
-  $('end_badge').textContent = rk==='S'?'UNE LÉGENDE' : rk==='A'?'UN GRAND NOM' : rk==='B'?'UN NOM CONNU' : rk==='C'?'UN MARIN PARMI D\'AUTRES' : 'UN ANONYME';
+  /* « UN ANONYME » S'AFFICHAIT SUR UNE FICHE A 450 MILLIONS DE PRIME.
+     Le bandeau se calculait sur la note, pas sur la notoriete, et contredisait
+     donc l'avis de recherche juste au-dessus. Il dit maintenant deux choses
+     qui ne sont ecrites nulle part ailleurs sur cette carte : sous quel
+     pavillon on a servi, et si on est rentre. */
+  $('end_badge').textContent = (C.n || 'Sans camp').toUpperCase() + ' · ' +
+    (S.alive ? 'RENTRÉ VIVANT' : 'MORT EN CHEMIN');
   /* CELUI QUI S'EST ASSIS SUR LE TRONE N'EST PLUS ROI DES PIRATES.
      Le titre prenait le sommet du camp des que la quete etait accomplie, donc
      un joueur monte sur le Trone Vide lisait « ROI DES PIRATES » en gros, et
@@ -14461,8 +14526,14 @@ function showEnd(){
      22 aout. Le rang le plus rare du jeu passe devant tout le reste. */
   $('end_title').textContent = S.f.roi_du_monde ? 'ROI DU MONDE'
     : r===2 ? C.sommet.toUpperCase() : (sp ? S.spec.titre.toUpperCase() : rankTitle().toUpperCase());
-  $('end_score').textContent = sc;
-  $('end_rank').textContent = 'Rang ' + rk;
+  /* LE CHIFFRE NU EST DEVENU UNE JAUGE.
+     « 39 » tout seul en gros ne disait pas s'il fallait le lire sur 100, sur
+     92 ou en annees, et il ressemblait au niveau du panneau de jeu sans en
+     etre un. On reprend la jauge du palmares, que le joueur connait deja :
+     un libelle, « n sur N », une barre. */
+  $('end_niv').innerHTML = '<div class="pj"><span class="pn">Niveau atteint</span>' +
+    '<span class="pv">' + nvh + ' <em>sur 92</em></span>' +
+    '<span class="pb"><i style="width:' + Math.min(100, Math.round(nvh * 100 / 92)) + '%"></i></span></div>';
 
   var txt;
   if(!S.alive){
@@ -14776,11 +14847,11 @@ function showEnd(){
   renderStats('end_stats');
   hallAjoute();
   wipe();
-  $('b_copy').onclick = function(){ copyBilan(sc, rk, r, sp, b); };
+  $('b_copy').onclick = function(){ copyBilan(r, sp, b, nvh); };
   $('b_again').onclick = function(){ S=null; wipe(); hallRend(); show('s_title'); setScene('village'); };
 }
 
-function copyBilan(sc, rk, r, sp, b){
+function copyBilan(r, sp, b, nvh){
   /* CE QU'ON COLLE DANS UNE CONVERSATION.
      L'ancien bilan etait un vidage de donnees : « === ONE PIECE LEGACY === »,
      des barres verticales comme separateurs, des majuscules criardes et des
@@ -14804,7 +14875,7 @@ function copyBilan(sc, rk, r, sp, b){
          ', ' + C.n + (S.spec ? ', ' + S.spec.n.toLowerCase() : ''));
   L.push((S.alive ? 'Vivant \u00e0 ' : 'Mort \u00e0 ') + S.age + ' ans' +
          (finType() ? ', ' + finType().v.n.toLowerCase() : ''));
-  L.push(palierPuissance().t + ', niveau ' + niveau() +
+  L.push(palierPuissance().t + ', niveau ' + nvh +
          (b > 0 ? ', prime de ' + berry(b) + ' de Berrys' : ', aucune prime'));
   L.push('');
 
@@ -14838,7 +14909,7 @@ function copyBilan(sc, rk, r, sp, b){
   L.push('Volont\u00e9 ' + Math.round(S.st.vol) + ', Ruse ' + Math.round(S.st.ruse) +
          ', Renomm\u00e9e ' + Math.round(S.st.renom));
   L.push('');
-  L.push('Note ' + sc + ' sur 100, rang ' + rk + '. \u00c0 toi de faire mieux.');
+  L.push('Niveau ' + nvh + ' sur 92. \u00c0 toi de faire mieux.');
 
   var txt = L.join('\n'), done = function(){ toast('Bilan copi\u00e9. Envoie-le \u00e0 tes amis.'); };
   if(navigator.clipboard && navigator.clipboard.writeText)
@@ -14878,7 +14949,7 @@ function hallAjoute(){
            qu:C && C.quete, qf:queteFaite()?1:0,
            fr:S.fruit && S.fruit.fr, ev:S.eveil?1:0,
            hk:S.f.haki_rois?1:0, rm:S.f.roi_du_monde?1:0,
-           ch:S.chapter, nv:niveau(),
+           ch:S.chapter, nv:Math.max(S.nvHaut || 0, niveau()),
            ca:S.alive?'':tpl(S.cause||'').slice(0,90) });
   hallEcrire(L);
 }
@@ -15072,9 +15143,11 @@ function comptes(){
   if(n) out.push(['Adversaires nommés vaincus', n]);
   if(S.n && S.n.wins) out.push(['Combats gagnés', S.n.wins]);
   if(S.n && S.n.sequelles) out.push(['Ce que tu y as laissé', S.n.sequelles]);
-  if(f.poneglyphes4) out.push(['Ponéglyphes Rouges réunis', 4]);
-  else if(f.poneglyphe3) out.push(['Ponéglyphes Rouges relevés', 3]);
-  else if(f.poneglyphe) out.push(['Ponéglyphes relevés', 1]);
+  /* Un fait unique rend 0 : l'affichage saute alors le « ×n ». « Les quatre
+     Poneglyphes Rouges reunis ×4 » laissait croire a quatre reussites. */
+  if(f.poneglyphes4) out.push(['Les quatre Ponéglyphes Rouges réunis', 0]);
+  else if(f.poneglyphe3) out.push(['Trois Ponéglyphes Rouges relevés', 0]);
+  else if(f.poneglyphe) out.push(['Un Ponéglyphe relevé', 0]);
   return out;
 }
 
