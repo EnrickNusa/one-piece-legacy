@@ -485,6 +485,10 @@ details.why[open]{padding-bottom:2px}
   white-space:nowrap;font-variant-numeric:tabular-nums}
 .pj .pv em{font-style:normal;font-family:var(--body);font-size:11.5px;font-weight:700;
   color:var(--faint);margin-left:2px}
+/* la frequence en toutes lettres, a droite du compte, a la place de la barre */
+.pj .pv i{font-style:normal;display:block;font-family:var(--body);font-size:11px;
+  font-weight:700;letter-spacing:.02em;color:var(--faint);margin-top:1px}
+.pj{align-items:start}
 .pj .pb{grid-column:1 / -1;height:7px;border-radius:99px;
   background:rgba(150,178,192,.24);overflow:hidden;margin-top:2px}
 .pj .pb i{display:block;height:100%;border-radius:99px;transition:width .5s;
@@ -15632,12 +15636,26 @@ function hallRend(){
       '<div class="mgv big">' + val + '</div>' +
       (sous ? '<div class="mgs">' + esc(sous) + '</div>' : '') + '</div>';
   };
-  var jauge = function(lab, eus, quoi){
-    var p = pctn(eus);
+  /* PLUS DE BARRE ICI. Ces taux sont BAS PAR NATURE : la quete du camp tombe
+     dans 9 % des carrieres, le sommet aussi. Une barre a 9 % reste vide quoi
+     que fasse le joueur, et une rangee de barres vides se lit comme un
+     bulletin de notes rate. Enrick le 24 aout : « la barre va rester tres
+     basse du au ratio logique ».
+     On garde le compte, qui est le vrai chiffre, et on remplace la barre par
+     la FREQUENCE EN TOUTES LETTRES. « Une carriere sur trois » se lit d'un
+     coup et dit la meme chose sans avoir l'air d'un echec. */
+  var freq = function(eus){
+    if(!eus) return '';
+    if(eus === n) return n === 1 ? 'la seule' : 'à chaque fois';
+    var f = Math.round(n / eus);
+    return f <= 1 ? 'presque à chaque fois' : 'une carrière sur ' + f;
+  };
+  var jauge = function(lab, eus){
     return '<div class="pj' + (eus ? '' : ' vide') + '">' +
       '<span class="pn">' + esc(lab) + '</span>' +
-      '<span class="pv">' + (eus ? eus + ' <em>sur ' + n + '</em>' : '<em>jamais</em>') + '</span>' +
-      '<span class="pb"><i style="width:' + p + '%"></i></span></div>';
+      '<span class="pv">' +
+        (eus ? eus + ' <em>fois</em> <i>' + esc(freq(eus)) + '</i>' : '<em>jamais</em>') +
+      '</span></div>';
   };
 
   var bh = '';
