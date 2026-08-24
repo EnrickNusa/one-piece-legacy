@@ -6602,7 +6602,16 @@ opts:[
   r:"Tu ne prends aucun objectif et tu sors deux cents personnes du champ. Pas de prime, pas de titre. Mais pendant vingt ans, dans quatre mers, des gens diront ton nom d'une certaine façon."}
 ]});
 
-E({id:'a4_guerre', pic:'c_wb', gr:'guerre', act:4, scene:'marineford', w:18, dt:1,
+/* MARINEFORD SE JOUE DIFFEREMMENT SELON LE CAMP. Enrick le 24 aout : « en tant
+   que pirate, Marineford devrait etre joue non avec Barbe Blanche mais entre
+   toi, ta flotte et la Marine, pour sauver un membre de ton propre equipage.
+   Si tu es la Marine c'est contre Barbe Blanche. Si tu es revo il n'y a pas
+   cette scene, sauf a trouver un pretexte, pareil pour le Gouvernement. »
+   Il a raison : un pirate n'a rien a faire dans la guerre de quelqu'un
+   d'autre. Quatre cartes du meme groupe gr:'guerre', une par camp, donc une
+   seule tombe par carriere. Les trois drapeaux place_sauve, place_perdue et
+   place_absent se lisent au palmares, quel que soit le camp. */
+E({id:'a4_guerre', pic:'c_wb', gr:'guerre', act:4, scene:'marineford', w:18, dt:1, ineed:"marine",
 kicker:"La place d'exécution", title:"La guerre au sommet",
 text:"Le Gouvernement a annoncé l'exécution publique de Portgas D. Ace. C'était un appel, et Edward Newgate a répondu.<br><br>D'un côté Akainu, Aokiji, Kizaru, cent navires et la baie gelée. De l'autre le Moby Dick et quarante-trois équipages alliés.",
 opts:[
@@ -6613,12 +6622,39 @@ opts:[
    why:"Tu as encaissé une guerre entière sans y peser : ça forge le corps, pas la légende.",
    r:"Une onde de choc de Barbe Blanche, qui ne te visait même pas, te sort du champ. On te récupère inconscient à trois cents mètres. Les photos du jour font le tour du monde, tu n'es sur aucune."},
   r:"Six heures dans la baie de Marine Ford. Barbe Blanche fend la mer d'un coup de bisento, Akainu traverse un mur de glace. Une photo de ce jour-là montre ton visage au milieu du champ."},
- {t:"Viser l'échafaud, et rien d'autre", tag:"Calcul", ineed:"pirate|revo", eff:{ruse:18, renom:12, combat:5, obs:-7, vol:-4}, f:'opportuniste',
-  why:"Pendant que deux armées se regardent, personne ne surveille les clefs des menottes.",
-  r:"Tu laisses la Marine et Barbe Blanche s'épuiser cinq heures, puis tu montes par l'arrière de l'estrade pendant que tout le monde regarde ailleurs. Tsuru retient ton nom.",
-  fail:{p:.33, on:'ruse', eff:{ruse:7, renom:-8},
-   why:"Un angle libre pendant cinq heures dans une bataille pareille, c'est une invitation.",
-   r:"L'escalier arrière était surveillé par Kizaru depuis le début, et il n'était pas pressé. Tu redescends sans rien, avec une réputation de charognard qui te précède."}},
+ /* MARINEFORD NE DECIDAIT RIEN. Les quatre options disaient toutes « j'etais
+    la » : entrer au premier rang, viser l'echafaud, sortir les civils, tenir
+    la ligne. Aucune ne touchait a la seule question de cette journee, qui est
+    de savoir si Ace meurt. Enrick le 24 aout : « il faudrait rendre plus
+    interessants les choix de Marineford ».
+    Deux drapeaux sortent maintenant de cette carte, ace_sauve et ace_execute,
+    et ils se lisent au palmares. Chaque camp a son propre dilemme : les
+    pirates et les revolutionnaires peuvent le decrocher ou mourir a sa place,
+    la Marine et le Gouvernement peuvent refuser le signal ou le donner. */
+ /* LA MARINE AUSSI DOIT POUVOIR LE FAIRE DESCENDRE. Sans cette option, la
+    carte de la Marine n'avait aucune issue ou le condamne survit : mesure sur
+    400 carrieres, zero « sauve » cote Marine contre trente cote pirate. Un
+    officier qui ouvre les menottes lui-meme, c'est Marineford, et ca coute
+    tout. */
+ {t:"Ouvrir les menottes toi-même et disparaître dans la foule", tag:"Trahison", d:1,
+  eff:{vol:20, ruse:15, obs:9, renom:-18}, f:'place_sauve',
+  why:"Un officier qui délivre un condamné devant l'état-major au complet ne redevient jamais officier.",
+  r:"Tu montes par l'escalier de service avec le trousseau réglementaire, parce que personne ne regarde un uniforme. Les menottes tombent avant le signal. Tu redescends du côté de la foule et tu n'y remontes pas.",
+  die:{p:.22, t:"Le trousseau était le bon, l'escalier aussi. Le sous-officier posté en haut te connaissait de vue et il a mis une seconde de trop à comprendre, puis plus rien du tout."},
+  fail:{p:.34, on:'ruse', eff:{vol:8, renom:-20}, f:'place_perdue',
+   why:"Un uniforme protège jusqu'à l'instant où quelqu'un compte les trousseaux.",
+   r:"On te prend la main sur la serrure. On ne te fusille pas, on fait mieux : on te laisse à ton poste et on donne le signal pendant qu'on te tient."}},
+ {t:"Refuser de donner le signal de l'exécution", tag:"L'ordre", ineed:"marine|gm",
+  eff:{vol:18, ruse:6, renom:-12, arm:-5}, f:'integre',
+  why:"Un officier qui refuse devant l'état-major au complet ne se rattrape pas ensuite.",
+  r:"Sengoku te regarde longtemps. Il ne te fait pas arrêter, ce qui est pire : il donne le signal à quelqu'un d'autre devant toi. Tu restes en service et tu ne commanderas plus jamais rien qui compte.",
+  fail:{p:.28, on:'vol', eff:{vol:6, renom:-14},
+   why:"Refuser devant tout le monde et refuser jusqu'au bout ne sont pas la même chose.",
+   r:"Tu refuses, puis on te le redemande une seconde fois, calmement, et ta main bouge avant ta réponse. Personne n'en parle. Toi non plus."}},
+ {t:"Donner le signal toi-même", tag:"Exécution", ineed:"marine|gm",
+  eff:{renom:20, arm:10, ruse:8, vol:-10}, f:'place_perdue',
+  why:"L'homme qui referme cette affaire-là est celui dont le nom sort du rang le lendemain matin.",
+  r:"Tu lèves la main et la place se tait. Ce qui suit dure quatre secondes et se raconte encore vingt ans plus tard. On te cite au Quartier Général avant la fin de la semaine, et deux de tes hommes demandent leur mutation le mois suivant."},
  {t:"Sortir de la baie ceux qui vont mourir pour rien", tag:"Humain", d:1, eff:{vol:16, renom:14, obs:8},
   why:"Sortir deux cents personnes d'un champ de bataille ne rapporte ni prime ni titre.",
   die:{p:.14, t:"Tu couvrais la retraite quand le mur de glace a cédé. Deux cents personnes te doivent d'être vivantes et aucune ne pourra te le dire."},
@@ -6634,6 +6670,94 @@ opts:[
    why:"Une guerre de ce format n'attend pas qu'on soit prêt.",
    r:"La ligne cède à l'endroit exact où tu te tenais. On te retrouve deux heures plus tard, vivant, et personne ne t'en parle jamais. Toi non plus."},
   r:"Six heures au poste, sans reculer d'un pas. Tu ne décides rien de ce qui se passe ce jour-là, et pourtant l'état-major saura exactement où tu étais."}
+]});
+
+E({id:'a4_guerre_pir', gr:'guerre', act:4, scene:'marineford', w:18, dt:1, ineed:"pirate",
+kicker:"La place d'exécution", title:"Un des tiens est sur l'estrade",
+text:"Ils l'ont pris il y a trois semaines dans un port que tu croyais sûr. Le Gouvernement a annoncé l'exécution publique à Marineford, à midi, et il l'a annoncée assez fort pour que tu l'entendes de l'autre bout du monde.<br><br>Ce n'est pas un jugement, c'est un appel. Tout le monde sait à qui.",
+opts:[
+ {t:"Entrer dans la baie avec tout ce que tu as", tag:"Tout ou rien", d:1,
+  eff:{combat:17, arm:12, renom:26, vol:11}, bounty:2.0, flotteLoss:2, f:'place_sauve',
+  why:"Amener sa flotte entière sous les canons du Quartier Général est le genre de décision qui se raconte, quel qu'en soit le prix.",
+  r:"Tu entres par la passe nord sans ralentir. Tu perds des coques et des hommes que tu connaissais par leur prénom, et tu ressors avec celui que tu étais venu chercher. Le monde apprend ton nom ce jour-là et ne l'oublie plus.",
+  die:{p:.24, t:"La baie était fermée avant que tu y entres. On ne retrouve ni ton navire, ni toi, et le condamné est exécuté à l'heure prévue."},
+  fail:{p:.40, on:'combat', eff:{combat:8, vol:9, renom:-8}, flotteLoss:3, f:'place_perdue',
+   why:"Une flotte entière ne suffit pas contre trois Amiraux et cent navires si on arrive par où ils attendent.",
+   r:"Tu perces la première ligne et tu t'arrêtes sur la deuxième. On te tire en arrière par la manche, et de la passerelle tu vois midi arriver sans pouvoir rien y faire."}},
+ {t:"Y aller seul, sans un seul des tiens", tag:"Seul", d:1,
+  eff:{vol:21, ruse:13, obs:10, renom:16}, f:'place_sauve',
+  why:"Personne d'autre ne meurt pour une décision qui n'appartient qu'à toi.",
+  r:"Tu entres par l'eau, de nuit, deux heures avant l'heure. Tu ne croises personne parce que personne n'imagine qu'on vienne seul. Vous ressortez à deux et ton équipage apprend l'histoire par le journal.",
+  die:{p:.28, t:"Seul dans cette baie, il n'y a personne pour te ramasser. Ton équipage attend trois semaines au point de rendez-vous avant de reprendre la mer."},
+  fail:{p:.36, on:'ruse', eff:{vol:9, obs:6, renom:-9}, f:'place_perdue',
+   why:"Entrer seul demande de ressortir seul, et la sortie n'était pas où tu l'avais laissée.",
+   r:"Tu arrives jusqu'à l'estrade et tu n'arrives pas jusqu'aux menottes. On te sort de la baie par la mer, vivant, sans lui."}},
+ {t:"Payer, menacer, retourner un gardien", tag:"Par en dessous",
+  eff:{ruse:19, obs:11, renom:-6}, f:'place_sauve',
+  why:"Une exécution publique se prépare pendant trois semaines, et trois semaines laissent le temps d'acheter beaucoup de gens.",
+  r:"Un garde d'Impel Down avait une dette et une fille malade. Le transfert part avec une heure d'avance, par un couloir qui n'existe pas sur les plans. Personne ne se bat, personne ne le saura, et il est vivant.",
+  fail:{p:.34, on:'ruse', eff:{ruse:8, renom:-10}, f:'place_perdue',
+   why:"Un homme qu'on achète peut être racheté plus cher par ceux qui ont plus d'argent que toi.",
+   r:"Ton garde a pris ton argent et il a rendu compte le soir même. Ils changent l'heure sans prévenir, et tu apprends que c'est fait par un cri dans la foule."}},
+ {t:"Ne pas venir", tag:"Le calcul", eff:{ruse:12, obs:9, vol:-14, renom:-11}, f:'place_absent',
+  why:"Refuser un appel de cette taille sauve tout le monde sauf un, et ce que ça coûte ne se paie pas en hommes.",
+  r:"Tu tiens ton équipage à l'ancre pendant trois jours, à portée de journal. À midi tu es debout sur le pont, personne ne dit rien, et personne ne te regarde. Vous êtes tous vivants et il manque quelqu'un à table."}
+]});
+
+E({id:'a4_guerre_revo', gr:'guerre', act:4, scene:'marineford', w:18, dt:1, ineed:"revo",
+kicker:"La place d'exécution", title:"L'appât",
+text:"Ils ont pris le responsable de ta cellule et ils ont annoncé son exécution publique à Marineford. Ils ont aussi annoncé son grade, son nom de guerre et le nom de son armée.<br><br>Ce n'est pas lui qu'ils veulent. Ils veulent voir qui viendra, et tout le monde dans l'organisation le sait.",
+opts:[
+ {t:"Venir quand même, sous le pavillon", tag:"Assumer", d:1,
+  eff:{vol:20, combat:12, renom:24, ruse:-8}, f:'place_sauve',
+  why:"Se montrer là où on vous attend prouve à ceux qui suivent qu'on ne les abandonne jamais, et le prouve devant le monde entier.",
+  r:"Tu entres par la place, à découvert, sous le drapeau. Ils t'attendaient et ils n'attendaient pas ça. Vous ressortez à deux, et le lendemain trois cellules qui hésitaient depuis un an se déclarent.",
+  die:{p:.26, t:"Ils t'attendaient exactement là où tu es entré. L'organisation apprend deux noms le même jour, et elle n'en remplace qu'un."},
+  fail:{p:.38, on:'combat', eff:{vol:10, renom:-8}, f:'place_perdue',
+   why:"Un piège annoncé reste un piège, et le courage n'en désarme aucun.",
+   r:"Tu arrives à trente mètres de l'estrade. Trente mètres, c'est le double de ce qu'ils avaient prévu, et c'est vingt de trop pour toi."}},
+ {t:"Envoyer quelqu'un que personne ne connaît", tag:"L'inconnu",
+  eff:{ruse:20, obs:12, vol:-9, renom:-5}, f:'place_sauve',
+  why:"Une organisation qui ne repose sur aucun visage peut envoyer n'importe lequel de ses visages.",
+  r:"Une femme de quarante ans, jamais fichée, traverse la place avec un panier. Personne ne la regarde deux fois. Le transfert se fait dans le couloir de service et l'estrade est vide à midi.",
+  fail:{p:.32, on:'ruse', eff:{ruse:8, renom:-7}, f:'place_perdue',
+   why:"Envoyer quelqu'un qui n'a jamais fait ça, c'est lui demander de ne pas trembler devant Sengoku.",
+   r:"Elle a tremblé au dernier contrôle et un sous-officier a trouvé ça intéressant. Elle ressort, lui non, et tu as maintenant deux personnes à sortir au lieu d'une."}},
+ {t:"Le laisser mourir et le rendre immense", tag:"Le martyr", d:1,
+  eff:{renom:22, ruse:14, vol:-16, obs:6}, f:'place_perdue',
+  why:"Un mort qu'on met en affiche recrute plus qu'un vivant, et ceux qui décident ça ne dorment plus très bien ensuite.",
+  r:"Tu ne viens pas. Tu fais imprimer son visage à quarante mille exemplaires avant midi, et le lendemain il est sur tous les murs des quatre mers. Le Gouvernement a créé le symbole qu'il voulait éteindre.",
+  die:{p:.09, t:"Ils avaient prévu ça aussi. La presse qui imprimait ses affiches saute la nuit suivante, et tu étais dedans."}},
+ {t:"Ne pas venir, et ne rien en faire", tag:"Le silence", eff:{ruse:10, obs:8, vol:-13, renom:-14}, f:'place_absent',
+  why:"Ne pas transformer un mort en outil est un scrupule que l'organisation ne comprend pas.",
+  r:"Tu ne viens pas et tu n'imprimes rien. À midi c'est fini, et ça reste une exécution parmi d'autres. Ton état-major met six mois à te reparler normalement."}
+]});
+
+E({id:'a4_guerre_gm', gr:'guerre', act:4, scene:'marineford', w:18, dt:1, ineed:"gm",
+kicker:"La place d'exécution", title:"C'est toi qui as proposé la date",
+text:"Le condamné n'intéresse personne. Le rapport que tu as signé disait qu'une exécution publique, annoncée trois semaines à l'avance et assez fort, ferait venir quelqu'un de bien plus gros.<br><br>Sengoku a lu ton rapport et il a donné la date. Il est midi moins dix et la baie est pleine.",
+opts:[
+ {t:"Laisser courir jusqu'au bout", tag:"Le plan", d:1,
+  eff:{ruse:19, obs:14, renom:16, vol:-8}, f:'place_perdue',
+  why:"Un plan qu'on interrompt à mi-course ne prouve rien, et celui-ci n'a qu'une seule occasion de fonctionner.",
+  r:"Ils viennent. Ils viennent tous, exactement comme tu l'avais écrit, et la baie se referme. Le condamné meurt à l'heure prévue, ce qui n'a jamais été le sujet. Ton rapport circule au-dessus de ton grade.",
+  die:{p:.16, t:"Ils sont venus plus nombreux que ton rapport ne le prévoyait. Le Quartier Général tient la baie, et on retrouve ton corps du mauvais côté de la ligne."},
+  fail:{p:.35, on:'obs', eff:{obs:9, renom:-12},
+   why:"Un appât fonctionne exactement une fois, et seulement s'il ne sent pas l'appât.",
+   r:"Personne ne vient. La place regarde une exécution ordinaire pendant quatre secondes, puis se vide. Ton nom reste attaché à trois semaines de préparatifs pour rien."}},
+ {t:"Faire annuler avant midi", tag:"Le retrait", eff:{vol:15, ruse:9, renom:-14}, f:'place_sauve',
+  why:"Retirer soi-même un dossier qu'on a monté et signé se remarque plus haut que n'importe quelle réussite.",
+  r:"Tu montes au sixième étage avec le dossier sous le bras et tu dis que le renseignement était mauvais. Ce n'est pas vrai et personne n'est dupe. Le transfert repart pour Impel Down, vivant, et on ne te confie plus de dossier de ce format.",
+  fail:{p:.30, on:'ruse', eff:{renom:-16, vol:6}, f:'place_perdue',
+   why:"On n'arrête pas à midi moins dix une machine qu'on a mise en marche trois semaines plus tôt.",
+   r:"Le sixième étage t'écoute poliment et ne bouge pas. Tu redescends sur la place au moment exact où le signal tombe, et tu regardes ce que tu as organisé."}},
+ {t:"Changer de cible en cours de route", tag:"Le second dossier", d:1,
+  eff:{ruse:22, obs:12, renom:12, vol:-10}, f:'place_perdue',
+  why:"Deux noms sur la même estrade doublent ce qu'on peut en tirer, et doublent aussi ce qui peut mal tourner.",
+  r:"Tu fais ajouter un second nom à l'annonce, deux heures avant. Celui-là fait venir quelqu'un que personne n'attendait, et ce quelqu'un-là repart menotté. On te cite deux fois dans le même rapport.",
+  fail:{p:.38, on:'ruse', eff:{ruse:8, renom:-13},
+   why:"Modifier une annonce publique deux heures avant l'heure laisse une trace signée.",
+   r:"L'ajout passe par trois bureaux et l'un des trois prévient l'intéressé. Personne ne vient, et la modification porte ta signature au bas de la page."}}
 ]});
 
 E({id:'a4_guerre_bigmom', pic:'c_bigmom', gr:'guerre', act:4, scene:'marineford', w:0, ineed:"jamais", dt:1,
@@ -13374,6 +13498,7 @@ function renderManager(){
      Vide, le navire, le pavillon transmis, le serment tenu, le refus aux Cinq
      Doyens, le Buster Call. Elles existaient toutes a l'ecran de fin. */
   var FAITS=[
+    ['place_sauve',   "A fait descendre le condamné de Marineford"],
     ['bat_empereur',  "A battu un Empereur"],
     ['arme_antique',  "Détient une arme antique"],
     ['detruit_arme',  "A détruit une arme antique"],
@@ -16020,6 +16145,15 @@ function showEnd(){
   ph += oui('passation', 'Pavillon transmis');
 
   /* ce qu'on a tenu quand ca coutait */
+  /* MARINEFORD LAISSE UNE TRACE. Les deux drapeaux poses par a4_guerre se
+     lisent ici : c'est le seul endroit du jeu ou le joueur decide du sort de
+     quelqu'un d'autre, et ca doit se relire a la fin. */
+  if(S.f.place_sauve || S.f.place_perdue || S.f.place_absent)
+    ph += lp("La place d'exécution de Marineford",
+             S.f.place_sauve  ? 'il en est descendu vivant'
+           : S.f.place_absent ? 'tu n\'es pas venu'
+           :                    'il est mort à midi',
+             !!S.f.place_sauve);
   ph += sec('Ce que tu as tenu');
   ph += oui('integre', "Jamais plié devant un Dragon Céleste");
   ph += oui('serment', 'Serment tenu jusqu\'au bout');
