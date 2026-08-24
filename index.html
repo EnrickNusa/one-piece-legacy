@@ -2926,14 +2926,26 @@ var ADV = [
  m:"Il n'a pas voulu ça. Ça arrive quand même, à cette hauteur-là.",
  f:"Tu rends les armes avant que ça tourne mal. Il hoche la tête, comme si c'était la bonne réponse."},
 
-{id:'c_aokiji', nat:'marine', imm:'logia', n:"L'Amiral Aokiji", niv:73, sc:'water7', only:'pirate|revo', pr:3.4,
+/* KUZAN N'EST PLUS UN AMIRAL, ET AOKIJI EST SON ANCIEN NOM DE CODE.
+   Il etait range dans les Amiraux et affiche « L'Amiral Aokiji ». Il a perdu
+   contre Akainu a Punk Hazard, quitte la Marine, et il est aujourd'hui l'un
+   des DIX CAPITAINES TITANESQUES de Barbe Noire, capitaine du dixieme navire.
+   Enrick le 24 aout : « passe-le en pirate de Barbe Noire ». Verifie avant
+   de le deplacer, ce n'etait pas de memoire.
+   Son nom de code d'Amiral disparait : dans l'oeuvre, un Amiral qui part
+   reprend son vrai nom. Sa scene passe de Water Seven au Nouveau Monde, et il
+   n'est plus reserve aux pirates et aux revolutionnaires : la Marine chasse
+   un des siens qui est parti, et c'est meme le seul qui l'ait fait.
+   L'identifiant c_aokiji ne bouge PAS : les drapeaux bat_c_aokiji et le
+   portrait c_aokiji.jpg en dependent. */
+{id:'c_aokiji', nat:'pirate', imm:'logia', n:"Kuzan, l'ancien Amiral", niv:73, sc:'newworld', pr:3.4,
  xf:"Hie Hie no Mi",
- k:"Un Amiral qui s'est déplacé à vélo",
- i:"Il est arrivé en dormant sur une bicyclette de mer. Il bâille, il traîne, il a l'air de s'en moquer, et il peut geler l'océan sur des kilomètres.<br><br>La nonchalance est réelle. La puissance aussi.",
+ k:"Le dixième navire de Barbe Noire",
+ i:"Il a porté le manteau blanc pendant vingt ans, il l'a perdu contre Akainu, et il est parti sans rien dire à personne.<br><br>On l'a retrouvé au bras de Barbe Noire, qui lui a offert la seule chose que la Marine ne lui donnait plus : le droit de choisir. Il bâille toujours autant. Il gèle toujours l'océan sur des kilomètres.",
  s:["La mer gèle sous ta coque en trois secondes, sur huit cents mètres.",
     "Il te touche l'épaule du bout des doigts et ton bras devient blanc.",
     "Il soupire, s'excuse presque, et arrête de retenir ses coups."],
- w:"Il finit par s'asseoir dans la neige qu'il a faite et par dire que la justice mal placée fait plus de dégâts que les pirates. Un Amiral vient de perdre, et le monde le saura.",
+ w:"Il finit par s'asseoir dans la neige qu'il a faite. Il dit qu'il n'a pas changé de justice, seulement de pavillon, et que personne ne l'a cru non plus la première fois. Un ancien Amiral vient de perdre, et le monde le saura.",
  l:"Il gèle ce qu'il faut pour que tu ne puisses plus rien faire, et il te laisse sur la glace sans t'achever. Il n'avait pas envie.",
  m:"Le froid ne prévient pas et ne fait pas mal longtemps.",
  f:"Il ne te poursuit pas. Il t'a laissé partir et vous le savez tous les deux."},
@@ -3759,6 +3771,19 @@ function cbManche(){
      derniers dans le reste : la variete tient, l'impasse disparait. */
   var ms = poss.slice(0, Math.min(2, poss.length)), reste = poss.slice(2);
   while(ms.length < 4 && reste.length) ms.push(reste.splice(ri(reste.length),1)[0]);
+  /* LE FLUIDE DES ROIS NE PASSE PAS PAR LE TIRAGE AU SORT.
+     Mesure du 24 aout, 250 carrieres : 51 % de ceux qui l'ont ne se le voient
+     JAMAIS proposer de toute leur carriere, et il n'apparaissait que dans 24 %
+     des manches jouees par un porteur. Un homme sur plusieurs millions nait
+     avec, et une fois sur deux le jeu ne lui laissait jamais l'utiliser.
+     Il garde TOUTES ses gardes : la garde GROS le reserve aux adversaires de
+     niveau 46 et plus, les immunites le bloquent, et il ne sert qu'une fois par
+     combat. Mais une fois ces gardes passees, il ne repasse plus par le tirage :
+     il prend la place du dernier tire au hasard. */
+  var iRois = -1, dansMs = false, z;
+  for(z=0;z<poss.length;z++) if(poss[z].id === 'rois') iRois = z;
+  for(z=0;z<ms.length;z++)   if(ms[z].id === 'rois') dansMs = true;
+  if(iRois >= 0 && !dansMs && ms.length) ms[ms.length-1] = poss[iRois];
   for(i=ms.length-1;i>0;i--){ var j2=ri(i+1), tmp=ms[i]; ms[i]=ms[j2]; ms[j2]=tmp; }
 
   var best = ms[0];
@@ -14624,8 +14649,11 @@ function hakiFin(k){
    le verifie et doit rester a zero. */
 var CORPS = [
   ['Empereurs',                        ['c_teach','c_bigmom','c_luffy','c_shanks','c_kaidou','c_wb']],
-  ['Amiraux',                          ['c_aokiji','c_fujitora','c_kizaru','c_ryokugyu','c_akainu','c_sengoku']],
-  ["Commandants d'Empereur",           ['c_kata','c_marco','c_jack','c_yasopp','c_king','c_beckman','c_augur','c_shiryu']],
+  ['Amiraux',                          ['c_fujitora','c_kizaru','c_ryokugyu','c_akainu','c_sengoku']],
+  /* Kuzan est le dixieme des Capitaines Titanesques de Barbe Noire : il est
+     range avec les commandants d'Empereur, pas avec les Amiraux qu'il a
+     quittes. Voir la fiche c_aokiji dans combat.js. */
+  ["Commandants d'Empereur",           ['c_kata','c_marco','c_jack','c_yasopp','c_king','c_beckman','c_augur','c_shiryu','c_aokiji']],
   ['Grands Corsaires',                 ['c_croco','c_doffy','c_moria','c_mihawk']],
   ['Hauts gradés de la Marine',        ['c_garp','c_momonga','c_tsuru','c_smoker']],
   ['Chevaliers Divins et Cinq Doyens', ['c_sommers','c_gunko','c_shamrock','c_doyens']],
