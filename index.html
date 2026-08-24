@@ -260,6 +260,9 @@ b,strong{font-weight:800}
    non ». Les deux issues se lisent maintenant de la meme facon. */
 .res.good,.res.ok{border-left-color:var(--ok);background:rgba(223,246,234,.8)}
 .res.bad{border-left-color:var(--bad);background:rgba(255,236,232,.75)}
+/* « note » : la meme forme, mais ce bloc RACONTE, il ne juge pas. Fond neutre,
+   et son filet de gauche vient de la ligne qui le pose. */
+.res.note{background:rgba(255,255,255,.55)}
 @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 /* Le combat ecrit « deltas » avec un s, le reste du jeu « delta ». Seule la
    seconde avait une regle : les pastilles de fin de combat s'entassaient sans
@@ -1368,14 +1371,14 @@ h1,h2,h3{text-wrap:balance}
     </div>
 
     <div class="sheet" style="margin-top:12px">
-      <details class="repli"><summary>Le compte de ta carrière</summary>
-      <div class="lrs" id="end_nums"></div></details>
-    </div>
-
-    <div class="sheet" style="margin-top:12px">
       <h3>Les grands titres</h3>
       <div class="lrs" id="end_grands"></div>
       <div class="palm-note" id="end_manque"></div>
+    </div>
+
+    <div class="sheet" style="margin-top:12px">
+      <details class="repli"><summary>Le compte de ta carrière</summary>
+      <div class="lrs" id="end_nums"></div></details>
     </div>
 
     <div class="sheet" style="margin-top:12px">
@@ -14168,7 +14171,7 @@ function revealPot(){
     'Tout ce que tu gagneras désormais est '+(mul>=0?'augmenté de <b>'+mul+' %</b>':'réduit de <b>'+(-mul)+' %</b>')+
     ', et tes risques de rater ou de mourir suivent le même sens.</p>';
   if(S.roisInne){
-    h += '<div class="res good" style="border-left-color:#7a1fb0"><b>Et il y a autre chose.</b><br>'+
+    h += '<div class="res note" style="border-left-color:#7a1fb0"><b>Et il y a autre chose.</b><br>'+
       "Un homme sur plusieurs millions naît avec le <b>Haki des Rois</b>. Ça ne s'apprend pas, ça se dompte. "+
       "Rayleigh dirait que c'est la seule chose qu'un entraînement ne donne jamais. Ça sortira un jour, au pire moment.</div>";
   }
@@ -15171,7 +15174,16 @@ function showEnd(){
     txt = "<p>Tu n'as pas eu ce que tu étais venu chercher. Tu as vu des îles que personne ne verra, et tu es encore là pour le raconter. Beaucoup de ceux qui sont partis en même temps que toi ne peuvent plus rien raconter du tout.</p>";
   }
   var ft=finType();
-  if(ft) txt += '<div class="res good" style="border-left-color:var(--red2)"><b>'+esc(ft.v.n)+'.</b><br>'+esc(ft.v.t)+'</div>';
+  /* LE VERT DIT « REUSSI », ET RIEN D'AUTRE.
+     Ces blocs racontaient la fin de carriere et le titre mondial : ils
+     portaient « res good » pour la mise en page, donc ils ont pris le fond
+     vert ajoute ce matin pour l'ecran du Trone Vide, avec un filet rouge ou
+     violet par-dessus. Un fond vert et un filet rouge sur le meme bloc ne
+     veulent rien dire. Enrick le 24 aout : « je n'aime pas la partie verte de
+     la carte de fin, je ne suis pas sur de ce qu'elle apporte ».
+     « res note » garde la forme et rend le fond neutre. Le vert reste sur le
+     reve accompli, ou il dit quelque chose. */
+  if(ft) txt += '<div class="res note" style="border-left-color:var(--red2)"><b>'+esc(ft.v.n)+'.</b><br>'+esc(ft.v.t)+'</div>';
   if(S.reve){
     var dt = reveDetail();
     txt += '<div class="res '+(rv?'good':'bad')+'" style="border-left-color:'+(rv?'#01542c':'#911108')+'">'+
@@ -15180,7 +15192,7 @@ function showEnd(){
       (rv ? "<b>C'est fait.</b> Ce n'était le rêve de personne d'autre et personne d'autre ne pouvait le faire à ta place."
           : "<b>Tu ne l'as pas fait.</b> C'est la seule chose de ce bilan que tu ne partageras avec personne.")+'</div>';
   }
-  if(sp) txt += '<div class="res good" style="border-left-color:#7a1fb0"><b>'+esc(S.spec.titre)+'.</b><br>Le World Economic Journal a titré dessus sur six colonnes. Ce titre ne dépend d\'aucun grade et personne ne peut te le retirer.</div>';
+  if(sp) txt += '<div class="res note" style="border-left-color:#7a1fb0"><b>'+esc(S.spec.titre)+'.</b><br>Le World Economic Journal a titré dessus sur six colonnes. Ce titre ne dépend d\'aucun grade et personne ne peut te le retirer.</div>';
   $('end_text').innerHTML = txt;
 
   /* traits */
