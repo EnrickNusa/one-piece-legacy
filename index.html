@@ -1700,7 +1700,11 @@ var CAMPS = [
    eff:{vol:6, renom:4}},
   {id:'marine', n:"Marine", court:"Marine",
    d:"L'uniforme, la discipline, et une Justice dont on ne choisit pas toujours la définition.",
-   quete:"Abolir la piraterie", qid:'mernette',
+   /* « Abolir la piraterie » promettait le monde et le texte livrait une mer :
+      « Tu as rendu une mer entiere a ceux qui y vivent ». La quete tombe a
+      l'acte 5 et il reste huit chapitres a jouer apres, pendant lesquels on
+      croise des pirates. Le titre mentait, pas le moment. */
+   quete:"Rendre une mer entière aux siens", qid:'mernette',
    avant:"Amiral", sommet:"Amiral en chef",
    sd:"Rendre une mer entière à ceux qui y vivent, puis prendre le fauteuil d'Amiral en chef.",
    fd:"Tu as rendu une mer entière à ceux qui y vivent. Les pavillons noirs n'y remontent plus.",
@@ -1708,7 +1712,9 @@ var CAMPS = [
    eff:{arm:6, ruse:4}},
   {id:'revo', n:"Armée Révolutionnaire", court:"Révolutionnaire",
    d:"Le Gouvernement Mondial tient huit cents ans de mensonge. Dragon veut le faire tomber.",
-   quete:"Faire tomber les Dragons Célestes", qid:'dragons',
+   /* Meme defaut : le monde ne tombe pas, on abat ceux d'en haut devant lui.
+      Le sd et le fd le disaient deja, seul le titre promettait la chute. */
+   quete:"Abattre ceux d'en haut devant le monde", qid:'dragons',
    avant:"Chef d'état-major", sommet:"Chef de l'Armée Révolutionnaire",
    sd:"Abattre ceux d'en haut devant le monde entier, puis prendre le siège de Dragon.",
    fd:"Tu as abattu ceux d'en haut devant le monde entier, et le monde a regardé sans qu'on puisse le lui interdire.",
@@ -12830,13 +12836,18 @@ function detecteMoments(av){
   if(ln) M.push(ln);
   var nt = majTraits();
   for(var q=0;q<nt.length;q++) M.push({t:nt[q].n, c:'trait', x:nt[q].x});
-  /* Accomplir son reve en pleine partie sans que rien ne le dise, c'est le
-     rater. On l'annonce une seule fois, au moment exact ou il tombe. */
-  if(S.reve && !S.f.reve_atteint && reveResult()){
-    S.f.reve_atteint = true;
-    M.push({t:"Ton rêve", c:'reve',
-      x:"<b>" + esc(S.reve.n) + ".</b><br><br>Tu l'as dit à dix-sept ans devant des gens qui ont haussé les épaules. Personne ne s'en souvenait, sauf toi.<br><br>C'est fait. Le reste de ta carrière, tu le joues pour autre chose."});
-  }
+  /* LE REVE NE S'ANNONCE PLUS EN PARTIE. Retire le 24 aout.
+     Le dossier posait le principe depuis le debut : « le reve n'est pas une
+     quete a cocher pendant la partie, c'est un etat juge une seule fois, a la
+     fin ». Une carte avait ete ajoutee par-dessus, avec un argument qui se
+     defend : accomplir son reve sans que rien ne le dise, c'est le rater.
+     La mesure a tranche, 250 carrieres : le reve tombait a mi-parcours et il
+     restait 16 chapitres a jouer apres, record 42 sur une carriere de 45. La
+     seconde moitie du jeu se jouait donc en sachant, sans plus rien en jeu.
+     Et un etat annonce se fige : un reve qui redevient faux restait vrai.
+     La quete du camp, elle, garde sa carte : 8 chapitres apres, pas 16, et
+     c'est le climax reclame au playtest du 22 aout.
+     Ne pas reintroduire cette carte sans remesurer ce qui reste a jouer. */
   /* LES TROIS AXES S'ANNONCENT, CHACUN A SON TOUR.
      Le reve etait annonce, la quete du camp et le sommet de la voie ne
      l'etaient pas : on trouvait le One Piece et rien ne le disait, le jeu
@@ -12962,7 +12973,7 @@ function montreMoment(){
      de l'annonce du potentiel rang S, qui, elle, marque le coup.
      Trois moments seulement portent le violet : le reve, la quete du camp,
      le sommet de la voie. Si tout est exceptionnel, plus rien ne l'est. */
-  var SACRES = {reve:1, quete:1, voie:1};
+  var SACRES = {quete:1, voie:1};
   var box = $('s_moment').querySelector('.sheet');
   if(box) box.className = 'sheet ev fadein moment' + (SACRES[m.c] ? ' sacre' : '');
   $('mo_kick').textContent = SACRES[m.c]
@@ -13189,8 +13200,8 @@ function manchette(av){
   /* d'abord les faits marquants, ils passent avant tout */
   if(campResult()===2)
     return q(N + ' est arrivé où personne ne l\'attendait. Le monde va devoir réécrire ses listes.');
-  if(S.f.reve_atteint && !S.f.manch_reve){ S.f.manch_reve = true;
-    return q('Ce que ' + N + ' avait annoncé à dix-sept ans vient d\'arriver.'); }
+  /* LA MANCHETTE DISAIT LE REVE, ELLE AUSSI. Retirer la carte sans retirer
+     cette ligne aurait juste deplace la revelation dans le journal. */
   if(vic >= 3)
     return q('Trois noms sont tombés devant ' + N + ' dans ' + z + '.');
   if(pAp >= 1000000000 && pAv < 1000000000)
