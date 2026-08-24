@@ -208,6 +208,33 @@ b,strong{font-weight:800}
 .repli[open] > summary::after{transform:rotate(180deg)}
 .repli > summary .cpt{font-family:var(--body);font-size:12.5px;font-weight:700;color:var(--faint)}
 .st .v{color:var(--ink2);font-size:15px;font-variant-numeric:tabular-nums}
+/* LES STATISTIQUES FINALES EN JAUGES, sur le modele du panneau de Haki en
+   partie. Deux raisons : Enrick les trouve plus lisibles, et le nom le plus
+   long du jeu, « Haki de l'Observation », ne tenait pas sur la meme ligne que
+   son chiffre dans une colonne de la grille a deux colonnes. Le nom prend sa
+   ligne, la barre la suivante, et plus rien ne deborde. */
+.stg{display:grid;grid-template-columns:1fr auto;gap:3px 10px;align-items:baseline;
+  padding:9px 0;border-bottom:1px solid rgba(150,178,192,.2)}
+.stg:last-child{border-bottom:none}
+.stg .sn{font-size:13px;font-weight:800;letter-spacing:.02em;color:var(--ink2);min-width:0}
+.stg .sv{font-family:var(--disp);font-size:16px;font-weight:700;white-space:nowrap;
+  font-variant-numeric:tabular-nums;text-align:right}
+.stg .sv em{font-style:normal;font-family:var(--body);font-size:11.5px;font-weight:700;
+  color:var(--faint);margin-left:3px}
+.stg .sb{grid-column:1 / -1;height:7px;border-radius:99px;
+  background:rgba(150,178,192,.24);overflow:hidden;margin-top:3px}
+.stg .sb i{display:block;height:100%;border-radius:99px;transition:width .5s;
+  background:linear-gradient(90deg,#0d5b7d,#4aa3c9)}
+.stg .sv.p3{color:#186b43}
+.stg .sv.p2{color:#8a6410}
+.stg .sv.p1{color:#a3231a}
+.stg.p3 .sb i,.stg .sv.p3 ~ .sb i{background:linear-gradient(90deg,#186b43,#4bbd82)}
+/* les Haki gardent leur violet, le Haki des Rois son rouge */
+.stg.hk .sb i{background:linear-gradient(90deg,#5b2a86,#a06ad0)}
+.stg.hk .sv{color:#7a44b0}
+.stg.rk .sb i{background:linear-gradient(90deg,#7d1a12,#c9564a)}
+.stg.rk .sv{color:#a8231a}
+.stg.lock{opacity:.5}
 .st.hk .v{color:#7a44b0}
 .st.rk .v{color:#a8231a}
 
@@ -12269,14 +12296,41 @@ function courbeCarriere(){
     '<div class="crvf"><span>' + a0 + ' ans</span><span>' + a1 + ' ans</span></div>' +
     '</div>';
 }
+/* LES STATISTIQUES FINALES SE LISENT COMME LE PANNEAU DE JEU.
+   Demande d'Enrick le 24 aout : « a la fin de la partie le Haki doit etre
+   montre en jauge comme pendant la partie, c'est plus clair, avec le score
+   sur 100 ». Il avait aussi releve un defaut d'affichage : « Haki de
+   l'Armement » est plus long que la colonne, et le chiffre passait a la
+   ligne tout seul. Une jauge regle les deux d'un coup, le nom prend sa
+   ligne et la barre la suivante.
+
+   UNE RESERVE, ASSUMEE : les trois Haki ne sont PAS ramenes sur 100. Ils ne
+   montent pas jusque-la, chacun a son propre sommet, 60 pour l'Armement, 72
+   pour l'Observation, 58 pour les Rois. Le dossier documente deja ce piege :
+   remplir la barre sur 100 affichait « 5/5 » a cote d'une barre aux deux
+   tiers. Les Haki gardent donc leur barre sur leur sommet reel et le nom de
+   leur palier, exactement comme en partie. Les quatre autres, elles, vont
+   bien de 0 a 100. */
 function renderStats(id){
   var h='';
   for(var i=0;i<STATDEF.length;i++){
     var k=STATDEF[i][0], v=Math.round(S.st[k]);
     if(k==='rois' && !S.roisInne && v===0) continue;
-    /* la couleur du chiffre dit le palier : plus besoin de barre */
-    var pal = v>=70 ? 'p3' : v>=40 ? 'p2' : 'p1';
-    h += '<div class="st '+STATDEF[i][2]+'"><span class="sn">'+STATDEF[i][1]+'</span><span class="v '+pal+'">'+v+'</span></div>';
+    var estHaki = (k==='arm' || k==='obs' || k==='rois');
+    var max = 100, droite = v + '<em> / 100</em>';
+    if(estHaki){
+      var H = HAKI[k], P = hakiPalier(k);
+      max = H.t[H.t.length-1][0] || 100;
+      droite = P.lock ? '<em>' + esc(P.n) + '</em>'
+             : v + '<em> · ' + esc(P.n) + ' ' + P.i + '/' + H.t.length + '</em>';
+    }
+    var pct = Math.max(0, Math.min(100, Math.round(v * 100 / max)));
+    var pal = pct>=70 ? 'p3' : pct>=40 ? 'p2' : 'p1';
+    h += '<div class="stg '+STATDEF[i][2]+(estHaki && hakiPalier(k).lock ? ' lock' : '')+'">'
+       +   '<span class="sn">'+STATDEF[i][1]+'</span>'
+       +   '<span class="sv '+pal+'">'+droite+'</span>'
+       +   '<span class="sb"><i style="width:'+pct+'%"></i></span>'
+       + '</div>';
   }
   $(id).innerHTML=h;
 }
@@ -13698,41 +13752,64 @@ function aServi(){
    Ce qui a ete corrige : avant, un reve ne s'accomplissait que si une carte
    precise etait tombee. Trois reves sur douze n'etaient JAMAIS accomplis,
    un l'etait neuf fois sur dix. */
-/* Le verdict ne dit pas seulement oui ou non : il dit CE QUI L'A DECIDE,
-   avec les chiffres de la carriere. Sans ca, le reve est une case cochee en
-   silence, et c'est exactement ce qu'on lui reprochait. */
+/* LE VERDICT RACONTE, IL NE CHIFFRE PLUS.
+   Il donnait les valeurs exactes de la carriere : « niveau 42, Volonte 44 »,
+   « au niveau 42 ». Enrick le 24 aout : « pour les reve, voie etc, le joueur
+   ne doit pas savoir les conditions necessaires, ca ne regarde que nous ».
+   Il a raison, et c'est la meme logique que le retrait des pourcentages du
+   Trone Vide : des qu'un seuil est visible, le joueur joue le seuil au lieu
+   de jouer son personnage.
+   Ce qui reste est ce qui s'est PASSE, en clair : as-tu jure a quelqu'un, le
+   peuple t'a-t-il adopte, le Gouvernement t'a-t-il chiffre. Le joueur
+   comprend ce qui a decide, sans lire le bareme.
+   Un seul chiffre survit, la prime, parce que c'est un fait public du monde
+   que le jeu affiche partout ailleurs, pas un critere cache. */
+/* Neuf des douze reves demandent aussi une STATURE, un plancher de niveau.
+   Depuis qu'on ne montre plus les chiffres, un joueur qui remplit tout sauf
+   ce plancher lisait deux phrases qui se contredisent : « Tu ne figures nulle
+   part » suivi de « Tu ne l'as pas fait ». On dit donc ce qui manque, en
+   clair et sans bareme. Les seuils vivent ici en un seul endroit, et ils
+   doivent rester d'accord avec reveResult(). */
+var REVE_STATURE = {libre:52, propres:42, blason:72, traque:51, cachent:51,
+                    plie:61, registre:64, savoir:64, sommet:58};
+function reveStature(){
+  var seuil = REVE_STATURE[S.reve && S.reve.id];
+  return seuil !== undefined && niveau() < seuil;
+}
 function reveDetail(){
   if(!S.reve) return '';
-  var f=S.f, st=S.st, n=niveau(), r=Math.round;
+  var f=S.f, st=S.st;
+  var court = reveStature()
+    ? ' Mais le monde ne t\'a jamais placé assez haut pour que ça pèse.' : '';
   switch(S.reve.id){
     case 'libre':
       return 'Tu finis ' + (S.alive===false ? 'mort' : 'vivant')
-           + ', niveau ' + r(n) + ', Volonté ' + r(st.vol)
-           + (aServi() ? ', et tu as juré à quelqu\'un en chemin.' : ', et tu n\'as jamais rien juré à personne.');
+           + (aServi() ? ', et tu as juré à quelqu\'un en chemin.'
+                       : ', et tu n\'as jamais rien juré à personne.') + court;
     case 'nom':
       return prime()>0 ? 'Le Gouvernement t\'a chiffré à ' + berry(prime()) + ' Berrys.'
                        : 'Le Gouvernement ne t\'a jamais chiffré.';
     case 'pavillon':
-      return 'Renommée ' + r(st.renom) + ', Volonté ' + r(st.vol)
-           + ((S.flotte && S.flotte.length) ? ', et ' + S.flotte.length + ' navires sous ton pavillon.' : '.');
-    case 'propres':  return (f.integre ? 'Tu es resté intègre' : 'Tu as fini par arranger des choses')
-                          + ', avec ' + (S.n.fails||0) + ' revers au dossier.';
-    case 'blason':   return (f.integre ? 'Intègre' : 'Pas toujours intègre')
-                          + ', et monté au niveau ' + r(n) + '.';
-    case 'traque':   return (S.n.wins||0) + ' victoires, ' + (f.integre ? 'sans jamais plier' : 'et quelques arrangements')
-                          + ', niveau ' + r(n) + '.';
-    case 'aime':     return (f.reputation_pop ? 'Le peuple t\'a adopté' : 'Le peuple ne t\'a jamais adopté')
-                          + ', Renommée ' + r(st.renom) + '.';
-    case 'cachent':  return f.secret_imu ? 'Tu as vu ce qu\'il y a au-dessus des Cinq Doyens, au niveau ' + r(n) + '.'
-                                         : 'Tu n\'as jamais approché la salle du Trône.';
-    case 'plie':     return (f.ennemi_gm ? 'Le Gouvernement t\'a déclaré ennemi' : 'Le Gouvernement ne t\'a jamais pris au sérieux')
-                          + ', et tu as fini au niveau ' + r(n) + '.';
-    case 'registre': return (prime()>0 ? 'Tu figures au registre pour ' + berry(prime()) + ' Berrys'
-                                       : 'Tu ne figures nulle part')
-                          + ', au niveau ' + r(n) + '.';
-    case 'savoir':   return (f.dossier ? 'Tu as ouvert un dossier interdit' : 'Aucun dossier interdit ne s\'est ouvert pour toi')
-                          + ', au niveau ' + r(n) + '.';
-    case 'sommet':   return (S.n.fails||0) + ' revers au dossier, pour un niveau ' + r(n) + '.';
+      return (S.flotte && S.flotte.length)
+           ? S.flotte.length + ' navires ont fini par naviguer sous ton pavillon.'
+           : 'Aucune flotte ne s\'est jamais rangée derrière toi.';
+    case 'propres':  return (f.integre ? 'Tu es resté intègre jusqu\'au bout.'
+                                       : 'Tu as fini par arranger des choses.') + court;
+    case 'blason':   return (f.integre ? 'Intègre, du premier jour au dernier.'
+                                       : 'Tu as plié au moins une fois, et tu sais laquelle.') + court;
+    case 'traque':   return (S.n.wins||0) + ' affrontements décisifs gagnés, '
+                          + (f.integre ? 'sans jamais plier.' : 'et quelques arrangements.') + court;
+    case 'aime':     return (f.reputation_pop ? 'Le peuple t\'a adopté.'
+                                             : 'Le peuple ne t\'a jamais adopté.');
+    case 'cachent':  return (f.secret_imu ? 'Tu as vu ce qu\'il y a au-dessus des Cinq Doyens.'
+                                          : 'Tu n\'as jamais approché la salle du Trône.') + court;
+    case 'plie':     return (f.ennemi_gm ? 'Le Gouvernement t\'a déclaré ennemi.'
+                                         : 'Le Gouvernement ne t\'a jamais pris au sérieux.') + court;
+    case 'registre': return (prime()>0 ? 'Tu figures au registre pour ' + berry(prime()) + ' Berrys.'
+                                       : 'Tu ne figures nulle part, et personne ne peut prouver que tu as existé.') + court;
+    case 'savoir':   return (f.dossier ? 'Tu as ouvert un dossier interdit.'
+                                       : 'Aucun dossier interdit ne s\'est ouvert pour toi.') + court;
+    case 'sommet':   return (S.n.fails||0) + ' revers au dossier.' + court;
   }
   return '';
 }
@@ -14334,26 +14411,36 @@ function showEnd(){
       4:"<p><b>Le Nouveau Monde t'a rendu.</b> Tu y es entré, ce que très peu peuvent dire. Il t'a laissé repartir, ce que moins de gens encore peuvent dire.</p>"
     };
     txt = MURS[S.act] || "<p>La mer t'a gardé où tu étais.</p>";
-    /* LE JOUEUR DOIT SAVOIR DE COMBIEN IL A RATE.
-       « Il te manquait du niveau » ne dit ni combien, ni ce qu'il fallait.
-       On donne les deux chiffres et l'ecart, parce qu'un echec qu'on ne peut
-       pas chiffrer ne s'apprend pas : la prochaine carriere se joue autrement
-       seulement si on sait de quoi il s'agissait. */
+    /* ON DIT DE COMBIEN, PAS COMBIEN IL FALLAIT.
+       Ce bloc affichait les deux nombres : « Il te fallait 43, tu valais 42 ».
+       C'etait un choix assume, pour qu'un echec s'apprenne. Enrick l'a
+       retourne le 24 aout : « le joueur ne doit pas savoir les conditions
+       necessaires, ca ne regarde que nous ». Il a raison, et pour la meme
+       raison que le Trone Vide : un seuil visible se joue comme un seuil.
+       On garde ce qui sert a rejouer, qui est de savoir si on est passe a un
+       cheveu ou si on en etait loin, et ce qui fait monter le niveau. On
+       retire le bareme. */
     var Zf = ACTS[S.act], mq = Math.max(1, (Zf ? Zf.sortie : 0) - niveau());
-    txt += '<div class="res bad"><b>Il te fallait ' + (Zf ? Zf.sortie : '?') +
-           ', tu valais ' + niveau() + '.</b><br>' +
+    txt += '<div class="res bad"><b>' +
+           (mq <= 4 ? 'Il t\'a manqué un cheveu.' :
+            mq <= 12 ? 'Il t\'a manqué un peu.' : 'Tu en étais encore loin.') +
+           '</b><br>' +
            (mq <= 4
-             ? 'À ' + mq + (mq > 1 ? ' points près.' : ' point près.') +
-               ' Un combat de plus, ou un seul choix joué autrement, et la porte s\'ouvrait.'
+             ? 'Un combat de plus, ou un seul choix joué autrement, et la porte s\'ouvrait.'
              /* Les poids reels de niveau() : combat 1,25, renom 1,10, arm 1,05,
                 obs 0,85, vol 0,85, ruse 0,85, rois 0,55. La premiere version de
                 ce texte affirmait que la ruse et la renommee ne comptaient pas :
                 la renommee pese plus que l'Armement. Ne jamais ecrire au joueur
                 une regle qu'on n'a pas relue dans le code. */
-             : mq + ' points manquaient. Ce qui compte le plus, dans l\'ordre : ' +
-               'le Combat, puis la Renommée, puis l\'Armement. Viennent ensuite ' +
-               'l\'Observation, la Volonté et la Ruse, à égalité. Ton équipage et ' +
-               'ton navire comptent aussi, un peu.') +
+             /* Les poids reels de niveau() : combat 1,25, renom 1,10, arm 1,05,
+                obs 0,85, vol 0,85, ruse 0,85, rois 0,55. La premiere version de
+                ce texte affirmait que la ruse et la renommee ne comptaient pas :
+                la renommee pese plus que l'Armement. Ne jamais ecrire au joueur
+                une regle qu'on n'a pas relue dans le code. */
+             : 'Ce qui fait monter ton niveau, dans l\'ordre : le Combat, puis ' +
+               'la Renommée, puis l\'Armement. Viennent ensuite l\'Observation, ' +
+               'la Volonté et la Ruse, à égalité. Ton équipage et ton navire ' +
+               'comptent aussi, un peu.') +
            '</div>';
     txt += "<p>Ce n'est pas une faute, c'est la règle : sur cent qui prennent la mer à dix-sept ans, presque aucun ne voit la dernière île.</p>";
   } else {
