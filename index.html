@@ -1390,6 +1390,11 @@ h1,h2,h3{text-wrap:balance}
     </div>
 
     <div class="sheet" style="margin-top:12px">
+      <details class="repli"><summary>Statistiques finales</summary>
+      <div class="stats" id="end_stats"></div></details>
+    </div>
+
+    <div class="sheet" style="margin-top:12px">
       <h3>Les grands titres</h3>
       <div class="lrs" id="end_grands"></div>
       <div class="palm-note" id="end_manque"></div>
@@ -1409,11 +1414,6 @@ h1,h2,h3{text-wrap:balance}
       <details class="repli" open><summary>Cote et parcours</summary>
       <div id="end_curve"></div>
       <div class="tl" id="end_tl"></div>
-    </div>
-
-    <div class="sheet" style="margin-top:12px">
-      <details class="repli"><summary>Statistiques finales</summary>
-      <div class="stats" id="end_stats"></div></details>
     </div>
 
     <div class="row ctr" style="margin-top:16px">
@@ -2752,7 +2752,7 @@ var ADV = [
 
 /* ============ LE HAUT, TROISIEME VAGUE DU 24 AOUT ============ */
 
-{id:'c_smoothie', nat:'pirate', n:"Charlotte Smoothie", niv:63, sc:'newworld', only:'marine|revo|gm|pirate', pr:3.1,
+{id:'c_smoothie', g:'f', nat:'pirate', n:"Charlotte Smoothie", niv:63, sc:'newworld', only:'marine|revo|gm|pirate', pr:3.1,
  k:"Elle essore ce qu'elle attrape",
  i:"Une des trois Douces Commandantes de Big Mom, six mètres de haut, et un Fruit qui presse n'importe quoi comme un fruit : un homme, une girafe, une île entière si on la laisse faire.<br><br>Elle ne hausse jamais la voix.",
  s:["Elle attrape un de tes hommes et le repose vide.",
@@ -2862,7 +2862,7 @@ var ADV = [
  m:"Il te salue de nouveau avant de partir. C'est la dernière chose que tu vois.",
  f:"Tu recules jusqu'au couloir et il ne te suit pas. Un mort n'est pas pressé."},
 
-{id:'c_hina', nat:'marine', only:'pirate|revo', n:"La capitaine Hina la Noire", niv:41, sc:'alabasta', pr:2.4,
+{id:'c_hina', g:'f', nat:'marine', only:'pirate|revo', n:"La capitaine Hina la Noire", niv:41, sc:'alabasta', pr:2.4,
  k:"Ce qui la touche est déjà enfermé",
  i:"Elle parle d'elle à la troisième personne, elle fume en service, et tout ce qui passe à travers son corps ressort avec des barreaux autour.<br><br>Elle ne court jamais après personne. Elle se place, et elle attend que tu passes.",
  s:["Elle avance sans se presser et se met exactement sur ta trajectoire.",
@@ -2873,7 +2873,7 @@ var ADV = [
  m:"Elle n'a pas voulu ça. Elle fera le rapport elle-même, sans arranger une virgule.",
  f:"Tu changes de rue avant de la croiser. Elle t'a vu et elle ne bouge pas : elle sait où tu vas."},
 
-{id:'c_monet', nat:'pirate', imm:'logia', n:"Monet, la harpie des neiges", niv:43, sc:'newworld', only:'marine|revo|gm|pirate', pr:2.4,
+{id:'c_monet', g:'f', nat:'pirate', imm:'logia', n:"Monet, la harpie des neiges", niv:43, sc:'newworld', only:'marine|revo|gm|pirate', pr:2.4,
  k:"Elle sourit pendant tout le combat",
  i:"Des ailes vertes, des serres, et un corps qui devient neige quand on le frappe. Elle tient les caméras de l'île et elle voit tout avant tout le monde.<br><br>Elle est parfaitement calme, y compris quand elle explique ce qu'elle va faire de toi.",
  s:["La neige monte jusqu'aux genoux en trois secondes, puis jusqu'aux hanches.",
@@ -2884,7 +2884,12 @@ var ADV = [
  m:"On ne t'a pas retrouvé sous la neige. On n'a pas beaucoup cherché non plus.",
  f:"Tu sors du périmètre glacé. Elle te regarde partir sur douze écrans à la fois."},
 
-{id:'c_blueno', nat:'pirate', n:"Blueno, le portier", niv:44, sc:'water7', only:'marine|revo|pirate', pr:2.4,
+/* LE CIPHER POL SERT LE GOUVERNEMENT, ON NE DEMANDE PAS A UN MARINE DE
+   L'ARRETER. Blueno, Kaku et Jabra etaient marques nat:'pirate' et ouverts a
+   la Marine : un officier recevait donc l'ordre d'aller cueillir deux agents
+   de sa propre administration, l'un apres l'autre. Enrick le 24 aout : « je
+   suis marine et on me demande d'arreter Blueno puis Kaku ». */
+{id:'c_blueno', nat:'gm', n:"Blueno, le portier", niv:44, sc:'water7', only:'pirate|revo', pr:2.4,
  k:"Il ouvre une porte dans l'air",
  i:"Barman de son état, agent du Cipher Pol de métier, et une porte qui s'ouvre dans le vide, dans un mur, ou dans ton dos.<br><br>Il ne parle presque pas. Il n'a pas besoin d'être là où tu regardes.",
  s:["Une porte claque derrière toi et il n'y avait pas de mur.",
@@ -2917,7 +2922,7 @@ var ADV = [
  m:"Il a fermé la boîte. Il ne l'a pas rouverte.",
  f:"Tu pars pendant qu'il parle encore. Il n'a pas remarqué tout de suite."},
 
-{id:'c_kaku', nat:'pirate', n:"Kaku, la girafe", niv:48, sc:'water7', only:'marine|revo|pirate', pr:2.6,
+{id:'c_kaku', nat:'gm', n:"Kaku, la girafe", niv:48, sc:'water7', only:'pirate|revo', pr:2.6,
  k:"Charpentier, agent, et absurde",
  i:"Il a expertisé des navires pendant cinq ans en attendant l'ordre de tuer tout le monde. Son Fruit lui a donné un cou de girafe et il en fait un usage sérieux.<br><br>Le corps est ridicule. Les coups de sabre ne le sont pas du tout.",
  s:["Son cou part dans un angle qu'aucune garde ne prévoit.",
@@ -2928,7 +2933,7 @@ var ADV = [
  m:"Il l'a fait proprement, comme il fait tout. Le rapport tient en quatre lignes.",
  f:"Tu sautes du toit. Il te regarde partir en reprenant sa taille normale."},
 
-{id:'c_jabra', nat:'pirate', n:"Jabra, le loup", niv:49, sc:'water7', only:'marine|revo|pirate', pr:2.6,
+{id:'c_jabra', nat:'gm', n:"Jabra, le loup", niv:49, sc:'water7', only:'pirate|revo', pr:2.6,
  k:"Il ment pour te faire hésiter",
  i:"Zoan loup, moustache tombante, et une habitude de raconter des histoires tristes juste avant de frapper pour que l'autre baisse sa garde.<br><br>Il déteste Lucci et il te le fera savoir même au milieu du combat.",
  s:["Il te raconte la mort de son frère. Il n'a pas de frère.",
@@ -2950,7 +2955,7 @@ var ADV = [
  m:"Au matin il ne saura pas ce qu'il a fait, et personne n'aura envie de le lui dire.",
  f:"Tu pars avant qu'il s'endorme. C'est la seule bonne fenêtre et elle est courte."},
 
-{id:'c_bonney', nat:'pirate', n:"Jewelry Bonney", niv:51, sc:'sabaody', only:'marine|revo|gm|pirate', pr:2.7,
+{id:'c_bonney', g:'f', nat:'pirate', n:"Jewelry Bonney", niv:51, sc:'sabaody', only:'marine|revo|gm|pirate', pr:2.7,
  k:"Elle te rend l'âge que tu ne veux pas",
  i:"Elle mange comme quatre, elle jure comme dix, et elle décide de l'âge des gens d'un geste. Elle a rendu vieux des hommes qui n'avaient rien demandé.<br><br>Derrière la colère il y a une histoire qu'elle ne raconte à personne, et ça se sent.",
  s:["Tes mains vieillissent de trente ans pendant que tu les regardes.",
@@ -3181,7 +3186,7 @@ var ADV = [
  m:"Il n'a pas retenu le dernier rebond. Sa bande a mis un certain temps à cesser de rire.",
  f:"Tu sors sous les rires. C'est la sortie la moins chère et la plus longue à digérer."},
 
-{id:'c_perona', nat:'pirate', n:"Perona, la princesse fantôme", niv:35, sc:'water7', only:'marine|revo|gm|pirate', pr:2.2,
+{id:'c_perona', g:'f', nat:'pirate', n:"Perona, la princesse fantôme", niv:35, sc:'water7', only:'marine|revo|gm|pirate', pr:2.2,
  k:"Elle te fait douter de toute ta vie",
  i:"Elle envoie des fantômes qui traversent le corps sans le blesser, et l'homme qu'ils traversent s'assoit par terre en énumérant tout ce qu'il vaut mieux ne pas énumérer.<br><br>Elle décide de tout ici et elle a horreur qu'on la contrarie.",
  s:["Un fantôme te traverse et tu te souviens d'un truc que tu avais rangé.",
@@ -3214,7 +3219,7 @@ var ADV = [
  m:"Tu n'as pas vu ce qui t'a tué. Le rapport parlera d'un accident dans un manoir vide.",
  f:"Tu sors en marchant à reculons, dos au mur, jusqu'à la porte. C'est long."},
 
-{id:'c_alvida', nat:'pirate', n:"Alvida à la Masse de Fer", niv:15, sc:'eastblue', twin:'boss1b', pr:1.6,
+{id:'c_alvida', g:'f', nat:'pirate', n:"Alvida à la Masse de Fer", niv:15, sc:'eastblue', twin:'boss1b', pr:1.6,
  k:"La terreur d'un bout de côte",
  i:"Vingt hommes, un navire repeint, et une masse de fer de cinquante kilos qu'elle fait tourner d'une main. Elle règne sur quatre villages qui n'ont jamais vu pire qu'elle.<br><br>Elle te regarde comme on regarde un retard.",
  s:["Elle ouvre en balançant la masse à hauteur de tête, sans prévenir.",
@@ -3368,7 +3373,7 @@ var ADV = [
 /* Les camps Marine et Gouvernement manquaient d'ennemis propres : ils sont
    exclus de tous les officiers de Marine et n'avaient qu'Ivankov en face.
    Voici l'Armee Revolutionnaire, qui est leur adversaire designe. */
-{id:'c_koala', nat:'revo', n:"Koala, cadre de l'Armée Révolutionnaire", niv:32, sc:'water7', only:'marine|gm', pr:2.2,
+{id:'c_koala', g:'f', nat:'revo', n:"Koala, cadre de l'Armée Révolutionnaire", niv:32, sc:'water7', only:'marine|gm', pr:2.2,
  k:"Une instructrice qui n'enseigne pas ce qu'elle dit",
  i:"Elle apprend les arts martiaux des Hommes-Poissons à des gamins, dans un village qui ne figure sur aucune carte du Gouvernement.<br><br>Koala te reconnaît avant que tu aies ouvert la bouche, et elle fait sortir les enfants par l'arrière.",
  s:["Elle te laisse avancer, prend ton poignet et retourne ton propre élan contre toi.",
@@ -3502,7 +3507,7 @@ var ADV = [
  m:"Tu n'as jamais su d'où venait le tir. Personne à bord n'a su non plus.",
  f:"Tu renonces à l'approche. Il n'a rien dit, et il a très bien vu que tu partais."},
 
-{id:'c_serafim', nat:'gm', only:'pirate|revo|marine', n:"S-Snake, arme du Gouvernement", niv:67, sc:'sabaody', pr:3.1,
+{id:'c_serafim', g:'f', nat:'gm', only:'pirate|revo|marine', n:"S-Snake, arme du Gouvernement", niv:67, sc:'sabaody', pr:3.1,
  k:"Un corps d'enfant et du sang bleu",
  i:"Le laboratoire est encerclé depuis six jours et son occupant ne peut plus en sortir. Entre lui et toi, il y a ce que le Gouvernement lui a fait fabriquer.<br><br>S-Snake porte un visage que tu as déjà vu sur une affiche de Grand Corsaire, et ce qui se tenait à côté de toi vient de cesser de bouger.",
  s:["Son regard croise le tien et ton bras droit devient froid, puis dur.",
@@ -3721,7 +3726,7 @@ var ADV = [
  m:"Il t'a vidé sans se lever, et il a continué sa route en flottant.",
  f:"Tu quittes l'île avant qu'il ne touche terre. Rien ne repousse derrière toi pendant deux ans."},
 
-{id:'c_gunko', nat:'gm', only:'pirate|revo', n:"La Chevalière Gunko", niv:75, sc:'mariejoie', pr:3.5,
+{id:'c_gunko', g:'f', nat:'gm', only:'pirate|revo', n:"La Chevalière Gunko", niv:75, sc:'mariejoie', pr:3.5,
  k:"Elle ne descend pas de sa monture",
  i:"Elle tient un arc sans corde et les traits partent quand même. Autour d'elle, des pièces d'armure flottent et se déplacent seules, en formation.<br><br>Elle ne dit pas un mot. Elle vise.",
  s:["Une flèche part en ligne droite, tourne à angle droit, et revient.",
@@ -3817,7 +3822,7 @@ var ADV = [
  m:"Le Granit Marin t'a vidé, et le reste n'a pas pris longtemps. Il a écrit le rapport lui-même.",
  f:"Tu quittes le quai sans engager. Il te regarde partir et retient ton nom, ce qui n'est jamais bon."},
 
-{id:'c_tsuru', nat:'marine', only:'pirate|revo', n:"La Vice-Amirale Tsuru", niv:60, sc:'marineford', pr:2.9,
+{id:'c_tsuru', g:'f', nat:'marine', only:'pirate|revo', n:"La Vice-Amirale Tsuru", niv:60, sc:'marineford', pr:2.9,
  xf:"Woshu Woshu no Mi",
  k:"La Grande Strategiste",
  i:"Elle a l'âge d'être ta grand-mère et trente ans d'avance sur ta prochaine idée. Le Quartier Général la consulte avant de bouger une flotte.<br><br>Elle t'attend assise, avec du thé. Il y a deux tasses.",
@@ -4257,9 +4262,20 @@ function cbMotParler(){
    portraits/<id>.png est encode au build dans PORTRAITS. Quand l'image
    n'existe pas, on dessine une silhouette a partir de l'identifiant, pour que
    deux adversaires n'aient pas la meme : la teinte et la carrure varient. */
-/* Un adversaire peut etre plusieurs : pl() choisit la forme qui va. */
-function advPluriel(){ return !!(S.cb && S.cb.adv && S.cb.adv.pl); }
-function pl(sing, plur){ return advPluriel() ? plur : sing; }
+/* UN ADVERSAIRE A UN GENRE ET UN NOMBRE.
+   Le drapeau pl:1 avait ete ecrit ce matin pour les Cinq Doyens, mais tout le
+   reste restait au masculin : Hina, Tsuru, Alvida, Monet, Bonney, Smoothie,
+   Perona, Gunko, Koala et S-Snake recevaient « Il t'ecoute » et « c'est lui qui
+   baisse la garde le premier ». Enrick le 24 aout : « assure-toi de choisir le
+   bon sexe, Hina est appelee il ».
+   g:'f' pour le feminin, pl:1 pour le pluriel, rien pour le masculin.
+   acc() rend la forme qui va. */
+function advGenre(){
+  var a = S.cb && S.cb.adv;
+  if(a && a.pl) return 'p';
+  return (a && a.g === 'f') ? 'f' : 'm';
+}
+function acc(m, f, p){ var g = advGenre(); return g === 'p' ? p : (g === 'f' ? f : m); }
 function faceAdv(a){
   var el = document.getElementById('cb_face');
   if(!el) return;
@@ -4290,14 +4306,16 @@ function cbOuverture(id){
       var d = applyEff({ruse:10, renom:9, obs:5});
       S.cb.done = true;
       S.tl.push({a:S.age, t:a.n, l:a.sc, c:'Parole', rate:0, maj:1});
-      return cbSortie('<b>'+pl('Il t\'écoute.','Ils t\'écoutent.')+'</b><br>'+esc(a.n)+
-        pl(' te laisse finir, réfléchit, et laisse retomber sa garde.',
-           ' te laissent finir, réfléchissent, et laissent retomber leur garde.')+
-        pl(' Vous ne vous battrez pas aujourd\'hui, et vous savez tous les deux que ce n\'est que partie remise.',
-           ' Vous ne vous battrez pas aujourd\'hui, et personne dans la pièce ne croit que ce soit fini.'), d, 'ok');
+      return cbSortie('<b>'+acc('Il t\'écoute.','Elle t\'écoute.','Ils t\'écoutent.')+'</b><br>'+esc(a.n)+
+        acc(' te laisse finir, réfléchit, et laisse retomber sa garde.',
+            ' te laisse finir, réfléchit, et laisse retomber sa garde.',
+            ' te laissent finir, réfléchissent, et laissent retomber leur garde.')+
+        acc(' Vous ne vous battrez pas aujourd\'hui, et vous savez tous les deux que ce n\'est que partie remise.',
+            ' Vous ne vous battrez pas aujourd\'hui, et vous savez tous les deux que ce n\'est que partie remise.',
+            ' Vous ne vous battrez pas aujourd\'hui, et personne dans la pièce ne croit que ce soit fini.'), d, 'ok');
     }
     S.cb.dg = 1; S.cb.res[0] = 0; S.cb.r = 2;
-    $('cb_res').innerHTML = '<div class="res bad"><b>'+pl('Il ne t\'écoute pas.','Ils ne t\'écoutent pas.')+'</b><br>Tu parles encore quand le premier coup part. Tu commences le combat avec une manche de retard.</div>';
+    $('cb_res').innerHTML = '<div class="res bad"><b>'+acc('Il ne t\'écoute pas.','Elle ne t\'écoute pas.','Ils ne t\'écoutent pas.')+'</b><br>Tu parles encore quand le premier coup part. Tu commences le combat avec une manche de retard.</div>';
     $('cb_opts').innerHTML = '';
     return cbSuite(function(){ cbManche(); });
   }
@@ -4447,7 +4465,7 @@ function cbFuite(){
   var d = applyEff({obs:7, ruse:7, renom:-8});
   S.n.fuites = (S.n.fuites||0)+1;
   S.tl.push({a:S.age, t:a.n, l:a.sc, c:'Refus', rate:1, maj:1});
-  cbSortie('<b>'+pl('Tu ne l\'affrontes pas.','Tu ne les affrontes pas.')+'</b><br>'+esc(tpl(a.f)), d, 'bad');
+  cbSortie('<b>'+acc('Tu ne l\'affrontes pas.','Tu ne l\'affrontes pas.','Tu ne les affrontes pas.')+'</b><br>'+esc(tpl(a.f)), d, 'bad');
 }
 function cbFin(){
   var a = S.cb.adv, av = S.cb.av, n = niveau(), ecart = a.niv - n;
@@ -4469,10 +4487,11 @@ function cbFin(){
     S.f['tenu_'+a.id] = true;
     S.tl.push({a:S.age, t:"Tu as tenu devant "+a.n, l:a.sc, c:'Combat', maj:1});
     S.hist.push({a:S.age, p:prime(), n:niveau()});
-    return cbSortie('<b>'+pl('Il arrête le combat lui-même.','Ils arrêtent le combat eux-mêmes.')+'</b><br>' +
+    return cbSortie('<b>'+acc('Il arrête le combat lui-même.','Elle arrête le combat elle-même.','Ils arrêtent le combat eux-mêmes.')+'</b><br>' +
       "Tu tiens plus longtemps que personne ne l'aurait parié, et " +
-      pl("c'est lui qui baisse la garde le premier. Il te dit",
-         "c'est eux qui baissent la garde les premiers. On te dit") +
+      acc("c'est lui qui baisse la garde le premier. Il te dit",
+          "c'est elle qui baisse la garde la première. Elle te dit",
+          "c'est eux qui baissent la garde les premiers. On te dit") +
       " de revenir quand tu vaudras le déplacement. Ce n'est pas une victoire, et tout le port a vu que tu étais encore debout.",
       d, 'ok', dejaLu);
   }
@@ -14596,6 +14615,12 @@ function rollFruit(){
         fruitTire = res;
         $('f_odds').textContent = 'Probabilité : ' + pct(pool, res, '_p') + ' %';
         S.fruit = {n:res.n, fr:res.fr, t:fruitType.n, pw:res.pw, myth:!!res.myth, d:res.d, por:res.por};
+        /* ON NE GARDE PAS LE TITRE « A REFUSE LE FRUIT » APRES EN AVOIR MANGE UN.
+           Le trait tombe au chapitre 14 si on n'a pas de Fruit, et le drapeau
+           tr_refusfruit reste pose pour toujours : Enrick a mange le sien a la
+           deuxieme tentative et a garde le titre jusqu'a l'ecran de fin.
+           C'est le seul trait du jeu qui puisse redevenir faux. */
+        S.f.tr_refusfruit = false;
         S.f.fruit=true;
         /* Un Fruit obtenu au premier chapitre ne doit pas valoir trois fois
            un Fruit obtenu au vingtieme. On l'applique donc en dur, hors de la
@@ -15206,6 +15231,9 @@ var TRAITS = [
       inatteignable, le jeu impose un renfort a chaque zone. On vise le
       dernier dixieme, et le trait s'exclut de « Meneur d'hommes ». */
    ok:function(){ return S.act>=5 && S.crew<=9 && !S.f.tr_meneur; }},
+  /* Le SEUL trait qui puisse redevenir faux : on peut manger un Fruit apres
+     l'avoir refuse une premiere fois. Le drapeau est efface au moment ou le
+     Fruit est mange, voir S.fruit dans core.js. */
   {id:'refusfruit', n:"A refusé le Fruit",
    x:"Tu as dit non à un pouvoir que le monde entier convoite, et la mer te porte encore. Il y a des jours où c'est le seul avantage qui compte.",
    ok:function(){ return !S.fruit && S.chapter>=14; }}
@@ -15225,7 +15253,12 @@ function majTraits(){
 }
 function traits(){
   var out=[], i;
-  for(i=0;i<TRAITS.length;i++) if(S.f['tr_'+TRAITS[i].id]) out.push(TRAITS[i].n);
+  for(i=0;i<TRAITS.length;i++){
+    if(!S.f['tr_'+TRAITS[i].id]) continue;
+    /* filet pour les parties commencees avant le correctif du 24 aout */
+    if(TRAITS[i].id === 'refusfruit' && S.fruit) continue;
+    out.push(TRAITS[i].n);
+  }
   if(S.roisInne) out.push("Leader né");
   /* "Aime du peuple" est le nom du TRAIT tr_aime, acquis a deux actes
      populaires. L'afficher en plus des la premiere pose du drapeau mettait
@@ -15494,20 +15527,12 @@ function showEnd(){
            '</b><br>' +
            (mq <= 4
              ? 'Un combat de plus, ou un seul choix joué autrement, et la porte s\'ouvrait.'
-             /* Les poids reels de niveau() : combat 1,25, renom 1,10, arm 1,05,
-                obs 0,85, vol 0,85, ruse 0,85, rois 0,55. La premiere version de
-                ce texte affirmait que la ruse et la renommee ne comptaient pas :
-                la renommee pese plus que l'Armement. Ne jamais ecrire au joueur
-                une regle qu'on n'a pas relue dans le code. */
-             /* Les poids reels de niveau() : combat 1,25, renom 1,10, arm 1,05,
-                obs 0,85, vol 0,85, ruse 0,85, rois 0,55. La premiere version de
-                ce texte affirmait que la ruse et la renommee ne comptaient pas :
-                la renommee pese plus que l'Armement. Ne jamais ecrire au joueur
-                une regle qu'on n'a pas relue dans le code. */
-             : 'Ce qui fait monter ton niveau, dans l\'ordre : le Combat, puis ' +
-               'la Renommée, puis l\'Armement. Viennent ensuite l\'Observation, ' +
-               'la Volonté et la Ruse, à égalité. Ton équipage et ton navire ' +
-               'comptent aussi, un peu.') +
+             /* PLUS DE LECON DE BAREME ICI. Le texte enumerait les statistiques
+                qui font monter le niveau, dans l'ordre de leur poids. C'etait
+                un cours au milieu d'un recit, et le joueur a maintenant le
+                depliant des statistiques juste en dessous : il lit ses vrais
+                chiffres au lieu d'une regle generale. Enrick le 24 aout. */
+             : 'Rien ne se rattrape à la fin. Ce qui manquait manquait depuis longtemps, et ça se voit dans tes chiffres.') +
            '</div>';
     txt += "<p>Ce n'est pas une faute, c'est la règle : sur cent qui prennent la mer à dix-sept ans, presque aucun ne voit la dernière île.</p>";
   } else {
