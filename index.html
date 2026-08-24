@@ -6449,7 +6449,17 @@ opts:[
    r:"Personne ne réagit. Crocodile te fait raccompagner comme on fait raccompagner un fournisseur. Ce que tu as dit ce jour-là, tu es le seul à t'en souvenir."}}
 ]});
 
-E({id:'a5_challenger', act:5, scene:'newworld', slot:0,
+/* KID NE VIENT PAS CHERCHER UN REVOLUTIONNAIRE.
+   La carte n'avait aucune restriction de camp, et elle est ecrite du point de
+   vue d'un vieux pirate au sommet : « il te regarde comme tu regardais les
+   vieux », « Rayleigh a fait ca avant toi », « deux navires de ta flotte ».
+   Un agent du Cipher Pol ou un cadre de l'Armee Revolutionnaire la recevait
+   telle quelle. Enrick le 24 aout : « pourquoi Kid en veut a un
+   revolutionnaire ? ». Il n'a aucune raison.
+   C'est une scene de SUCCESSION, et on ne succede qu'a un pirate. Les trois
+   autres camps ont chacun leurs trois cartes d'acte 5, plus les boss, les
+   reves et les rencontres : personne ne se retrouve a sec. */
+E({id:'a5_challenger', act:5, scene:'newworld', slot:0, ineed:'pirate',
 kicker:"La nouvelle génération", title:"Eustass \"Captain\" Kid",
 text:"Eustass Kid, vingt et un ans, les cheveux rouges dressés et le regard de quelqu'un qui n'a jamais reculé. Prime triplée en huit mois, deux mers traversées pour te trouver.<br><br>La ferraille du port crisse quand il tend la main. Il te regarde comme tu regardais les vieux.",
 opts:[
