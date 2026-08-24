@@ -1482,7 +1482,13 @@ var FRUITS_BASE = {
   zoan:[
     {n:"Ushi Ushi no Mi, modèle Bison", fr:"Bison", nat:"classique", p:24, pw:9, d:"Tu deviens un bison massif et tu renverses une ligne entière d'ennemis d'une charge.", por:"Dalton"},
     {n:"Tori Tori no Mi, modèle Phénix", fr:"Phénix", nat:"mythique", p:4, pw:24, myth:1, d:"Tu voles dans des flammes bleues qui ne brûlent pas et qui referment tes blessures.", por:"Marco le Phénix"},
-    {n:"Hito Hito no Mi", fr:"Humain", nat:"classique", p:20, pw:10, d:"Un animal qui le mange marche debout, parle et pense comme un homme.", por:"Tony Tony Chopper"},
+    /* bete:1 — ce fruit ne fait quelque chose qu'a un ANIMAL qui le mange.
+       Les cinq races jouables sont toutes humanoides : humain, homme-poisson,
+       geant, buccaneer, dragon celeste. Le proposer au joueur revient a lui
+       offrir de devenir ce qu'il est deja. Meme famille de defaut que les
+       trois descriptions qui racontaient le porteur au lieu du joueur.
+       Le modele Daibutsu, lui, reste jouable : Sengoku est un homme. */
+    {n:"Hito Hito no Mi", fr:"Humain", nat:"classique", p:20, pw:10, bete:1, d:"Un animal qui le mange marche debout, parle et pense comme un homme.", por:"Tony Tony Chopper"},
     {n:"Ushi Ushi no Mi, modèle Girafe", fr:"Girafe", nat:"classique", p:22, pw:14, d:"Ton cou s'allonge et tes coups de pied partent de six mètres de haut.", por:"Kaku"},
     {n:"Neko Neko no Mi, modèle Léopard", fr:"Léopard", nat:"classique", p:14, pw:20, d:"Tu deviens un léopard humanoïde d'une vitesse et d'une puissance de griffes redoutables.", por:"Rob Lucci"},
     {n:"Kame Kame no Mi", fr:"Tortue", nat:"classique", p:22, pw:13, d:"Ta carapace encaisse les boulets et tu roules sur l'ennemi comme une bille de pierre."},
@@ -1523,7 +1529,7 @@ var FRUITS_BASE = {
     {n:"Fruit Zoan mythique, modèle Fengxi", fr:"Sanglier monstrueux", nat:"mythique", p:2, pw:27, myth:1, d:"Tu deviens un sanglier démon énorme et tu changes tes quatre défenses en lames."},
     {n:"Fruit Zoan mythique, modèle Sandworm", fr:"Ver des sables", nat:"mythique", p:2, pw:27, myth:1, d:"Tu deviens un ver géant qui fore la terre et qui aspire tout ce qui passe devant sa gueule."},
     {n:"Fruit Zoan mythique, modèle Bakotsu", fr:"Cheval squelette", nat:"mythique", p:2, pw:28, myth:1, d:"Tu deviens un cheval squelette et tu fais surgir la glace autour de toi."},
-    {n:"Hito Hito no Mi, modèle Onyudo", fr:"Moine géant", nat:"mythique", p:10, pw:15, myth:1, d:"L'animal qui le mange parle et réfléchit comme un homme, et prend la forme d'un moine colossal.", por:"Onimaru"},
+    {n:"Hito Hito no Mi, modèle Onyudo", fr:"Moine géant", nat:"mythique", p:10, pw:15, myth:1, bete:1, d:"L'animal qui le mange parle et réfléchit comme un homme, et prend la forme d'un moine colossal.", por:"Onimaru"},
     {n:"Uma Uma no Mi, modèle Pégase", fr:"Pégase", nat:"mythique", p:8, pw:18, myth:1, d:"Tu deviens un cheval ailé et tu emportes tes alliés dans les airs."},
     {n:"Ryu Ryu no Mi, modèle Kirin", fr:"Qilin", nat:"mythique", p:3, pw:27, myth:1, d:"Tu deviens une licorne céleste qui vole, endort les gens et rend leurs rêves bien réels."},
     {n:"Risu Risu no Mi, modèle Ratatoskr", fr:"Écureuil de glace", nat:"mythique", p:5, pw:24, myth:1, d:"Tu deviens un écureuil géant qui invoque une glace que rien ne fait fondre tant que tu ne le décides pas."},
@@ -6182,8 +6188,15 @@ opts:[
   why:"Transmettre coûte du combat et rapporte une place dans les récits.",
   r:"Tu lui donnes ton {PAVILLON} devant les deux équipages réunis. Il pleure, les hommes aussi. Toi, tu ressens surtout un allègement. Ton histoire change de porteur.",
  },
+ /* REFUSER UN DUEL NE FAIT PAS PROGRESSER AU COMBAT.
+    Cette option donnait +5 de Combat et +6 de Renommee alors que son propre
+    why dit qu'elle « abime quelque chose qui ne se repare pas » et que son
+    resultat dit « il part sans un mot, vous ne vous reparlerez jamais ».
+    Le seul vrai desaccord trouve entre un texte et ses effets sur les 872
+    options du jeu, par outils/effets_coherence.js. Ce qui reste est ce qui
+    est vrai : tenir sa decision demande de la volonte, et ca coute. */
  {t:"Refuser et le renvoyer", tag:"Dur",
-  eff:{renom:6, combat:5, ruse:-7},
+  eff:{vol:8, renom:-6, ruse:-7},
   why:"Refuser un duel à son propre élève abîme quelque chose qui ne se répare pas.",
   r:"Tu lui dis non et tu retournes à ta table. Il part sans un mot. Vous ne vous reparlerez jamais, et tu penseras à cette pièce le jour où tu apprendras sa mort."}
 ]});
@@ -13600,6 +13613,12 @@ function sacDu(type){
       SACS[k] = [];
       for(var i=0;i<FRUITS[k].length;i++){
         var f = FRUITS[k][i];
+        /* Un fruit marque bete:1 ne fait quelque chose qu'a un animal qui le
+           mange. Les cinq races jouables sont humanoides, il n'a donc rien a
+           faire dans le sac : le joueur se verrait proposer de devenir ce
+           qu'il est deja. Trouve le 24 aout en cherchant les descriptions
+           ecrites a la troisieme personne. */
+        if(f.bete) continue;
         f._p = Math.pow(f.p || 1, FRUIT_ECRASE);
         SACS[k].push(f);
       }
