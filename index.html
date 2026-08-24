@@ -1706,8 +1706,10 @@ var CAMPS = [
       dernier pavillon noir disparaisse. Le titre cesse de mentir sans rien
       perdre de son ampleur. */
    quete:"Mettre fin à l'âge d'or de la piraterie", qid:'mernette',
-   avant:"Amiral", sommet:"Amiral en chef",
-   sd:"Rendre une mer entière à ceux qui y vivent, puis prendre le fauteuil d'Amiral en chef.",
+   /* Amiral en chef est descendu au barreau d'Empereur, et le rang ultime de la
+      Marine est desormais le nom que Garp a porte pour avoir accule Roger. */
+   avant:"Amiral en chef", sommet:"Héros de la Marine",
+   sd:"Rendre une mer entière à ceux qui y vivent, puis recevoir le nom de Héros de la Marine.",
    fd:"Tu as rendu une mer entière à ceux qui y vivent. Les pavillons noirs n'y remontent plus.",
    fdf:"Une génération entière va grandir là-bas sans savoir ce que c'était.",
    eff:{arm:6, ruse:4}},
@@ -1718,7 +1720,10 @@ var CAMPS = [
       formule prudente. Le fd et le fdf, eux, racontent encore la scene et pas
       la chute : a aligner. */
    quete:"Faire tomber le Gouvernement Mondial", qid:'dragons',
-   avant:"Chef d'état-major", sommet:"Chef de l'Armée Révolutionnaire",
+   /* Le siege de Dragon est descendu au barreau d'Empereur : c'est deja le
+      niveau de Dragon lui-meme, et il n'a pas encore gagne. Au-dessus, un rang
+      que personne n'a jamais tenu, pas meme lui. */
+   avant:"Chef de l'Armée Révolutionnaire", sommet:"Libérateur des peuples",
    /* LES TROIS TEXTES RACONTAIENT UNE SCENE, LE TITRE ANNONCE UNE CHUTE.
       Ils parlaient d'abattre « ceux d'en haut devant le monde entier », ce qui
       est un spectacle, pas la fin d'un Gouvernement. Reecrits le 24 aout pour
@@ -1727,7 +1732,7 @@ var CAMPS = [
       a jouer apres cette carte, pendant lesquels le joueur croise encore des
       Marines et le Cipher Pol. Une chute qui prend des annees les rend
       coherents, une chute instantanee les rendrait absurdes. */
-   sd:"Mettre à terre les huit cents ans du Gouvernement Mondial, puis prendre le siège de Dragon.",
+   sd:"Mettre à terre les huit cents ans du Gouvernement Mondial, puis devenir ce qu'aucun révolutionnaire n'a jamais été.",
    fd:"Tu as fait tomber le Gouvernement Mondial. Les Cinq Doyens ne siègent plus, les portes de Marie-Joie sont ouvertes, et cent soixante-dix pays se réveillent sans maître.",
    fdf:"Huit cents ans tenus par une seule main viennent de lâcher. Ça ne s'effondrera pas en un jour, et plus personne ne peut le rattraper.",
    eff:{ruse:7, obs:3}},
@@ -2290,7 +2295,7 @@ var PALIERS = [
      une etoile ★ = 100 000 000 Berrys, versee en coffre
      une couronne = 1 000 000 000 Berrys
    Bareme canon par grade : Amiral en chef 5 couronnes, Amiral 3 couronnes,
-   Contre-Amiral 2 etoiles, Capitaine et Commodore 1 etoile, officiers
+   Contre-Amiral 2 etoiles, Capitaine de vaisseau 1 etoile, officiers
    inferieurs 1 000 000, matelots 100 000.
    Le grade de Vice-Amiral n'est pas donne par le wiki : on l'infere a une
    couronne, entre l'Amiral et le Contre-Amiral. Garp en vaut trois, mais
@@ -2302,11 +2307,16 @@ var CROSSG = [
      montants. Elle existe et elle est explicite. Une etoile vaut environ
      100 millions, une couronne environ un milliard.
      Exception canon : Garp, Vice-Amiral, est tarife 3 couronnes. */
-  {n:85, m:5000000000, cr:5, et:0, t:"Cinq couronnes", ref:"Le tarif d'un Amiral en chef. Le Cross Guild ne va pas plus haut."},
-  {n:73, m:3000000000, cr:3, et:0, t:"Trois couronnes", ref:"Le tarif d'un Amiral. Garp le porte aussi, et il n'est que Vice-Amiral."},
-  {n:68, m:500000000,  cr:0, et:5, t:"Cinq étoiles",   ref:"Le tarif d'un Vice-Amiral. Assez pour que des inconnus tentent leur chance."},
-  {n:60, m:200000000,  cr:0, et:2, t:"Deux étoiles",   ref:"Le tarif d'un Contre-Amiral. Deux coffres, et des gens prêts à venir les chercher."},
-  {n:42, m:100000000,  cr:0, et:1, t:"Une étoile",     ref:"Le tarif d'un Commodore comme d'un Capitaine. Ton visage circule chez les chasseurs de primes."},
+  /* LES TARIFS SUIVENT LE GRADE, PAS LE BARREAU. L'echelle a change le 24 aout
+     et chaque grade de Marine a descendu d'un cran : les seuils descendent
+     avec eux, sinon un Amiral se retrouvait tarife en Vice-Amiral. Le rang
+     ultime, 85, retombe sur la ligne du dessous : cinq couronnes est le
+     plafond de la table, il n'y a rien au-dessus a facturer. */
+  {n:73, m:5000000000, cr:5, et:0, t:"Cinq couronnes", ref:"Le tarif d'un Amiral en chef. Le Cross Guild ne va pas plus haut."},
+  {n:68, m:3000000000, cr:3, et:0, t:"Trois couronnes", ref:"Le tarif d'un Amiral. Garp le porte aussi, et il n'est que Vice-Amiral."},
+  {n:60, m:500000000,  cr:0, et:5, t:"Cinq étoiles",   ref:"Le tarif d'un Vice-Amiral. Assez pour que des inconnus tentent leur chance."},
+  {n:51, m:200000000,  cr:0, et:2, t:"Deux étoiles",   ref:"Le tarif d'un Contre-Amiral. Deux coffres, et des gens prêts à venir les chercher."},
+  {n:42, m:100000000,  cr:0, et:1, t:"Une étoile",     ref:"Le tarif d'un Capitaine de vaisseau. Ton visage circule chez les chasseurs de primes."},
   {n:30, m:1000000,    cr:0, et:0, t:"Un million",     ref:"Le tarif de tout le monde entre le Capitaine de corvette et l'Enseigne."},
   {n:0,  m:100000,     cr:0, et:0, t:"Cent mille",     ref:"Le tarif d'un officier marinier et de tout ce qui est en dessous."}
 ];
@@ -2528,35 +2538,45 @@ var ECHELLE = [
             revo:"Le niveau d'un chef de section qui monte ses propres opérations.",
             gm:"Le niveau du Cipher Pol n°5, sans uniforme et sans filet."},
    t:{pirate:"Capitaine connu", marine:"Capitaine de vaisseau", revo:"Chef de section", gm:"Cipher Pol n°5"}},
+  /* LES TITRES ETAIENT DECALES D'UN CRAN SUR LEUR PROPRE TEXTE.
+     Ce barreau s'annoncait « Commodore » et se decrivait « le niveau d'un
+     Contre-Amiral » ; le suivant s'annoncait « Contre-Amiral » et se decrivait
+     « le niveau des Vice-Amiraux d'elite ». Meme decalage cote revolutionnaire.
+     Enrick le 24 aout : Commodore et Officier revolutionnaire sont supprimes,
+     et chaque titre rejoint la description qui l'attendait deja. */
   {n:51, r:{pirate:"Le niveau de la Pire Génération à Sabaody, et des Tobi Roppo de Kaidou.",
             marine:"Le niveau d'un Contre-Amiral, Hina ou Smoker après Alabasta.",
             revo:"Le niveau de Koala et de Hack, ceux qui forment les autres.",
             gm:"Le niveau d'un agent qu'on envoie seul et sans couverture."},
-   t:{pirate:"Supernova", marine:"Commodore", revo:"Officier révolutionnaire", gm:"Cipher Pol n°7"}},
+   t:{pirate:"Supernova", marine:"Contre-Amiral", revo:"Commandant adjoint", gm:"Cipher Pol n°7"}},
   {n:60, r:{pirate:"Le niveau des vrais commandants : Queen, Jack, Cracker, Smoothie.",
             marine:"Le niveau des Vice-Amiraux d'élite, Momonga ou Doberman.",
             revo:"Le niveau des commandants d'armée : Belo Betty, Morley, Lindbergh, Karasu.",
             gm:"Le niveau du Cipher Pol n°9, Rob Lucci et Kaku."},
-   t:{pirate:"Commandant d'Empereur", marine:"Contre-Amiral", revo:"Commandant adjoint", gm:"Cipher Pol n°9"}},
+   t:{pirate:"Commandant d'Empereur", marine:"Vice-Amiral", revo:"Commandant d'armée", gm:"Cipher Pol n°9"}},
   {n:68, r:{pirate:"Le niveau de King, de Marco, de Katakuri, de Ben Beckman.",
-            marine:"Le niveau d'un Vice-Amiral que le Quartier Général pousse vers l'étoile.",
-            revo:"Le niveau d'un commandant d'armée révolutionnaire.",
+            marine:"Le niveau d'un Amiral : Kizaru, Fujitora, Ryokugyu.",
+            revo:"Le niveau de Sabo, chef d'état-major et numéro deux de Dragon.",
             gm:"Le niveau du Cipher Pol Aigis 0, celui qui escorte les Dragons Célestes."},
-   t:{pirate:"Bras droit d'Empereur", marine:"Vice-Amiral", revo:"Commandant d'armée", gm:"Cipher Pol Aigis 0"}},
+   t:{pirate:"Bras droit d'Empereur", marine:"Amiral", revo:"Chef d'état-major", gm:"Cipher Pol Aigis 0"}},
   /* L'AVANT-DERNIER rang. Il s'atteint par la seule progression, et c'est le
      plus haut qu'on puisse aller sans avoir accompli la quete de son camp. */
   {n:73, r:{pirate:"Le niveau de Shanks, de Kaidou, de Big Mom.",
-            marine:"Le niveau des Amiraux au sommet de leur art.",
-            revo:"Le niveau de Sabo, chef d'état-major et numéro deux de Dragon.",
+            marine:"Le niveau d'Akainu, qui commande toute la Marine.",
+            revo:"Le niveau de Monkey D. Dragon, l'homme le plus recherché du monde.",
             gm:"Le niveau de Shamrock, et de Garling avant lui."},
-   t:{pirate:"Empereur", marine:"Amiral", revo:"Chef d'état-major", gm:"Chevalier Divin"}},
+   t:{pirate:"Empereur", marine:"Amiral en chef", revo:"Chef de l'Armée Révolutionnaire", gm:"Chevalier Divin"}},
   /* Le rang ULTIME. Il ne s'atteint pas au niveau : il faut la quete du camp.
      palierPuissance() le verrouille derriere campResult()===2. */
+  /* Les quatre camps se rejoignent ici sur la meme ligne : ce qu'aucun vivant
+     n'a fait. Roger a trouve le One Piece, Garp a accule Roger, les Cinq
+     Doyens tiennent Marie-Joie. Cote revolutionnaire, personne : Dragon
+     lui-meme s'arrete au barreau du dessous, il n'a pas encore gagne. */
   {n:85, r:{pirate:"Le niveau de Gol D. Roger et d'Edward Newgate.",
-            marine:"Le niveau d'Akainu, Amiral en chef de toute la Marine.",
-            revo:"Le niveau de Monkey D. Dragon.",
+            marine:"Le niveau de Garp, celui qui a acculé Roger. La Marine ne donne ce nom qu'une fois par siècle.",
+            revo:"Personne ne l'a jamais été. Dragon lui-même n'est pas allé jusque-là.",
             gm:"Le niveau des Cinq Doyens, ceux qui décident à Marie-Joie."},
-   t:{pirate:"Roi des Pirates", marine:"Amiral en chef", revo:"Chef de l'Armée Révolutionnaire", gm:"Doyen du Gouvernement"}},
+   t:{pirate:"Roi des Pirates", marine:"Héros de la Marine", revo:"Libérateur des peuples", gm:"Doyen du Gouvernement"}},
   {n:92, r:"Le niveau de celui qui siège sur le Trône Vide, et de Joy Boy avant lui.",
    t:{pirate:"Roi du Monde", marine:"Roi du Monde", revo:"Roi du Monde", gm:"Roi du Monde"}}
 ];
