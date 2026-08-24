@@ -3576,9 +3576,33 @@ function joueurIntouchable(a){
 function manosDispo(tout){
   var out=[], u=S.cb.used;
   function add(o){ if(tout || u.indexOf(o.id)<0) out.push(o); }
-  if(S.f.haki_arm) add({id:'arm', n:"Enrober ton bras de Fluide de l'Armement", st:'arm', b:6,
+  /* L'ARMEMENT NE SE MET PAS QUE SUR LE BRAS.
+     Enrick le 24 aout : « il faut noter que noircir n'est pas que pour le bras,
+     tu peux mettre du Haki sur ta balle ou ton sabre ». C'est le canon : Zoro
+     noircit ses lames, Usopp ses munitions, Rayleigh son sabre. Le jeu servait
+     « enrober ton bras » et « ton poing » a tout le monde, y compris a un
+     sabreur qui n'a pas lache sa lame depuis l'enfance.
+     On lit donc ce que le joueur porte, et on garde le bras pour ceux qui se
+     battent vraiment avec. */
+  var AR_VOIE = {
+    sabre:  {n:"Enrober ta lame de Fluide de l'Armement",
+             ok:"Le noir descend de la garde à la pointe. Le tranchant passe enfin la garde de {B}.",
+             ko:"En face aussi le Fluide monte, et il est plus dense que le tien. Ta lame ne mord pas."},
+    tir:    {n:"Enrober tes balles de Fluide de l'Armement",
+             ok:"La balle part noire. Elle ne se pare pas et elle ne se contourne pas.",
+             ko:"En face aussi le Fluide monte, et il est plus dense que le tien. La balle s'écrase à plat."},
+    science:{n:"Faire monter le Fluide de l'Armement dans ton bras d'acier",
+             ok:"Le noir prend le métal comme il prendrait la peau. {B} découvre que les deux se durcissent.",
+             ko:"En face aussi le Fluide monte, et il est plus dense que le tien. Le bras encaisse et grince."},
+    arts:   {n:"Enrober tes poings de Fluide de l'Armement",
+             ok:"Le noir remonte jusqu'aux épaules et tes deux poings passent la garde de {B}.",
+             ko:"En face aussi le Fluide monte, et il est plus dense que le tien. Tes poings s'arrêtent net."}
+  };
+  var ar = (S.spec && AR_VOIE[S.spec.id]) || {
+    n:"Enrober ton bras de Fluide de l'Armement",
     ok:"Le noir remonte jusqu'à l'épaule et ton poing passe enfin la garde de {B}.",
-    ko:"En face aussi le Fluide monte, et il est plus dense que le tien. Ton bras cède."});
+    ko:"En face aussi le Fluide monte, et il est plus dense que le tien. Ton bras cède."};
+  if(S.f.haki_arm) add({id:'arm', n:ar.n, st:'arm', b:6, ok:ar.ok, ko:ar.ko});
   if(S.f.haki_obs) add({id:'obs', n:"Lire ses intentions au Fluide de l'Observation", st:'obs', b:5,
     ok:"Tu vois le geste une demi-seconde avant qu'il parte. Tu n'es plus là quand il arrive.",
     ko:"En face, on pense à un coup et on en donne un autre. Tu pares le mauvais."});
