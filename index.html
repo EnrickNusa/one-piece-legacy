@@ -4633,7 +4633,14 @@ function cbFin(){
        apres avoir joue : « quand je perds un combat j'ai cinq bonus pour un
        malus, il n'y a pas de rate qui te fait vraiment souffrir ». Une defaite
        serree apprend encore quelque chose, elle ne doit plus faire monter. */
-    d = applyEff({combat:2, obs:3, vol:5, renom:-16});
+    /* PERDRE COUTE SUR CE QU'ON SAIT FAIRE, pas seulement sur ce qu'on
+       raconte. Premiere version : on gagnait Combat, Observation et Volonte en
+       perdant, et seule la Renommee baissait. Enrick : « tu gagnes beaucoup
+       trop souvent cinq bonus pour perdre uniquement de la renommee ou de la
+       volonte, jamais sur tes competences ».
+       La Volonte monte encore, elle seule : tenir une defaite serree est
+       exactement ce qui l'entraine. Tout le reste recule. */
+    d = applyEff({vol:3, combat:-6, arm:-4, renom:-6});
     mortP = clamp(0.055 + ecart*0.005, 0.03, 0.18);
     S.cb.ecrase = false;
     S.n.losses = (S.n.losses||0)+1;
@@ -4642,7 +4649,9 @@ function cbFin(){
   } else {
     /* Et se faire ecraser trois a zero doit se voir dans la courbe pendant
        des chapitres. */
-    d = applyEff({combat:1, vol:3, arm:-5, renom:-24});
+    /* Se faire ecraser abime la technique avant la reputation : on repart avec
+       un geste qui ne sort plus pareil. */
+    d = applyEff({vol:3, combat:-10, arm:-7, obs:-4, ruse:-3, renom:-14});
     /* ON MOURAIT ZERO FOIS EN COMBAT. Mesure du 24 aout, 300 carrieres :
        96 % rentraient vivants et AUCUNE mort ne venait d'un affrontement, les
        quatre pour cent restants venaient tous d'un die: pose sur une carte.
@@ -14752,16 +14761,36 @@ function pickOpt(i){
      POSITIF. On pouvait donc jouer au hasard et monter quand meme. Desormais
      ce qu'un echec rapporte est rabote aux deux tiers, ce qu'il coute reste
      entier. Un mauvais choix se voit dans la courbe. */
+  /* RATER COUTE SUR CE QU'ON A RATE.
+     Premiere version : les gains d'un echec etaient rabotes a 0,20 et les
+     pertes gardees entieres. Le net devenait negatif, mais Enrick a mis le
+     doigt sur ce qui clochait vraiment en jouant : « je perds souvent de la
+     renommee en defaite UNIQUEMENT, jamais sur tes competences ». C'etait
+     vrai : on ratait un tir de precision et on gagnait quand meme de
+     l'Observation, seule la Renommee baissait.
+     Or chaque branche d'echec porte deja l'information. Le champ `on:` dit
+     sur quelle statistique le jet a ete fait : c'est celle-la qu'on a ratee,
+     c'est celle-la qui doit reculer. Le reste du rabot ne bouge pas. */
   if(rate && eff0){
     var rabot = {};
     for(var rk in eff0){ if(!eff0.hasOwnProperty(rk)) continue;
-      /* RABOT DURCI le 24 aout, de 0,34 a 0,20. Le premier rabotage rendait
-         deja les echecs de carte moins interessants, pas mauvais : mesure sur
-         250 carrieres, une carte rapportait encore +3,7 net toutes issues
-         confondues et 77 % des applications etaient positives. Enrick, apres
-         avoir joue : « le probleme ce n'est pas que l'echec rapporte peu,
-         c'est qu'il ne negative pas ». */
-      rabot[rk] = eff0[rk] > 0 ? Math.round(eff0[rk]*0.20) : eff0[rk]; }
+      rabot[rk] = eff0[rk] > 0 ? Math.round(eff0[rk]*0.15) : eff0[rk]; }
+    var teste = br.on;
+    if(teste && teste !== 'rois' && S.st[teste] !== undefined){
+      /* DOSAGE, demande d'Enrick le 24 aout : « il faut vraiment doser les
+         gains et les malus, ca doit etre plus egalitaire ».
+         Simulation sur les 703 branches d'echec du jeu. Le facteur
+         proportionnel ne changeait presque rien, les valeurs de depart sont
+         petites : c'est le PLANCHER qui commande. Une reussite vaut +18,7 net.
+           plancher  4  ->  echec -9,9   rapport 1,89
+           plancher  8  ->  echec -13,5  rapport 1,38
+           plancher 10  ->  echec -15,5  rapport 1,21   <- retenu
+           plancher 12  ->  echec -17,5  rapport 1,07
+         On s'arrete a 10 : bien jouer paye encore, mal jouer se voit. A 12 un
+         joueur qui reussit une fois sur deux n'avance plus du tout. */
+      var base = Math.abs(eff0[teste] || 0);
+      rabot[teste] = -Math.max(10, Math.round(base * 0.70));
+    }
     eff0 = rabot;
   }
   /* Le coup dur ne peut pas etre systematique. Si prendre un risque punit a
