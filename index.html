@@ -3539,19 +3539,34 @@ var SPE_MANO = {
    trancher Baggy, ca n'echoue pas : ca ne peut simplement pas arriver. On le
    dit, et surtout on l'applique. */
 var IMMUNITES = {
-  logia: {r:"C'est un Logia. Sans Fluide de l'Armement, ton coup traverse du sable, de la foudre ou du magma et ne rencontre rien.",
+  /* Le texte parle d'absence de Fluide, or on arrive ici aussi avec un Fluide
+     eveille mais trop faible pour durcir. Il dit donc les deux cas. */
+  logia: {r:"C'est un Logia. Tant que ton Fluide de l'Armement ne durcit pas, ton coup traverse du sable, de la foudre ou du magma et ne rencontre rien.",
           bloque:['franc','ruse','equipage','spe']},
   coupe: {r:"Il a mangé le Fruit de la Fragmentation. On ne coupe pas un homme qui se démonte, et frapper fort ne vaut pas mieux.",
           bloque:['franc','spe']},
-  regen: {r:"Ses flammes le recollent plus vite que tu ne le blesses. Sans Fluide de l'Armement, tu peux frapper toute la journée.",
+  regen: {r:"Ses flammes le recollent plus vite que tu ne le blesses. Tant que ton Fluide ne durcit pas, tu peux frapper toute la journée.",
           bloque:['franc','ruse','spe']},
   /* Le Mochi Mochi no Mi est un Paramecia special : il se comporte comme un
      Logia, Katakuri remplace la partie touchee par du mochi. */
-  mochi: {r:"Son corps se change en mochi à l'endroit exact où tu frappes. Sans Fluide de l'Armement, ton coup s'enfonce dans la pâte et n'atteint rien.",
+  mochi: {r:"Son corps se change en mochi à l'endroit exact où tu frappes. Tant que ton Fluide ne durcit pas, ton coup s'enfonce dans la pâte et n'atteint rien.",
           bloque:['franc','ruse','spe']}
 };
+/* LE DRAPEAU NE SUFFIT PAS, IL FAUT DE QUOI DURCIR.
+   L'immunite tombait des que haki_arm etait leve, meme avec un Armement a 3
+   sur 100 : un joueur qui venait tout juste d'eveiller son Fluide frappait
+   Aokiji comme n'importe qui. Enrick le 24 aout : « si le Haki de l'Armement
+   est nul il devrait rater systematiquement contre un Logia ».
+   C'est le canon : ce qui traverse un Logia, ce n'est pas l'eveil, c'est le
+   DURCISSEMENT. Le deuxieme palier de l'Armement s'appelle justement
+   Durcissement. On lit son seuil dans la table HAKI au lieu de recopier le
+   chiffre : si le palier bouge un jour, cette regle bouge avec lui. */
+function seuilDurcissement(){
+  try { return HAKI.arm.t[1][0]; } catch(e) { return 14; }
+}
 function immunite(a){
-  if(!a.imm || S.f.haki_arm) return null;
+  if(!a.imm) return null;
+  if(S.f.haki_arm && S.st.arm >= seuilDurcissement()) return null;
   return IMMUNITES[a.imm] || null;
 }
 /* L'IMMUNITE JOUE DANS LES DEUX SENS.
