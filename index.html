@@ -9052,6 +9052,42 @@ opts:[
   die:{p:.06, t:"L'île entière tient dans une bulle et tu as choisi de te battre dedans. La mer est entrée avant les secours."}}
 ]});
 
+/* ODEN NE PEUT PAS ETRE UN ADVERSAIRE : il est execute vingt ans avant qu'on
+   prenne la mer a dix-sept ans. Enrick le 24 aout : « il est mort non ? c'est
+   un peu hors sens ». Il a raison, et la ligne du jeu n'est pas mort ou
+   vivant, c'est ETAIT-IL DEBOUT PENDANT QUE TU NAVIGUAIS. Barbe Blanche oui,
+   il tombe a Marineford que le jeu te fait vivre. Oden non.
+   Reste ce qu'il a laisse. Son journal existe, tout le monde le cherche, et
+   c'est la seule facon honnete de le croiser. */
+E({id:"renc4_oden", pic:'c_oden', nmin:52, act:4, scene:"wano", w:10,
+kicker:"Une resserre derrière la maison de thé", title:"Le journal d'Oden",
+text:"Un vieux serviteur des Kozuki soulève une lame de plancher et sort un carnet gonflé par l'humidité. Vingt-sept ans qu'il le déplace de cachette en cachette.<br><br>Kozuki Oden a navigué deux ans avec Roger, il a tout écrit, et il est mort bouilli sur une place publique en tenant ses hommes hors de la marmite. Le carnet dit où ils sont allés.",
+opts:[
+ {t:"Le lire jusqu'au bout, cette nuit, et le rendre au matin", tag:"Lecture",
+  eff:{obs:13, ruse:9, vol:4, combat:-5},
+  why:"Deux ans de route relevés par un homme qui savait lire les pierres valent mieux qu'une carte.",
+  r:"Tu lis debout jusqu'à ce que la lampe fume. Il écrit comme il parlait, mal et vite, et il rit encore trois fois par page. À l'aube tu rends le carnet et tu n'en parles à personne. Ce que tu as retenu, tu ne l'as retenu que dans ta tête.",
+  fail:{p:.26, on:"obs", eff:{obs:6, vol:-4},
+   why:"Une écriture de vingt-sept ans, gonflée d'eau, ne se déchiffre pas d'une traite.",
+   r:"La moitié des pages ont pris l'humidité et l'autre moitié est écrite par un homme qui n'a jamais tenu un pinceau droit. Tu ressors avec des bouts de phrases et le sentiment d'être passé à côté."}},
+ {t:"Le recopier en entier avant de le rendre", tag:"La copie", d:1,
+  eff:{ruse:12, obs:8, renom:-6},
+  why:"Une copie protège le savoir de la disparition et met une cible dans ton dos.",
+  r:"Tu recopies quatre nuits d'affilée, main droite bloquée le cinquième jour. Le vieux ne te demande rien. Deux mois plus tard, un agent du Cipher Pol interroge un batelier sur un étranger qui écrivait beaucoup.",
+  die:{p:.07, t:"On ne t'a pas trouvé à cause du carnet. On t'a trouvé à cause de l'encre commandée en quantité dans une ville où personne n'écrit."},
+  fail:{p:.3, on:"ruse", eff:{obs:5, renom:-9},
+   why:"Recopier un document que huit cents ans d'organisation cherchent laisse une trace quelque part.",
+   r:"Ta copie part avec un batelier qui devait la mettre à l'abri. Elle n'arrive jamais. Tu ne sauras jamais si c'est la mer ou un homme."}},
+ {t:"Le brûler devant lui pour que personne ne l'ait", tag:"La cendre",
+  eff:{vol:12, ruse:6, obs:-9, renom:-4}, f:"craint",
+  why:"Détruire ce qu'on n'a pas encore lu demande de renoncer avant de savoir ce qu'on perd.",
+  r:"Tu le poses dans le brasero sans l'ouvrir. Le vieux ne t'arrête pas et ne pleure pas non plus. Il dit qu'Oden aurait ri, et que c'est probablement vrai. Vingt-sept ans de cachettes finissent en quatre minutes."},
+ {t:"Le porter à ton camp, c'est ce qu'on attend de toi", tag:"Le devoir",
+  eff:{renom:13, ruse:5, vol:-10, obs:-6}, f:"loyal_gm",
+  why:"Livrer une pièce pareille se remarque très haut, et se paie longtemps.",
+  r:"Tu remets le carnet et on te remercie devant témoins, ce qui n'arrive presque jamais. Le vieux serviteur n'est plus derrière la maison de thé le mois suivant, et personne à Wano ne sait te dire où il est parti."}
+]});
+
 E({id:"renc4_d", pic:'c_vegapunk', nmin:48, act:4, scene:"newworld", w:10,
 kicker:"Un oiseau frappe au carreau", title:"Vegapunk, et le journal de Morgans",
 text:"Le savant parle sans s'arrêter et oublie deux fois que tu es dans la pièce.<br><br>Un News Coo se pose sur la rambarde, réclame sa pièce et laisse tomber le journal. Ta tête est en première page, avec un titre que tu n'as pas choisi.",
