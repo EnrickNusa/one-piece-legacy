@@ -2057,11 +2057,28 @@ var HAKI = {
        Avant : 58 et 78. Le 4e etait atteint par 8 % des joueurs, le 5e par
        ZERO. Deux paliers sur cinq etaient decoratifs.
        Armement en fin de carriere : mediane 29, 90e centile 54, max 70. */
-    t:[[1,"Éveillé"],[14,"Durcissement"],[29,"Enrobage complet"],[45,"Émission à distance"],[60,"Destruction interne"]]},
+    /* LES PALIERS PORTENT LES ETAPES DE L'OEUVRE, dans l'ordre de l'oeuvre.
+       « Enrobage complet » n'etait pas une etape : c'est du durcissement etendu.
+       L'etape qui manquait entre durcir et emettre est le FLUX, le Ryuo que
+       Hyogoro enseigne a Luffy dans la prison d'Udon.
+       L'ordre emission puis destruction interne est le bon et ne bouge pas :
+       le wiki decrit la destruction interne comme « un cran au-dessus de
+       l'emission » et « la technique d'Armement la plus destructrice connue ».
+       Une session precedente a failli les echanger sur une intuition fausse.
+       Distribution mesuree le 24 aout, 250 carrieres : p1 19 %, p2 27 %,
+       p3 27 %, p4 16 %, p5 6 %. La pyramide est bonne, on ne touche pas aux
+       seuils, on ne corrige que les noms. */
+    t:[[1,"Éveillé"],[14,"Durcissement"],[29,"Le Flux"],[45,"Émission à distance"],[60,"Destruction interne"]]},
   obs:{ n:"Haki de l'Observation", g:"Fluide Perceptif", cl:'hk',
     d:"Sentir l'énergie des autres et lire leur geste avant qu'ils le fassent. Bien plus difficile à éveiller que l'Armement, sauf pour un tireur, qui monte par là plutôt que par la force.",
     /* Observation : mediane 46, 90e centile 66, max 82. Le 5e etait a 84. */
-    t:[[1,"Éveillé"],[28,"Présences"],[46,"Intentions"],[60,"Anticipation"],[72,"Quelques secondes d'avance"]]},
+    /* DEUX PALIERS DISAIENT LA MEME CHOSE. « Anticipation » et « Quelques
+       secondes d'avance » decrivaient tous les deux le Yochi, la seule
+       technique avancee nommee de l'Observation. Un palier sur cinq etait
+       perdu a repeter le suivant. Le quatrieme reprend l'usage classique en
+       combat, lire le geste avant qu'il parte, et le cinquieme garde le Yochi.
+       Distribution mesuree : p1 25 %, p2 35 %, p3 27 %, p4 9 %, p5 4 %. */
+    t:[[1,"Éveillé"],[28,"Présences"],[46,"Émotions"],[60,"Le geste avant qu'il parte"],[72,"Vision du futur"]]},
   rois:{ n:"Haki des Rois", g:"Fluide Royal", cl:'rk',
     d:"Un homme sur plusieurs millions. Ça ne s'apprend pas, ça se dompte.",
     /* Haki des Rois : on l'a ou on ne l'a pas. Chez ceux qui l'ont, il finit
@@ -2073,8 +2090,20 @@ var HAKI = {
        parce que ce sont les paliers que le joueur voit.
          20  ta prime monte de 9 %
          40  ta mortalite en combat baisse
-         58  toutes tes manoeuvres deviennent plus fortes */
-    t:[[1,"Manifesté"],[20,"Maîtrisé"],[40,"Dirigé"],[58,"Enrobé, éclairs noirs"]]}
+         58  toutes tes manoeuvres deviennent plus fortes
+         66  le ciel se fend, +2 partout comme les sommets des deux autres */
+    /* LE CINQUIEME PALIER, ajoute le 24 aout. Le Haki des Rois etait le seul
+       des trois a n'en avoir que quatre. Le canon donne un sommet : enrober
+       son poing ne suffit pas a decrire Roger et Barbe Blanche fendant le ciel
+       d'un seul choc.
+       LE SEUIL A ETE POSE A 70 PUIS RAMENE A 66, mesure a l'appui. Chez ceux
+       qui ont le Haki des Rois, la mediane finit a 50 et le 90e centile a 67 :
+       a 70 le palier tombait pour 4 % des porteurs seulement, soit 1 % des
+       carrieres, et le maximum de la distribution le frolait. C'est exactement
+       le defaut que ce fichier signale plus haut, « le dernier palier etait
+       pile sur le maximum ». A 66 il tombe pour environ un porteur sur dix.
+       Rare, ce qu'il doit etre, mais pas decoratif. */
+    t:[[1,"Manifesté"],[20,"Maîtrisé"],[40,"Dirigé"],[58,"Enrobé, éclairs noirs"],[66,"Le ciel se fend"]]}
 };
 function hakiPalier(k){
   var v = S.st[k], T = HAKI[k].t, out = null;
@@ -3377,20 +3406,27 @@ function cbForce(m){
   /* PALIER 4, « Enrobe, eclairs noirs », annonce a 58. L'effet se declenchait
      a 50 : le joueur lisait un palier et en vivait un autre. */
   if(S.f.haki_rois && S.st.rois >= 58) f += 3 + (S.st.rois - 58) * 0.22;
+  /* PALIER 5, « Le ciel se fend », annonce a 70. Un palier annonce qui ne fait
+     rien est un palier decoratif : les trois sommets donnent donc la meme
+     chose, +2 partout. */
+  if(S.f.haki_rois && S.st.rois >= 66) f += 2;
 
   /* CHAQUE PALIER ANNONCE FAIT QUELQUE CHOSE, comme pour le Haki des Rois.
      L'Armement est offensif, l'Observation est defensive. Les seuils sont
      exactement ceux qui s'affichent dans la fiche, pas d'autres.
 
        ARMEMENT     14  Durcissement          +2 sur la manoeuvre Armement
-                    29  Enrobage complet      +1 partout, tu encaisses mieux
+                    29  Le Flux               +1 partout, tu encaisses mieux
                     45  Emission a distance   +2 sur la manoeuvre de ta voie
                     60  Destruction interne   +2 partout
 
        OBSERVATION  28  Presences             +1 partout
-                    46  Intentions            +2 sur la manoeuvre Observation
-                    60  Anticipation          +2 partout
-                    72  Quelques secondes     +2 partout, tu lis le geste avant lui */
+                    46  Emotions              +2 sur la manoeuvre Observation
+                    60  Le geste avant lui    +2 partout
+                    72  Vision du futur       +2 partout
+
+       HAKI DES ROIS 58 Enrobe, eclairs noirs +3 et plus, en montant
+                     66 Le ciel se fend       +2 partout */
   if(S.f.haki_arm){
     if(S.st.arm >= 14 && m.id === 'arm') f += 2;
     if(S.st.arm >= 29) f += 1;
