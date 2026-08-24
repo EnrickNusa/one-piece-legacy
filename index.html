@@ -4562,13 +4562,25 @@ function cbFin(){
     cls = 'ok';
   } else if(av === 1){
     d = applyEff({combat:5, obs:6, vol:9, renom:-6});
-    mortP = clamp(0.015 + ecart*0.003, 0.01, 0.10);
+    mortP = clamp(0.055 + ecart*0.005, 0.03, 0.18);
+    S.cb.ecrase = false;
     S.n.losses = (S.n.losses||0)+1;
     txt = '<b>Une manche à deux. Tu as perdu.</b><br>' + esc(tpl(a.l));
     cls = 'bad';
   } else {
     d = applyEff({combat:3, vol:6, renom:-13});
-    mortP = clamp(0.036 + ecart*0.005, 0.02, 0.20);
+    /* ON MOURAIT ZERO FOIS EN COMBAT. Mesure du 24 aout, 300 carrieres :
+       96 % rentraient vivants et AUCUNE mort ne venait d'un affrontement, les
+       quatre pour cent restants venaient tous d'un die: pose sur une carte.
+       Enrick : « on ne meurt etonnamment jamais d'un affrontement alors que ca
+       arrive dans One Piece ».
+       Deux causes cumulees : un mortP de base trop bas, et surtout un filet a
+       88 % qui transformait presque tous les jets fatals en sequelle.
+       Le filet reste, mais il depend maintenant de LA FACON DONT ON PERD.
+       Perdre d'une manche, c'est une blessure. Se faire ecraser trois a zero
+       devant un adversaire au-dessus de soi, c'est une fin possible. */
+    mortP = clamp(0.190 + ecart*0.012, 0.11, 0.46);
+    S.cb.ecrase = true;
     S.n.losses = (S.n.losses||0)+1;
     txt = '<b>'+(dg===3?'Trois':'Deux')+' manches à zéro contre toi.</b><br>' + esc(tpl(a.l));
     cls = 'bad';
@@ -4587,7 +4599,9 @@ function cbFin(){
     if(rnd() < mortP){
       /* Une issue fatale donne d'abord une blessure qui pese sur la suite.
          La mort ne vient que si le catalogue de sequelles est epuise. */
-      if(rnd() < 0.88){
+      /* le filet suit la severite de la defaite : 0,86 quand on perd de peu,
+         0,45 quand on se fait ecraser. */
+      if(rnd() < (S.cb.ecrase ? 0.34 : 0.82)){
         var sq = subirSequelle(a.n, a.sc);
         if(sq){
           S.hist.push({a:S.age, p:prime(), n:niveau()});
@@ -12773,8 +12787,21 @@ function toast(t){
   clearTimeout(el._t); el._t=setTimeout(function(){ el.classList.remove('on'); }, 2400);
 }
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+/* AU-DESSUS DU MILLIARD, DEUX DECIMALES.
+   Le grain donne bien des primes differentes, mesure sur 400 carrieres : 6 010,
+   6 165, 6 334, 6 415 millions pour un Roi du Monde. Mais berry() arrondissait
+   au DIXIEME de milliard, donc il ne restait que six affichages possibles entre
+   6 et 6,5 Md, et deux carrieres sur quatorze tombaient pile sur « 6 Md ».
+   Enrick le 24 aout : « j'ai toujours une prime fixe a 6 milliards ». Il lisait
+   juste, le defaut etait dans l'affichage et pas dans le calcul.
+   On garde deux decimales et on laisse tomber les zeros inutiles : 6,01 Md,
+   6,42 Md, mais 3 Md reste 3 Md. C'est aussi la forme des primes de l'oeuvre,
+   qui sont des chiffres precis et pas des arrondis. */
 function berry(n){
-  if(n>=1e9) return (Math.round(n/1e8)/10).toString().replace('.',',')+' Md';
+  if(n>=1e9){
+    var x = Math.round(n / 1e7) / 100;
+    return String(x).replace('.', ',') + ' Md';
+  }
   if(n>=1e6) return Math.round(n/1e6)+' M';
   if(n>=1e3) return Math.round(n/1e3)+' k';
   return String(Math.round(n));
