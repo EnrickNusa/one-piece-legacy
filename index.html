@@ -2303,7 +2303,29 @@ function crossGuildPalier(){
   for(i=0;i<CROSSG.length;i++) if(v >= CROSSG[i].n) return CROSSG[i];
   return CROSSG[CROSSG.length-1];
 }
-function crossGuildMontant(){ return crossGuildPalier().m; }
+/* LE GRAIN DU BUREAU DES PRIMES.
+   Tire UNE fois par carriere et garde dans l'etat : prime() est appelee a
+   chaque rendu et doit rendre le meme chiffre deux fois de suite. Sans lui,
+   tous les Rois du Monde valaient 6 000 000 000 pile, tous les Amiraux en
+   chef 5 milliards pile, et deux carrieres au meme grade sortaient la meme
+   affiche. Enrick le 24 aout : « il faut varier les nombres sinon tout le
+   monde a toujours la meme carte ».
+   Les baremes canon restent les baremes : ce sont des TARIFS de reference, et
+   un dossier reel ne tombe jamais pile dessus. On s'en ecarte de moins de dix
+   pour cent, dans les deux sens. */
+function grainPrime(){
+  if(!S) return 0.5;
+  if(S.primeGrain === undefined || S.primeGrain === null) S.primeGrain = rnd();
+  return S.primeGrain;
+}
+/* arrondi credible : au million au-dessus du million, a la dizaine de milliers
+   en dessous. Jamais un multiple rond du bareme. */
+function arrondiPrime(v){
+  return v >= 1e6 ? Math.round(v / 1e6) * 1e6 : Math.round(v / 1e4) * 1e4;
+}
+function crossGuildMontant(){
+  return arrondiPrime(crossGuildPalier().m * (0.92 + grainPrime() * 0.16));
+}
 /* les symboles, c'est la signature visuelle de leurs affiches */
 function crossGuildSymboles(){
   var c = crossGuildPalier(), h = '', i;
@@ -2355,14 +2377,18 @@ function primeRang(){
 function primePlancher(){
   /* Roi du Monde : personne ne l'a jamais ete. Ni Roger, qui n'a trouve que le
      One Piece, ni Barbe Blanche, qui ne l'a pas trouve. */
-  if(S.f && S.f.roi_du_monde) return 6000000000;
+  /* Enrick le 24 aout : entre 6 et 6,5 milliards, jamais 6 pile. */
+  if(S.f && S.f.roi_du_monde) return arrondiPrime(6000000000 + grainPrime() * 5e8);
   /* ROI DES PIRATES : le titre ne se gagne pas au niveau, il se gagne en
      trouvant le One Piece. Le bareme, lui, etait indexe sur le niveau 88 :
      une joueuse couronnee Roi des Pirates plafonnait a 3,3 milliards, la
      prime d'un Empereur ordinaire. Roger valait 5 564 800 000 et personne ne
      porte ce titre pour moins. */
-  if(estRoiDesPirates()) return 5564800000;
-  return primeRang().p;
+  /* Roger valait 5 564 800 000. Un successeur ne porte pas le titre pour
+     moins, et il ne porte pas non plus le chiffre exact de Roger. */
+  if(estRoiDesPirates()) return arrondiPrime(5564800000 + grainPrime() * 1.8e8);
+  /* et le plancher d'un grade ordinaire ne tombe pas non plus pile dessus */
+  return arrondiPrime(primeRang().p * (1 + grainPrime() * 0.09));
 }
 /* le titre ultime du camp pirate : la quete accomplie, pas le niveau atteint */
 function estRoiDesPirates(){
@@ -2373,7 +2399,7 @@ function estRoiDesPirates(){
    de ton grade, mais jamais tres loin. Le Gouvernement corrige toujours vers
    la menace reelle. */
 function primePlafond(){
-  if(S.f && S.f.roi_du_monde) return 7000000000;
+  if(S.f && S.f.roi_du_monde) return 6500000000;
   /* sans ca, le plancher de Roger serait immediatement rabote par le
      plafond du grade de niveau, et le chiffre ne bougerait pas d'un Berry */
   if(estRoiDesPirates()) return 5800000000;
@@ -2394,7 +2420,7 @@ function primePlafond(){
 function prime(){
   /* Siéger sur le Trône Vide sort de tous les barèmes, y compris de celui du
      Cross Guild. Le chiffre ne dépend plus du camp d'origine. */
-  if(S.f && S.f.roi_du_monde) return clamp(Math.max(S.prime, 6000000000), 0, 7000000000);
+  if(S.f && S.f.roi_du_monde) return clamp(Math.max(S.prime, primePlancher()), 0, primePlafond());
   if(S.camp==='marine' || S.camp==='gm'){
     if(!S.f.prime_pegre) return 0;
     /* le bareme du Cross Guild suit le grade, pas les exploits de pirate.
@@ -11909,6 +11935,7 @@ function berry(n){
 function newState(){
   return {
     name:'', race:null, build:null, origin:null, camp:null, spec:null, reve:null,
+    primeGrain:null,
     /* qui t'a vu partir. Tire ici parce que c'est le seul point de passage
        obligatoire de toute carriere : le tirage pose plus loin, dans le
        bouton « Prendre la mer », ne s'executait jamais et les 23 parties
@@ -12160,7 +12187,13 @@ function renderHud(){
      dessous. Un Roi des Pirates est forcement passe par la. */
   if(!S.f.rang_haut && niveau() >= 73) S.f.rang_haut = true;
   $('h_name').textContent = S.name || 'Sans nom';
-  $('h_sub').textContent = S.age + ' ans  ·  ' + S.race.n + (C ? '  ·  ' + C.court : '') + (S.spec ? '  ·  ' + S.spec.n : '');
+  /* LE GABARIT SE LIT JUSTE APRES LA RACE, partout ou la race est ecrite.
+     Il est tire au sort au meme moment qu'elle, il change les statistiques de
+     depart, et il n'apparaissait ni dans le bandeau, ni sur l'avis de
+     recherche, ni au palmares. Un axe du personnage invisible toute la partie. */
+  $('h_sub').textContent = S.age + ' ans  ·  ' + S.race.n +
+    (S.build ? '  ·  ' + S.build.n : '') +
+    (C ? '  ·  ' + C.court : '') + (S.spec ? '  ·  ' + S.spec.n : '');
   /* L'ETAT SE LIT SANS DEROULER QUOI QUE CE SOIT.
      « Blessé » vivait dans la colonne de droite, dans un bloc qu'on ne voit
      qu'en la faisant défiler. Un joueur qui ne déroule pas ne sait pas qu'il
@@ -14462,7 +14495,9 @@ function showEnd(){
   $('po_seal').textContent = S.f.roi_du_monde ? "AU-DESSUS DU GOUVERNEMENT MONDIAL"
     : (marine ? "MARINE" : "GOUVERNEMENT MONDIAL");
   $('po_meta').innerHTML =
-    '<span>'+esc(S.race.n)+'</span><span>'+esc(S.origin.n)+'</span>' +
+    '<span>'+esc(S.race.n)+'</span>' +
+    (S.build ? '<span>'+esc(S.build.n)+'</span>' : '') +
+    '<span>'+esc(S.origin.n)+'</span>' +
     '<span>'+(S.alive?'Vivant à ':'Mort à ')+S.age+' ans</span>' +
     (S.spec ? '<span>'+esc(S.spec.n)+'</span>' : '');
 
@@ -14944,7 +14979,7 @@ function hallAjoute(){
   var C = campQuete();
   L.push({ n:S.name, s:surnom(), c:S.camp, t:rankTitle(), p:prime(),
            a:S.age, v:S.alive?1:0, rv:reveResult()?1:0, so:campResult()===2?1:0,
-           ra:S.race && S.race.n, vo:S.spec && S.spec.n,
+           ra:S.race && S.race.n, ga:S.build && S.build.n, vo:S.spec && S.spec.n,
            re:S.reve && reveNom(S.reve),
            qu:C && C.quete, qf:queteFaite()?1:0,
            fr:S.fruit && S.fruit.fr, ev:S.eveil?1:0,
@@ -15080,12 +15115,19 @@ function hallRend(){
     if(c.re) axes.push('rêve : ' + esc(c.re) + (c.rv ? ' ✓' : ''));
     var ligne1 = [];
     if(c.ra) ligne1.push(esc(c.ra));
+    /* les anciennes entrees n'ont pas ce champ : hallRend prevoit le repli */
+    if(c.ga) ligne1.push(esc(c.ga));
     if(c.fr) ligne1.push(esc(c.fr) + (c.ev ? ' éveillé' : ''));
     if(c.qu) ligne1.push('quête : ' + esc(c.qu) + (c.qf ? ' ✓' : ''));
     var marques = '';
     if(c.qf) marques += '<span class="mq ok">quête</span>';
     if(c.rv) marques += '<span class="mq ok">rêve</span>';
-    if(c.so) marques += '<span class="mq or">' + esc(c.t || '') + '</span>';
+    /* LE TITRE ETAIT ECRIT TROIS FOIS SUR LA MEME LIGNE.
+        La pastille du sommet reimprimait c.t, deja affiche en gris sous le nom
+        par .hrg, et un Roi du Monde recevait en plus sa propre pastille : trois
+        fois « Roi du Monde » sur une carte de quatre lignes. Le sommet prend
+        donc le meme vocabulaire court que la quete et le reve. */
+    if(c.so) marques += '<span class="mq or">sommet</span>';
     if(c.rm) marques += '<span class="mq or">Roi du Monde</span>';
     if(c.hk) marques += '<span class="mq">Haki des Rois</span>';
     if(!c.v) marques += '<span class="mq ko">mort à ' + c.a + ' ans</span>';
