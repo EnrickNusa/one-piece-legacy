@@ -501,6 +501,15 @@ details.why[open]{padding-bottom:2px}
 .pj .pv em{font-style:normal;font-family:var(--body);font-size:11.5px;font-weight:700;
   color:var(--faint);margin-left:2px}
 /* la frequence en toutes lettres, a droite du compte, a la place de la barre */
+/* LA LIGNE DE STATUT, sous le niveau. Elle ne parait que quand le grade
+   differe de la puissance, donc elle doit se lire comme une nuance, pas
+   comme une deuxieme etiquette qui concurrence la premiere. */
+.statut{margin-top:9px;padding-top:8px;border-top:1px solid var(--line)}
+.statut .sl{display:inline-block;font-size:9.5px;font-weight:900;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--faint)}
+.statut .sv{display:block;font-family:var(--disp);font-size:16px;font-weight:800;
+  color:var(--ink);line-height:1.2;margin-top:1px}
+.statut .ss{display:block;font-size:11.5px;line-height:1.45;color:var(--faint);margin-top:3px}
 .pj .pv i{font-style:normal;display:block;font-family:var(--body);font-size:11px;
   font-weight:700;letter-spacing:.02em;color:var(--faint);margin-top:1px}
 .pj{align-items:start}
@@ -2692,6 +2701,38 @@ var ROI_DU_MONDE = {n:92, t:"Roi du Monde", r:"Au-dessus du Roi des Pirates. Le 
    s'achete pas au niveau : Roi des Pirates, Amiral en chef, Chef de l'Armee et
    Doyen du Gouvernement ne se prennent qu'en accomplissant la quete du camp.
    Sans elle, on plafonne a l'avant-dernier, si haut soit-on monte. */
+/* ================= LE NIVEAU ET LE STATUT =================
+   palierPuissance() dit CE QUE TU VAUX. Il ne dit pas quel poste tu occupes,
+   et le jeu confondait les deux : Enrick s'est retrouve « Amiral en chef »
+   pendant que Sakazuki continuait de lui donner des ordres. Son diagnostic,
+   le 24 aout : « le niveau c'est ton niveau en soi, mais des fois tu n'es pas
+   forcement amiral en tant que poste ».
+   Option retenue : LE STATUT EST LE NIVEAU PLAFONNE PAR LA RENOMMEE. On peut
+   cogner comme un Amiral, si personne ne sait qui on est on reste Capitaine.
+   Cale sur la mesure du 24 aout, 300 carrieres : la Renommee finit 9 points
+   sous le niveau en mediane, 18 au 75e centile, et un barreau fait 8 a 10
+   points. Une marge de 6 laisse donc le joueur median a son grade ou un cran
+   en dessous, et fait decrocher de deux crans ceux que personne ne connait.
+   Le statut ne depasse JAMAIS le niveau : on n'est pas promu au-dessus de ce
+   qu'on vaut. Et la quete du camp donne le rang ultime quoi qu'il arrive,
+   comme pour la puissance. */
+var STATUT_MARGE = 6;
+function palierStatut(){
+  if(S.f && S.f.roi_du_monde) return ROI_DU_MONDE;
+  var ultime = (typeof campResult === 'function') && campResult() === 2;
+  if(ultime) return palierPuissance();
+  if(S.f && S.f.adoube) return palierPuissance();
+  var v = Math.min(niveau(), Math.round(S.st.renom) + STATUT_MARGE);
+  var e = ECHELLE[0], i;
+  for(i=0;i<ECHELLE.length;i++){
+    if(ECHELLE[i].n >= 85) continue;
+    if(v < ECHELLE[i].n) continue;
+    e = ECHELLE[i];
+  }
+  var camp = S.camp || 'pirate';
+  var ref = (typeof e.r === 'string') ? e.r : (e.r[camp] || e.r.pirate);
+  return {n:e.n, t:e.t[camp] || e.t.pirate, r:ref};
+}
 function palierPuissance(){
   if(S.f && S.f.roi_du_monde) return ROI_DU_MONDE;
   var v = niveau(), e = ECHELLE[0], i;
@@ -7621,7 +7662,12 @@ opts:[
    r:"Tu enseignes ce que tu as vraiment appris, y compris ce qui n'est nulle part dans le manuel. Une inspection assiste à un cours et parle d'un officier qui sème le doute chez les élèves."}}
 ]});
 
-E({id:"mar5_b", act:5, scene:"marineford", w:16, ineed:"marine",
+/* SAKAZUKI NE CONVOQUE PAS SON PROPRE SUPERIEUR.
+   Enrick le 24 aout : « je suis amiral en chef mais Akainu me donne encore des
+   ordres, je devrais prendre son poste et ne plus revoir cette animation a mon
+   stade ». Le barreau 73 est celui de l'Amiral en chef : au-dela, ce bureau
+   est le tien. nmax:72 ferme la carte au moment exact ou le grade bascule. */
+E({id:"mar5_b", act:5, scene:"marineford", w:16, nmax:72, ineed:"marine",
 kicker:"Bureau du Quartier Général", title:"Ce que l'amiral Sakazuki attend de toi",
 text:"Sakazuki ne convoque pas pour discuter. Sur la table, un ordre, un stylo, dix mots : signe, ou pars aujourd'hui.<br><br>Trente ans que tu cherches la troisième porte entre obéir et refuser. Elle n'est pas dans cette pièce.",
 opts:[
@@ -13065,13 +13111,26 @@ function renderManager(){
   if(delta>0) h += '<span class="nvd up">▲ '+delta+'</span>';
   else if(delta<0) h += '<span class="nvd dn">▼ '+(-delta)+'</span>';
   h += '<span class="nvp r'+Math.min(4, Math.floor(pp.n/22))+'">'+esc(pp.t)+'</span></div>';
-  h += '<div class="mgs">'+esc(pp.r)+'</div></div>';
+  h += '<div class="mgs">'+esc(pp.r)+'</div>';
+  /* LE STATUT, SOUS LE NIVEAU. Le grade affiche disait ce qu'on VAUT et le
+     joueur le lisait comme un POSTE : Enrick se retrouvait Amiral en chef
+     pendant que Sakazuki lui donnait encore des ordres. La ligne n'apparait
+     que quand les deux different, sinon elle repeterait le grade du dessus. */
+  var st = palierStatut();
+  if(st.t !== pp.t)
+    h += '<div class="statut"><span class="sl">Statut</span>' +
+         '<span class="sv">'+esc(st.t)+'</span>' +
+         '<span class="ss">Ton niveau vaut plus que ton grade. Il faut qu\'on sache qui tu es.</span></div>';
+  h += '</div>';
+  var B_niv = h; h = '';
   if(S.flotte && S.flotte.length){
     h += '<details class="mg wide fold" open><summary>'+esc(mot('FLOTTE'))+' <b>'+S.flotte.length+'</b></summary><div class="cw">';
     for(var fi=0;fi<S.flotte.length;fi++) h += '<div class="cm"><b>'+esc(S.flotte[fi])+'</b><span>ralliés</span></div>';
     if(S.n.flotteMorts) h += '<div class="cm more"><b>'+S.n.flotteMorts+'</b><span>tombés</span></div>';
     h += '</div></details>';
   }
+  var B_flotte = h; h = '';
+
   var ET = etatActif();
   if(ET){
     h += '<div class="mg wide etat"><div class="mgl">Ton état</div>';
@@ -13079,6 +13138,7 @@ function renderManager(){
     h += '<div class="mgs">'+esc(ET.d)+'</div>';
     h += '<div class="objp">encore '+S.etat.reste+(S.etat.reste>1?' chapitres':' chapitre')+'</div></div>';
   }
+  var B_etat = h; h = '';
   var OB = objectifZone();
   if(OB){
     var fait = objectifFait();
@@ -13086,6 +13146,7 @@ function renderManager(){
     h += '<div class="objt">'+esc(OB.t)+'</div>';
     h += '<div class="objp">'+objectifAvance()+' / '+OB.n+(fait?'  ·  rempli':'')+'</div></div>';
   }
+  var B_obj = h; h = '';
 
   h += '<div class="mg">';
   h += '<div class="mgl">'+esc(primeLabel())+'</div>';
@@ -13104,11 +13165,15 @@ function renderManager(){
   /* Un Marine ne « prend » pas un navire, on lui affecte un batiment. Et la
      reference au manga dit tout de suite ou on se situe. */
   var LIBN = {pirate:'Navire', marine:'Bâtiment affecté', revo:'Navire', gm:'Navire de service'};
+  var B_prime = h; h = '';
+
   h += '<div class="mg wide"><div class="mgl">'+(LIBN[S.camp]||'Navire')+'</div>';
   h += '<div class="mgv">'+esc(shipObj().n)+'</div>';
   h += '<div class="mgs">'+(S.shipName ? '« '+esc(S.shipName)+' » · ' : '')+esc(shipObj().d)+'</div>';
   if(shipObj().ref) h += '<div class="shref">'+esc(shipObj().ref)+'</div>';
   h += '</div>';
+
+  var B_navire = h; h = '';
 
   h += '<div class="mg"><div class="mgl">Fruit du Démon</div>';
   if(S.fruit){
@@ -13120,6 +13185,8 @@ function renderManager(){
          '<span class="hb"><i style="width:'+(S.eveil?100:0)+'%"></i></span></div>';
   } else h += '<div class="mgv off">Aucun</div><div class="mgs">Tu sais encore nager.</div>';
   h += '</div>';
+
+  var B_fruit = h; h = '';
 
   h += '<details class="mg wide fold" open><summary>Haki <span class="gl">(« Fluide » chez Glénat)</span></summary><div class="hk">';
   var ks=['arm','obs','rois'];
@@ -13153,6 +13220,8 @@ function renderManager(){
   /* L'equipage se lit comme une barre de Haki : un palier, pas douze noms.
      Mesure : la liste valait TOUJOURS 12, sans une exception, donc douze noms
      tires au sort qui ne racontaient rien et qu'il fallait quand meme lire. */
+  var B_haki = h; h = '';
+
   var LIBE = {pirate:'Équipage', marine:'Hommes affectés', revo:'Groupe', gm:'Détachement'};
   var eq = equipagePalier();
   h += '<div class="mg wide"><div class="mgl">'+(LIBE[S.camp]||'Équipage')+'</div>'+
@@ -13162,6 +13231,8 @@ function renderManager(){
        '<span class="hb">'+equipageTraits()+'<i style="width:'+eq.pct+'%"></i></span></div>'+
        '<div class="mgs">'+esc(eq.d)+'</div></div>';
 
+  var B_equipage = h; h = '';
+
   var tr = traits();
   if(tr.length){
     h += '<details class="mg wide fold"><summary>Ce qu\'on dit de toi <b>'+tr.length+'</b></summary><div class="tro sm">';
@@ -13169,8 +13240,11 @@ function renderManager(){
     h += '</div></details>';
   }
 
+  var B_traits = h; h = '';
+
   var cb = courbe();
   if(cb) h += '<details class="mg wide fold"><summary>Ta prime au fil des années</summary>'+cb+'</details>';
+  var B_courbe = h; h = '';
 
   /* LES FAITS D'ARMES SONT DES ACTES, PAS UNE REPUTATION.
      Le bloc affichait « Craint des siens » et « Aime du peuple » alors que la
@@ -13224,7 +13298,20 @@ function renderManager(){
   h += '<details class="mg wide fold"><summary>Faits d\'armes <b>'+nb+'</b></summary>' +
        (fh ? '<div class="lrs">'+fh+'</div>' : '<div class="mgv off">Rien encore</div>') + '</details>';
 
-  $('manager').innerHTML = h;
+  var B_faits = h;
+
+  /* L'ORDRE DU PANNEAU, VALIDE PAR ENRICK LE 24 AOUT.
+     Il etait historique et pas pense : la flotte en deuxieme et l'equipage en
+     neuvieme alors que c'est la meme chose, la courbe de prime six blocs sous
+     la prime. On lit maintenant de haut en bas : CE QUI DECIDE MAINTENANT,
+     puis CE QUE TU ES, puis CE QUE TU AS ACCOMPLI.
+     La prime reste haut, juste sous l'objectif : choix d'Enrick contre ma
+     proposition, qui la descendait tout en bas. */
+  $('manager').innerHTML =
+      B_niv + B_etat + B_obj + B_prime          /* ce qui decide maintenant */
+    + B_haki + B_fruit                          /* ce que tu es */
+    + B_equipage + B_navire + B_flotte
+    + B_courbe + B_traits + B_faits;            /* ce que tu as accompli */
 }
 
 /* La courbe de la carriere. Destiny Eleven trace la valeur marchande sur
