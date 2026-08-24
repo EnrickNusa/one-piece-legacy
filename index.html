@@ -2068,7 +2068,13 @@ var HAKI = {
        Distribution mesuree le 24 aout, 250 carrieres : p1 19 %, p2 27 %,
        p3 27 %, p4 16 %, p5 6 %. La pyramide est bonne, on ne touche pas aux
        seuils, on ne corrige que les noms. */
-    t:[[1,"Éveillé"],[14,"Durcissement"],[29,"Le Flux"],[45,"Émission à distance"],[60,"Destruction interne"]]},
+    /* NOMS RECALES le 24 aout : plus courts, tous des noms communs.
+       Une echelle ou quatre substantifs voisinent avec un participe se lit
+       moins vite, d'ou « Eveil » et pas « Eveille ». Trois propositions
+       independantes ont converge sur « Flux interieur » et sur « Frappe »
+       comme mot de tete du quatrieme. Rien ne depasse 19 caracteres, parce
+       que le nom s'affiche dans une jauge suivi de « 3/5 ». */
+    t:[[1,"Éveil"],[14,"Durcissement"],[29,"Flux intérieur"],[45,"Frappe sans contact"],[60,"Rupture interne"]]},
   obs:{ n:"Haki de l'Observation", g:"Fluide Perceptif", cl:'hk',
     d:"Sentir l'énergie des autres et lire leur geste avant qu'ils le fassent. Bien plus difficile à éveiller que l'Armement, sauf pour un tireur, qui monte par là plutôt que par la force.",
     /* Observation : mediane 46, 90e centile 66, max 82. Le 5e etait a 84. */
@@ -2078,7 +2084,11 @@ var HAKI = {
        perdu a repeter le suivant. Le quatrieme reprend l'usage classique en
        combat, lire le geste avant qu'il parte, et le cinquieme garde le Yochi.
        Distribution mesuree : p1 25 %, p2 35 %, p3 27 %, p4 9 %, p5 4 %. */
-    t:[[1,"Éveillé"],[28,"Présences"],[46,"Émotions"],[60,"Le geste avant qu'il parte"],[72,"Vision du futur"]]},
+    /* « Le geste avant qu'il parte » faisait 26 caracteres et decrivait au
+       lieu de nommer. « Anticipation » dit la meme chose en 12, et ne se
+       confond plus avec le palier 5 depuis que celui-ci s'appelle « Vision du
+       futur » : anticiper un geste et voir le futur sont deux choses. */
+    t:[[1,"Éveil"],[28,"Présences"],[46,"Émotions"],[60,"Anticipation"],[72,"Vision du futur"]]},
   rois:{ n:"Haki des Rois", g:"Fluide Royal", cl:'rk',
     d:"Un homme sur plusieurs millions. Ça ne s'apprend pas, ça se dompte.",
     /* Haki des Rois : on l'a ou on ne l'a pas. Chez ceux qui l'ont, il finit
@@ -2103,7 +2113,12 @@ var HAKI = {
        le defaut que ce fichier signale plus haut, « le dernier palier etait
        pile sur le maximum ». A 66 il tombe pour environ un porteur sur dix.
        Rare, ce qu'il doit etre, mais pas decoratif. */
-    t:[[1,"Manifesté"],[20,"Maîtrisé"],[40,"Dirigé"],[58,"Enrobé, éclairs noirs"],[66,"Le ciel se fend"]]}
+    /* « Manifeste » est garde par Enrick contre « Debordement » qui avait ete
+       propose : c'est le seul participe des quinze noms, et c'est son choix.
+       Les quatre autres racontent la seule chose qui compte ici : ca sort tout
+       seul, puis tu controles l'onde, puis tu vises un homme dans une foule,
+       puis ta volonte sort de ton poing, puis le ciel s'ouvre. */
+    t:[[1,"Manifesté"],[20,"Onde maîtrisée"],[40,"Cible unique"],[58,"Éclairs noirs"],[66,"Ciel fendu"]]}
 };
 function hakiPalier(k){
   var v = S.st[k], T = HAKI[k].t, out = null;
@@ -3416,17 +3431,17 @@ function cbForce(m){
      exactement ceux qui s'affichent dans la fiche, pas d'autres.
 
        ARMEMENT     14  Durcissement          +2 sur la manoeuvre Armement
-                    29  Le Flux               +1 partout, tu encaisses mieux
-                    45  Emission a distance   +2 sur la manoeuvre de ta voie
-                    60  Destruction interne   +2 partout
+                    29  Flux interieur        +1 partout, tu encaisses mieux
+                    45  Frappe sans contact   +2 sur la manoeuvre de ta voie
+                    60  Rupture interne       +2 partout
 
        OBSERVATION  28  Presences             +1 partout
                     46  Emotions              +2 sur la manoeuvre Observation
-                    60  Le geste avant lui    +2 partout
+                    60  Anticipation          +2 partout
                     72  Vision du futur       +2 partout
 
-       HAKI DES ROIS 58 Enrobe, eclairs noirs +3 et plus, en montant
-                     66 Le ciel se fend       +2 partout */
+       HAKI DES ROIS 58 Eclairs noirs         +3 et plus, en montant
+                     66 Ciel fendu            +2 partout */
   if(S.f.haki_arm){
     if(S.st.arm >= 14 && m.id === 'arm') f += 2;
     if(S.st.arm >= 29) f += 1;
@@ -12966,7 +12981,8 @@ function detecteMoments(av){
     if(!ap.hk.hasOwnProperty(k)) continue;
     if(ap.hk[k] > av.hk[k] && av.hk[k] > 0){
       /* UN PALIER PRIS EN AVANCE EST UN FAIT RARE, ET LE JEU DOIT LE DIRE.
-         Mesure du 22 aout, 400 carrieres : l'Enrobage complet tombait a
+         Mesure du 22 aout, 400 carrieres : le 3e palier d'Armement, alors
+         nomme « Enrobage complet » et devenu « Flux interieur », tombait a
          l'acte 2 pour 18 % des joueurs et l'Emission a distance a l'acte 3
          pour 30 %. Dans l'oeuvre, recouvrir entierement son arme de Haki est
          deja le niveau d'un commandant d'Empereur, et l'emission a distance
