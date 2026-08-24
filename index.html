@@ -263,6 +263,21 @@ b,strong{font-weight:800}
 /* « note » : la meme forme, mais ce bloc RACONTE, il ne juge pas. Fond neutre,
    et son filet de gauche vient de la ligne qui le pose. */
 .res.note{background:rgba(255,255,255,.55)}
+/* LES RECITS DE L'ECRAN DE FIN NE SONT PLUS DES BOITES.
+   Quatre encadres a filet colore, roses, verts, violets, empiles sous un titre
+   en capitales : chacun avait sa couleur et aucun ne disait pourquoi. Enrick le
+   24 aout : bancal. Ce sont des paragraphes, separes par un filet fin, avec
+   leur premiere phrase en tete. Ce qui est reussi ou rate se lit deja dans les
+   grands titres juste en dessous, mot pour mot. */
+.recit{margin-top:15px;padding-top:13px;border-top:1px solid var(--line);
+  font-size:16px;line-height:1.62;max-width:64ch}
+.recit b{display:block;font-family:var(--disp);font-weight:800;font-size:17.5px;
+  line-height:1.25;color:var(--ink);margin-bottom:4px;letter-spacing:-.01em}
+.recit .res{margin-top:10px}
+/* « Ce qu'on dit de toi » : une phrase, plus une rangee de pastilles centrees
+   qui flottaient sans intitule au milieu de la fiche. */
+.ondit{margin:14px 0 0;font-size:15px;line-height:1.55;color:var(--ink2);max-width:64ch}
+.ondit b{font-family:var(--disp);font-weight:800;color:var(--ink)}
 @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 /* Le combat ecrit « deltas » avec un s, le reste du jeu « delta ». Seule la
    seconde avait une regle : les pastilles de fin de combat s'entassaient sans
@@ -15116,9 +15131,12 @@ function showEnd(){
      92 ou en annees, et il ressemblait au niveau du panneau de jeu sans en
      etre un. On reprend la jauge du palmares, que le joueur connait deja :
      un libelle, « n sur N », une barre. */
-  $('end_niv').innerHTML = '<div class="pj"><span class="pn">Niveau atteint</span>' +
-    '<span class="pv">' + nvh + ' <em>sur 92</em></span>' +
-    '<span class="pb"><i style="width:' + Math.min(100, Math.round(nvh * 100 / 92)) + '%"></i></span></div>';
+  /* LA JAUGE DE NIVEAU EST RETIREE DE LA FICHE. L'affiche du dessus porte deja
+     « Niveau atteint / 57 / sur 92 » dans son propre bloc, ajoute le meme jour :
+     la fiche la repetait vingt centimetres plus bas, avec une barre en plus.
+     Enrick le 24 aout : le design est bancal. Le chiffre reste, une seule fois,
+     la ou il est le mieux mis. */
+  if($('end_niv')) $('end_niv').innerHTML = '';
 
   var txt;
   if(!S.alive){
@@ -15152,7 +15170,7 @@ function showEnd(){
        cheveu ou si on en etait loin, et ce qui fait monter le niveau. On
        retire le bareme. */
     var Zf = ACTS[S.act], mq = Math.max(1, (Zf ? Zf.sortie : 0) - niveau());
-    txt += '<div class="res bad"><b>' +
+    txt += '<div class="recit"><b>' +
            (mq <= 4 ? 'Il t\'a manqué un cheveu.' :
             mq <= 12 ? 'Il t\'a manqué un peu.' : 'Tu en étais encore loin.') +
            '</b><br>' +
@@ -15187,22 +15205,26 @@ function showEnd(){
      la carte de fin, je ne suis pas sur de ce qu'elle apporte ».
      « res note » garde la forme et rend le fond neutre. Le vert reste sur le
      reve accompli, ou il dit quelque chose. */
-  if(ft) txt += '<div class="res note" style="border-left-color:var(--red2)"><b>'+esc(ft.v.n)+'.</b><br>'+esc(ft.v.t)+'</div>';
+  if(ft) txt += '<div class="recit"><b>'+esc(ft.v.n)+'.</b>'+esc(ft.v.t)+'</div>';
   if(S.reve){
     var dt = reveDetail();
-    txt += '<div class="res '+(rv?'good':'bad')+'" style="border-left-color:'+(rv?'#01542c':'#911108')+'">'+
-      '<b>Ton rêve : '+esc(S.reve.n)+'.</b><br>'+
+    txt += '<div class="recit">'+
+      '<b>Ton rêve : '+esc(S.reve.n)+'.</b>'+
       (dt ? esc(dt)+'<br>' : '')+
       (rv ? "<b>C'est fait.</b> Ce n'était le rêve de personne d'autre et personne d'autre ne pouvait le faire à ta place."
           : "<b>Tu ne l'as pas fait.</b> C'est la seule chose de ce bilan que tu ne partageras avec personne.")+'</div>';
   }
-  if(sp) txt += '<div class="res note" style="border-left-color:#7a1fb0"><b>'+esc(S.spec.titre)+'.</b><br>Le World Economic Journal a titré dessus sur six colonnes. Ce titre ne dépend d\'aucun grade et personne ne peut te le retirer.</div>';
+  if(sp) txt += '<div class="recit"><b>'+esc(S.spec.titre)+'.</b>Le World Economic Journal a titré dessus sur six colonnes. Ce titre ne dépend d\'aucun grade et personne ne peut te le retirer.</div>';
   $('end_text').innerHTML = txt;
 
-  /* traits */
-  var tr=traits(), th='';
-  for(var t=0;t<tr.length;t++) th += '<span class="t">'+esc(tr[t])+'</span>';
-  $('end_traits').innerHTML = th;
+  /* CE QU'ON DIT DE TOI SE DIT, AU LIEU DE FLOTTER.
+     C'etait une rangee de pastilles jaunes centrees au milieu de la fiche, sans
+     intitule, entre un titre en capitales et un paragraphe. Elles ne se
+     rattachaient a rien et cassaient la colonne de lecture. On les ecrit. */
+  var tr=traits();
+  $('end_traits').innerHTML = tr.length
+    ? '<p class="ondit"><b>Ce qu\'on dit de toi.</b> ' + esc(tr.join(', ')) + '.</p>'
+    : '';
 
   /* ---- le palmares fictif d'une carriere entiere -----------------------
      Les cinq grands combats joues ne racontent pas une vie de vingt ans.
