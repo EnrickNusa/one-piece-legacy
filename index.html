@@ -14096,16 +14096,27 @@ function imuPossible(){
   return campResult() === 2;
 }
 
+/* LA SCENE A ETE ECRITE QUAND IMU N'ETAIT QU'UNE SILHOUETTE.
+   Elle disait « ce qui s'y tient », « ce qui n'a pas de nom », « personne de
+   vivant n'a vu de quoi c'est capable » : c'etait honnete tant que l'oeuvre
+   ne montrait rien. L'arc d'Elbaf a tout montre, et le dernier ecran du jeu
+   restait plus vague que le manga.
+   Reecrite le 24 aout sur ce qui est etabli : le nom complet, Nerona Imu ;
+   le visage revele au chapitre 1179 ; la forme dite du Dieu Demon, peau
+   tannee, cornes, ailes noires, naginata et roue de flammes noires dans le
+   dos ; et le pouvoir, qui n'est pas une force mais un PACTE, ou ce qui
+   entre lui appartient deja et se retourne contre son porteur.
+   On garde le ton : on ne recite pas une fiche, on decrit ce qu'on voit. */
 var IMU_FORCE = [
- {k:"Le dernier escalier", t:"Au fond du Château Pangée, une salle où l'on ne conduit personne deux fois. Un trône monté si haut qu'il faut lever la tête, et il n'est pas vide.<br><br>Ce qui s'y tient te regarde traverser la salle sans bouger.",
+ {k:"Le dernier escalier", t:"Au fond du Château Pangée, la Salle des Fleurs. Un trône monté si haut qu'il faut lever la tête, et il n'est pas vide.<br><br>Ce qui s'y tient est petit. Une longue chevelure qui tombe jusqu'au sol, et un regard qui ne cligne pas. Ça n'a pas quitté ce siège depuis huit cents ans, et ça te regarde traverser la salle sans bouger.",
   o:[{t:"Monter en silence, sans arme sortie", tag:"Sang-froid", s:'ruse'},
      {t:"Annoncer ton nom à voix haute", tag:"Défi", s:'vol'},
      {t:"Frapper avant qu'il ait fini de te regarder", tag:"Première main", s:'obs'}]},
- {k:"Ce qui n'a pas de nom", t:"Ce qui répond n'a pas de nom, et personne de vivant n'a vu de quoi c'est capable. Il n'efface pas, il décide que ça n'a jamais existé.<br><br>Un royaume entier a disparu comme ça, et on a ordonné au monde de croire qu'il n'avait jamais existé.",
-  o:[{t:"Enrober tout ce que tu as et encaisser", tag:"Armement", s:'arm'},
+ {k:"Nerona Imu", t:"Il a un nom. Personne de vivant en dehors de cette salle ne le connaît, et tu viens de l'entendre.<br><br>La peau se tend, deux cornes montent, des ailes noires s'ouvrent d'un mur à l'autre et une roue de flammes noires se met à tourner dans son dos. Il ne dégaine pas une arme, il en fait venir une.<br><br>Il n'efface pas, il décide que ça n'a jamais existé. Un royaume entier a disparu comme ça, et on a ordonné au monde de croire qu'il n'avait jamais été là.",
+  o:[{t:"Enrober tout ce que tu as et passer sous les flammes", tag:"Armement", s:'arm'},
      {t:"Lire la seconde d'après et t'y placer", tag:"Observation", s:'obs'},
      {t:"Répondre par ta propre volonté", tag:"Haki des Rois", s:'rois'}]},
- {k:"La dernière", t:"Il reste un échange. Un seul. Tout ce que tu as construit depuis tes dix-sept ans tient dans le geste qui vient.<br><br>Un seul homme a fait reculer ce qui siège là, il y a huit cents ans. Personne ne sait comment.",
+ {k:"La dernière", t:"Il reste un échange. Un seul. Tout ce que tu as construit depuis tes dix-sept ans tient dans le geste qui vient.<br><br>Ce qu'il t'oppose n'est pas une force, c'est un pacte. Tout ce qui entre dans cette salle lui appartient déjà, et il n'a qu'à le retourner contre celui qui l'a apporté. Ta force est son arme depuis que tu as poussé la porte.<br><br>Un seul homme a fait reculer ça, il y a huit cents ans. Personne ne sait comment.",
   o:[{t:"Tout mettre dans un seul coup", tag:"Va-tout", s:'combat'},
      {t:"Refuser de finir, et tenir debout", tag:"Volonté", s:'vol'},
      {t:"Faire ce que personne n'attend", tag:"Insensé", s:'ruse'}]}
@@ -14124,7 +14135,7 @@ var IMU_SUCCESSION = [
   o:[{t:"Parce que le monde ne survivrait pas à la vérité", tag:"L'ordre", s:'ruse'},
      {t:"Parce que c'est l'ordre que j'ai reçu", tag:"Le service", s:'vol'},
      {t:"Parce que je veux la place de celui qui l'a donné", tag:"L'aveu", s:'renom'}]},
- {k:"Ce qu'il te reste à céder", t:"Il ne cède rien, il transmet. Ce n'est pas la même chose et tu viens de comprendre la différence.<br><br>Ce qui monte le grand escalier après ça ne porte plus le nom qu'on lui avait donné à la naissance.",
+ {k:"Ce qu'il te reste à céder", t:"Nerona Imu. Le nom se dit une fois, très bas, et il ne se répète pas.<br><br>Il ne cède rien, il transmet. Ce n'est pas la même chose et tu viens de comprendre la différence.<br><br>Ce qui monte le grand escalier après ça ne porte plus le nom qu'on lui avait donné à la naissance.",
   o:[{t:"Céder ton nom", tag:"Sans matricule", s:'vol'},
      {t:"Céder ce que tu sais", tag:"Le dernier registre", s:'ruse'},
      {t:"Ne rien céder et tendre la main", tag:"D'égal à égal", s:'renom'}]}
@@ -14203,7 +14214,7 @@ function imuJoue(i){
       S.st.rois = Math.max(S.st.rois, 70);
       bump('renom', 26); bump('vol', 18);
       $('im_res').innerHTML = '<div class="res good"><b>Le trône est vide.</b><br>'+
-        "Ce qui s'y tenait n'y est plus, et le monde ne comprendra jamais tout à fait ce qui s'est passé sous Marie-Joie. "+
+        "Nerona Imu n'y est plus. Le monde ne comprendra jamais ce qui s'est passé sous Marie-Joie, parce que personne n'a jamais su qu'il y avait quelqu'un. "+
         "Tu ressors par le grand escalier, seul, et la lumière du dehors n'a pas la même couleur qu'à l'aller.<br><br>"+
         "Il n'existe pas de mot pour ce que tu es devenu. Le seul avant toi à s'être assis là, personne n'a jamais osé écrire son nom.</div>"+
         '<div class="row end" style="margin-top:14px"><button class="btn" id="b_imu">Voir ton avis de recherche</button></div>';
@@ -14216,7 +14227,7 @@ function imuJoue(i){
     save(); return;
   }
   S.alive = false;
-  S.cause = "Tu es allé sous le Trône Vide et tu n'en es pas ressorti. Il n'y aura ni corps, ni annonce, ni trace. Le monde continuera exactement comme avant, et c'est précisément là que réside sa puissance.";
+  S.cause = "Tu es allé sous le Trône Vide et tu n'en es pas ressorti. Les flammes noires n'ont rien laissé : ni corps, ni annonce, ni trace. Le monde continuera exactement comme avant, et c'est précisément là que réside sa puissance.";
   S.tl.push({a:S.age, t:"Le Trône Vide", l:'mariejoie', c:o.tag, dead:1, maj:1});
   $('im_res').innerHTML = '<div class="res bad"><b>Tu meurs à '+S.age+' ans.</b><br>'+esc(S.cause)+'</div>'+
     '<div class="row end" style="margin-top:14px"><button class="btn red" id="b_imu">Voir ton avis de recherche</button></div>';
