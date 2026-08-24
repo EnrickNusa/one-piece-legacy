@@ -510,6 +510,9 @@ details.why[open]{padding-bottom:2px}
 .statut .sv{display:block;font-family:var(--disp);font-size:16px;font-weight:800;
   color:var(--ink);line-height:1.2;margin-top:1px}
 .statut .ss{display:block;font-size:11.5px;line-height:1.45;color:var(--faint);margin-top:3px}
+/* quand le grade est EN DESSOUS du niveau, la valeur se teinte : c'est le seul
+   cas ou la ligne dit qu'il manque quelque chose. */
+.statut.bas .sv{color:var(--red2)}
 .pj .pv i{font-style:normal;display:block;font-family:var(--body);font-size:11px;
   font-weight:700;letter-spacing:.02em;color:var(--faint);margin-top:1px}
 .pj{align-items:start}
@@ -13143,11 +13146,19 @@ function renderManager(){
      joueur le lisait comme un POSTE : Enrick se retrouvait Amiral en chef
      pendant que Sakazuki lui donnait encore des ordres. La ligne n'apparait
      que quand les deux different, sinon elle repeterait le grade du dessus. */
-  var st = palierStatut();
-  if(st.t !== pp.t)
-    h += '<div class="statut"><span class="sl">Statut</span>' +
-         '<span class="sv">'+esc(st.t)+'</span>' +
-         '<span class="ss">Ton niveau vaut plus que ton grade. Il faut qu\'on sache qui tu es.</span></div>';
+  /* LA LIGNE EST PERMANENTE. Elle ne paraissait que quand le grade differait
+     du niveau, donc 41 % du temps : Enrick l'a cherchee sans la trouver, et
+     une information qui apparait par intermittence se lit comme un bug.
+     Elle est toujours la, et c'est la PHRASE qui change. */
+  var st = palierStatut(), sousGrade = (st.t !== pp.t);
+  var ultime = (typeof campResult === 'function') && campResult() === 2;
+  h += '<div class="statut'+(sousGrade?' bas':'')+'"><span class="sl">Statut</span>' +
+       '<span class="sv">'+esc(st.t)+'</span>' +
+       '<span class="ss">' + (
+         sousGrade ? 'Ton niveau vaut plus que ton grade. Il faut qu\'on sache qui tu es.'
+       : ultime    ? 'Ton camp t\'a donné son rang le plus haut. Il n\'y a rien au-dessus.'
+       :             'Le monde te donne exactement ce que tu vaux.'
+       ) + '</span></div>';
   h += '</div>';
   var B_niv = h; h = '';
   if(S.flotte && S.flotte.length){
