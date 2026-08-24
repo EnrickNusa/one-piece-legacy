@@ -12424,18 +12424,29 @@ function renderManager(){
        palier sur le total, et on decoupe la barre en autant de segments. */
     h += '<span class="hp">'+esc(P.n)+
          (P.lock ? '' : '<em class="hq">'+P.i+'/'+H.t.length+'</em>')+'</span>';
-    /* LA BARRE SE REMPLIT SUR LES PALIERS, PAS SUR LA STATISTIQUE BRUTE.
-       Elle prenait la valeur de la stat comme un pourcentage : au dernier
-       palier de l'Armement, atteint a 60, le jeu affichait « 5/5 » a cote
-       d'une barre remplie aux deux tiers. Les paliers ne montent pas jusqu'a
-       100, chaque Haki a son propre sommet : 60 pour l'Armement, 72 pour
-       l'Observation, 58 pour les Rois. On ramene tout a ce sommet-la, et le
-       dernier palier remplit la barre. */
-    var hMax = H.t[H.t.length-1][0] || 100;
-    var seg = '';
-    for(var q=1;q<H.t.length;q++)
-      seg += '<u style="left:'+Math.round(H.t[q][0] / hMax * 100)+'%"></u>';
-    var hPct = P.lock ? 0 : Math.min(100, Math.round(S.st[k] / hMax * 100));
+    /* CINQ PALIERS, CINQ SEGMENTS DE MEME LARGEUR.
+       La barre se ramenait au SOMMET DU DERNIER PALIER : pour l'Armement les
+       traits tombaient a 23, 48, 75 et 100 %, et le quatrieme se confondait
+       avec le bord droit. On voyait donc QUATRE cases pour cinq paliers.
+       Enrick le 24 aout : « pourquoi y a 4 stades alors que c'est sur 5 ? ».
+       Pire, le dernier palier n'avait AUCUNE largeur : l'atteindre remplissait
+       la barre d'un coup et plus rien ne bougeait ensuite, alors que c'est le
+       palier ou l'on passe le plus de temps.
+       Chaque palier occupe maintenant un cinquieme de la barre, et le
+       remplissage montre ou on en est A L'INTERIEUR du palier courant. Le
+       dernier se remplit de son seuil jusqu'a 100, le plafond des
+       statistiques. Le nombre de traits suit H.t.length : ajouter un palier
+       redecoupe la barre tout seul. */
+    var nSeg = H.t.length, seg = '';
+    for(var q=1;q<nSeg;q++)
+      seg += '<u style="left:'+Math.round(q * 100 / nSeg)+'%"></u>';
+    var hPct = 0;
+    if(!P.lock){
+      var bas  = H.t[P.i-1][0];
+      var haut = P.i < nSeg ? H.t[P.i][0] : 100;
+      var dans = haut > bas ? Math.min(1, Math.max(0, (S.st[k] - bas) / (haut - bas))) : 1;
+      hPct = Math.round(((P.i - 1) + dans) * 100 / nSeg);
+    }
     h += '<span class="hb"><i style="width:'+hPct+'%"></i>'+seg+'</span></div>';
   }
   h += '</div></details>';
@@ -12462,15 +12473,54 @@ function renderManager(){
   var cb = courbe();
   if(cb) h += '<details class="mg wide fold"><summary>Ta prime au fil des années</summary>'+cb+'</details>';
 
-  var FAITS=[['bat_empereur',"A battu un Empereur"],['poneglyphe',"A relevé un Ponéglyphe"],
-    ['poneglyphes4',"Les quatre Ponéglyphes Rouges"],['arme_antique',"Détient une arme antique"],
-    ['territoire',"Tient un territoire"],['flotte',"À la tête d'une flotte"],
-    ['adoube',"Chevalier Divin"],['pair_empereur',"Reçu d'égal à égal par un Empereur"],['archives',"A publié les archives"],['lame',"Porte une lame classée"],
-    ['prime_pegre',"Traqué par la pègre du Nouveau Monde"],
-    ['heritier',"A formé un héritier"],['reputation_pop',"Aimé du peuple"],['craint',"Craint des siens"]];
+  /* LES FAITS D'ARMES SONT DES ACTES, PAS UNE REPUTATION.
+     Le bloc affichait « Craint des siens » et « Aime du peuple » alors que la
+     section juste au-dessus, « Ce qu'on dit de toi », portait deja les memes
+     mots : deux volets ouverts l'un sous l'autre pour un seul contenu.
+     Enrick le 24 aout : « fais en sorte que les faits d'armes ne soient pas
+     juste ce qu'on dit de toi ».
+     « Craint des siens » sort donc d'ici, traits() le porte. « Aime du peuple »
+     reste mais sous SON NOM D'ACTE, ce que le commentaire de traits() demandait
+     deja sans que personne l'applique. Et « Ne avec le Haki des Rois » n'est
+     pas un fait d'armes, c'est une naissance : traits() le dit sous « Leader
+     ne ».
+     La liste s'ouvre en echange a tout ce que le joueur avait FAIT et que ce
+     panneau ne montrait pas : les armes antiques detruites, le secret du Trone
+     Vide, le navire, le pavillon transmis, le serment tenu, le refus aux Cinq
+     Doyens, le Buster Call. Elles existaient toutes a l'ecran de fin. */
+  var FAITS=[
+    ['bat_empereur',  "A battu un Empereur"],
+    ['arme_antique',  "Détient une arme antique"],
+    ['detruit_arme',  "A détruit une arme antique"],
+    ['secret_imu',    "A vu le secret du Trône Vide"],
+    ['territoire',    "Tient un territoire"],
+    ['flotte',        "À la tête d'une flotte"],
+    ['navire',        "A son propre navire"],
+    ['heritier',      "A formé un héritier"],
+    ['passation',     "A transmis son pavillon"],
+    ['lame',          "Porte une lame classée"],
+    ['cyborg',        "Corps modifié"],
+    ['adoube',        "Adoubé Chevalier Divin"],
+    ['pair_empereur', "Reçu d'égal à égal par un Empereur"],
+    ['allie_empereur',"Allié d'un Empereur"],
+    ['archives',      "A publié les archives du trafic"],
+    ['rois_allies',   "Trois couronnes retournées"],
+    ['savant_cache',  "A protégé un lecteur de Ponéglyphes"],
+    ['ennemi_gm',     "A dit non aux Cinq Doyens"],
+    ['buster',        "A ordonné un Buster Call"],
+    ['serment',       "Serment tenu jusqu'au bout"],
+    ['reputation_pop',"A pris le parti du peuple"],
+    ['prime_pegre',   "Traqué par la pègre du Nouveau Monde"]];
   var fh='';
+  /* UNE SEULE LIGNE POUR LES PIERRES. « A releve un Poneglyphe » et « Les
+     quatre Poneglyphes Rouges » pouvaient s'afficher ENSEMBLE : exactement le
+     defaut trouve sur l'ecran de fin au playtest du 22 aout, corrige la-bas et
+     jamais reporte ici. On garde la plus haute atteinte. */
+  var pierIG = S.f.poneglyphes4 ? "Les quatre Ponéglyphes Rouges réunis"
+             : S.f.poneglyphe3  ? "Trois Ponéglyphes Rouges relevés"
+             : S.f.poneglyphe   ? "A relevé un Ponéglyphe" : '';
+  if(pierIG) fh += '<div class="lr"><span>'+esc(pierIG)+'</span><b>✓</b></div>';
   for(var z=0;z<FAITS.length;z++) if(S.f[FAITS[z][0]]) fh += '<div class="lr"><span>'+esc(FAITS[z][1])+'</span><b>✓</b></div>';
-  if(S.roisInne && S.f.haki_rois) fh += '<div class="lr"><span>Né avec le Haki des Rois</span><b>✓</b></div>';
   var nb = (fh.match(/<div class="lr">/g)||[]).length;
   h += '<details class="mg wide fold"><summary>Faits d\'armes <b>'+nb+'</b></summary>' +
        (fh ? '<div class="lrs">'+fh+'</div>' : '<div class="mgv off">Rien encore</div>') + '</details>';
