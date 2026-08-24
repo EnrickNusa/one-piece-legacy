@@ -14980,6 +14980,12 @@ function hallAjoute(){
   L.push({ n:S.name, s:surnom(), c:S.camp, t:rankTitle(), p:prime(),
            a:S.age, v:S.alive?1:0, rv:reveResult()?1:0, so:campResult()===2?1:0,
            ra:S.race && S.race.n, ga:S.build && S.build.n, vo:S.spec && S.spec.n,
+           /* LE SOMMET DU CAMP N'EST PAS TOUJOURS LE TITRE PORTE.
+              Une Marine montee sur le Trone Vide porte « Roi du Monde » et son
+              sommet de camp reste « Amiral en chef » : sans ce champ, la
+              pastille reimprimait le titre et disait deux fois la meme chose.
+              Les anciennes entrees ne l'ont pas, hallRend prevoit le repli. */
+           sn:(campObj() || {}).sommet,
            re:S.reve && reveNom(S.reve),
            qu:C && C.quete, qf:queteFaite()?1:0,
            fr:S.fruit && S.fruit.fr, ev:S.eveil?1:0,
@@ -15125,10 +15131,19 @@ function hallRend(){
     /* LE TITRE ETAIT ECRIT TROIS FOIS SUR LA MEME LIGNE.
         La pastille du sommet reimprimait c.t, deja affiche en gris sous le nom
         par .hrg, et un Roi du Monde recevait en plus sa propre pastille : trois
-        fois « Roi du Monde » sur une carte de quatre lignes. Le sommet prend
-        donc le meme vocabulaire court que la quete et le reve. */
-    if(c.so) marques += '<span class="mq or">sommet</span>';
-    if(c.rm) marques += '<span class="mq or">Roi du Monde</span>';
+        fois « Roi du Monde » sur une carte de quatre lignes.
+        La pastille nomme maintenant le SOMMET DU CAMP, qui est une autre chose
+        que le titre porte des qu'on est monte sur le Trone Vide, et on ne pose
+        jamais deux pastilles portant le meme mot. */
+    var deja = {};
+    var poser = function(cls, txt){
+      var k = (txt || '').toLowerCase();
+      if(!txt || deja[k]) return '';
+      deja[k] = 1;
+      return '<span class="mq ' + cls + '">' + esc(txt) + '</span>';
+    };
+    if(c.so) marques += poser('or', c.sn || c.t || 'sommet atteint');
+    if(c.rm) marques += poser('or', 'Roi du Monde');
     if(c.hk) marques += '<span class="mq">Haki des Rois</span>';
     if(!c.v) marques += '<span class="mq ko">mort à ' + c.a + ' ans</span>';
     h += '<div class="hc' + (c.so ? ' top' : '') + '">' +
