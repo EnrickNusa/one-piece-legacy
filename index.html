@@ -1700,11 +1700,12 @@ var CAMPS = [
    eff:{vol:6, renom:4}},
   {id:'marine', n:"Marine", court:"Marine",
    d:"L'uniforme, la discipline, et une Justice dont on ne choisit pas toujours la définition.",
-   /* « Abolir la piraterie » promettait le monde et le texte livrait une mer :
-      « Tu as rendu une mer entiere a ceux qui y vivent ». La quete tombe a
-      l'acte 5 et il reste huit chapitres a jouer apres, pendant lesquels on
-      croise des pirates. Le titre mentait, pas le moment. */
-   quete:"Rendre une mer entière aux siens", qid:'mernette',
+   /* « Abolir la piraterie » promettait la fin des pirates, et on en croisait
+      pendant les huit chapitres suivants. « L'age d'or de la piraterie » est le
+      mot de l'oeuvre, et il dit une EPOQUE : on peut la fermer sans que le
+      dernier pavillon noir disparaisse. Le titre cesse de mentir sans rien
+      perdre de son ampleur. */
+   quete:"Mettre fin à l'âge d'or de la piraterie", qid:'mernette',
    avant:"Amiral", sommet:"Amiral en chef",
    sd:"Rendre une mer entière à ceux qui y vivent, puis prendre le fauteuil d'Amiral en chef.",
    fd:"Tu as rendu une mer entière à ceux qui y vivent. Les pavillons noirs n'y remontent plus.",
@@ -1712,9 +1713,11 @@ var CAMPS = [
    eff:{arm:6, ruse:4}},
   {id:'revo', n:"Armée Révolutionnaire", court:"Révolutionnaire",
    d:"Le Gouvernement Mondial tient huit cents ans de mensonge. Dragon veut le faire tomber.",
-   /* Meme defaut : le monde ne tombe pas, on abat ceux d'en haut devant lui.
-      Le sd et le fd le disaient deja, seul le titre promettait la chute. */
-   quete:"Abattre ceux d'en haut devant le monde", qid:'dragons',
+   /* C'est le but declare de l'Armee Revolutionnaire dans l'oeuvre, mot pour
+      mot. Enrick le 24 aout : il veut l'appellation de l'oeuvre, pas une
+      formule prudente. Le fd et le fdf, eux, racontent encore la scene et pas
+      la chute : a aligner. */
+   quete:"Faire tomber le Gouvernement Mondial", qid:'dragons',
    avant:"Chef d'état-major", sommet:"Chef de l'Armée Révolutionnaire",
    sd:"Abattre ceux d'en haut devant le monde entier, puis prendre le siège de Dragon.",
    fd:"Tu as abattu ceux d'en haut devant le monde entier, et le monde a regardé sans qu'on puisse le lui interdire.",
