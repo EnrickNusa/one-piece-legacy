@@ -1940,8 +1940,16 @@ var REVES = [
    d:"Le monde a fini par voir la Marine comme une menace de plus. Tu veux qu'on la respecte à nouveau.",
    need:"Rester intègre ET monter très haut. L'un sans l'autre ne suffit pas."},
 
-  {id:'traque', n:"Être le héros de la Marine", camps:"marine",
-   d:"Comme Garp. Respecté par les siens, craint par les autres, et jamais assis dans le fauteuil qu'on lui tendait.",
+  /* CE REVE S'APPELAIT « Etre le heros de la Marine ». Le 24 aout, ce nom est
+     devenu le RANG ULTIME du camp Marine, celui que la quete donne au barreau
+     85. Un reve et un sommet ne peuvent pas porter le meme nom : le joueur
+     lisait deux fois la meme chose sur son ecran de fin, une fois cochee et
+     une fois pas.
+     La condition mecanique ne bouge pas, neuf affrontements gagnes, integre,
+     niveau 51 : elle decrit toujours le meme homme, on ne change que le nom
+     qu'on lui donne. Les taux mesures restent donc comparables. */
+  {id:'traque', n:"Être celui qu'on envoie en dernier", camps:"marine",
+   d:"Quand un dossier a déjà coûté trois équipages, c'est ton nom qui sort du tiroir. Respecté par les siens, craint par les autres.",
    need:"Beaucoup de victoires, rester intègre du début à la fin, et monter assez haut pour compter."},
 
   /* ---------------- REVOLUTION ------------------------------------------ */
@@ -2564,7 +2572,7 @@ var ECHELLE = [
   {n:73, r:{pirate:"Le niveau de Shanks, de Kaidou, de Big Mom.",
             marine:"Le niveau d'Akainu, qui commande toute la Marine.",
             revo:"Le niveau de Monkey D. Dragon, l'homme le plus recherché du monde.",
-            gm:"Le niveau de Shamrock, et de Garling avant lui."},
+            gm:"Le niveau de Shamrock, et de Garling avant lui. On n\'y naît pas toujours : le Gouvernement adoube parfois un homme qui ne descend d\'aucun des vingt rois."},
    t:{pirate:"Empereur", marine:"Amiral en chef", revo:"Chef de l'Armée Révolutionnaire", gm:"Chevalier Divin"}},
   /* Le rang ULTIME. Il ne s'atteint pas au niveau : il faut la quete du camp.
      palierPuissance() le verrouille derriere campResult()===2. */
