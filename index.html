@@ -4628,14 +4628,21 @@ function cbFin(){
     txt = '<b>Deux manches à une. Tu l\'as emporté de justesse.</b><br>' + esc(tpl(a.w));
     cls = 'ok';
   } else if(av > 0){
-    d = applyEff({combat:5, obs:6, vol:9, renom:-6});
+    /* PERDRE DOIT COUTER. Mesure du 24 aout : perdre un combat rapportait
+       +0,8 point NET, et une defaite sur deux etait meme beneficiaire. Enrick,
+       apres avoir joue : « quand je perds un combat j'ai cinq bonus pour un
+       malus, il n'y a pas de rate qui te fait vraiment souffrir ». Une defaite
+       serree apprend encore quelque chose, elle ne doit plus faire monter. */
+    d = applyEff({combat:2, obs:3, vol:5, renom:-16});
     mortP = clamp(0.055 + ecart*0.005, 0.03, 0.18);
     S.cb.ecrase = false;
     S.n.losses = (S.n.losses||0)+1;
     txt = '<b>'+motManches(av).charAt(0).toUpperCase()+motManches(av).slice(1)+' manche'+(av>1?'s':'')+' à '+motManches(dg)+'. Tu as perdu.</b><br>' + esc(tpl(a.l));
     cls = 'bad';
   } else {
-    d = applyEff({combat:3, vol:6, renom:-13});
+    /* Et se faire ecraser trois a zero doit se voir dans la courbe pendant
+       des chapitres. */
+    d = applyEff({combat:1, vol:3, arm:-5, renom:-24});
     /* ON MOURAIT ZERO FOIS EN COMBAT. Mesure du 24 aout, 300 carrieres :
        96 % rentraient vivants et AUCUNE mort ne venait d'un affrontement, les
        quatre pour cent restants venaient tous d'un die: pose sur une carte.
@@ -14748,7 +14755,13 @@ function pickOpt(i){
   if(rate && eff0){
     var rabot = {};
     for(var rk in eff0){ if(!eff0.hasOwnProperty(rk)) continue;
-      rabot[rk] = eff0[rk] > 0 ? Math.round(eff0[rk]*0.34) : eff0[rk]; }
+      /* RABOT DURCI le 24 aout, de 0,34 a 0,20. Le premier rabotage rendait
+         deja les echecs de carte moins interessants, pas mauvais : mesure sur
+         250 carrieres, une carte rapportait encore +3,7 net toutes issues
+         confondues et 77 % des applications etaient positives. Enrick, apres
+         avoir joue : « le probleme ce n'est pas que l'echec rapporte peu,
+         c'est qu'il ne negative pas ». */
+      rabot[rk] = eff0[rk] > 0 ? Math.round(eff0[rk]*0.20) : eff0[rk]; }
     eff0 = rabot;
   }
   /* Le coup dur ne peut pas etre systematique. Si prendre un risque punit a
