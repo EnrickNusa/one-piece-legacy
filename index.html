@@ -513,6 +513,10 @@ details.why[open]{padding-bottom:2px}
 /* quand le grade est EN DESSOUS du niveau, la valeur se teinte : c'est le seul
    cas ou la ligne dit qu'il manque quelque chose. */
 .statut.bas .sv{color:var(--red2)}
+/* le bandeau du duel de titre : le seul combat en cinq manches du jeu */
+.duelt{margin:0 0 10px;padding:7px 12px;border-radius:0 9px 9px 0;
+  border-left:4px solid #7a1fb0;background:rgba(122,31,176,.09);
+  font-family:var(--disp);font-size:13px;font-weight:800;letter-spacing:.02em;color:#5f1690}
 .pj .pv i{font-style:normal;display:block;font-family:var(--body);font-size:11px;
   font-weight:700;letter-spacing:.02em;color:var(--faint);margin-top:1px}
 .pj{align-items:start}
@@ -3901,7 +3905,9 @@ var ADV = [
  m:"Un Chevalier Divin qui dégaine pour de bon ne laisse pas de récit derrière lui.",
  f:"Tu t'écartes sans croiser son regard. Les ronces se retirent, très lentement."},
 
-{id:'c_luffy', nat:'pirate', only:'marine|gm', n:"Le capitaine au chapeau de paille", niv:82, sc:'newworld', pr:3.8,
+/* Ouvert aux quatre camps depuis le 24 aout : il est le tenant du titre de la
+   voie du Fruit, et cette voie n'est reservee a personne. */
+{id:'c_luffy', nat:'pirate', n:"Le capitaine au chapeau de paille", niv:82, sc:'newworld', pr:3.8,
  k:"Le dernier arrive au sommet",
  i:"Il rit avant le combat, pendant, et souvent après. Le bureau des primes l'a classé Empereur cette année, et trois analystes ont démissionné la même semaine.<br><br>Il te demande si tu as mangé. La question est sincère.",
  s:["Son bras part de trois rues plus loin.",
@@ -4158,6 +4164,15 @@ function advDispo(sansPlancher){
     if(a.twin && S.used[a.twin]) continue;
     if(a.xf && S.fruit && S.fruit.n === a.xf) continue;
     if(a.only && String(a.only).indexOf(S.camp) < 0) continue;
+    /* LE TENANT DE TON TITRE EST RESERVE A TON DUEL.
+       Mesure du 24 aout : sur les duels de titre qui n'avaient jamais lieu,
+       88 % venaient de la meme cause, le tirage ordinaire avait deja servi le
+       tenant plus tot dans la carriere, et un adversaire ne se recroise pas.
+       Il n'entre donc dans le vivier qu'une fois le bareme atteint. Celui qui
+       ne l'atteint jamais ne le croisera pas : c'est le prix, et c'est ce qui
+       fait qu'un duel de titre reste un duel de titre. */
+    if(S.spec && typeof TITRE_ADV !== 'undefined' && TITRE_ADV[S.spec.id] === a.id
+       && !(typeof specPret === 'function' && specPret())) continue;
     /* On vient jouer a One Piece pour croiser les grands noms. Ne jamais
        pouvoir VOIR Kaidou parce qu'on a quatre niveaux de retard, c'est rater
        le sujet. Les grandes figures ont une fenetre bien plus large : on ne
@@ -4179,6 +4194,19 @@ function choisirAdv(){
      adversaire un peu faible que plus aucun combat jusqu'a la retraite. */
   if(!l.length) l = advDispo(true);
   if(!l.length) return null;
+  /* LE DUEL DE TITRE NE SE TIRE PAS AU SORT.
+     Le tenant n'etait que favorise, poids fois 3,2 : un joueur pouvait finir
+     sa carriere au bareme du titre sans jamais croiser celui qui le porte.
+     Des que specPret() est vrai, il vient, et il vient tout de suite. On le
+     cherche meme hors de la fenetre de niveau : c'est lui qui se deplace. */
+  if(S.spec && !S.f.titre_pris && !S.f.titre_perdu
+     && typeof specPret === 'function' && specPret()
+     && typeof TITRE_ADV !== 'undefined'){
+    var vise = TITRE_ADV[S.spec.id];
+    if(vise && !S.used['cb_'+vise] && !S.f['bat_'+vise]){
+      for(i=0;i<ADV.length;i++) if(ADV[i].id === vise) return ADV[i];
+    }
+  }
   /* legerement au-dessus de toi : c'est la que le combat a un enjeu */
   /* celui qui porte le titre mondial de TA voie doit croiser ta route :
      c'est le sens meme de la quete. Mihawk pour le sabre, Kaidou pour la
@@ -4215,8 +4243,10 @@ function cbBar(){
   h += '<div class="duel"><div class="dd"><b>'+esc(S.name||'Toi')+'</b><span>niveau '+niveau()+'</span></div>'
      + '<div class="vs">contre</div>'
      + '<div class="dd ad"><b>'+esc(a.n)+'</b><span>niveau '+a.niv+'</span></div></div>';
+  if(S.cb.titre)
+    h += '<div class="duelt">Duel pour le titre mondial  ·  trois manches sur cinq</div>';
   h += '<div class="manches">';
-  for(i=0;i<3;i++){
+  for(i=0;i<(S.cb.n||3);i++){
     var c = S.cb.res[i];
     h += '<span class="mm '+(c===1?'ok':(c===0?'ko':'na'))+'">'+(i+1)+'</span>';
   }
@@ -4259,8 +4289,29 @@ function raisonCombat(a){
   return (a && a.nat && m[a.nat]) ? m[a.nat] : '';
 }
 
+/* LE DUEL DE TITRE SE JOUE EN CINQ MANCHES.
+   Un combat ordinaire se gagne en deux manches sur trois. Celui qui donne le
+   titre mondial de ta voie s'en joue cinq, il faut en prendre trois, et c'est
+   le seul du jeu dans ce format. Enrick le 24 aout : « pour marquer le coup ».
+   Les cinq tenants sont les siens : Mihawk pour le sabre, Garp pour les arts
+   martiaux, Yasopp pour le tir, le Serafin pour le corps modifie, et Luffy
+   pour la devotion au Fruit, parce qu'il porte le Fruit de Nika. */
+var TITRE_ADV = {sabre:'c_mihawk', arts:'c_garp', tir:'c_yasopp',
+                 science:'c_serafim', fruit:'c_luffy'};
+function estDuelDeTitre(adv){
+  return !!(adv && S.spec && !S.f.titre_pris && !S.f.titre_perdu
+            && TITRE_ADV[S.spec.id] === adv.id
+            && typeof specPret === 'function' && specPret());
+}
+function motManches(n){
+  return ['zéro','une','deux','trois','quatre','cinq'][n] || String(n);
+}
 function lanceCombat(adv){
-  S.cb = {adv:adv, r:1, av:0, dg:0, used:[], res:[null,null,null], done:false};
+  var titre = estDuelDeTitre(adv);
+  var nb = titre ? 5 : 3;
+  S.cb = {adv:adv, r:1, av:0, dg:0, used:[], res:[], done:false,
+          n:nb, but:titre ? 3 : 2, titre:titre};
+  for(var _m=0;_m<nb;_m++) S.cb.res.push(null);
   S.used['cb_'+adv.id] = true;
   if(adv.twin) S.used[adv.twin] = true;
   /* le plus fort deja affronte : c'est lui qui fixe le plancher des suivants */
@@ -4389,7 +4440,11 @@ function cbManche(){
       ? '<p class="cbetat suit"><b>Il mène ' + dg + ' à ' + av + '.</b> Tu ne peux plus en lâcher une seule.</p>'
       : '<p class="cbetat"><b>Une manche partout.</b> Celle-ci décide de tout.</p>';
   }
-  $('cb_text').innerHTML = cbBar() + etat + '<p>' + tpl(a.s[r-1]) + '</p>';
+  /* CHAQUE ADVERSAIRE N'A QUE TROIS LIGNES D'AMBIANCE, une par manche. Le duel
+     de titre en compte cinq : aux manches quatre et cinq, a.s[3] et a.s[4]
+     n'existent pas et le joueur lisait « undefined » en pleine finale. La
+     sonde l'a vu tout de suite. On boucle sur les trois lignes existantes. */
+  $('cb_text').innerHTML = cbBar() + etat + '<p>' + tpl(a.s[(r-1) % a.s.length]) + '</p>';
   var imm = immunite(a);
   if(imm) $('cb_text').innerHTML += '<div class="res bad"><b>Ce corps-là ne se frappe pas.</b><br>'+esc(imm.r)+'</div>';
   /* On ne propose pas de reveiller son Fruit ni d'ecraser au Fluide des Rois
@@ -4495,7 +4550,7 @@ function cbResoudre(m){
   /* Deux manches d'avance closent le combat. Et quand c'est fini, on enchaine
      directement sur le verdict : faire cliquer deux fois sur Continuer pour
      lire la derniere manche puis le resultat, c'est un clic de trop. */
-  if(S.cb.r > 3 || S.cb.av >= 2 || S.cb.dg >= 2) return cbFin();
+  if(S.cb.r > (S.cb.n||3) || S.cb.av >= (S.cb.but||2) || S.cb.dg >= (S.cb.but||2)) return cbFin();
   cbSuite(cbManche);
 }
 function cbSuite(fn){
@@ -4509,7 +4564,16 @@ function cbFuite(){
   var d = applyEff({obs:7, ruse:7, renom:-8});
   S.n.fuites = (S.n.fuites||0)+1;
   S.tl.push({a:S.age, t:a.n, l:a.sc, c:'Refus', rate:1, maj:1});
-  cbSortie('<b>'+acc('Tu ne l\'affrontes pas.','Tu ne l\'affrontes pas.','Tu ne les affrontes pas.')+'</b><br>'+esc(tpl(a.f)), d, 'bad');
+  /* REFUSER LE DUEL DE TITRE NE LE CONSOMME PAS.
+     Mesure du 24 aout : la moitie des duels n'avaient toujours pas lieu apres
+     avoir reserve le tenant, et 78 % de ces cas venaient d'ici. Fuir marquait
+     l'adversaire comme deja affronte sans jamais poser titre_pris ni
+     titre_perdu : le joueur perdait le titre par une porte qu'il croyait
+     ouverte. On refuse une fois, on reverra l'homme.
+     Perdre le duel le coute. Refuser de le livrer, non. */
+  if(S.cb.titre) delete S.used['cb_' + a.id];
+  cbSortie('<b>'+acc('Tu ne l\'affrontes pas.','Tu ne l\'affrontes pas.','Tu ne les affrontes pas.')+'</b><br>'+
+    esc(tpl(a.f)) + (S.cb.titre ? '<br><br>Le titre attendra. Il ne t\'attendra pas indéfiniment.' : ''), d, 'bad');
 }
 function cbFin(){
   var a = S.cb.adv, av = S.cb.av, n = niveau(), ecart = a.niv - n;
@@ -4525,7 +4589,7 @@ function cbFin(){
      portee. Au-dela de douze niveaux d'ecart, le mieux qu'on obtienne est
      qu'elles arretent le combat elles-memes : aucun drapeau bat_, aucun saut
      de prime, mais un fait d'armes quand meme, avoir tenu. */
-  if(a.leg && ecart > 12 && av >= 2){
+  if(a.leg && ecart > 12 && av >= (S.cb.but||2) && !S.cb.titre){
     d = applyEff({vol:14, obs:8, renom:9, combat:4});
     S.n.wins++;
     S.f['tenu_'+a.id] = true;
@@ -4539,7 +4603,7 @@ function cbFin(){
       " de revenir quand tu vaudras le déplacement. Ce n'est pas une victoire, et tout le port a vu que tu étais encore debout.",
       d, 'ok', dejaLu);
   }
-  if(av >= 2 && dg === 0){
+  if(av >= (S.cb.but||2) && dg === 0){
     d = applyEff({combat:15, arm:9, renom:21, vol:6});
     S.bmul *= a.pr;
     S.f['bat_'+a.id] = true; S.n.wins++;
@@ -4549,9 +4613,9 @@ function cbFin(){
     if(a.id === 'c_serafim' && !S.f.vegapunk_libre){
       S.f.vegapunk_libre = true; bump('ruse', 14); bump('combat', 10);
     }
-    txt = '<b>'+(av===3?'Trois':'Deux')+' manches à zéro.</b><br>' + esc(tpl(a.w));
+    txt = '<b>'+motManches(av).charAt(0).toUpperCase()+motManches(av).slice(1)+' manches à zéro.</b><br>' + esc(tpl(a.w));
     cls = 'ok';
-  } else if(av === 2){
+  } else if(av >= (S.cb.but||2)){
     d = applyEff({combat:11, arm:6, vol:8, renom:13});
     S.bmul *= (1 + (a.pr-1)*0.6);
     S.f['bat_'+a.id] = true; S.n.wins++;
@@ -4563,12 +4627,12 @@ function cbFin(){
     }
     txt = '<b>Deux manches à une. Tu l\'as emporté de justesse.</b><br>' + esc(tpl(a.w));
     cls = 'ok';
-  } else if(av === 1){
+  } else if(av > 0){
     d = applyEff({combat:5, obs:6, vol:9, renom:-6});
     mortP = clamp(0.055 + ecart*0.005, 0.03, 0.18);
     S.cb.ecrase = false;
     S.n.losses = (S.n.losses||0)+1;
-    txt = '<b>Une manche à deux. Tu as perdu.</b><br>' + esc(tpl(a.l));
+    txt = '<b>'+motManches(av).charAt(0).toUpperCase()+motManches(av).slice(1)+' manche'+(av>1?'s':'')+' à '+motManches(dg)+'. Tu as perdu.</b><br>' + esc(tpl(a.l));
     cls = 'bad';
   } else {
     d = applyEff({combat:3, vol:6, renom:-13});
@@ -4585,8 +4649,18 @@ function cbFin(){
     mortP = clamp(0.190 + ecart*0.012, 0.11, 0.46);
     S.cb.ecrase = true;
     S.n.losses = (S.n.losses||0)+1;
-    txt = '<b>'+(dg===3?'Trois':'Deux')+' manches à zéro contre toi.</b><br>' + esc(tpl(a.l));
+    txt = '<b>'+motManches(dg).charAt(0).toUpperCase()+motManches(dg).slice(1)+' manches à zéro contre toi.</b><br>' + esc(tpl(a.l));
     cls = 'bad';
+  }
+  /* LE TITRE MONDIAL SE DECIDE ICI ET NULLE PART AILLEURS.
+     Gagner le duel des cinq manches donne le titre. Le perdre le coute pour
+     cette carriere : l'adversaire est marque comme deja affronte, on ne le
+     recroise pas. C'est le seul endroit du jeu ou une defaite ferme une porte
+     definitivement, et c'est voulu : un titre mondial qu'on peut retenter
+     jusqu'a l'avoir n'est pas un titre. */
+  if(S.cb.titre){
+    if(av >= (S.cb.but||3)) S.f.titre_pris = true;
+    else S.f.titre_perdu = true;
   }
   /* On ne tue pas de la fumee a mains nues. Si l'adversaire n'a pas le Haki
      de l'Armement, il peut te faire perdre le combat, pas te tuer. */
@@ -13538,7 +13612,15 @@ function reveBloque(r){
    Trois de ces titres ont un detenteur canon, on l'affronte pour le prendre.
    Le tir et le corps modifie n'en ont aucun : on prend le titre en abattant
    quelqu'un de ce calibre, pas en inventant un porteur. */
-var TITRE_TENANT = {sabre:'bat_c_mihawk', fruit:'bat_c_kaidou', arts:'bat_c_wb',
+/* LES CINQ TENANTS, revus par Enrick le 24 aout.
+   Barbe Blanche tenait les arts martiaux : il est mort a Marineford et il se
+   battait au bisento, pas a mains nues. C'est GARP, celui qui a refuse le
+   grade d'amiral toute sa vie et qui fend un rocher de la taille d'une maison
+   au poing nu. Kaidou tenait la devotion au Fruit : c'est LUFFY, qui porte le
+   Fruit de Nika, le seul reveil que l'oeuvre traite comme un evenement.
+   Ce ne sont plus de simples poids de tirage : voir TITRE_ADV dans combat.js,
+   le titre se PREND dans un combat en cinq manches. */
+var TITRE_TENANT = {sabre:'bat_c_mihawk', fruit:'bat_c_luffy', arts:'bat_c_garp',
                     tir:'bat_c_yasopp', science:'bat_c_serafim'};
 function reveNom(r){ return r.n; }
 function reveNeed(r){ return r.need; }
@@ -14071,6 +14153,23 @@ function drawEvent(relax){
   var Zb = ACTS[act], prochePorte =
     (Zb.sortie ? (niveau() >= Zb.sortie - 6 || S.idx >= Zb.max - 2) : S.idx >= Zb.min - 2);
   if(S.idx < 4 || depuis < 5) prochePorte = false;
+  /* LE DUEL DE TITRE NE PASSE PAS PAR LE QUOTA D'UN BOSS PAR ACTE.
+     Mesure du 24 aout : 76 % des joueurs qui atteignaient le bareme du titre
+     ne voyaient JAMAIS le duel. La cause : un seul affrontement par acte, et
+     si le bareme tombait apres celui de l'acte en cours, il fallait attendre
+     le suivant, souvent jamais. Le duel a donc son propre declencheur, il
+     respecte seulement l'ecart minimal entre deux combats. */
+  if(!S.f.titre_pris && !S.f.titre_perdu && S.spec && depuis >= 4
+     && typeof specPret === 'function' && specPret()
+     && typeof TITRE_ADV !== 'undefined'){
+    var vise = TITRE_ADV[S.spec.id];
+    if(vise && !S.used['cb_'+vise]){
+      for(var qi=0;qi<ADV.length;qi++) if(ADV[qi].id === vise){
+        S.cbDernier = S.chapter;
+        return {combat:ADV[qi]};
+      }
+    }
+  }
   if(prochePorte && !S.bossFait){
     var adv = choisirAdv();
     if(adv){ S.bossFait = act; S.cbDernier = S.chapter; return {combat:adv}; }
@@ -14851,7 +14950,27 @@ function campResult(){
   near = niveau() >= 74;
   return full ? 2 : (near ? 1 : 0);
 }
+/* LE TITRE MONDIAL NE SE CALCULE PLUS, IL SE PREND.
+   specResult() ne testait que des statistiques : on pouvait etre « le meilleur
+   sabreur du monde » sans avoir jamais croise Mihawk, et le dossier le
+   signalait deja comme un defaut. Enrick le 24 aout : « pour gagner un titre
+   j'aimerais que ce soit exceptionnellement un combat en cinq manches pour
+   marquer le coup ».
+   specPret() garde le bareme : c'est ce qui OUVRE le duel. Des qu'il est vrai,
+   choisirAdv() envoie le tenant du titre, et le combat se joue en cinq manches
+   au lieu de trois. Gagner donne le titre. Perdre le coute pour cette carriere.
+   Le bareme n'a pas bouge d'un point : ce qui change, c'est qu'il ne suffit
+   plus. */
+/* Un joueur peut avoir battu le tenant AVANT d'atteindre le bareme : dans ce
+   cas le duel n'aura jamais lieu, l'adversaire est deja marque comme affronte.
+   Il a pourtant mis a terre celui qui portait le titre. On le lui donne. */
 function specResult(){
+  if(!specPret()) return false;
+  if(S.f && S.f.titre_pris) return true;
+  var v = (typeof TITRE_ADV !== 'undefined' && S.spec) ? TITRE_ADV[S.spec.id] : '';
+  return !!(v && S.f && S.f['bat_' + v]);
+}
+function specPret(){
   if(!S.spec) return false;
   var st=S.st, f=S.f, id=S.spec.id;
   if(id==='sabre')   return st.combat>=66 && st.arm>=50 && !!f.lame;
