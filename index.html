@@ -221,8 +221,12 @@ b,strong{font-weight:800}
   font-variant-numeric:tabular-nums;text-align:right}
 .stg .sv em{font-style:normal;font-family:var(--body);font-size:11.5px;font-weight:700;
   color:var(--faint);margin-left:3px}
-.stg .sb{grid-column:1 / -1;height:7px;border-radius:99px;
+.stg .sb{position:relative;grid-column:1 / -1;height:7px;border-radius:99px;
   background:rgba(150,178,192,.24);overflow:hidden;margin-top:3px}
+/* Les traits qui decoupent la barre de Haki, identiques a ceux du panneau de
+   jeu : les statistiques finales ne les avaient pas. */
+.stg .sb u{position:absolute;top:0;bottom:0;width:1px;background:rgba(60,40,20,.34);
+  transform:translateX(-.5px)}
 .stg .sb i{display:block;height:100%;border-radius:99px;transition:width .5s;
   background:linear-gradient(90deg,#0d5b7d,#4aa3c9)}
 .stg .sv.p3{color:#186b43}
@@ -12424,6 +12428,7 @@ function renderManager(){
        palier sur le total, et on decoupe la barre en autant de segments. */
     h += '<span class="hp">'+esc(P.n)+
          (P.lock ? '' : '<em class="hq">'+P.i+'/'+H.t.length+'</em>')+'</span>';
+    /* voir hakiJauge() : le decoupage vit a un seul endroit desormais */
     /* CINQ PALIERS, CINQ SEGMENTS DE MEME LARGEUR.
        La barre se ramenait au SOMMET DU DERNIER PALIER : pour l'Armement les
        traits tombaient a 23, 48, 75 et 100 %, et le quatrieme se confondait
@@ -12437,17 +12442,8 @@ function renderManager(){
        dernier se remplit de son seuil jusqu'a 100, le plafond des
        statistiques. Le nombre de traits suit H.t.length : ajouter un palier
        redecoupe la barre tout seul. */
-    var nSeg = H.t.length, seg = '';
-    for(var q=1;q<nSeg;q++)
-      seg += '<u style="left:'+Math.round(q * 100 / nSeg)+'%"></u>';
-    var hPct = 0;
-    if(!P.lock){
-      var bas  = H.t[P.i-1][0];
-      var haut = P.i < nSeg ? H.t[P.i][0] : 100;
-      var dans = haut > bas ? Math.min(1, Math.max(0, (S.st[k] - bas) / (haut - bas))) : 1;
-      hPct = Math.round(((P.i - 1) + dans) * 100 / nSeg);
-    }
-    h += '<span class="hb"><i style="width:'+hPct+'%"></i>'+seg+'</span></div>';
+    var J = hakiJauge(k);
+    h += '<span class="hb"><i style="width:'+J.pct+'%"></i>'+J.seg+'</span></div>';
   }
   h += '</div></details>';
 
@@ -12578,25 +12574,44 @@ function courbeCarriere(){
    tiers. Les Haki gardent donc leur barre sur leur sommet reel et le nom de
    leur palier, exactement comme en partie. Les quatre autres, elles, vont
    bien de 0 a 100. */
+/* LE DECOUPAGE D'UNE BARRE DE HAKI VIT A UN SEUL ENDROIT.
+   Le panneau de partie et les statistiques finales dessinaient chacun leur
+   barre avec leur propre calcul. Le panneau a ete corrige le 24 aout, les
+   statistiques finales ne l'ont pas ete : DEUXIEME correctif de la journee qui
+   existait deja ailleurs sans avoir ete reporte, apres le doublon de
+   Poneglyphes. C'est pour ca que la fonction est partagee : la prochaine
+   correction tombera aux deux endroits toute seule. */
+function hakiJauge(k){
+  var H = HAKI[k], P = hakiPalier(k), n = H.t.length, seg = '', q;
+  for(q=1;q<n;q++) seg += '<u style="left:'+Math.round(q * 100 / n)+'%"></u>';
+  var pct = 0;
+  if(!P.lock){
+    var bas  = H.t[P.i-1][0];
+    var haut = P.i < n ? H.t[P.i][0] : 100;
+    var dans = haut > bas ? Math.min(1, Math.max(0, (S.st[k] - bas) / (haut - bas))) : 1;
+    pct = Math.round(((P.i - 1) + dans) * 100 / n);
+  }
+  return {pct:pct, seg:seg, p:P, n:n};
+}
 function renderStats(id){
   var h='';
   for(var i=0;i<STATDEF.length;i++){
     var k=STATDEF[i][0], v=Math.round(S.st[k]);
     if(k==='rois' && !S.roisInne && v===0) continue;
     var estHaki = (k==='arm' || k==='obs' || k==='rois');
-    var max = 100, droite = v + '<em> / 100</em>';
+    var droite = v + '<em> / 100</em>';
+    var pct = Math.max(0, Math.min(100, v)), seg = '';
     if(estHaki){
-      var H = HAKI[k], P = hakiPalier(k);
-      max = H.t[H.t.length-1][0] || 100;
-      droite = P.lock ? '<em>' + esc(P.n) + '</em>'
-             : v + '<em> · ' + esc(P.n) + ' ' + P.i + '/' + H.t.length + '</em>';
+      var J = hakiJauge(k);
+      droite = J.p.lock ? '<em>' + esc(J.p.n) + '</em>'
+             : v + '<em> · ' + esc(J.p.n) + ' ' + J.p.i + '/' + J.n + '</em>';
+      pct = J.pct; seg = J.seg;
     }
-    var pct = Math.max(0, Math.min(100, Math.round(v * 100 / max)));
     var pal = pct>=70 ? 'p3' : pct>=40 ? 'p2' : 'p1';
     h += '<div class="stg '+STATDEF[i][2]+(estHaki && hakiPalier(k).lock ? ' lock' : '')+'">'
        +   '<span class="sn">'+STATDEF[i][1]+'</span>'
        +   '<span class="sv '+pal+'">'+droite+'</span>'
-       +   '<span class="sb"><i style="width:'+pct+'%"></i></span>'
+       +   '<span class="sb"><i style="width:'+pct+'%"></i>'+seg+'</span>'
        + '</div>';
   }
   $(id).innerHTML=h;
@@ -14893,6 +14908,16 @@ function showEnd(){
      jamais vu le Trone Vide ne peut pas savoir qu'il aurait pu y aller, donc
      il ne relance pas. Ce qui manque doit se lire aussi clairement que ce
      qu'on a gagne. C'est la vitrine a trophees de Destiny Eleven. */
+  /* CHAQUE LIGNE DIT DE QUEL AXE ELLE PARLE, EN PREMIER.
+     Le libelle etait enterre dans la petite phrase du dessous : « Effacer le
+     Siecle Oublie / La quete de ton camp » se lisait de haut en bas alors que
+     le joueur balaye la colonne de gauche. Il ne pouvait pas voir d'un coup
+     d'oeil ce qu'il avait rate. Enrick le 24 aout : « il faut ecrire reve,
+     voie et quete pour qu'on comprenne ce qu'on a manque ».
+     On reprend donc la grammaire des pastilles de l'avis de recherche, que le
+     joueur connait deja : « Quete : ... », « Reve : ... ». Les deux lignes qui
+     nomment une chose unique, le Trone Vide et l'Eveil du Fruit, n'ont pas
+     besoin d'etiquette. */
   function ligne(fait, titre, valeur, sous){
     return '<div class="lr' + (fait ? ' gold' : ' no') + '"><span>' + esc(titre) +
       (sous ? '<span class="sous">' + esc(sous) + '</span>' : '') +
@@ -14901,22 +14926,26 @@ function showEnd(){
   var G = '', manques = 0;
   /* la quete du camp */
   if(C.quete){
-    G += ligne(queteFaite(), C.quete, 'jamais', 'La quête de ton camp. Elle ne se choisit pas.');
+    G += ligne(queteFaite(), 'Quête : ' + C.quete, 'jamais',
+      'Elle ne se choisit pas, elle vient avec ton camp.');
     if(!queteFaite()) manques++;
   }
   /* le rang ultime, et jusqu'ou on est monte */
   var atteint = palierPuissance().t;
-  G += ligne(r===2, C.sommet, 'pas atteint',
-    r===2 ? 'Le sommet de ton camp.' : 'Tu es monté jusqu\'à ' + atteint + '.');
+  G += ligne(r===2, 'Sommet : ' + C.sommet, 'pas atteint',
+    r===2 ? 'Le rang ultime de ton camp. Il ne s\'atteint que par la quête.'
+          : 'Tu es monté jusqu\'à ' + atteint + '.');
   if(r!==2) manques++;
   /* le reve personnel */
   if(S.reve){
-    G += ligne(rv, reveNom(S.reve), 'inachevé', 'Ton rêve, celui que tu as choisi.');
+    G += ligne(rv, 'Rêve : ' + reveNom(S.reve), 'inachevé',
+      'Celui que tu as annoncé à dix-sept ans. Personne ne te l\'a imposé.');
     if(!rv) manques++;
   }
   /* le titre mondial de la voie */
   if(S.spec){
-    G += ligne(sp, S.spec.titre, 'pas obtenu', 'Le titre mondial de ta voie.');
+    G += ligne(sp, 'Voie : ' + S.spec.titre, 'pas obtenu',
+      'Le titre mondial de ta voie. Il ne dépend d\'aucun grade.');
     if(!sp) manques++;
   }
   /* le Trone Vide, en trois etats */
@@ -15140,7 +15169,15 @@ function hallAjoute(){
   /* On garde de quoi RACONTER la carriere plus tard, pas seulement la classer.
      Les anciennes entrees n'ont pas ces champs : hallRend prevoit le repli. */
   var C = campQuete();
-  L.push({ n:S.name, s:surnom(), c:S.camp, t:rankTitle(), p:prime(),
+  /* LA PRIME LA PLUS HAUTE, comme sur l'avis de recherche.
+     L'ecran de fin affiche Math.max(prime(), primeHaute) depuis qu'on a compris
+     que la prime redescend avec l'age, et le champ nv a ete recale sur nvHaut
+     le meme jour. CELUI-CI NE L'A PAS ETE : la meme carriere affichait donc un
+     chiffre sur son affiche et un plus bas au palmares.
+     Mesure, 300 carrieres : la prime redescend dans 2 % des cas, ecart median
+     520 M, pire 1 427 M. Rare, mais enorme quand ca tombe. */
+  L.push({ n:S.name, s:surnom(), c:S.camp, t:rankTitle(),
+           p:Math.max(prime(), S.primeHaute || 0),
            a:S.age, v:S.alive?1:0, rv:reveResult()?1:0, so:campResult()===2?1:0,
            ra:S.race && S.race.n, ga:S.build && S.build.n, vo:S.spec && S.spec.n,
            /* LE SOMMET DU CAMP N'EST PAS TOUJOURS LE TITRE PORTE.
