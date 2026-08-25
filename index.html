@@ -12944,10 +12944,14 @@ function grTrone(){
      secret connu, ou l'escalier descendu. Le tableau ne doit rien reveler que
      le joueur n'ait vu lui-meme. */
   var su = !!(S.f.secret_imu || S.f.trone_vu || S.f.roi_du_monde);
+  /* Tant que tu ne sais pas, tu vois la SILHOUETTE sur le trone, pas le
+     visage : c'est la meme image que le jeu montre pendant le dialogue, avant
+     qu'Imu ne dise qui il est. Et pas un mot de plus qu'un point
+     d'interrogation, Enrick : « ecris juste le ? ». */
   var s = [S.f.roi_du_monde
     ? sg('Roi du Monde', S.name, null, 'Le trône n’est plus vide', 92)
     : su ? sg('Roi du Monde', 'Imu', 'c_imu', 'N’appartient à aucun camp', 92)
-         : sg('Roi du Monde', '?', null, 'Le trône n’est pas vide', 92)];
+         : sg('Roi du Monde', '?', 'c_imu_trone', null, 92)];
   return {n:'Le Trône Vide', c:TRONE_COL, s:s};
 }
 
