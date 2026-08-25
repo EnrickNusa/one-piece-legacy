@@ -1,7 +1,3 @@
-<!doctype html>
-<html lang="fr">
-<head>
-<meta charset="utf-8">
 <title>One Piece Legacy</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0a2438">
@@ -1131,8 +1127,6 @@ h1,h2,h3{text-wrap:balance}
 .pk.voie.off{border-left-color:var(--line2)}
 
 </style>
-</head>
-<body>
 <div class="scene" id="scene" data-scene="village">
   <div class="ph"></div>
   <div class="orb"></div>
@@ -4375,9 +4369,21 @@ function lanceCombat(adv){
   else if(ecart >= 3) av = '<p class="note">Il est au-dessus de toi. Ce sera serré.</p>';
   else if(ecart <= -6)av = '<p class="note">Tu le dépasses nettement. Il ne le sait pas encore.</p>';
   $('cb_text').innerHTML += av;
-  var o = [{id:'battre', t:"L'affronter", s:"Trois manches. Chaque manche est une décision.", d:(ecart>=6?1:0)},
-           {id:'parler', t:cbMotParler(), s:"Un seul jet, sur ta Ruse. Si ça rate, tu te bats quand même, mal engagé."},
-           {id:'fuir',   t:"Refuser le combat", s:"Aucun risque de mort. Ta réputation en prend un coup."}];
+  /* UN DEFI DE TITRE NE SE DESAMORCE PAS EN PARLANT.
+     Enrick le 25 aout : « choisir de parler et chacun s'en va de son cote pour
+     un defi de titre, ca a peu de sens ». Le tenant du titre est venu pour ca.
+     Deux choix seulement : le livrer, ou renoncer au titre devant temoins.
+     Le sous-titre annoncait aussi « trois manches » pendant un duel qui en
+     compte cinq : il se lit maintenant sur S.cb. */
+  var o;
+  if(titre){
+    o = [{id:'battre', t:"Le lui prendre", s:motManches(S.cb.n)+" manches. Il en faut "+motManches(S.cb.but)+" pour le titre.", d:(ecart>=6?1:0)},
+         {id:'fuir',   t:"Renoncer au titre", s:"Tu repars entier. Le titre reste à lui, et tu ne le reverras pas."}];
+  } else {
+    o = [{id:'battre', t:"L'affronter", s:motManches(S.cb.n)+" manches. Chaque manche est une décision.", d:(ecart>=6?1:0)},
+         {id:'parler', t:cbMotParler(), s:"Un seul jet, sur ta Ruse. Si ça rate, tu te bats quand même, mal engagé."},
+         {id:'fuir',   t:"Refuser le combat", s:"Aucun risque de mort. Ta réputation en prend un coup."}];
+  }
   var h='';
   for(var i=0;i<o.length;i++)
     h += '<button class="opt'+(o[i].d?' danger':'')+'" data-i="'+i+'"><span class="n">'+(i+1)+'</span>'
@@ -4649,6 +4655,11 @@ function cbFuite(){
   S.cb.done = true;
   var d = applyEff({obs:7, ruse:7, renom:-8});
   S.n.fuites = (S.n.fuites||0)+1;
+  /* UNE FOIS C'EST DE LA PRUDENCE, DEUX FOIS C'EST UNE HABITUDE.
+     La dette s'ouvrait au premier refus : 74 % des carrieres la contractaient
+     et 67 % voyaient la meme carte. Une scene que deux joueurs sur trois
+     recoivent redevient du decor. Elle est reservee a la recidive. */
+  if(S.n.fuites >= 2) noteDette('fuite');
   S.tl.push({a:S.age, t:a.n, l:a.sc, c:'Refus', rate:1, maj:1});
   /* REFUSER LE DUEL DE TITRE NE LE CONSOMME PAS.
      Mesure du 24 aout : la moitie des duels n'avaient toujours pas lieu apres
@@ -4657,9 +4668,13 @@ function cbFuite(){
      titre_perdu : le joueur perdait le titre par une porte qu'il croyait
      ouverte. On refuse une fois, on reverra l'homme.
      Perdre le duel le coute. Refuser de le livrer, non. */
-  if(S.cb.titre) delete S.used['cb_' + a.id];
+  /* RENONCER, C'EST PERDRE. Le refus etait sans consequence : on revoyait le
+     tenant plus tard, donc le choix ne coutait rien. Enrick : « refuser et
+     perdre le titre derriere ». Un titre auquel on renonce devant temoins ne
+     se represente pas. */
+  if(S.cb.titre) S.f.titre_perdu = true;
   cbSortie('<b>'+acc('Tu ne l\'affrontes pas.','Tu ne l\'affrontes pas.','Tu ne les affrontes pas.')+'</b><br>'+
-    esc(tpl(a.f)) + (S.cb.titre ? '<br><br>Le titre attendra. Il ne t\'attendra pas indéfiniment.' : ''), d, 'bad');
+    esc(tpl(a.f)) + (S.cb.titre ? '<br><br>Tu as renoncé devant témoins. Le titre reste à lui, et personne ne te proposera de le reprendre.' : ''), d, 'bad');
 }
 function cbFin(){
   var a = S.cb.adv, av = S.cb.av, n = niveau(), ecart = a.niv - n;
@@ -4727,7 +4742,7 @@ function cbFin(){
        La Volonte monte encore, elle seule : tenir une defaite serree est
        exactement ce qui l'entraine. Tout le reste recule. */
     d = applyEff({vol:5, combat:-3, arm:-2, renom:-4});
-    mortP = clamp(0.055 + ecart*0.005, 0.03, 0.18);
+    mortP = clamp(0.270 + ecart*0.016, 0.18, 0.50);
     S.cb.ecrase = false;
     S.n.losses = (S.n.losses||0)+1;
     txt = '<b>'+motManches(av).charAt(0).toUpperCase()+motManches(av).slice(1)+' manche'+(av>1?'s':'')+' à '+motManches(dg)+'. Tu as perdu.</b><br>' + esc(tpl(a.l));
@@ -4748,7 +4763,7 @@ function cbFin(){
        Le filet reste, mais il depend maintenant de LA FACON DONT ON PERD.
        Perdre d'une manche, c'est une blessure. Se faire ecraser trois a zero
        devant un adversaire au-dessus de soi, c'est une fin possible. */
-    mortP = clamp(0.240 + ecart*0.014, 0.14, 0.52);
+    mortP = clamp(0.870 + ecart*0.032, 0.62, 0.96);
     S.cb.ecrase = true;
     S.n.losses = (S.n.losses||0)+1;
     txt = '<b>'+motManches(dg).charAt(0).toUpperCase()+motManches(dg).slice(1)+' manches à zéro contre toi.</b><br>' + esc(tpl(a.l));
@@ -4764,7 +4779,9 @@ function cbFin(){
      malus est divise par deux. Ensuite tu lui dois quelque chose. */
   if(av < (S.cb.but||2) && !S.allieUse && !S.cb.titre && aUnAllie()){
     S.allieUse = true;
-    S.f.dette_allie = true;
+    /* le drapeau etait pose ici et RIEN ne le consommait : l'allie sauvait
+       et on n'en reparlait jamais. Il ouvre desormais une vraie dette. */
+    noteDette('allie');
     var da = applyEff({vol:6, renom:-4});
     S.tl.push({a:S.age, t:"On est venu te chercher", l:a.sc, c:'Alliance', maj:1});
     return cbSortie('<b>Quelqu\'un arrive.</b><br>' +
@@ -4795,8 +4812,16 @@ function cbFin(){
        taux etait plat, identique au premier port et sous Marie-Joie.
        Enrick, apres avoir joue : « je suis mort trois fois dans la vingtaine ».
        Meme table que les cartes. Un debutant survit, une legende tombe. */
-    var RISQUE_CB = {1:0.22, 2:0.40, 3:0.75, 4:1.00, 5:1.15};
+    var RISQUE_CB = {1:0.12, 2:0.28, 3:0.55, 4:1.25, 5:1.60};
     mortP *= (RISQUE_CB[S.act] || 1);
+    /* UN PLANCHER SOUS LES REDUCTIONS PERSONNELLES.
+       Volonte, Haki des Rois, race dure et potentiel se multipliaient entre
+       eux : un personnage accompli tombait a 0,26 fois le risque de base.
+       Plus on montait, plus on devenait intouchable, exactement l'inverse de
+       ce qu'on veut. Enrick le 25 aout : « si on sait qu'on a plus de chances
+       de mourir dans un combat, on va reflechir a nos choix ».
+       Etre fort reduit le risque de moitie au maximum, jamais davantage. */
+    var socle = mortP;
     if(S.st.vol) mortP *= (1 - S.st.vol/190);
     /* on ne tue pas facilement quelqu'un dont la seule volonte fait tomber
        une salle entiere */
@@ -4804,12 +4829,13 @@ function cbFin(){
     if(S.f.haki_rois && S.st.rois >= 40) mortP *= (1 - Math.min(S.st.rois,90)/260);
     if(donRace()==='dur') mortP *= 0.5;
     if(S.pot) mortP *= (S.pot.g==='S'?0.78 : S.pot.g==='A'?0.88 : S.pot.g==='B'?1 : S.pot.g==='C'?1.1 : 1.2);
+    if(mortP < socle*0.50) mortP = socle*0.50;
     if(rnd() < mortP){
       /* Une issue fatale donne d'abord une blessure qui pese sur la suite.
          La mort ne vient que si le catalogue de sequelles est epuise. */
       /* le filet suit la severite de la defaite : 0,86 quand on perd de peu,
          0,45 quand on se fait ecraser. */
-      if(rnd() < (S.cb.ecrase ? 0.28 : 0.80)){
+      if(rnd() < (S.cb.ecrase ? 0.10 : 0.60)){
         var sq = subirSequelle(a.n, a.sc);
         if(sq){
           S.hist.push({a:S.age, p:prime(), n:niveau()});
@@ -4841,6 +4867,10 @@ function miseCombat(d){
   return d;
 }
 function cbSortie(txt, d, cls, garde){
+  /* ANNONCER PUIS PERDRE LAISSE UNE TRACE. La mise doublait les chiffres et
+     s'arretait la : le pari etait symetrique, donc la decision etait un simple
+     calcul. Un nom engage et perdu revient maintenant en chanson. */
+  if(S.cb && S.cb.mise && cls === 'bad' && typeof noteDette === 'function') noteDette('mise');
   d = miseCombat(d);
   var dh='', k;
   for(k=0;k<(d||[]).length;k++)
@@ -12176,7 +12206,7 @@ opts:[
  {t:"Traverser la baie de Marineford sous ton pavillon, en plein jour", fait:"prime", tag:"Devant eux", d:1,
   eff:{renom:15, combat:9, vol:5}, prime:3600000000,
   why:"Il n'existe aucune façon de taire un pavillon pirate qui remonte la baie du Quartier Général à midi devant deux mille marins.",
-  r:"Vous entrez par le sud, sans tirer une fois, à vitesse de promenade. Sengoku sort sur le balcon, un amiral se lève, et vous ressortez par le nord. Le chiffre qui sort de l'imprimerie n'a jamais été atteint par un vivant.",
+  r:"Vous entrez par le sud, sans tirer une fois, à vitesse de promenade. Sengoku sort sur le balcon, un amiral se lève, et vous ressortez par le nord. Le chiffre qui sort de l'imprimerie a doublé avant midi.",
   fail:{p:.35, on:"vol", eff:{renom:11, combat:7, vol:4}, prime:2400000000,
    why:"Traverser la baie du QG suppose de ressortir, et la Marine ferme cette baie très vite quand elle décide de la fermer.",
    r:"Les Portes de la Justice se referment plus tôt que prévu. Vous sortez par le récif est, en laissant le gouvernail et la moitié du gréement. La photo existe quand même. Ta prime monte, moins haut que prévu.",
@@ -12914,6 +12944,63 @@ opts:[
   r:"Vous restez sur ce que vous avez. Ça grince, ça prend l'eau, et personne ne descend. Tu auras eu les douze, tu n'auras jamais eu le pont pour les mettre."}
 ]});
 
+/* ======================= LES DETTES ======================================
+   LE JEU ENVOIE LA FACTURE PLUS TARD.
+
+   Enrick le 25 aout, apres avoir teste la beta : « ce qui manque, ce n'est pas
+   plus de features, c'est ce qui revient apres, les retours de baton ».
+   Le constat qui a mene la : sur les 809 options du jeu, la quasi-totalite se
+   referme sur elle-meme. On choisit, on encaisse des points, on passe. Le seul
+   mecanisme a conséquence differee etait le drapeau, et il servait a OUVRIR
+   des cartes, presque jamais a en faire revenir une CONTRE le joueur.
+
+   Trois dettes, trois facons de devoir quelque chose :
+     allie  tu allais mourir, quelqu'un s'est interpose sans etre appele
+     mise   tu as engage ton nom devant temoins et tu as perdu
+     fuite  tu as tourne le dos, et les gens sur place ne sont pas partis
+
+   Aucune ne se contracte volontairement : elles naissent toutes d'un moment
+   de jeu ordinaire. Elles reviennent cinq chapitres plus tard au minimum,
+   pour qu'on ait eu le temps de croire que c'etait oublie.
+   Les deux options d'une carte de dette coutent toutes les deux. C'est la
+   regle : une dette dont on peut sortir gratuitement n'est pas une dette. */
+
+E({id:"dette_allie", act:4, scene:"newworld", w:14, ineed:"dette_allie",
+kicker:"Ce que tu dois ne se chiffre pas", title:"L'homme qui est venu",
+text:"Celui qui s'est mis entre toi et ta mort, il y a des années, est assis sur une caisse au bout du ponton. Il a attendu que tu sois seul pour se montrer.<br><br>Il ne rappelle rien. Il donne un nom, une date, une position à trois semaines de ta route. Il lui faut du monde contre quelqu'un qui le dépasse. Puis il se tait et il attend.",
+opts:[
+ {t:"Détourner ta route et venir avec les tiens", tag:"Parole tenue", eff:{vol:9, renom:-6, combat:4}, f:"dette_payee",
+  why:"Trois semaines de route et une bataille qui n'est pas la tienne, payées par des gens à qui tu n'expliqueras jamais pourquoi.",
+  r:"Vous arrivez à l'heure dite. Le combat dure deux jours et tu y laisses des hommes. Il ne te remercie pas une seule fois. À partir de ce jour, il vient sans qu'on l'appelle."},
+ {t:"Dire non, et le dire en face", tag:"Route libre", eff:{renom:-14, vol:-8, ruse:6},
+  why:"Garder ta route et tes hommes te coûte la seule chose qui ne se rachète pas, celle qui fait qu'on te croit sur parole.",
+  r:"Il écoute, hoche la tête, se lève et repart sans un mot de plus. Trois mois après, l'histoire circule dans des ports où tu n'es jamais allé. Plus personne ne s'interposera."}
+]});
+
+E({id:"dette_mise", act:4, scene:"newworld", w:14, ineed:"dette_mise",
+kicker:"Ce que tu avais annoncé", title:"La chanson du port",
+text:"Tu entres dans la taverne pour manger, et un type au fond chante ta phrase. Celle que tu avais dite à voix haute, devant témoins, avant le combat. Il l'a mise sur un air de marin, avec une rime facile à la fin.<br><br>La salle connaît le refrain. Ils tapent sur les tables au bon moment. Deux gamins qui n'étaient pas nés ce jour-là chantent aussi. Le chanteur te voit, s'arrête une seconde, puis continue.",
+opts:[
+ {t:"Le faire taire devant toute la salle", tag:"Frontal", eff:{renom:10, vol:7, ruse:-6},
+  why:"Descendre au niveau d'un chanteur de taverne prouve à tout le monde que ça t'atteint encore.",
+  r:"Tu attends la fin du couplet, puis tu montes sur l'estrade et tu redis la phrase toi-même, plus fort que lui. Personne ne chante après toi. Tout le port sait aussi que tu es venu pour ça."},
+ {t:"Payer ton repas et laisser le refrain finir", tag:"Encaisser", eff:{ruse:9, obs:6, renom:-9},
+  why:"Ne rien dire laisse la chanson circuler intacte, et elle circulera plus longtemps que toi.",
+  r:"Tu manges jusqu'au bout, tu poses les pièces, tu sors sans presser le pas. Le refrain repart derrière la porte. Tu retiens le visage du chanteur, et celui des trois qui riaient le plus fort."}
+]});
+
+E({id:"dette_fuite", act:3, scene:"paradis", w:14, ineed:"dette_fuite",
+kicker:"Quelqu'un est resté quand tu es parti", title:"La note a été payée",
+text:"Le marché du port, un mardi matin. Une femme charge des caisses de poisson sur une charrette, et il lui manque trois doigts à la main gauche. Elle était là le jour où tu as tourné le dos. Elle n'est pas partie.<br><br>Elle te reconnaît tout de suite. Elle te dit bonjour, demande si la mer était bonne, te tend une caisse pour que tu l'aides à la poser. Pas un mot sur le reste. Elle t'aurait accusé, tu aurais su quoi faire.",
+opts:[
+ {t:"Rester et finir ce que tu n'as pas commencé", tag:"Payer tard", eff:{vol:10, renom:8, combat:-5, obs:-4},
+  why:"Régler une dette avec deux ans de retard se fait au même prix qu'à l'époque, sauf que tu es plus vieux et qu'ils sont plus nombreux.",
+  r:"Ils reviennent le jeudi, comme chaque mois. Tu es sur la place avant eux. Ça dure onze minutes et tu ressors avec une côte fêlée. Elle ne te remercie pas, elle continue de charger ses caisses."},
+ {t:"Prendre la caisse, la poser, et repartir", tag:"Deuxième fois", eff:{ruse:8, obs:7, vol:-11},
+  why:"Refaire le même choix en connaissant déjà le prix, c'est l'accepter pour de bon.",
+  r:"Tu poses la caisse où elle a montré. Tu remontes la rue sans presser le pas. Elle te dit de faire attention à toi, et elle le pense. C'est ce bonjour-là que tu entends encore six mois plus tard."}
+]});
+
 /* =========================================================================
    ONE PIECE LEGACY — MOTEUR
    ========================================================================= */
@@ -13296,7 +13383,7 @@ function newState(){
     proche: (typeof PROCHES !== 'undefined' && PROCHES.length) ? wpick(PROCHES) : null,
     st:{combat:12, arm:0, obs:0, rois:0, vol:14, ruse:12, renom:4},
     seed:0, pot:null, roisInne:false, primeHaute:0, nvHaut:0,
-    mise:false, mises:0, iles:[], allieUse:false, ileRaid:false,
+    mise:false, mises:0, iles:[], allieUse:false, ileRaid:false, dettes:[],
     fruit:null, eveil:false, bmul:1,
     crew:0, crewList:[], shipCls:0, shipName:'', prime:0, etat:null, flotte:[], routes:{},
     age:17, agef:17, act:1, idx:0, chapter:0,
@@ -13506,6 +13593,7 @@ function load(){
       if(!o.iles || !o.iles.length && !(o.iles instanceof Array)) o.iles = [];
       if(o.mise === undefined) o.mise = false;
       if(o.allieUse === undefined) o.allieUse = false;
+      if(!o.dettes) o.dettes = [];
       if(o.ileRaid === undefined) o.ileRaid = false;
       if(o.mises === undefined) o.mises = 0;
     }
@@ -14532,6 +14620,28 @@ function unCond(k){
   return neg ? !v : v;
 }
 /* "a|b" veut dire a OU b */
+/* CONTRACTER UNE DETTE. On l'enregistre avec le chapitre, on ne pose pas
+   le drapeau tout de suite : une facture qui arrive le lendemain du service
+   rendu n'est pas un retour de baton, c'est une transaction. */
+function noteDette(k){
+  if(!S.dettes) S.dettes = [];
+  if(S.f['dette_'+k]) return;
+  for(var i=0;i<S.dettes.length;i++) if(S.dettes[i].k === k) return;
+  S.dettes.push({k:k, ch:S.chapter});
+}
+/* DELAI DE MURISSEMENT. Cinq chapitres, le temps de croire que c'est oublie.
+   Passe ce delai le drapeau se pose, et la carte entre dans le vivier par le
+   tirage ordinaire : pas de declencheur a part, pas de mecanisme parallele. */
+var DETTE_DELAI = 5;
+function murirDettes(){
+  if(!S.dettes || !S.dettes.length) return;
+  for(var i=S.dettes.length-1; i>=0; i--){
+    if(S.chapter - S.dettes[i].ch >= DETTE_DELAI){
+      S.f['dette_' + S.dettes[i].k] = true;
+      S.dettes.splice(i,1);
+    }
+  }
+}
 function condOk(e, sansNiveau){
   /* Tous les Fruits du Demon sont jouables, pour que chacun puisse incarner
      le sien. La coherence est tenue autrement : si tu portes le fruit de
@@ -14582,6 +14692,7 @@ function tirePondere(L){
   return L[L.length-1];
 }
 function drawEvent(relax){
+  murirDettes();
   var act=S.act, i, pool=[], slots=[];
   for(i=0;i<EV.length;i++){
     var e=EV[i];
@@ -14638,6 +14749,20 @@ function drawEvent(relax){
         return {combat:ADV[qi]};
       }
     }
+  }
+  /* UNE DETTE MURE SE PRESENTE, QUEL QUE SOIT L'ACTE.
+     Le tirage ordinaire exige e.act === S.act : une dette contractee tard dans
+     un acte, ou a l'acte 5, ne trouvait jamais sa carte. Mesure : 11 % des
+     joueurs qui devaient quelque chose a leur sauveur voyaient la facture.
+     Une dette qu'on ne recoit qu'une fois sur neuf n'est pas une dette, c'est
+     une loterie. Meme motif que l'ile qui vient a toi, juste en dessous :
+     declencheur propre, et le reste du jeu n'y touche pas. */
+  var DETTES_ORDRE = ['allie','mise','fuite'];
+  for(var di=0; di<DETTES_ORDRE.length; di++){
+    var dk = 'dette_' + DETTES_ORDRE[di];
+    if(!S.f[dk] || S.used[dk]) continue;
+    var dc = byId(dk);
+    if(dc){ S.used[dk] = true; return dc; }
   }
   /* TON ILE VIENT QUAND TU ES A TERRE. Une ile ralliee ne sert a rien si elle
      ne fait que figurer au bilan : elle s'ouvre quand tu portes un etat, une
@@ -15743,7 +15868,10 @@ function reveResult(){
        Mesure sur 900 carrieres : 18 % accompli, tombe au chapitre 35 au lieu
        du chapitre 17. Echantillon de 72 carrieres, soit +/- 9 points : ne pas
        reaffiner ce seuil sans un millier de carrieres de plus. */
-    case 'libre':    return S.alive!==false && n>=45 && st.vol>=47 && !aServi();
+    /* MOURIR N'ANNULE PAS D'AVOIR ETE LIBRE. Enrick le 25 aout : « Roger etait
+       un homme libre au temps ou il a vecu ». C'etait le seul des douze reves a
+       exiger de rentrer vivant, il tombait donc deux fois avec la mortalite. */
+    case 'libre':    return n>=42 && st.vol>=43 && !aServi();
     /* RECALIBRE LE 25 AOUT. Enrick : « il faut verifier qu'il n'y a pas des
        reves beaucoup plus durs que les autres, comme ne rien avoir a se
        reprocher, ca ne me semble pas faisable ». Mesure sur 500 carrieres, les
@@ -15753,16 +15881,16 @@ function reveResult(){
     case 'nom':      return prime()>=1400000000;
     case 'pavillon': return st.renom>=62 && st.vol>=62;
     /* --- marine --- */
-    case 'propres':  return !!f.integre && (S.n.fails||0)<=6 && n>=45;
+    case 'propres':  return !!f.integre && (S.n.fails||0)<=7 && n>=44;
     case 'blason':   return !!f.integre && n>=63;
-    case 'traque':   return (S.n.wins||0)>=10 && !!f.integre && n>=54;
+    case 'traque':   return (S.n.wins||0)>=9 && !!f.integre && n>=52;
     /* --- revolution --- */
     case 'aime':     return !!f.reputation_pop && st.renom>=63;
-    case 'cachent':  return !!f.secret_imu && n>=44;
-    case 'plie':     return !!f.ennemi_gm && n>=52;
+    case 'cachent':  return !!f.secret_imu && n>=39;
+    case 'plie':     return !!f.ennemi_gm && n>=40;
     /* --- gouvernement --- */
-    case 'registre': return prime()===0 && n>=56;
-    case 'savoir':   return !!f.dossier && n>=60;
+    case 'registre': return prime()<=30000000 && n>=48;
+    case 'savoir':   return !!f.dossier && n>=58;
     /* « Qu'on n'ait jamais rien a me reprocher », le plus dur des douze a 6 %.
        Il demandait au plus 7 revers ET le niveau 58, or la mediane des revers
        est a 6 et le Gouvernement finit plus bas que les autres camps. */
@@ -17364,5 +17492,3 @@ function reprendre(){
 })();
 
 </script>
-</body>
-</html>
