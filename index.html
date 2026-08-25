@@ -3544,7 +3544,11 @@ var ADV = [
    Le tir avait Yasopp, le corps modifie n'avait personne : ce sont les
    Seraphim, les armes que Vegapunk a faites a partir des Grands Corsaires,
    qui donnent acces a ses plans. */
-{id:'c_yasopp', nat:'pirate', n:"Yasopp, le fusil des Pirates du Roux", niv:64, sc:'newworld', pr:2.9,
+/* Remonte de 64 a 70 le 25 aout. Il tient le titre du tir et il etait le plus
+   faible des cinq tenants de trois niveaux : le duel se gagnait 63 % du temps
+   contre 29 % au sabre. Il est l'un des trois plus proches de Shanks, au meme
+   rang que Ben Beckman qui est a 71 : 64 le sous-estimait. */
+{id:'c_yasopp', nat:'pirate', n:"Yasopp, le fusil des Pirates du Roux", niv:70, sc:'newworld', pr:2.9,
  k:"Un duel de tireurs, pas un combat",
  i:"On ne se bat pas à sa portée, on se manque ou on se touche. La distance, la précision, et ce que le Fluide de l'Observation te laisse voir une seconde avant.<br><br>Yasopp te dit à quelle distance tu te tenais il y a dix minutes, sans s'être retourné une seule fois.",
  s:["Il ouvre à huit cents mètres, sur une cible que tu n'avais pas encore vue.",
@@ -4057,7 +4061,13 @@ function manosDispo(tout){
     ko:"En face, on pense à un coup et on en donne un autre. Tu pares le mauvais."});
   if(S.f.haki_rois) add({id:'rois', n:"Le figer d'un seul regard, au Fluide des Rois", st:'rois', b:9,
     ok:"Tout le monde tombe autour de vous. En face, personne ne tombe, mais il y a eu un battement de paupières.",
-    ko:"Ton Fluide des Rois rencontre le sien et se casse dessus comme sur un mur."});
+    /* LE TEXTE SUPPOSAIT QUE L'ADVERSAIRE A LE FLUIDE DES ROIS. Enrick le
+       25 aout : « tu ne peux pas ecrire que le Fluide des Rois de l'adversaire
+       te repousse, Smoker n'en a pas et le sien m'a repousse ». Un homme sur
+       plusieurs millions l'a : la phrase etait fausse contre presque tout le
+       monde. L'echec dit maintenant ce qui se passe vraiment, la volonte part
+       et elle ne trouve pas sa cible. */
+    ko:"Tout le monde tombe autour de vous, et pas la seule personne que tu visais. Un Fluide des Rois qui ne renverse pas sa cible ne fait que du bruit."});
   if(S.eveil) add({id:'eveil', n:"Réveiller ton Fruit et changer ce qui t'entoure", st:'combat', b:11,
     ok:"Le sol lui-même change de nature. En face, on découvre à quoi ressemble un Éveil.",
     ko:"L'Éveil te coûte tout d'un coup, et en face on attendait exactement ça pour frapper."});
@@ -4082,6 +4092,16 @@ function manosDispo(tout){
 }
 function cbForce(m){
   var f = niveau()*0.62 + (S.st[m.st]||0)*0.44 + (m.b||0);
+  /* LE JOUR QUE TU PREPARES DEPUIS L'ENFANCE.
+     Les tenants sont les meilleurs du monde a leur discipline et ils sont
+     beaucoup plus hauts que le joueur au moment ou le bareme tombe : mesure du
+     25 aout, zero victoire sur vingt-six duels au sabre contre Mihawk, huit
+     pour cent contre Luffy. Un titre qu'on ne prend jamais n'existe pas.
+     Le challenger porte donc un avantage dans ce combat-la et dans celui-la
+     seulement. Ce n'est pas de la clemence : c'est le seul combat de la partie
+     ou il arrive prepare, au sommet de sa voie, et ou l'autre ne sait meme pas
+     qu'on vient lui prendre quelque chose. */
+  if(S.cb && S.cb.titre) f += 9;
   /* Un nom qu'on ne prononce pas vaut quelques points avant le premier
      echange : l'adversaire se bat deja moins bien parce qu'il sait qui tu es. */
   if(S.f.tr_terreur) f += 3;
@@ -7091,7 +7111,14 @@ opts:[
    La treve est ecrite DANS le texte de la carte : sans elle, un officier de
    Marine se retrouvait assis chez des gens qui impriment des primes sur les
    officiers de Marine, on lui servait a boire, et il ressortait intact. */
-E({id:'a5_crossguild', pic:'c_croco', act:5, scene:'newworld', w:14, dt:1, once:1, verrou:60,
+/* LE CROSS GUILD N'AVAIT QU'UNE CARTE, a l'acte 5, et elle revenait a chaque
+   partie au meme moment. Enrick le 25 aout : « il va falloir mettre plus de
+   cartes que celle-ci qui arrive a la fin de maniere repetitive ».
+   Trois de plus, reparties sur les actes 3 et 4, une par angle : le contrat
+   qu'on te propose quand tu n'es encore personne, l'affiche a ton nom quand tu
+   portes l'uniforme, et l'homme qui sert d'enseigne sans le savoir.
+   Elles portent pic:'c_crossguild', une image qu'Enrick fournit. */
+E({id:'a5_crossguild', pic:'c_crossguild', act:5, scene:'newworld', w:14, dt:1, once:1, verrou:60,
 kicker:"La maison qui met des primes sur la Marine", title:"Le Cross Guild",
 text:"Le système des Grands Corsaires n'existe plus. Ceux qui en vivaient n'ont pas disparu avec lui : trois d'entre eux ont monté leur propre maison, et elle ne rend de comptes à personne.<br><br>Crocodile la dirige avec Dracule Mihawk. Baggy est le nom sur l'enseigne. Ils impriment des avis de recherche sur des officiers de la Marine, et des chasseurs les encaissent.<br><br>On reçoit ici sous trêve, parce qu'une maison qui vend des contrats a besoin qu'on puisse venir lui parler. Le cigare et le crochet en or sont ceux des affiches d'Alabasta. L'homme derrière, non : il n'a plus de titre à perdre.",
 opts:[
@@ -7370,6 +7397,73 @@ opts:[
    why:"Rester au sommet sans rien adapter finit toujours par coûter le sommet.",
    r:"Ils sont venus à plusieurs et l'un d'eux avait le Haki des Rois. Tu tiens deux jours. À la fin, quelqu'un de vingt ans est debout au-dessus de toi. Comme toi, autrefois."},
   die:{p:.18, t:"Tu es tombé sans avoir jamais admis que quelque chose avait changé. C'est la fin la plus courante pour les hommes de ton niveau."}}
+]});
+
+
+E({id:'a3_crossguild', pic:'c_crossguild', act:3, scene:'loguetown', w:13, dt:1, once:1, ineed:"pirate|revo",
+kicker:"Un comptoir sans enseigne", title:"Le premier contrat",
+text:"Une arrière-salle, une table, et un homme qui ne donne pas son nom. Devant lui, une pile d'affiches où ce n'est pas ton visage qui figure, mais celui d'officiers de la Marine, avec un chiffre en dessous.<br><br>Il te laisse regarder. Il ne te propose rien tant que tu n'as pas demandé.",
+opts:[
+ {t:"Prendre le plus petit et le ramener vivant", tag:"Le petit", d:1,
+  eff:{ruse:11, obs:9, combat:7, renom:6}, bounty:1.2,
+  why:"Un premier contrat ramené proprement ouvre la porte des suivants, et cette porte-là ne s'ouvre qu'une fois.",
+  r:"Un lieutenant de base côtière, trois hommes, aucune surprise. Tu le déposes vivant, on te compte l'argent sans un mot, et on note quelque chose à côté de ton nom.",
+  fail:{p:.30, on:'obs', eff:{obs:5, renom:-7},
+   why:"Un officier de base côtière connaît sa base mieux que toi.",
+   r:"Il t'attendait dans son propre bureau avec six hommes. Tu ressors par la fenêtre, sans lui, et le comptoir raye ton nom de la liste."}},
+ {t:"Demander qui paie, avant tout le reste", tag:"La source",
+  eff:{obs:12, ruse:10, renom:-4},
+  why:"Savoir d'où vient l'argent vaut plus cher qu'un contrat, et ça ne se demande qu'une fois sans se faire remarquer.",
+  r:"Il te répond, ce qui te surprend. Trois noms, dont deux que le monde croit morts ou retirés. Tu ressors sans contrat et avec quelque chose que très peu de gens savent à ton niveau."},
+ {t:"Refuser, et le dire assez fort pour qu'on l'entende", tag:"Le refus",
+  eff:{vol:12, renom:7, ruse:-6},
+  why:"Refuser bruyamment une maison pareille coûte des portes et en ouvre d'autres.",
+  r:"Tu repousses la pile au milieu de la table et tu sors sans te presser. L'homme ne te retient pas. Trois mois plus tard, un officier que tu ne connais pas te paie un verre sans expliquer pourquoi."}
+]});
+
+E({id:'a4_crossguild_mar', pic:'c_crossguild', act:4, scene:'marineford', w:14, dt:1, once:1, ineed:"marine|gm",
+kicker:"Une affiche punaisée dans le couloir", title:"Ton nom vaut quelque chose chez eux",
+text:"Quelqu'un l'a punaisée au tableau du couloir et personne ne l'a retirée. C'est ton visage, dessiné de mémoire et pas si mal, avec ton grade et un chiffre en dessous.<br><br>La signature en bas de l'affiche n'est celle d'aucun gouvernement. Deux collègues passent, la regardent, et ne disent rien.",
+opts:[
+ {t:"L'arracher et la brûler devant tout le monde", tag:"Devant témoins",
+  eff:{vol:13, renom:8, ruse:-7}, f:"prime_pegre", prime:120000000,
+  why:"Une affiche brûlée en public dit à ceux qui l'ont vue ce que tu comptes en faire.",
+  r:"Tu la décroches, tu la brûles dans le cendrier du couloir, et tu retournes travailler. Personne ne commente. Le chiffre monte de moitié le mois suivant, ce qui veut dire qu'ils ont lu la scène."},
+ {t:"La garder, et te renseigner sur le tarif", tag:"La cote", f:"prime_pegre", prime:120000000,
+  eff:{obs:12, ruse:10, renom:5, vol:-5},
+  why:"Un homme qui connaît son propre prix sait aussi qui pourrait vouloir l'encaisser.",
+  r:"Tu la plies dans ta veste. Le tarif correspond à un capitaine, pas à toi : quelqu'un dans la maison t'a surévalué exprès, et tu passes six mois à chercher qui.",
+  fail:{p:.28, on:'obs', eff:{obs:5, renom:-8},
+   why:"Se renseigner sur sa propre prime, c'est demander à des gens qui la touchent.",
+   r:"Deux de tes contacts remontent ton intérêt au comptoir. Le chiffre double, et ton nom passe de la liste ordinaire à celle qu'on lit en priorité."}},
+ {t:"Demander à être affecté à la chasse au Cross Guild", tag:"Le dossier",
+  eff:{combat:9, ruse:11, obs:8, vol:6}, f:"prime_pegre", prime:120000000,
+  why:"Poursuivre ceux qui ont mis un prix sur votre tête est la seule façon de ne pas passer sa carrière à regarder derrière soi.",
+  r:"On te donne le dossier parce que personne d'autre n'en veut. Tu passes deux ans dessus et tu ne les prends pas. Tu apprends en revanche comment ils recrutent, et ça, personne au Quartier Général ne le savait.",
+  fail:{p:.30, on:'ruse', eff:{ruse:6, renom:-9},
+   why:"Un dossier qu'on demande soi-même devient un dossier dont on répond seul.",
+   r:"Deux ans, aucune arrestation, et un rapport que ta hiérarchie lit en diagonale. On te retire le dossier et on te le rappelle chaque fois qu'il faut te rappeler quelque chose."}}
+]});
+
+E({id:'a4_crossguild_bag', pic:'c_crossguild', act:4, scene:'newworld', w:12, dt:1, once:1, verrou:48,
+kicker:"L'homme sur les affiches", title:"Celui qui sert d'enseigne",
+text:"Sur toutes les affiches de la maison, c'est son visage : nez rouge, sourire immense, un titre d'Empereur imprimé en gros. Il signe des autographes sur le port et il y croit.<br><br>Ceux qui décident vraiment sont assis derrière, dans une pièce sans fenêtre, et ils n'ont jamais démenti quoi que ce soit.",
+opts:[
+ {t:"Traiter avec lui comme s'il décidait", tag:"Le respect",
+  eff:{renom:12, ruse:8, obs:-6},
+  why:"Laisser un homme croire qu'il commande coûte moins cher que de le détromper, et rapporte souvent davantage.",
+  r:"Il t'écoute, il promet des choses qu'il ne peut pas tenir, et il les tient quand même parce que les deux autres laissent faire. Tu repars avec un accord que personne n'a signé et que tout le monde respecte."},
+ {t:"Passer par-dessus lui et parler aux deux autres", tag:"Court-circuit", d:1,
+  eff:{ruse:14, obs:11, renom:-8},
+  why:"Court-circuiter l'enseigne devant l'enseigne est une insulte qu'il faut pouvoir porter.",
+  r:"Mihawk ne dit rien, Crocodile te laisse finir. L'accord est meilleur que celui que tu aurais eu en face, et l'homme au nez rouge ne t'adressera plus jamais la parole.",
+  fail:{p:.32, on:'ruse', eff:{ruse:6, renom:-10},
+   why:"Les deux autres tiennent à leur enseigne précisément parce qu'elle est commode.",
+   r:"Crocodile te fait remarquer, très calmement, que tu viens de manquer de respect à un Empereur. La salle décide de le croire, et tu ressors sans rien."}},
+ {t:"Lui dire ce qu'il est vraiment", tag:"La vérité",
+  eff:{vol:13, obs:9, renom:-11}, f:"craint",
+  why:"Dire à un homme qu'il n'est qu'une image ne sert à rien, sauf à savoir ce qu'il en fait.",
+  r:"Il rit très fort, trop longtemps, puis il s'arrête d'un coup. Il te dit qu'il le sait depuis le début et que ça marche quand même. Vous ne vous reverrez pas, et tu n'as pas gagné cet échange."}
 ]});
 
 /* =========================================================================
@@ -14316,6 +14410,15 @@ function drawEvent(relax){
     var vise = TITRE_ADV[S.spec.id];
     if(vise && !S.used['cb_'+vise]){
       for(var qi=0;qi<ADV.length;qi++) if(ADV[qi].id === vise){
+        /* LE DUEL ATTEND QUE TU SOIS A PORTEE.
+           Les baremes ont ete descendus le 25 aout pour redevenir atteignables,
+           et le duel se declenchait donc beaucoup trop tot : on affrontait
+           Mihawk, niveau 76, en etant au niveau 50. Mesure : 3 % de victoires
+           au sabre, 4 % au corps modifie. Le bareme dit qu'on merite le titre,
+           il ne dit pas qu'on peut le prendre aujourd'hui.
+           Meme fenetre que les combats ordinaires, douze niveaux d'ecart : le
+           tenant vient quand il y a un combat a jouer, pas une execution. */
+        if(niveau() < ADV[qi].niv - 12) break;
         S.cbDernier = S.chapter;
         return {combat:ADV[qi]};
       }
@@ -15165,9 +15268,19 @@ function specResult(){
 function specPret(){
   if(!S.spec) return false;
   var st=S.st, f=S.f, id=S.spec.id;
-  if(id==='sabre')   return st.combat>=66 && st.arm>=50 && !!f.lame;
-  if(id==='arts')    return st.combat>=72 && st.vol>=76 && st.arm>=44;
-  if(id==='fruit')   return !!S.fruit && S.eveil && S.fruit.pw>=15;
+  /* BAREMES RECALES LE 25 AOUT, sur le jeu tel qu'il est devenu.
+     Ils avaient ete regles sur la version d'avant les malus d'echec. Mesure du
+     25 aout, 700 carrieres : le bareme etait atteint par 3 a 6 % des joueurs
+     d'une voie, et ce qui bloquait etait toujours un SEUIL CHIFFRE devenu hors
+     de portee. Les arts martiaux demandaient combat 72, atteint par 3 %.
+     On ne touche a rien d'autre que ces seuils : c'est le titre qui s'adapte au
+     jeu, pas le jeu qui se plie au titre.
+     Les trois faits rares restent : une lame classee pour le sabre, l'Eveil
+     pour le Fruit, un corps modifie pour la science. Ils plafonnent ces trois
+     voies plus bas que les deux autres, et c'est voulu. */
+  if(id==='sabre')   return st.combat>=50 && st.arm>=34 && !!f.lame;
+  if(id==='arts')    return st.combat>=58 && st.vol>=62 && st.arm>=33;
+  if(id==='fruit')   return !!S.fruit && S.eveil && S.fruit.pw>=12;
   /* LE TITRE DE TIREUR TOMBAIT AU CHAPITRE 34, NIVEAU 52.
      Enrick le 22 aout : « j'ai eu le titre de sniper trop vite, du coup
      apres je vois Yasopp et il me dit comment regler mon tir alors que je
@@ -15180,8 +15293,8 @@ function specPret(){
      Mesure sur 400 carrieres de la voie du tir : ce bareme le fait tomber au
      chapitre 44, niveau 69, ce qui le range avec les quatre autres
      (chapitre 39 a 50, niveau 65 a 80). */
-  if(id==='tir')     return st.obs>=64 && st.ruse>=74 && st.combat>=48;
-  if(id==='science') return !!f.cyborg && st.ruse>=68 && st.combat>=56;
+  if(id==='tir')     return st.obs>=57 && st.ruse>=65 && st.combat>=43;
+  if(id==='science') return !!f.cyborg && st.ruse>=54 && st.combat>=43;
   return false;
 }
 /* A-t-on servi quelqu'un ? Un pacte, un adoubement, une loyaute juree. */
@@ -15320,21 +15433,30 @@ function reveResult(){
        Mesure sur 900 carrieres : 18 % accompli, tombe au chapitre 35 au lieu
        du chapitre 17. Echantillon de 72 carrieres, soit +/- 9 points : ne pas
        reaffiner ce seuil sans un millier de carrieres de plus. */
-    case 'libre':    return S.alive!==false && n>=52 && st.vol>=55 && !aServi();
-    case 'nom':      return prime()>=2000000000;
-    case 'pavillon': return st.renom>=72 && st.vol>=72;                 /* 48 % */
+    case 'libre':    return S.alive!==false && n>=45 && st.vol>=47 && !aServi();
+    /* RECALIBRE LE 25 AOUT. Enrick : « il faut verifier qu'il n'y a pas des
+       reves beaucoup plus durs que les autres, comme ne rien avoir a se
+       reprocher, ca ne me semble pas faisable ». Mesure sur 500 carrieres, les
+       douze reves allaient de 6 % a 30 % d'accomplissement, un facteur cinq.
+       Les trois du bas sont recales sur les compteurs reels mesures, pas au
+       jugement. Les neuf autres ne bougent pas. */
+    case 'nom':      return prime()>=1400000000;
+    case 'pavillon': return st.renom>=62 && st.vol>=62;
     /* --- marine --- */
-    case 'propres':  return !!f.integre && (S.n.fails||0)<=7 && n>=42;
-    case 'blason':   return !!f.integre && n>=72;
-    case 'traque':   return (S.n.wins||0)>=9 && !!f.integre && n>=51;
+    case 'propres':  return !!f.integre && (S.n.fails||0)<=6 && n>=45;
+    case 'blason':   return !!f.integre && n>=63;
+    case 'traque':   return (S.n.wins||0)>=10 && !!f.integre && n>=54;
     /* --- revolution --- */
-    case 'aime':     return !!f.reputation_pop && st.renom>=72;         /* 50 % */
-    case 'cachent':  return !!f.secret_imu && n>=51;
-    case 'plie':     return !!f.ennemi_gm && n>=61;
+    case 'aime':     return !!f.reputation_pop && st.renom>=63;
+    case 'cachent':  return !!f.secret_imu && n>=44;
+    case 'plie':     return !!f.ennemi_gm && n>=52;
     /* --- gouvernement --- */
-    case 'registre': return prime()===0 && n>=64;                       /* 19 % */
-    case 'savoir':   return !!f.dossier && n>=64;
-    case 'sommet':   return (S.n.fails||0)<=7 && n>=58;
+    case 'registre': return prime()===0 && n>=56;
+    case 'savoir':   return !!f.dossier && n>=60;
+    /* « Qu'on n'ait jamais rien a me reprocher », le plus dur des douze a 6 %.
+       Il demandait au plus 7 revers ET le niveau 58, or la mediane des revers
+       est a 6 et le Gouvernement finit plus bas que les autres camps. */
+    case 'sommet':   return (S.n.fails||0)<=8 && n>=55;
   }
   return false;
 }
@@ -15455,6 +15577,13 @@ function imuChance(o){
   return clamp(c, IMU_BAS, IMU_HAUT);
 }
 function imuSeq(){
+  /* ON A VU LE TRONE, MEME SI ON N'EN EST PAS RESSORTI.
+     L'ecran de fin lisait secret_imu, un drapeau pose par des cartes de
+     rencontre. Un joueur qui descend l'escalier et meurt devant Imu n'avait
+     donc pas ce drapeau, et son bilan affichait « Roi du Monde, jamais vu, il
+     existe un escalier sous Marie-Joie, tu n'en as jamais entendu parler ».
+     Enrick le 25 aout : il l'avait vu, il avait juste rate. */
+  S.f.trone_vu = true;
   show('s_imu'); setScene('mariejoie');
   var E = imuRoute()[imuEtape];
   $('im_kick').textContent = 'Le Trône Vide  ·  échange ' + (imuEtape+1) + ' sur 3';
@@ -16136,7 +16265,9 @@ function showEnd(){
   /* le Trone Vide, en trois etats */
   G += S.f.roi_du_monde
     ? ligne(true, 'Roi du Monde', '', 'Tu es monté sur le Trône Vide.')
-    : (S.f.secret_imu
+    : (S.f.trone_vu
+        ? ligne(false, 'Roi du Monde', 'tenté', 'Tu es descendu, tu t\'es tenu devant, et tu n\'es pas remonté vainqueur. Presque personne ne peut en dire autant.')
+        : S.f.secret_imu
         ? ligne(false, 'Roi du Monde', 'approché', 'Tu as vu ce qui siège sous Marie-Joie. Tu n\'es pas allé plus loin.')
         : ligne(false, 'Roi du Monde', 'jamais vu', 'Il existe un escalier sous Marie-Joie. Tu n\'en as jamais entendu parler.'));
   if(!S.f.roi_du_monde) manques++;
