@@ -13022,11 +13022,19 @@ function grGouv(a){
      il libere la place ». Le Cipher Pol Aigis 0 descend au vivier, sous le
      panneau, et les Chevaliers Divins prennent le cran 68 : a Elbaf ils se
      battent au niveau des seconds d'Empereur. */
-  if(a < 5) s.push(sg('Chef des Chevaliers Divins', 'Figarland Garling', 'c_garling',
-                      'Commandant suprême de l’ordre', 73));
-  else      s.push(sg('Chef des Chevaliers Divins', null, null,
-                      'Garling est monté au Gorosei', 73));
-  s.push(sg('Chevalier Divin', 'Shamrock', 'c_shamrock', 'Figarland, comme lui', 68));
+  /* L'ORDRE NE RESTE PAS SANS CHEF. Enrick, 25 aout : « quand Garling passe au
+     Gorosei, Shamrock devient chef des Chevaliers Divins automatiquement, sauf
+     si je prends la place, auquel cas il redescend simple Chevalier Divin ».
+     Un siege qu'on laisse vide alors que quelqu'un peut le prendre, c'est
+     exactement ce que ce tableau existe pour ne plus faire. */
+  if(a < 5){
+    s.push(sg('Chef des Chevaliers Divins', 'Figarland Garling', 'c_garling',
+              'Commandant suprême de l’ordre', 73));
+    s.push(sg('Chevalier Divin', 'Shamrock', 'c_shamrock', 'Figarland, comme lui', 68));
+  } else {
+    s.push(sg('Chef des Chevaliers Divins', 'Shamrock', 'c_shamrock',
+              'Monté quand Garling a rejoint le Gorosei', 73));
+  }
   s.push(sg('Chevalier Divin', 'Gunko', 'c_gunko', null, 68));
   s.push(sg('Chevalier Divin', 'Sommers', 'c_sommers', null, 68));
   s.push(sg('Chevalier Divin', 'Killingham', 'c_killingham', null, 68));
@@ -13080,7 +13088,21 @@ function placeJoueur(G, cran){
     else if(cran === 68){ cible = trouve('L’Armée Révolutionnaire', 'Chef d’état-major'); sous = 'Second de Dragon'; }
   } else {
     if(cran >= 85){ cible = trouve('Le Gouvernement Mondial', 'Doyen', 'Shepherd Ju Peter'); sous = 'Adoubé au Gorosei'; }
-    else if(cran === 73){ cible = trouve('Le Gouvernement Mondial', 'Chef des Chevaliers Divins'); sous = 'Tu commandes l’ordre'; }
+    else if(cran === 73){
+      cible = trouve('Le Gouvernement Mondial', 'Chef des Chevaliers Divins');
+      sous = 'Tu commandes l’ordre';
+      /* si tu prends la tete, Shamrock ne sort pas : il reste simple Chevalier */
+      if(cible && cible.nom === 'Shamrock'){
+        for(g = 0; g < G.length; g++) if(G[g].n === 'Le Gouvernement Mondial'){
+          for(j = 0; j < G[g].s.length; j++) if(G[g].s[j].rang === 'Chevalier Divin'){
+            G[g].s.splice(j, 0, sg('Chevalier Divin', 'Shamrock', 'c_shamrock',
+                                   'Figarland, comme lui', 68));
+            break;
+          }
+          break;
+        }
+      }
+    }
     else if(cran === 68){
       /* l'ordre est elastique : on t'y adoube sans faire sortir personne */
       for(i = 0; i < G.length; i++) if(G[i].n === 'Le Gouvernement Mondial'){
