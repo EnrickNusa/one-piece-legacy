@@ -1127,6 +1127,7 @@ h1,h2,h3{text-wrap:balance}
    separe par un filet, l'intitule ecrit une seule fois. Le palier dore est
    celui que le joueur vise : plein ou non, les gens dedans sont ceux qu'il
    faudra deloger. */
+.mnd{margin-bottom:12px}
 .mn{display:flex; flex-direction:column; gap:0}
 .mnc{border-top:1px solid var(--line); padding:8px 0 4px}
 .mnc:first-child{border-top:0; padding-top:2px}
@@ -14063,9 +14064,9 @@ function renderManager(){
      La prime reste haut, juste sous l'objectif : choix d'Enrick contre ma
      proposition, qui la descendait tout en bas. */
   $('manager').innerHTML =
-      B_niv + B_etat + B_obj + B_prime          /* ce qui decide maintenant */
+      B_monde                                   /* ou tu te situes dans le monde */
+    + B_niv + B_etat + B_obj + B_prime          /* ce qui decide maintenant */
     + B_haki + B_fruit                          /* ce que tu es */
-    + B_monde                                   /* ou tu te situes */
     + B_equipage + B_navire + B_flotte
     + B_courbe + B_traits + B_faits;            /* ce que tu as accompli */
 }
