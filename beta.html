@@ -4382,7 +4382,44 @@ function lanceCombat(adv){
   for(var i=0;i<o.length;i++)
     h += '<button class="opt'+(o[i].d?' danger':'')+'" data-i="'+i+'"><span class="n">'+(i+1)+'</span>'
        + '<b>'+esc(o[i].t)+'</b><i>'+esc(o[i].s)+(o[i].d?' · DANGER DE MORT':'')+'</i></button>';
+  /* ENGAGER SON NOM AVANT UN COMBAT.
+     Enrick apres avoir teste la beta : « il faudrait pouvoir engager son nom
+     avant un combat et une scene appropriee, pas sur de simples choix
+     inutiles ». Un affrontement est exactement la scene qui le merite : on
+     annonce devant temoins avant de savoir comment ca finit.
+     Meme regle que sur les cartes : trois par carriere, six points de Renommee
+     payes d'avance, et la mise double ce que le combat rapporte comme ce qu'il
+     coute. Elle ne change aucune probabilite. */
+  var resteM = MISE_MAX - (S.mises || 0);
+  if(S.st.renom >= MISE_SEUIL && resteM > 0 && !S.cb.done){
+    h += '<div class="mise' + (S.cb.mise ? ' on' : '') + '" id="cb_mise">' +
+         '<span class="mt">' + (S.cb.mise ? 'Ton nom est engagé sur ce combat' : 'Engager ton nom sur ce combat') +
+         '<b class="mc">' + resteM + (resteM > 1 ? ' fois possibles' : ' fois possible') + '</b></span>' +
+         '<span class="md">' + (S.cb.mise
+           ? 'Le port entier sait que tu as annoncé. Ce que ça rapporte et ce que ça coûte comptent double.'
+           : 'Tu annonces devant témoins avant de savoir comment ça finit. Gains et pertes compteront double, six points de Renommée.') +
+         '</span></div>';
+  }
   $('cb_opts').innerHTML = h;
+  var cm = $('cb_mise');
+  if(cm) cm.onclick = function(){
+    /* L'ecran d'ouverture est dessine dans lanceCombat : on ne peut pas le
+       redessiner sans relancer le combat. On met donc la bande a jour sur
+       place, c'est le seul element qui change. */
+    S.cb.mise = !S.cb.mise;
+    if(S.cb.mise){ S.mises = (S.mises||0) + 1; bump('renom', -MISE_COUT); }
+    else { S.mises = Math.max(0, (S.mises||0) - 1); bump('renom', MISE_COUT); }
+    var reste = MISE_MAX - (S.mises || 0);
+    cm.className = 'mise' + (S.cb.mise ? ' on' : '');
+    cm.innerHTML =
+      '<span class="mt">' + (S.cb.mise ? 'Ton nom est engagé sur ce combat' : 'Engager ton nom sur ce combat') +
+      '<b class="mc">' + reste + (reste > 1 ? ' fois possibles' : ' fois possible') + '</b></span>' +
+      '<span class="md">' + (S.cb.mise
+        ? 'Le port entier sait que tu as annoncé. Ce que ça rapporte et ce que ça coûte comptent double.'
+        : 'Tu annonces devant témoins avant de savoir comment ça finit. Gains et pertes compteront double, six points de Renommée.') +
+      '</span>';
+    save();
+  };
   var bs = $('cb_opts').querySelectorAll('.opt');
   for(var j=0;j<bs.length;j++) (function(k){
     bs[k].onclick = function(){ cbOuverture(o[k].id); };
@@ -4792,7 +4829,19 @@ function cbFin(){
   S.hist.push({a:S.age, p:prime(), n:niveau()});
   cbSortie(txt, d, cls, dejaLu);
 }
+/* Le nom engage double le resultat du combat, gagne ou perdu. */
+function miseCombat(d){
+  if(!S.cb || !S.cb.mise || !d) return d;
+  for(var i=0;i<d.length;i++){
+    var k = d[i][0], v = d[i][1];
+    if(!k || !v) continue;
+    bump(k, v);                 /* on applique une seconde fois le meme delta */
+    d[i][1] = v * 2;
+  }
+  return d;
+}
 function cbSortie(txt, d, cls, garde){
+  d = miseCombat(d);
   var dh='', k;
   for(k=0;k<(d||[]).length;k++)
     dh += '<span class="d '+(d[k][1]>0?'up':'dn')+'">'+STATNOM[d[k][0]]+' '+(d[k][1]>0?'+':'')+d[k][1]+'</span>';
@@ -14272,6 +14321,8 @@ var MOMENTS = [];
 function etat(){
   return {
     hk: {arm:hakiPalier('arm').i, obs:hakiPalier('obs').i, rois:hakiPalier('rois').i},
+    iles: (S.iles || []).length,
+    allie: (typeof aUnAllie === 'function') && aUnAllie(),
     pui: palierPuissance().t,
     pri: palierDe(prime()).n,
     nav: S.shipCls,
@@ -14287,6 +14338,24 @@ function etat(){
 }
 function detecteMoments(av){
   var ap = etat(), M = [];
+  /* RALLIER UN PORT S'ANNONCE. Enrick apres avoir teste la beta : « tu ne sais
+     meme pas quand tu les obtiens si tu ne fais pas attention a la barre ».
+     Une alliance qu'on ne sait pas avoir obtenue n'existe pas. Elle passe donc
+     par le meme ecran que les paliers de Haki et les traits, et la carte DIT
+     ce que ce port fera : c'etait l'autre moitie du reproche, on ne savait pas
+     non plus a quoi ca servait. */
+  var avI = (av && av.iles) || 0, apI = (S.iles || []).length;
+  if(apI > avI){
+    var dernier = S.iles[S.iles.length - 1];
+    M.push({t:"Le port de " + lieuCourt(dernier) + " est avec toi", c:'ile',
+      x:"Ils ne l'écriront nulle part et personne ne te fera signer quoi que ce soit. Mais si tu reviens ici un jour dans un état qui ne se cache pas, la passe sera ouverte et personne ne demandera de papiers.<br><br><b>Ce qu'un port rallié peut faire, une fois.</b> Te soigner sans te coûter un chapitre, te donner des hommes, ou te dire ce qu'il a vu passer. À toi de choisir le moment.<br><br>Et ils savent où c'est. Ce qui vaut pour toi vaut pour ceux qui te cherchent."});
+  }
+  /* GAGNER UN ALLIE S'ANNONCE AUSSI. Le drapeau se posait en silence au fond
+     d'une carte, et le joueur ne savait pas qu'il avait quelqu'un. */
+  if(!av.allie && typeof aUnAllie === 'function' && aUnAllie()){
+    M.push({t:"Quelqu'un te doit de venir", c:'ile',
+      x:"Rien n'a été signé et personne n'a prononcé le mot. Vous savez tous les deux ce qui a été dit.<br><br><b>Une fois, une seule.</b> Le jour où tu perdras un combat que tu ne devais pas perdre, quelqu'un se mettra entre toi et l'autre. Tu repartiras vivant et tu n'auras rien gagné du tout.<br><br>Ça ne se redemande pas et ça ne se planifie pas."});
+  }
   /* un trait gagne se dit au moment ou il tombe, pas a la retraite */
   var ln = lameNoire();
   if(ln) M.push(ln);
@@ -14949,8 +15018,13 @@ function renderEvent(e){
      mise brule ce qui permet de miser.
      Ou ca apparait : seulement sur les cartes qui portent deja un risque.
      Engager son nom sur « accepter un verre » n'a aucun sens. */
+  /* SEULEMENT LES SCENES QUI LE MERITENT. Enrick apres avoir teste : « pas sur
+     de simples choix inutiles ». La bande paraissait des qu'une option portait
+     d:1, ce qui couvre beaucoup de cartes de passage. Elle demande maintenant
+     une option qui peut REELLEMENT tuer, c'est-a-dire un die: derriere : ce
+     sont les seules scenes ou annoncer avant de savoir a un sens. */
   var risque = false;
-  for(var mi=0; mi<PENDO.length; mi++) if(PENDO[mi].d) risque = true;
+  for(var mi=0; mi<PENDO.length; mi++) if(PENDO[mi].d && PENDO[mi].die) risque = true;
   var resteMises = MISE_MAX - (S.mises || 0);
   var peutMiser = risque && S.st.renom >= MISE_SEUIL && resteMises > 0;
   if(peutMiser){
