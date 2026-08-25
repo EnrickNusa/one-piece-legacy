@@ -4435,7 +4435,10 @@ function lanceCombat(adv){
   $('cb_title').textContent = adv.n;
   $('cb_res').innerHTML = '';
   var pq = raisonCombat(adv);
-  $('cb_text').innerHTML = cbBar() + '<p>' + tpl(adv.i) + '</p>' +
+  /* ih : la presentation quand l'adversaire SAIT deja qui tu es. Sans elle,
+     Kizaru demandait poliment son nom a un Empereur a cinq milliards. */
+  var intro = (adv.ih && typeof onTeConnait === 'function' && onTeConnait()) ? adv.ih : adv.i;
+  $('cb_text').innerHTML = cbBar() + '<p>' + tpl(intro) + '</p>' +
     (pq ? '<p class="pourquoi">' + esc(pq) + '</p>' : '');
   var ecart = adv.niv - niveau(), av='';
   if(ecart >= 9)      av = '<p class="note bad">Il est très au-dessus de toi. L\'affronter maintenant peut te coûter la vie.</p>';
@@ -8011,7 +8014,7 @@ opts:[
 
 /* ============================ ACTE IV — 27 a 41 ========================== */
 
-E({id:"mar4_a", act:4, scene:"newworld", w:28, ineed:"marine",
+E({id:"mar4_a", enposte:"Akainu", act:4, scene:"newworld", w:28, ineed:"marine",
 kicker:"Dix navires de guerre, cinq vice-amiraux", title:"L'escargophone doré",
 text:"Il est posé devant toi, le Quartier Général attend un mot. Une île, quatre mille habitants, un savant qui a lu ce qu'il ne fallait pas lire.<br><br>Ohara a duré une matinée. Personne au QG n'a jamais dit que c'était une erreur.",
 opts:[
@@ -8041,7 +8044,7 @@ opts:[
   r:"Tu rends l'appareil et tu écris ton refus, avec ton matricule. Spandine a signé Ohara et il n'en a plus jamais parlé. Ta carrière s'arrête net. Quatre cents officiers apprennent ton nom."}
 ]});
 
-E({id:"mar4_b", pic:'c_kaidou', gr:'pegre', act:4, scene:"marineford", w:13, ineed:"marine",
+E({id:"mar4_b", enposte:"Kaidou", pic:'c_kaidou', gr:'pegre', act:4, scene:"marineford", w:13, ineed:"marine",
 kicker:"Briefing des primes au Quartier Général", title:"Kaidou aux Cent Bêtes a lâché un chiffre sur toi",
 text:"Brannew monte sur l'estrade avec ses affiches. Pas des avis de recherche : des annonces de la pègre.<br><br>Tu as coupé une route vers Wano. Kaidou a lâché un chiffre entre deux gorgées. L'affiche du milieu, c'est toi.",
 opts:[
@@ -8069,7 +8072,7 @@ opts:[
    r:"Ta demande circule à l'état-major avant d'être acceptée. On te retire du terrain, on te met aux archives, et on ne te propose plus rien. Le chiffre tombe. Le reste aussi."}}
 ]});
 
-E({id:"mar4_b2", pic:'c_bigmom', gr:'pegre', act:4, scene:"marineford", w:13, ineed:"marine",
+E({id:"mar4_b2", enposte:"Big Mom", pic:'c_bigmom', gr:'pegre', act:4, scene:"marineford", w:13, ineed:"marine",
 kicker:"Briefing des primes au Quartier Général", title:"Big Mom a fait porter ton nom aux intermédiaires",
 text:"Brannew monte sur l'estrade avec ses affiches. Pas des avis de recherche : des annonces de la pègre.<br><br>Tu as arraisonné deux caboteurs de Totto Land. Big Mom a dicté un chiffre à Perospero. L'affiche du milieu, c'est toi.",
 opts:[
@@ -8097,7 +8100,7 @@ opts:[
    r:"Ta demande circule à l'état-major avant d'être acceptée. On te retire du terrain, on te met aux archives, et on ne te propose plus rien. Le chiffre tombe. Le reste aussi."}}
 ]});
 
-E({id:"mar4_c", act:4, scene:"marineford", w:26, ineed:"marine",
+E({id:"mar4_c", enposte:"Akainu|Fujitora", act:4, scene:"marineford", w:26, ineed:"marine",
 kicker:"État-major", title:"Le fauteuil de vice-amiral",
 text:"Kong signe ta nomination. Tsuru te fait porter quatre lignes que tu relis trois fois sans en trouver le fond.<br><br>Vice-amiral, ça veut dire qu'on ne te demande plus de gagner. On te demande de choisir un camp dans le tien.",
 opts:[
@@ -8177,7 +8180,7 @@ opts:[
    ordres, je devrais prendre son poste et ne plus revoir cette animation a mon
    stade ». Le barreau 73 est celui de l'Amiral en chef : au-dela, ce bureau
    est le tien. nmax:72 ferme la carte au moment exact ou le grade bascule. */
-E({id:"mar5_b", act:5, scene:"marineford", w:16, nmax:72, ineed:"marine",
+E({id:"mar5_b", enposte:"Akainu", act:5, scene:"marineford", w:16, nmax:72, ineed:"marine",
 kicker:"Bureau du Quartier Général", title:"Ce que l'amiral Sakazuki attend de toi",
 text:"Sakazuki ne convoque pas pour discuter. Sur la table, un ordre, un stylo, dix mots : signe, ou pars aujourd'hui.<br><br>Trente ans que tu cherches la troisième porte entre obéir et refuser. Elle n'est pas dans cette pièce.",
 opts:[
@@ -8655,7 +8658,7 @@ opts:[
    r:"Il éclate de rire, te tape sur l'épaule et raconte une anecdote de laboratoire sans jamais approcher du sujet. On ne te reparle pas d'Egghead."}}
 ]});
 
-E({id:"gvt5_b", pic:'c_garling', act:5, scene:"mariejoie", w:16, ineed:"gm",
+E({id:"gvt5_b", enposte:"Figarland Garling", pic:'c_garling', act:5, scene:"mariejoie", w:16, ineed:"gm",
 kicker:"Ordre des Chevaliers Divins", title:"L'armure blanche",
 text:"Les Chevaliers Divins ne recrutent pas, ils naissent. Figarland Garling ne fait pas d'exception, sauf cette fois.<br><br>Le serment se prête à genoux dans la salle du trône. L'armure est blanche. Aucun amiral ne peut la porter.",
 opts:[
@@ -8736,7 +8739,7 @@ opts:[
 
 /* ---------------------------- ACTE II ---------------------------------- */
 
-E({id:"pir2_a", act:2, scene:"loguetown", w:26, ineed:"pirate",
+E({id:"pir2_a", enposte:"Barbe Blanche", act:2, scene:"loguetown", w:26, ineed:"pirate",
 kicker:"Une nuit, une aiguille, un drap volé", title:"Hisser ton pavillon",
 text:"Un drap noir chipé sur une corde à linge, du fil, et une nuit entière. Tu ne sais pas dessiner. Personne à bord ne sait dessiner.<br><br>Demain matin il flottera au grand mât, et à partir de là tout le monde saura que tu existes.",
 opts:[
@@ -8809,7 +8812,7 @@ opts:[
 
 /* ---------------------------- ACTE III --------------------------------- */
 
-E({id:"pir3_a", pic:'c_bigmom', verrou:50, gr:'infiltre', act:3, scene:"sabaody", w:12, ineed:"pirate",
+E({id:"pir3_a", enposte:"Big Mom", pic:'c_bigmom', verrou:50, gr:'infiltre', act:3, scene:"sabaody", w:12, ineed:"pirate",
 kicker:"Un émissaire en manteau rayé", title:"L'offre de protection de Big Mom",
 text:"Perospero vient au nom de Charlotte Linlin. Il lèche sa sucette entre deux phrases. Le marché : le visage souriant sous ton {PAVILLON}, une part par trimestre, plus personne ne te touche.<br><br>Refuser est aussi une réponse, et sa mère garde toutes les réponses.",
 opts:[
@@ -8834,7 +8837,7 @@ opts:[
    r:"Ils l'apprennent la même semaine, parce qu'ils se détestent assez pour se parler quand ça les arrange. Tu n'as plus de protecteur, plus de crédit, et une réputation d'homme avec qui on ne traite pas."}}
 ]});
 
-E({id:"pir3_a2", pic:'c_kaidou', verrou:50, gr:'infiltre', act:3, scene:"sabaody", w:12, ineed:"pirate",
+E({id:"pir3_a2", enposte:"Kaidou|King", pic:'c_kaidou', verrou:50, gr:'infiltre', act:3, scene:"sabaody", w:12, ineed:"pirate",
 kicker:"Un émissaire masqué qui refuse de s'asseoir", title:"L'offre de protection de Kaidou",
 text:"King l'Incendie vient au nom de Kaidou. Il reste debout, masque baissé, et dit trois phrases. Le marché : le crâne aux cornes sous ton {PAVILLON}, une part par trimestre, plus personne ne te touche.<br><br>Refuser est aussi une réponse. Il n'aura pas à revenir la chercher.",
 opts:[
@@ -9199,7 +9202,7 @@ opts:[
 
 /* ---------------------------- ACTE IV ---------------------------------- */
 
-E({id:"rev4_a", act:4, scene:"newworld", w:24, ineed:"revo",
+E({id:"rev4_a", enposte:"Dragon|Sabo", act:4, scene:"newworld", w:24, ineed:"revo",
 kicker:"Commandement", title:"Une armée sous tes ordres",
 text:"Dragon te confie un commandement régional. Ce n'est pas une promotion au sens où tu l'entendais : c'est une liste de gens dont la vie dépendra de tes décisions.<br><br>Sabo te remet le dossier sans commentaire. Il a l'air de savoir exactement ce que tu ressens.",
 opts:[
@@ -9288,7 +9291,7 @@ opts:[
   r:"Tu montes l'extraction comme une opération, avec trois relais et deux fausses pistes. Ça prend un an. Cette personne perd tout ce qu'elle avait et ne le regrette jamais."}
 ]});
 
-E({id:"rev5_b", act:5, scene:"mariejoie", w:24, ineed:"revo",
+E({id:"rev5_b", enposte:"Dragon", act:5, scene:"mariejoie", w:24, ineed:"revo",
 kicker:"La fenêtre", title:"Les portes de Marie-Joie",
 text:"Trente ans de travail patient donnent ceci : quatre armées régionales prêtes, onze royaumes qui ne défendront pas le Gouvernement, et une date.<br><br>Dragon demande ton avis, ce qu'il n'a jamais fait.",
 opts:[
@@ -11657,7 +11660,7 @@ opts:[
 
 /* ====================== ACTE IV - LES ORDRES QU'ON SIGNE ================== */
 
-E({id:"mis_mar_6", act:4, scene:"sabaody", w:27, ineed:"marine",
+E({id:"mis_mar_6", enposte:"Kizaru", act:4, scene:"sabaody", w:27, ineed:"marine",
 kicker:"Ordre de mission · Bosquet 1", title:"Escorte du Dragon Céleste",
 text:"Le contre-amiral ne te regarde pas en face. <b>Saint Jalmack</b>, Dragon Céleste, descend au Bosquet 1, et ton escadre l'escorte jusqu'à la Salle de Vente.<br><br>Ordre : il ne doit rien lui arriver. Ce qu'il tire n'est pas ton affaire.",
 opts:[
@@ -13176,6 +13179,41 @@ function mondeGroupes(){
       G[i].s[j].vise = !!(mien && G[i].s[j].cran === suiv);
   }
   return G;
+}
+
+/* ================= LE TABLEAU REPOND AUX CARTES =========================
+   Enrick, 25 aout : « il faut reecrire les cartes, on a fait plein de places
+   differentes d'Akainu, d'Aokiji, de Luffy, donc ce qui se passe change par
+   rapport au statut qui avance ».
+   C'est le vrai cout du tableau, et il est la : une carte ou Akainu te donne
+   un ordre ne doit plus tomber quand tu as pris son fauteuil.
+   On ne reecrit pas 809 options, on leur donne un verrou : une carte qui
+   porte enposte:'Akainu' ne sort que si Akainu tient encore son siege. */
+var _siegeCache = null, _siegeChap = -1;
+function tientLeSiege(nom){
+  if(!nom || typeof mondeGroupes !== 'function') return true;
+  /* mondeGroupes() est reconstruit a chaque appel : sans ce cache, le tirage
+     le rebatirait une fois par carte candidate, soit 800 fois par chapitre. */
+  if(_siegeChap !== S.chapter){
+    _siegeCache = {};
+    var G = mondeGroupes(), i, j;
+    for(i = 0; i < G.length; i++)
+      for(j = 0; j < G[i].s.length; j++)
+        if(G[i].s[j].nom) _siegeCache[G[i].s[j].nom] = 1;
+    _siegeChap = S.chapter;
+  }
+  return !!_siegeCache[nom];
+}
+
+/* ON NE DEMANDE PAS SON NOM A UN EMPEREUR.
+   Enrick : « dans quel monde un amiral peut me demander mon nom alors que je
+   suis un des quatre Empereurs avec 5 milliards de prime ». Le tableau donne
+   la reponse : a partir du moment ou ton nom est ECRIT quelque part dedans,
+   le monde te connait. En dessous, on se rabat sur la renommee. */
+function onTeConnait(){
+  var st = (typeof palierStatut === 'function') ? palierStatut() : null;
+  if(st && st.n >= 60) return true;
+  return S.st.renom >= 55;
 }
 
 /* =========================================================================
@@ -14810,6 +14848,15 @@ function condOk(e, sansNiveau){
      quelqu'un, ce quelqu'un n'existe pas sur ta route. Tu ne le croiseras
      jamais, et personne n'a a l'expliquer. */
   if(e.xfruit && S.fruit && S.fruit.n === e.xfruit) return false;
+  /* enposte : la carte met en scene quelqu'un DANS SA FONCTION. Elle ne
+     sort plus si le tableau du monde dit qu'il n'y est plus. */
+  if(e.enposte && typeof tientLeSiege === 'function'){
+    /* « Akainu|Fujitora » : la scene reunit deux personnes en fonction, il
+       suffit qu'une seule ait quitte son siege pour qu'elle n'ait plus lieu. */
+    var _ep = String(e.enposte).split('|');
+    for(var _k = 0; _k < _ep.length; _k++)
+      if(!tientLeSiege(_ep[_k])) return false;
+  }
   /* un adversaire de haut niveau ne croise pas un joueur qui ne vaut pas
      encore le deplacement, et l'inverse est vrai aussi */
   /* VERROU : un niveau plancher qui ne saute JAMAIS, meme quand le moteur
