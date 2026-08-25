@@ -521,6 +521,13 @@ details.why[open]{padding-bottom:2px}
 .mise:hover{border-color:var(--gold2)}
 .mise .mt{display:block;font-family:var(--disp);font-size:14.5px;font-weight:800;color:var(--ink)}
 .mise .md{display:block;font-size:12px;line-height:1.45;color:var(--faint);margin-top:3px}
+.mise .mc{float:right;font-family:var(--body);font-size:11px;font-weight:800;
+  letter-spacing:.04em;color:var(--faint)}
+.mise.on .mc{color:#7a1fb0}
+/* le bandeau de la beta, present uniquement sur cette branche */
+.betabadge{display:inline-block;margin-top:14px;padding:7px 14px;border-radius:999px;
+  border:2px solid #7a1fb0;background:rgba(122,31,176,.14);color:#e9d4ff;
+  font-family:var(--disp);font-size:12.5px;font-weight:800;letter-spacing:.06em}
 .mise.on{border-style:solid;border-color:#7a1fb0;background:rgba(122,31,176,.10)}
 .mise.on .mt{color:#5f1690}
 .mise.on .md{color:#6b4a80}
@@ -1142,6 +1149,10 @@ h1,h2,h3{text-wrap:balance}
       <div class="t1">Le jeu de carrière</div>
       <h1>ONE PIECE<br>LEGACY</h1>
       <div class="t2">Une vie entière en mer. Une seule.</div>
+      <!-- MARQUEUR DE BETA. Les deux versions sont servies par le meme domaine
+           et se ressemblent trait pour trait : sans ce bandeau, impossible de
+           savoir sur laquelle on joue. Il n'existe que sur la branche beta. -->
+      <div class="betabadge">Version bêta &nbsp;·&nbsp; engager son nom, les ports ralliés</div>
     </div>
     <div class="sheet">
       <p class="lead">Tu pars à <b>dix-sept ans</b> avec une barque. Tes décisions font le reste.</p>
@@ -12857,7 +12868,11 @@ opts:[
 /* =========================================================================
    ONE PIECE LEGACY — MOTEUR
    ========================================================================= */
-var SAVE = 'op-legacy-v2';
+/* LA BETA NE PARTAGE PAS LES SAUVEGARDES DU JEU PUBLIE.
+   Les deux fichiers sont servis par le meme domaine, donc le meme
+   localStorage : ouvrir la beta reprenait la partie en cours du jeu normal, et
+   Enrick a vu « le meme jeu ». Cles distinctes, galeries distinctes. */
+var SAVE = 'op-legacy-beta-v1';
 
 /* Chaque acte a une tranche d'age fixe : l'age est interpole sur les chapitres,
    */
@@ -13232,7 +13247,7 @@ function newState(){
     proche: (typeof PROCHES !== 'undefined' && PROCHES.length) ? wpick(PROCHES) : null,
     st:{combat:12, arm:0, obs:0, rois:0, vol:14, ruse:12, renom:4},
     seed:0, pot:null, roisInne:false, primeHaute:0, nvHaut:0,
-    mise:false, iles:[], allieUse:false, ileRaid:false,
+    mise:false, mises:0, iles:[], allieUse:false, ileRaid:false,
     fruit:null, eveil:false, bmul:1,
     crew:0, crewList:[], shipCls:0, shipName:'', prime:0, etat:null, flotte:[], routes:{},
     age:17, agef:17, act:1, idx:0, chapter:0,
@@ -13428,7 +13443,26 @@ function rankTitle(){
 
 /* ---------------- sauvegarde ---------------- */
 function save(){ try{ localStorage.setItem(SAVE, JSON.stringify(S)); }catch(e){} }
-function load(){ try{ var r=localStorage.getItem(SAVE); return r?JSON.parse(r):null; }catch(e){ return null; } }
+function load(){
+  try{
+    var r = localStorage.getItem(SAVE);
+    if(!r) return null;
+    var o = JSON.parse(r);
+    /* UNE SAUVEGARDE FAITE AVANT LA BETA N'A NI iles, NI mise, NI allieUse.
+       S.iles.length levait alors une exception dans le tirage d'evenement, et
+       tout le systeme des iles restait invisible sans le moindre message.
+       Enrick : « les concepts d'ile et compagnie n'existent pas ». C'etait ca.
+       On complete a la volee, ici, pour toute partie deja commencee. */
+    if(o){
+      if(!o.iles || !o.iles.length && !(o.iles instanceof Array)) o.iles = [];
+      if(o.mise === undefined) o.mise = false;
+      if(o.allieUse === undefined) o.allieUse = false;
+      if(o.ileRaid === undefined) o.ileRaid = false;
+      if(o.mises === undefined) o.mises = 0;
+    }
+    return o;
+  }catch(e){ return null; }
+}
 function wipe(){ try{ localStorage.removeItem(SAVE); }catch(e){} }
 
 /* ---------------- HUD ---------------- */
@@ -14917,10 +14951,12 @@ function renderEvent(e){
      Engager son nom sur « accepter un verre » n'a aucun sens. */
   var risque = false;
   for(var mi=0; mi<PENDO.length; mi++) if(PENDO[mi].d) risque = true;
-  var peutMiser = risque && S.st.renom >= MISE_SEUIL;
+  var resteMises = MISE_MAX - (S.mises || 0);
+  var peutMiser = risque && S.st.renom >= MISE_SEUIL && resteMises > 0;
   if(peutMiser){
     h += '<div class="mise' + (S.mise ? ' on' : '') + '" id="e_mise">' +
-         '<span class="mt">' + (S.mise ? 'Ton nom est engagé' : 'Engager ton nom') + '</span>' +
+         '<span class="mt">' + (S.mise ? 'Ton nom est engagé' : 'Engager ton nom') +
+         '<b class="mc">' + resteMises + (resteMises > 1 ? ' fois possibles' : ' fois possible') + '</b></span>' +
          '<span class="md">' + (S.mise
            ? 'Ce que ça rapporte et ce que ça coûte comptent double. Six points de Renommée sont déjà partis.'
            : 'Ce que ça rapporte et ce que ça coûte compteront double. Six points de Renommée, gagné ou perdu.') +
@@ -14934,13 +14970,19 @@ function renderEvent(e){
   for(var j=0;j<bs.length;j++) bs[j].onclick = function(){ pickOpt(parseInt(this.getAttribute('data-i'),10)); };
   window.scrollTo(0,0); save();
 }
-var MISE_SEUIL = 20, MISE_COUT = 6, MISE_FACTEUR = 2;
+/* TROIS FOIS PAR CARRIERE, ET LE COMPTE EST ECRIT SUR LA BANDE.
+   La premiere version ne limitait que par le cout en Renommee, six points, que
+   la carte suivante rendait souvent : en pratique il n'y avait aucune limite.
+   Enrick : « engager ton nom n'a aucune limite de nombre ». Le cout reste, il
+   empeche de miser quand on n'est personne ; le plafond, lui, empeche d'en
+   faire une habitude. */
+var MISE_SEUIL = 20, MISE_COUT = 6, MISE_FACTEUR = 2, MISE_MAX = 3;
 function pickOpt(i){
   var e=PEND, o=PENDO[i];
   var mise = !!S.mise;
   S.mise = false;
   $('e_opts').innerHTML='';
-  if(mise){ bump('renom', -MISE_COUT); }
+  if(mise){ S.mises = (S.mises || 0) + 1; bump('renom', -MISE_COUT); }
   S.chapter++; S.idx++;
   useEtat();
   /* l'age avance au rythme de la zone : on traine peu dans sa jeunesse,
@@ -16722,7 +16764,7 @@ function fallback(txt, cb){
    jamais : on ne rejoue plus la meme partie, on construit une lignee.
    Reserve honnete : c'est stocke dans le navigateur, il n'y a pas de serveur
    derriere un artefact. Vider ses donnees de navigation vide la galerie. */
-var HALL = 'op-legacy-hall';
+var HALL = 'op-legacy-beta-hall';
 function hallLire(){
   try{ var r = localStorage.getItem(HALL); var L = r ? JSON.parse(r) : []; return L.length ? L : []; }
   catch(e){ return []; }
