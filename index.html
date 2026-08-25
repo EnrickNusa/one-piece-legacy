@@ -13051,10 +13051,19 @@ function placeJoueur(G, cran){
     if(cran >= 85){ cible = trouve('L’Armée Révolutionnaire', 'Libérateur des peuples'); sous = 'Ce que Dragon n’a pas fait'; }
     else if(cran === 73){
       cible = trouve('L’Armée Révolutionnaire', 'Chef de l’Armée'); sous = 'L’Armée est à toi';
-      /* LA CASCADE : Dragon ne sort pas, il descend et prend la place de Sabo,
-         qui descend commandant, sous le tableau. Personne ne disparait. */
-      var em = trouve('L’Armée Révolutionnaire', 'Chef d’état-major');
-      if(em){ em.nom = 'Dragon'; em.pic = 'c_dragon'; em.sous = 'Descend d’un cran'; }
+      /* DRAGON DESCEND, MAIS SABO NE BOUGE PAS. Enrick, 25 aout : « quand on
+         retrograde Dragon il devient chef d'etat-major au meme titre que Sabo,
+         Sabo ne descend plus, il y en a juste deux ».
+         Le palier devient elastique, comme le Cipher Pol : la chaine s'arrete
+         en un seul maillon au lieu de pousser quelqu'un hors du tableau. */
+      for(g = 0; g < G.length; g++) if(G[g].n === 'L’Armée Révolutionnaire'){
+        for(j = 0; j < G[g].s.length; j++) if(G[g].s[j].rang === 'Chef d’état-major'){
+          G[g].s.splice(j + 1, 0, sg('Chef d’état-major', 'Dragon', 'c_dragon',
+                                     'Descend d’un cran, à côté de Sabo', 68));
+          break;
+        }
+        break;
+      }
     }
     else if(cran === 68){ cible = trouve('L’Armée Révolutionnaire', 'Chef d’état-major'); sous = 'Second de Dragon'; }
   } else {
