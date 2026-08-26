@@ -5835,13 +5835,19 @@ function cbManche(){
     if(GROS[tous[i].id] && a.niv < GROS[tous[i].id]) continue;
     poss.push(tous[i]);
   }
-  /* TROIS manoeuvres minimum, quatre maximum. En dessous de trois, le combat
-     cesse d'etre une decision. Quand les immunites ou les tours precedents ont
-     vide la liste, on rouvre celles qui ont deja servi. */
-  if(poss.length < 3){
+  /* QUATRE MANOEUVRES, TOUJOURS. Enrick, 26 aout : « fais en sorte qu'il y ait
+     toujours 4 choix, pas 3, on avait dit ça ». C'etait bien la consigne de sa
+     composition, 2 bonnes 1 neutre 1 mauvaise ou 2 bonnes 2 mauvaises, et le
+     moteur se contentait de trois : il montait a QUATRE au maximum mais ne
+     garantissait que TROIS au minimum. Une manche a trois options, c'est une
+     case de la composition qui saute, donc souvent la mauvaise reponse.
+     Quand les immunites ou les tours precedents ont vide la liste, on rouvre
+     celles qui ont deja servi. */
+  var MINI = 4;
+  if(poss.length < MINI){
     var rab = manosDispo(true), vus = {};
     for(i=0;i<poss.length;i++) vus[poss[i].id] = 1;
-    for(i=0;i<rab.length && poss.length<3;i++){
+    for(i=0;i<rab.length && poss.length<MINI;i++){
       if(vus[rab[i].id]) continue;
       if(imm && imm.bloque.indexOf(rab[i].id) >= 0) continue;
       if(GROS[rab[i].id] && a.niv < GROS[rab[i].id]) continue;
@@ -5851,12 +5857,12 @@ function cbManche(){
        Mais JAMAIS une manoeuvre disproportionnee : proposer de figer Baggy le
        Clown au Fluide des Rois ridiculise la scene. On garde la garde GROS
        ici aussi, et on ne la leve qu'en tout dernier recours. */
-    for(i=0;i<rab.length && poss.length<3;i++){
+    for(i=0;i<rab.length && poss.length<MINI;i++){
       if(vus[rab[i].id]) continue;
       if(GROS[rab[i].id] && a.niv < GROS[rab[i].id]) continue;
       poss.push(rab[i]); vus[rab[i].id]=1;
     }
-    for(i=0;i<rab.length && poss.length<2;i++){
+    for(i=0;i<rab.length && poss.length<MINI;i++){
       if(vus[rab[i].id]) continue;
       poss.push(rab[i]); vus[rab[i].id]=1;
     }
@@ -15313,7 +15319,7 @@ function newState(){
     fruit:null, eveil:false, bmul:1,
     crew:0, crewList:[], shipCls:0, shipName:'', prime:0, etat:null, flotte:[], routes:{},
     age:17, agef:17, act:1, idx:0, chapter:0,
-    f:{}, used:{}, grp:{}, tl:[], alive:true, cause:null, snap:null, hist:[], niv:0, vus:{}, bossFait:0,
+    f:{}, used:{}, grp:{}, picN:{}, tl:[], alive:true, cause:null, snap:null, hist:[], niv:0, vus:{}, bossFait:0,
     n:{wins:0, fails:0, iles:0, marines:0, duels:0, sauves:0, trahis:0, doctrine:0, advMax:0},
     ended:false
   };
@@ -16674,6 +16680,20 @@ function drawEvent(relax){
        une par Empereur : une seule doit tomber par carriere, sinon la meme
        scene se rejoue avec un autre nom et ca se voit tout de suite. */
     if(e.gr && S.grp && S.grp[e.gr]) continue;
+    /* UN VISAGE NE REVIENT PAS DANS LA MEME CARRIERE. Enrick, 26 aout : « pour
+       les personnages qui tombent en carte, pas en combat, il faut beaucoup
+       plus de probabilite pour tout le monde, parce qu'on croise beaucoup trop
+       souvent le meme ».
+       MESURE, 200 carrieres : 41 visages distincts seulement, et trois
+       personnages captaient un quart des apparitions. Le Cross Guild revenait
+       DEUX FOIS OU PLUS dans 59 carrieres sur 199, avec un record de trois.
+       LA CAUSE : cinq cartes differentes portent pic:'c_crossguild', neuf
+       portent Kaidou, sept Big Mom. Chacune est bien `once`, mais `once` est
+       par CARTE : rien n'empechait les cinq de tomber dans la meme partie.
+       Le plafond est par VISAGE, ce qui laisse le vivier respirer : la carte
+       ecartee reste jouable dans une autre carriere, et celle qui la remplace
+       montre quelqu'un d'autre. */
+    if(e.pic && S.picN && S.picN[e.pic]) continue;
     if(relax>=2){ if(Math.abs(e.act-act)>1) continue; }
     else if(e.act!==act) continue;
     if(!condOk(e, relax>=1)) continue;
@@ -17042,6 +17062,15 @@ function depecheBilan(){
 }
 function renderEvent(e){
   S.used[e.id]=true;
+  /* LE PLAFOND EST PAR CARRIERE, et une variante par acte a ete essayee puis
+     abandonnee : elle laissait le Cross Guild revenir dans 68 carrieres sur
+     299, avec un record de trois, parce que ses cinq cartes sont justement
+     reparties sur trois actes.
+     Il a d'abord semble que le plafond par carriere enfermait des cartes :
+     `a4_guerre_kaidou` et `a4_guerre_bigmom` ne sortaient jamais. VERIFICATION
+     FAITE, ELLES PORTENT `w:0` ET `ineed:"jamais"` : elles sont desactivees
+     volontairement depuis toujours. Le plafond n'y est pour rien. */
+  if(e.pic){ S.picN = S.picN || {}; S.picN[e.pic] = (S.picN[e.pic]||0) + 1; }
   if(e.gr){ S.grp = S.grp || {}; S.grp[e.gr] = true; }
   PEND=e; PENDO=visibleOpts(e);
   setScene(e.scene); renderHud();
