@@ -1180,6 +1180,39 @@ h1,h2,h3{text-wrap:balance}
 .mortbloc .mv{font-family:var(--disp);font-size:19px;line-height:1.2;
   margin-top:3px;color:var(--ink)}
 
+/* ============ L'ONGLET STATISTIQUES =====================================
+   Enrick, 26 aout : le Haki quitte le panneau nu et rejoint les quatre autres
+   statistiques dans un depliant vert, avec l'ecart du chapitre. Meme cadre que
+   le niveau et que l'etat du monde : trois blocs de meme nature, trois teintes,
+   le joueur ouvre celui qu'il veut. */
+.mg.stt{border-radius:13px;padding:12px 14px;margin-bottom:14px;
+  background:#f2fbf6;border:1px solid #d3ebdd}
+.mg.stt>summary{padding:0 0 2px}
+.mg.stt>summary,.mg.stt .mgl{color:#0f6b43}
+.mg.stt>summary:after{border-color:#3f9c72}
+.mg.stt[open]>summary{margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #d3ebdd}
+/* les quatre statistiques brutes, separees des trois Haki par un filet */
+.sts{margin-top:10px;padding-top:10px;border-top:1px solid #d3ebdd}
+.hb.pl i{background:#3f9c72}
+.sd{font-family:var(--body);font-size:10px;font-weight:800;margin-left:6px;
+  letter-spacing:.02em}
+.sd.up{color:var(--ok)}
+.sd.dn{color:var(--bad)}
+
+/* ATTRIBUTS, le troisieme depliant : ce que tu possedes. Teinte ambre, celle
+   de la prime, qui ouvre le bloc. */
+.mg.atr{border-radius:13px;padding:12px 14px;margin-bottom:14px;
+  background:#fdf8ee;border:1px solid #eee0c4}
+.mg.atr>summary{padding:0 0 2px}
+.mg.atr>summary,.mg.atr .mgl{color:#8a6208}
+.mg.atr>summary:after{border-color:#b9902f}
+.mg.atr[open]>summary{margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #eee0c4}
+/* les blocs ranges DANS un depliant ne rejouent pas le filet de separation du
+   panneau : le cadre du depliant fait deja le travail. */
+.mg.stt>.mg,.mg.atr>.mg{margin-top:12px}
+.mg.stt>.mg:first-of-type,.mg.atr>.mg:first-of-type{margin-top:0}
+.mg.stt .mg.niv{background:#eaf7f0;border-color:#d3ebdd}
+
 </style>
 <div class="scene" id="scene" data-scene="village">
   <div class="ph"></div>
@@ -13790,7 +13823,7 @@ function newState(){
     proche: (typeof PROCHES !== 'undefined' && PROCHES.length) ? wpick(PROCHES) : null,
     st:{combat:12, arm:0, obs:0, rois:0, vol:14, ruse:12, renom:4},
     seed:0, pot:null, roisInne:false, primeHaute:0, nvHaut:0,
-    mise:false, mises:0, miseTrone:false, dettes:[],
+    mise:false, mises:0, miseTrone:false, dettes:[], stAvant:null,
     fruit:null, eveil:false, bmul:1,
     crew:0, crewList:[], shipCls:0, shipName:'', prime:0, etat:null, flotte:[], routes:{},
     age:17, agef:17, act:1, idx:0, chapter:0,
@@ -14205,38 +14238,43 @@ function renderManager(){
 
   var B_fruit = h; h = '';
 
-  h += '<details class="mg wide fold" open><summary>Haki <span class="gl">(« Fluide » chez Glénat)</span></summary><div class="hk">';
+  /* ============ L'ONGLET STATISTIQUES ============
+     Enrick, 26 aout : « retire le Haki du panneau normal et mets-le dans un
+     onglet statistiques depliant aussi, en vert, et dedans tu mets un Haki et
+     les autres stats aussi, comme ca on voit aussi leur evolution ».
+     Le Haki avait son depliant a lui et les quatre autres statistiques
+     n'apparaissaient nulle part en partie : on ne pouvait pas savoir si sa
+     Ruse montait. Les sept vivent maintenant au meme endroit, dans le meme
+     ordre que STATDEF, avec l'ecart du chapitre en cours. */
+  var AV_ST = S.stAvant || {};
+  function dlt(k){
+    var d = Math.round(S.st[k] - (AV_ST[k] !== undefined ? AV_ST[k] : S.st[k]));
+    if(!d) return '';
+    return '<em class="sd ' + (d > 0 ? 'up">▲ ' : 'dn">▼ ') + Math.abs(d) + '</em>';
+  }
+  h += '<div class="hk">';
   var ks=['arm','obs','rois'];
   for(var i=0;i<ks.length;i++){
     var k=ks[i], H=HAKI[k], P=hakiPalier(k);
     h += '<div class="hkr'+(P.lock?' lock':'')+'"><span class="hn">'+esc(H.n)+'</span>';
-    /* Le nom du palier seul ne dit pas ou on en est. « Durcissement » ne
-       raconte rien si on ignore qu'il y en a cinq. On affiche donc le rang du
-       palier sur le total, et on decoupe la barre en autant de segments. */
     h += '<span class="hp">'+esc(P.n)+
-         (P.lock ? '' : '<em class="hq">'+P.i+'/'+H.t.length+'</em>')+'</span>';
-    /* voir hakiJauge() : le decoupage vit a un seul endroit desormais */
-    /* CINQ PALIERS, CINQ SEGMENTS DE MEME LARGEUR.
-       La barre se ramenait au SOMMET DU DERNIER PALIER : pour l'Armement les
-       traits tombaient a 23, 48, 75 et 100 %, et le quatrieme se confondait
-       avec le bord droit. On voyait donc QUATRE cases pour cinq paliers.
-       Enrick le 24 aout : « pourquoi y a 4 stades alors que c'est sur 5 ? ».
-       Pire, le dernier palier n'avait AUCUNE largeur : l'atteindre remplissait
-       la barre d'un coup et plus rien ne bougeait ensuite, alors que c'est le
-       palier ou l'on passe le plus de temps.
-       Chaque palier occupe maintenant un cinquieme de la barre, et le
-       remplissage montre ou on en est A L'INTERIEUR du palier courant. Le
-       dernier se remplit de son seuil jusqu'a 100, le plafond des
-       statistiques. Le nombre de traits suit H.t.length : ajouter un palier
-       redecoupe la barre tout seul. */
+         (P.lock ? '' : '<em class="hq">'+P.i+'/'+H.t.length+'</em>')+dlt(k)+'</span>';
     var J = hakiJauge(k);
     h += '<span class="hb"><i style="width:'+J.pct+'%"></i>'+J.seg+'</span></div>';
   }
-  h += '</div></details>';
+  /* LES QUATRE AUTRES. Elles se lisent sur 100, sans palier : ce sont des
+     mesures brutes, pas des grades. La barre suit donc la valeur. */
+  h += '<div class="sts">';
+  var AUTRES = ['combat','vol','ruse','renom'];
+  for(var ai=0; ai<AUTRES.length; ai++){
+    var ak = AUTRES[ai], av2 = Math.round(S.st[ak]);
+    h += '<div class="hkr"><span class="hn">'+esc(STATNOM[ak])+'</span>'
+       + '<span class="hp">'+av2+'<em class="hq">/100</em>'+dlt(ak)+'</span>'
+       + '<span class="hb pl"><i style="width:'+clamp(av2,0,100)+'%"></i></span></div>';
+  }
+  h += '</div>';
+  h += '</div>';
 
-  /* L'equipage se lit comme une barre de Haki : un palier, pas douze noms.
-     Mesure : la liste valait TOUJOURS 12, sans une exception, donc douze noms
-     tires au sort qui ne racontaient rien et qu'il fallait quand meme lire. */
   var B_haki = h; h = '';
 
   /* ============ L'ETAT DU MONDE ============
@@ -14358,12 +14396,30 @@ function renderManager(){
      puis CE QUE TU ES, puis CE QUE TU AS ACCOMPLI.
      La prime reste haut, juste sous l'objectif : choix d'Enrick contre ma
      proposition, qui la descendait tout en bas. */
+  /* TROIS DEPLIANTS, TROIS COULEURS, TROIS NATURES. Enrick, 26 aout :
+     « assure-toi que le panneau du niveau soit aussi un menu deroulant, tu peux
+     passer le niveau et le statut dans l'onglet statistique, et le dernier
+     panneau devient un truc du genre Attributs, il commence par la prime quand
+     tu l'ouvres et garde tout le reste ».
+       STATISTIQUES, vert   ce que tu vaux : niveau, statut, les sept mesures
+       ETAT DU MONDE, violet ou tu te situes face aux autres
+       ATTRIBUTS, ambre     ce que tu possedes : prime, Fruit, navire, hommes
+     Statistiques reste ouvert par defaut : trois barres fermees ne diraient
+     rien au premier coup d'oeil, et le niveau est ce qu'on regarde le plus.
+     Ton etat reste HORS des trois : une blessure est passagere et pese sur la
+     decision en cours, elle n'a pas a etre depliee pour se voir.
+     Le Fruit reste dans Attributs : une statistique est un nombre qui monte,
+     un Fruit est une chose qu'on porte, avec un nom et une description. */
   $('manager').innerHTML =
-      B_monde                                   /* ou tu te situes dans le monde */
-    + B_niv + B_etat + B_prime                  /* ce qui decide maintenant */
-    + B_haki + B_fruit                          /* ce que tu es */
-    + B_equipage + B_navire + B_flotte
-    + B_courbe + B_traits + B_faits;            /* ce que tu as accompli */
+      B_etat
+    + '<details class="mg wide fold stt" open><summary>Statistiques</summary>'
+    +   B_niv + B_haki
+    + '</details>'
+    + B_monde
+    + '<details class="mg wide fold atr"><summary>Attributs</summary>'
+    +   B_prime + B_fruit + B_equipage + B_navire + B_flotte
+    +   B_courbe + B_traits + B_faits
+    + '</details>';
 }
 
 /* La courbe de la carriere. Destiny Eleven trace la valeur marchande sur
@@ -15569,6 +15625,11 @@ function pickOpt(i){
   $('e_opts').innerHTML='';
   if(mise){ S.mises = (S.mises || 0) + 1; bump('renom', -MISE_COUT); }
   S.chapter++; S.idx++;
+  /* L'EVOLUTION DES STATISTIQUES. Enrick, 26 aout : « comme ca on voit aussi
+     leur evolution ». On photographie les sept valeurs au debut du chapitre :
+     l'onglet affiche ensuite l'ecart, donc ce que le chapitre en cours a
+     reellement change. */
+  S.stAvant = {}; for(var _sk in S.st) if(S.st.hasOwnProperty(_sk)) S.stAvant[_sk] = S.st[_sk];
   if(typeof avanceStatut === 'function') avanceStatut();
   useEtat();
   /* l'age avance au rythme de la zone : on traine peu dans sa jeunesse,
