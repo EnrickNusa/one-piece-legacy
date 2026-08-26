@@ -285,6 +285,34 @@ b,strong{font-weight:800}
    4. DENSITE. Quinze pixels entre deux recits, aucune respiration entre le
       titre et son corps, tout a la meme graisse apparente. */
 .cardtext{max-width:66ch}
+
+/* ============ LES BLOCS DE LA CARTE DE FIN ==============================
+   Un bloc = un theme, une etiquette, un verdict, un titre, une phrase.
+   Le verdict est la seule chose coloree : vert reussi, rouge rate, gris
+   neutre. C'est ce qui manquait, Enrick ne voyait pas ce qui etait reussi. */
+.fb{border:1.5px solid var(--line);border-radius:14px;padding:14px 16px 15px;
+  margin-top:12px;background:#fbfdfe}
+.fbh{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.fbl{font-family:var(--disp);font-size:10px;font-weight:800;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--faint)}
+.fbv{margin-left:auto;font-family:var(--disp);font-size:11px;font-weight:800;
+  letter-spacing:.05em;padding:4px 11px;border-radius:999px;white-space:nowrap}
+.fbt{font-family:var(--disp);font-size:19px;font-weight:800;line-height:1.26;
+  letter-spacing:-.01em;color:var(--ink);text-wrap:balance}
+.fbp{margin-top:7px;font-size:15px;line-height:1.6;color:var(--ink2)}
+/* le type de fin qualifie le bloc, il ne fait pas un bloc de plus */
+.fbn{display:block;margin-top:10px;font-family:var(--disp);font-size:13px;
+  font-weight:800;letter-spacing:.03em;color:var(--ink)}
+.fb.ok{border-color:#c2e2d2;background:rgba(24,107,67,.045)}
+.fb.ok .fbv{background:rgba(24,107,67,.14);color:#186b43}
+.fb.ko{border-color:#f0cbc7;background:rgba(200,39,28,.045)}
+.fb.ko .fbv{background:rgba(200,39,28,.12);color:var(--red)}
+.fb.nt .fbv{background:var(--line);color:var(--ink2)}
+@media (max-width:520px){
+  .fbh{flex-wrap:wrap;row-gap:6px}
+  .fbv{margin-left:0;order:3;flex:0 0 auto}
+  .fbt{font-size:17.5px}
+}
 /* le paragraphe d'ouverture est le chapeau du recit : il porte la fin de la
    carriere en une phrase, il a droit a un corps au-dessus des autres */
 .cardtext>p:first-of-type{font-size:17.5px;line-height:1.62;margin-bottom:16px}
@@ -17545,88 +17573,90 @@ function showEnd(){
      la ou il est le mieux mis. */
   if($('end_niv')) $('end_niv').innerHTML = '';
 
-  var txt;
+  /* ============ LA CARTE DE FIN SE LIT EN BLOCS ==========================
+     Enrick, 26 aout, capture a l'appui : « ce n'est pas hierarchique, on ne
+     comprend pas de quoi ca parle, ni ce qui est reussi ou non. Le meme sujet
+     prend trop de texte et trop de lignes, c'est trop flou. Chaque theme doit
+     etre rapidement compris, mort, reve, voie. »
+     LA CAUSE EXACTE : la fin de carriere etait eclatee sur TROIS blocs
+     successifs. Le mur d'acte, puis « il t'a manque un cheveu », puis « ce
+     n'est pas une faute, c'est la regle ». Trois textes pour un seul sujet,
+     aucun ne portant d'etiquette, et rien ne disant si c'etait reussi.
+     Un bloc = un theme, une etiquette, un verdict lisible, un titre, UNE
+     phrase. Trois blocs au maximum : la fin, le reve, la voie. */
+  function fbloc(lab, verdict, cls, titre, corps){
+    return '<div class="fb ' + cls + '">'
+      + '<div class="fbh"><span class="fbl">' + esc(lab) + '</span>'
+      + (verdict ? '<span class="fbv">' + esc(verdict) + '</span>' : '')
+      + '</div>'
+      + '<div class="fbt">' + esc(titre) + '</div>'
+      + (corps ? '<div class="fbp">' + corps + '</div>' : '')
+      + '</div>';
+  }
+  var txt = '', ft = finType();
+  var fTitre, fCorps, fVerd, fCls;
+
+  /* ---- BLOC 1, LA FIN DE CARRIERE. Toujours present. ---- */
   if(!S.alive){
-    /* LA MORT A SA PLACE, ET ELLE COMMENCE PAR UN NOM. Enrick, 26 aout : « mets
-       un endroit pour la raison de la mort, tu peux ecrire par exemple tue par
-       Mihawk a tel age, simple ». Le recit de la mort etait deverse en
-       paragraphe nu au milieu de la carte, sans titre : on tombait sur la
-       phrase de Mihawk sans savoir ce qu'on lisait. On annonce d'abord QUI et
-       QUAND, le recit vient dessous.
-       Le nom du tueur est deja dans la ligne de vie : c'est l'entree marquee
-       dead. */
+    /* Le nom du tueur est deja dans la ligne de vie, c'est l'entree marquee
+       dead. On annonce QUI et QUAND, le recit vient dessous. */
     var tueur = null, tueAge = S.age, _t;
     for(_t = (S.tl||[]).length - 1; _t >= 0; _t--)
       if(S.tl[_t].dead){ tueur = S.tl[_t].t; tueAge = S.tl[_t].a; break; }
-    txt = '<div class="mortbloc"><div class="ml">Mort</div><div class="mv">' +
-          (tueur ? 'Tué par ' + esc(tueur) : 'Mort') + ' à ' + tueAge + ' ans</div></div>';
+    fCls   = 'ko';
+    fVerd  = tueAge + ' ans';
+    fTitre = tueur ? 'Tué par ' + tueur : 'Mort en chemin';
     /* les causes de mort contiennent {EQUIPAGE}, {PAVILLON}, {MER}. Sans tpl()
        le joueur lisait le jeton brut sur sa carte de fin. */
-    txt += '<p>' + esc(tpl(S.cause||'')) + '</p>';
-    if(r===2) txt += "<p>Et pourtant tu y étais arrivé. Ce que tu cherchais, tu l'as touché avant de tomber. Roger non plus n'est pas mort dans son lit.</p>";
-    else if(r===1) txt += "<p>Tu étais sur la bonne route. Il te manquait du temps, et le temps est la seule chose que cette mer ne rend jamais.</p>";
-    else txt += "<p>Le monde a continué sans s'arrêter. Il reste ton nom dans quelques ports, et il s'effacera aussi.</p>";
+    fCorps = esc(tpl(S.cause||''));
+    if(r===2) fVerd = 'Accompli, puis tombé';
   } else if(r===2){
-    txt = "<p><b>Tu y es arrivé.</b> Ce que tu avais annoncé à dix-sept ans devant des gens qui riaient, tu l'as fait. Le journal de Morgans a sorti une édition spéciale et le monde ne parlera que de ça pendant un an.</p>";
+    fCls='ok'; fVerd='Accompli'; fTitre='Tu y es arrivé';
+    fCorps = "Ce que tu avais annoncé à dix-sept ans devant des gens qui riaient, tu l'as fait.";
   } else if(r===1){
-    txt = "<p>Tu es allé plus loin que quatre-vingt-dix-neuf hommes sur cent. Mais il manquait quelque chose : un peu de force, un peu de temps, un peu de chance.</p>";
+    fCls='nt'; fVerd='Tout près'; fTitre='Plus loin que presque tous';
+    fCorps = "Il manquait un peu de force, un peu de temps, un peu de chance.";
   } else if(S.finRaison === 'plafond'){
     /* La mer t'a garde. Ce n'est pas un echec, c'est la fin la plus courante
-       de cette vie-la : presque personne ne franchit toutes les portes.
-       Il faut donc que ce soit ecrit comme une fin, pas comme un mur. */
+       de cette vie-la : presque personne ne franchit toutes les portes. */
     var MURS = {
-      2:"<p>Tu n'as jamais quitté les mers de ton enfance. Les autres sont partis vers Grand Line et ne sont pas revenus, ou sont revenus autrement. Toi, tu as vieilli sur une eau que tu connaissais par cœur.</p>",
-      3:"<p><b>Paradise t'a gardé.</b> Tu as vu la Red Line de loin, une fois, un jour de temps clair. Tu n'es jamais allé de l'autre côté, et tu fais partie de l'immense majorité.</p>",
-      4:"<p><b>Le Nouveau Monde t'a rendu.</b> Tu y es entré, ce que très peu peuvent dire. Il t'a laissé repartir, ce que moins de gens encore peuvent dire.</p>"
+      2:["Ta mer natale t'a gardé", "Tu as vieilli sur une eau que tu connaissais par cœur."],
+      3:["Paradise t'a gardé",      "Tu as vu la Red Line de loin, une fois, un jour de temps clair, et jamais de l'autre côté."],
+      4:["Le Nouveau Monde t'a rendu", "Tu y es entré, ce que très peu peuvent dire. Il t'a laissé repartir, ce que moins de gens encore peuvent dire."]
     };
-    txt = MURS[S.act] || "<p>La mer t'a gardé où tu étais.</p>";
-    /* ON DIT DE COMBIEN, PAS COMBIEN IL FALLAIT.
-       Ce bloc affichait les deux nombres : « Il te fallait 43, tu valais 42 ».
-       C'etait un choix assume, pour qu'un echec s'apprenne. Enrick l'a
-       retourne le 24 aout : « le joueur ne doit pas savoir les conditions
-       necessaires, ca ne regarde que nous ». Il a raison, et pour la meme
-       raison que le Trone Vide : un seuil visible se joue comme un seuil.
-       On garde ce qui sert a rejouer, qui est de savoir si on est passe a un
-       cheveu ou si on en etait loin, et ce qui fait monter le niveau. On
-       retire le bareme. */
+    var M = MURS[S.act] || ["La mer t'a gardé où tu étais", ''];
+    /* ON DIT DE COMBIEN, PAS COMBIEN IL FALLAIT. Enrick le 24 aout : « le
+       joueur ne doit pas savoir les conditions necessaires ». On garde ce qui
+       sert a rejouer, savoir si on est passe a un cheveu ou si on en etait
+       loin, et le verdict le dit en deux mots au lieu d'un paragraphe. */
     var Zf = ACTS[S.act], mq = Math.max(1, (Zf ? Zf.sortie : 0) - niveau());
-    txt += '<div class="recit"><b>' +
-           (mq <= 4 ? 'Il t\'a manqué un cheveu.' :
-            mq <= 12 ? 'Il t\'a manqué un peu.' : 'Tu en étais encore loin.') +
-           '</b>' +
-           (mq <= 4
-             ? 'Un combat de plus, ou un seul choix joué autrement, et la porte s\'ouvrait.'
-             /* PLUS DE LECON DE BAREME ICI. Le texte enumerait les statistiques
-                qui font monter le niveau, dans l'ordre de leur poids. C'etait
-                un cours au milieu d'un recit, et le joueur a maintenant le
-                depliant des statistiques juste en dessous : il lit ses vrais
-                chiffres au lieu d'une regle generale. Enrick le 24 aout. */
-             : 'Rien ne se rattrape à la fin. Ce qui manquait manquait depuis longtemps, et ça se voit dans tes chiffres.') +
-           '</div>';
-    txt += "<p>Ce n'est pas une faute, c'est la règle : sur cent qui prennent la mer à dix-sept ans, presque aucun ne voit la dernière île.</p>";
+    fCls='nt';
+    fVerd  = mq <= 4 ? 'À un cheveu' : mq <= 12 ? 'De peu' : 'Loin du compte';
+    fTitre = M[0];
+    fCorps = mq <= 4
+      ? "Un combat de plus, ou un seul choix joué autrement, et la porte s'ouvrait."
+      : M[1];
   } else {
-    txt = "<p>Tu n'as pas eu ce que tu étais venu chercher. Tu as vu des îles que personne ne verra, et tu es encore là pour le raconter. Beaucoup de ceux qui sont partis en même temps que toi ne peuvent plus rien raconter du tout.</p>";
+    fCls='nt'; fVerd='Rentré'; fTitre='Tu es encore là pour le raconter';
+    fCorps = "Beaucoup de ceux qui sont partis en même temps que toi ne peuvent plus rien raconter du tout.";
   }
-  var ft=finType();
-  /* LE VERT DIT « REUSSI », ET RIEN D'AUTRE.
-     Ces blocs racontaient la fin de carriere et le titre mondial : ils
-     portaient « res good » pour la mise en page, donc ils ont pris le fond
-     vert ajoute ce matin pour l'ecran du Trone Vide, avec un filet rouge ou
-     violet par-dessus. Un fond vert et un filet rouge sur le meme bloc ne
-     veulent rien dire. Enrick le 24 aout : « je n'aime pas la partie verte de
-     la carte de fin, je ne suis pas sur de ce qu'elle apporte ».
-     « res note » garde la forme et rend le fond neutre. Le vert reste sur le
-     reve accompli, ou il dit quelque chose. */
-  if(ft) txt += '<div class="recit"><b>'+esc(ft.v.n)+'.</b>'+esc(ft.v.t)+'</div>';
+  /* LE TYPE DE FIN NE FAIT PAS UN BLOC A LUI SEUL, il qualifie celui-ci.
+     Il occupait un quatrieme bloc avec quatre phrases, sur le meme sujet que
+     le premier : c'est exactement le doublon signale. */
+  if(ft) fCorps += '<span class="fbn">' + esc(ft.v.n) + '</span>';
+  txt += fbloc('Fin de carrière', fVerd, fCls, fTitre, fCorps);
+
+  /* ---- BLOC 2, LE REVE ---- */
   if(S.reve){
     var dt = reveDetail();
-    txt += '<div class="recit">'+
-      '<b>Ton rêve : '+esc(S.reve.n)+'.</b>'+
-      (dt ? '<span class="rd">'+esc(dt)+'</span>' : '')+
-      (rv ? "<b>C'est fait.</b> Ce n'était le rêve de personne d'autre et personne d'autre ne pouvait le faire à ta place."
-          : "<b>Tu ne l'as pas fait.</b> C'est la seule chose de ce bilan que tu ne partageras avec personne.")+'</div>';
+    txt += fbloc('Rêve', rv ? 'Accompli' : 'Manqué', rv ? 'ok' : 'ko',
+                 S.reve.n, dt ? esc(dt) : '');
   }
-  if(sp) txt += '<div class="recit"><b>'+esc(S.spec.titre)+'.</b>Le World Economic Journal a titré dessus sur six colonnes. Ce titre ne dépend d\'aucun grade et personne ne peut te le retirer.</div>';
+
+  /* ---- BLOC 3, LA VOIE ---- */
+  if(sp) txt += fbloc('Voie', 'Pris au monde', 'ok', S.spec.titre,
+    "Ce titre ne dépend d'aucun grade et personne ne peut te le retirer.");
+
   $('end_text').innerHTML = txt;
 
   /* CE QU'ON DIT DE TOI SE DIT, AU LIEU DE FLOTTER.
