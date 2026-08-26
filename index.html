@@ -13099,8 +13099,8 @@ function grTrone(){
 /* --------------------------------------------------------- LES PIRATES -- */
 function grPirates(a){
   var s = [sg('Roi des Pirates', null, null, 'Depuis l’exécution de Roger', 85)];
-  var bn = (a >= 3) ? ['Aokiji','c_aokiji','Second de Barbe Noire']
-                    : ['Marco','c_marco','Second de Barbe Blanche'];
+  var bn = (a <= 1) ? ['Marco','c_marco','Second de Barbe Blanche']
+                    : ['Aokiji','c_aokiji','Second de Barbe Noire'];
   if(a <= 1){
     s.push(sg('Empereur', 'Barbe Blanche', 'c_wb', null, 73));
   } else {
@@ -13108,12 +13108,14 @@ function grPirates(a){
   }
   s.push(a >= 4 ? sg('Empereur', 'Monkey D. Luffy', 'c_luffy', null, 73)
                 : sg('Empereur', 'Kaidou', 'c_kaidou', null, 73));
-  s.push(sg('Empereur', 'Big Mom', 'c_bigmom', null, 73));
+  s.push(a >= 5 ? sg('Empereur', 'Dracule Mihawk', 'c_mihawk', null, 73)
+                : sg('Empereur', 'Big Mom', 'c_bigmom', null, 73));
   s.push(sg('Empereur', 'Shanks', 'c_shanks', null, 73));
   s.push(sg('Bras droit', bn[0], bn[1], bn[2], 68));
   s.push(a >= 4 ? sg('Bras droit', 'Roronoa Zoro', 'c_zoro', 'Second de Luffy', 68)
                 : sg('Bras droit', 'King', 'c_king', 'Second de Kaidou', 68));
-  s.push(sg('Bras droit', 'Katakuri', 'c_kata', 'Second de Big Mom', 68));
+  s.push(a >= 5 ? sg('Bras droit', 'Crocodile', 'c_croco', 'Second de Mihawk', 68)
+                : sg('Bras droit', 'Katakuri', 'c_kata', 'Second de Big Mom', 68));
   s.push(sg('Bras droit', 'Ben Beckman', 'c_beckman', 'Second de Shanks', 68));
   return {n:'Les Empereurs', c:'#c0392b', s:s};
 }
@@ -13200,8 +13202,17 @@ function placeJoueur(G, cran){
 
   if(camp === 'pirate'){
     if(cran >= 85){ cible = trouve('Les Empereurs', 'Roi des Pirates'); sous = 'Le siège de Roger'; }
-    else if(cran === 73){ cible = trouve('Les Empereurs', 'Empereur', 'Big Mom'); sous = 'À la place de Big Mom'; }
-    else if(cran === 68){ cible = trouve('Les Empereurs', 'Bras droit', 'Katakuri'); sous = 'Second de Big Mom'; }
+    else if(cran === 73){
+      /* le troisieme fauteuil : Big Mom, puis Mihawk quand elle tombe */
+      cible = trouve('Les Empereurs', 'Empereur', 'Big Mom')
+           || trouve('Les Empereurs', 'Empereur', 'Dracule Mihawk');
+      sous = cible ? 'À la place ' + (cible.nom === 'Big Mom' ? 'de Big Mom' : 'de Mihawk') : '';
+    }
+    else if(cran === 68){
+      cible = trouve('Les Empereurs', 'Bras droit', 'Katakuri')
+           || trouve('Les Empereurs', 'Bras droit', 'Crocodile');
+      sous = cible ? 'Second ' + (cible.nom === 'Katakuri' ? 'de Big Mom' : 'de Mihawk') : '';
+    }
   } else if(camp === 'marine'){
     if(cran >= 85){ cible = trouve('La Marine', 'Héros de la Marine'); sous = 'Le titre de Garp'; }
     else if(cran === 73){ cible = trouve('La Marine', 'Amiral en chef'); sous = 'Tu commandes la flotte'; }
@@ -13258,6 +13269,40 @@ function placeJoueur(G, cran){
   }
 }
 
+/* ============ LE TABLEAU REAGIT A CE QUE TU AS ACCOMPLI =================
+   Enrick, 25 aout : « il faut que l'etat du monde reagisse au reve ».
+   Deux des quatre quetes de camp changent litteralement le monde, et le
+   tableau restait identique une fois qu'on les avait accomplies :
+     Marine, « mettre fin a l'age d'or de la piraterie » : il ne peut plus y
+       avoir quatre Empereurs si l'age d'or est fini.
+     Revolution, « faire tomber le Gouvernement Mondial » : ni Doyens, ni
+       Chevaliers, ni Trone.
+   Les deux autres ne deplacent aucun siege : trouver le One Piece te fait
+   monter au cran 85, et effacer le Siecle Oublie ne se voit nulle part, ce
+   qui est precisement le but de cette quete-la. */
+function queteFaite(){
+  return (typeof campResult === 'function') && campResult() === 2;
+}
+function videLeBloc(G, nomGroupe, phrase){
+  var i, j;
+  for(i = 0; i < G.length; i++){
+    if(G[i].n !== nomGroupe) continue;
+    for(j = 0; j < G[i].s.length; j++){
+      if(G[i].s[j].toi) continue;      /* ta ligne reste, c'est toi qui l'as fait */
+      G[i].s[j].nom = null; G[i].s[j].pic = null; G[i].s[j].sous = phrase;
+    }
+  }
+}
+function reagitALaQuete(G){
+  if(!queteFaite()) return;
+  if(S.camp === 'marine'){
+    videLeBloc(G, 'Les Empereurs', 'L’âge d’or est fini');
+  } else if(S.camp === 'revo'){
+    videLeBloc(G, 'Le Gouvernement Mondial', 'Le Gouvernement est tombé');
+    videLeBloc(G, 'Le Trône Vide', 'Il n’y a plus de trône');
+  }
+}
+
 /* --------------------------------------------------------- L'ASSEMBLAGE - */
 function mondeGroupes(){
   var a = S.act || 1, camp = S.camp || 'pirate';
@@ -13267,6 +13312,7 @@ function mondeGroupes(){
   for(i = 0; i < ordre.length; i++) G.push(par[ordre[i]]);
   var st = (typeof palierStatut === 'function') ? palierStatut() : {n:0};
   placeJoueur(G, st.n);
+  reagitALaQuete(G);
   /* le cran juste au-dessus de ta tete, chez toi : celui que tu peux prendre */
   var suiv = null, CR = [68, 73, 85, 92], k;
   for(k = 0; k < CR.length; k++) if(CR[k] > st.n){ suiv = CR[k]; break; }
@@ -16773,7 +16819,7 @@ function showEnd(){
      lisible nulle part. Le niveau retenu est le PLUS HAUT atteint, pas celui
      du dernier matin, pour la meme raison que la prime. */
   var nvh = Math.max(S.nvHaut || 0, niveau());
-  $('po_niv').innerHTML = nvh + '<span class="bcur">sur 92</span>';
+  $('po_niv').innerHTML = nvh + '<span class="bcur">sur 99</span>';
   $('po_grade').textContent = palierPuissance().t;
 
   /* LES PASTILLES, RANGEES PAR CE QU'ELLES SONT.
@@ -16830,7 +16876,7 @@ function showEnd(){
      etre un. On reprend la jauge du palmares, que le joueur connait deja :
      un libelle, « n sur N », une barre. */
   /* LA JAUGE DE NIVEAU EST RETIREE DE LA FICHE. L'affiche du dessus porte deja
-     « Niveau atteint / 57 / sur 92 » dans son propre bloc, ajoute le meme jour :
+     « Niveau atteint / 57 / sur 99 » dans son propre bloc, ajoute le meme jour :
      la fiche la repetait vingt centimetres plus bas, avec une barre en plus.
      Enrick le 24 aout : le design est bancal. Le chiffre reste, une seule fois,
      la ou il est le mieux mis. */
@@ -17240,7 +17286,7 @@ function copyBilan(r, sp, b, nvh){
   L.push('Volont\u00e9 ' + Math.round(S.st.vol) + ', Ruse ' + Math.round(S.st.ruse) +
          ', Renomm\u00e9e ' + Math.round(S.st.renom));
   L.push('');
-  L.push('Niveau ' + nvh + ' sur 92. \u00c0 toi de faire mieux.');
+  L.push('Niveau ' + nvh + ' sur 99. \u00c0 toi de faire mieux.');
 
   var txt = L.join('\n'), done = function(){ toast('Bilan copi\u00e9. Envoie-le \u00e0 tes amis.'); };
   if(navigator.clipboard && navigator.clipboard.writeText)
