@@ -288,6 +288,12 @@ b,strong{font-weight:800}
    La phrase existait deja et se lisait comme de l'ambiance. Elle dit
    maintenant ce qu'il prepare, et ce qu'on en fait compte : elle se detache
    par un filet dore a gauche, la meme grammaire que le reste du jeu. */
+/* le verdict de lecture, apres la resolution seulement */
+.lec{margin-top:10px;font-family:var(--disp);font-size:12.5px;font-weight:800;
+  letter-spacing:.03em;padding:9px 13px;border-radius:11px;border:1.5px solid}
+.lec.ok{color:#186b43;border-color:#c2e2d2;background:rgba(24,107,67,.07)}
+.lec.ko{color:var(--red);border-color:#f0cbc7;background:rgba(200,39,28,.06)}
+
 .cbann{margin:12px 0 0;font-size:16px;line-height:1.55}
 .cbann.lit{border-left:3px solid var(--gold);padding:2px 0 2px 14px;font-weight:700}
 
@@ -3176,7 +3182,7 @@ var ADV = [
  m:"Il n'a pas voulu. Il a cuisiné pour ton équipage le soir même, sans que personne comprenne pourquoi.",
  f:"Tu romps le contact. Il ne poursuit pas quelqu'un qui s'en va."},
 
-{id:'c_ace', nat:'pirate', imm:'logia', n:"Portgas D. Ace, Poing Ardent", niv:68, sc:'newworld', only:'marine|revo|gm|pirate', pr:3.3,
+{id:'c_ace', nat:'pirate', imm:'logia', immS:45, n:"Portgas D. Ace, Poing Ardent", niv:68, sc:'newworld', only:'marine|revo|gm|pirate', pr:3.3,
  k:"Commandant de la deuxième flotte de Barbe Blanche",
  i:"Il s'endort au milieu des repas, il oublie de payer, et il commande deux mille hommes qui le suivraient n'importe où.<br><br>Il porte un nom qu'il n'a jamais voulu et il cherche l'homme qui a tué le sien.",
  s:["Le pont prend feu sur toute sa longueur en une seconde.",
@@ -3296,7 +3302,7 @@ var ADV = [
  m:"Elle n'a pas voulu ça. Elle fera le rapport elle-même, sans arranger une virgule.",
  f:"Tu changes de rue avant de la croiser. Elle t'a vu et elle ne bouge pas : elle sait où tu vas."},
 
-{id:'c_monet', g:'f', nat:'pirate', imm:'logia', n:"Monet, la harpie des neiges", niv:43, sc:'newworld', only:'marine|revo|gm|pirate', pr:2.4,
+{id:'c_monet', g:'f', nat:'pirate', imm:'logia', immS:14, n:"Monet, la harpie des neiges", niv:43, sc:'newworld', only:'marine|revo|gm|pirate', pr:2.4,
  k:"Elle sourit pendant tout le combat",
  i:"Des ailes vertes, des serres, et un corps qui devient neige quand on le frappe. Elle tient les caméras de l'île et elle voit tout avant tout le monde.<br><br>Elle est parfaitement calme, y compris quand elle explique ce qu'elle va faire de toi.",
  s:["La neige monte jusqu'aux genoux en trois secondes, puis jusqu'aux hanches.",
@@ -3331,7 +3337,7 @@ var ADV = [
  m:"Il t'a fait passer par une porte qui donnait sur l'eau, à trois cents mètres du quai.",
  f:"Tu sors par la vraie porte, celle en bois, et personne ne te retient."},
 
-{id:'c_caesar', nat:'pirate', imm:'logia', n:"Caesar Clown, le savant", niv:46, sc:'newworld', only:'marine|revo|gm|pirate', pr:2.5,
+{id:'c_caesar', nat:'pirate', imm:'logia', immS:29, n:"Caesar Clown, le savant", niv:46, sc:'newworld', only:'marine|revo|gm|pirate', pr:2.5,
  k:"Il est le gaz que tu respires",
  i:"Ancien collègue de Vegapunk, renvoyé pour avoir fait sauter la moitié d'un laboratoire, et convaincu depuis d'être un génie incompris.<br><br>Il rit tout le temps. Il rit surtout quand il vient d'ouvrir une bonbonne.",
  s:["L'air change de goût et tes hommes commencent à tousser.",
@@ -3812,7 +3818,7 @@ var ADV = [
  m:"Il n'y a pas d'honneur, pas de duel, pas de dernier mot. Juste du gaz et une mer très grande.",
  f:"Tu passes au large de la flotte de nuit, tous feux éteints. Cinq mille hommes ne t'ont pas vu."},
 
-{id:'c_baggy', nat:'pirate', imm:'coupe', n:"Baggy le Clown", niv:27, sc:'loguetown', twin:'boss2b', pr:2.0,
+{id:'c_baggy', nat:'pirate', imm:'coupe', immS:14, n:"Baggy le Clown", niv:27, sc:'loguetown', twin:'boss2b', pr:2.0,
  xf:"Bara Bara no Mi",
  k:"La ville qu'un clown a confisquée",
  ih:"Ses hommes ont fermé les deux bouts de la rue avant même que tu y entres. Baggy grimpe sur un tonneau et prend son temps pour dire ton nom à toute la rue, lentement, en détachant chaque syllabe.<br><br>Il veut que ces gens-là te voient perdre. Il a préparé la rue, les hommes et la sortie, et il sait très bien qui il a en face.",
@@ -3895,7 +3901,7 @@ var ADV = [
  m:"Le Quartier Général ne fait pas de prisonniers quand la mer est loin et que personne ne regarde.",
  f:"Tu décroches à la faveur d'un grain. Ton nom monte d'un cran sur leur liste, en attendant."},
 
-{id:'c_croco', nat:'pirate', imm:'logia', n:"Sir Crocodile", niv:43, sc:'alabasta', twin:'boss3', pr:2.8,
+{id:'c_croco', nat:'pirate', imm:'logia', immS:14, n:"Sir Crocodile", niv:43, sc:'alabasta', twin:'boss3', pr:2.8,
  xf:"Suna Suna no Mi",
  k:"Alabasta, la pluie qui ne vient plus",
  i:"Grand Corsaire, patron d'une organisation qui tient un royaume entier par le bas, et propriétaire d'un Fruit qui le rend intouchable tant que tu es sec.<br><br>Il fume, il t'écoute, et il a déjà décidé.",
@@ -3914,7 +3920,7 @@ var ADV = [
  m:"Il t'assèche entièrement. Ça prend moins de temps qu'on ne l'imagine.",
  f:"Tu quittes Alabasta. Le royaume continuera de payer et la pluie ne reviendra pas cette année."},
 
-{id:'c_enel', nat:'pirate', imm:'logia', n:"Enel, qui se fait appeler Dieu", niv:50, sc:'skypiea', twin:'boss3b', pr:2.7,
+{id:'c_enel', nat:'pirate', imm:'logia', immS:29, n:"Enel, qui se fait appeler Dieu", niv:50, sc:'skypiea', twin:'boss3b', pr:2.7,
  xf:"Goro Goro no Mi",
  k:"L'île du ciel et son dieu",
  i:"Tu n'as pas fait dix pas qu'il t'annonce à voix haute, par ton nom, à des gens que tu ne vois pas encore. Il est assis, il ne s'est pas levé, et la foudre tombe une fois à côté de toi pour marquer l'endroit.<br><br>Il veut que tu t'agenouilles et que tu l'appelles Dieu. Ceux qui refusent, il ne les revoit pas, et il te le dit comme on annonce la météo.",
@@ -4064,7 +4070,7 @@ var ADV = [
  m:"Un fil au bon endroit, à la bonne tension. Ça ne fait presque pas de bruit.",
  f:"Tu sors du pays par la mer. Derrière toi tout le monde sourit, et personne ne le veut."},
 
-{id:'c_kata', nat:'pirate', only:'pirate|marine|gm', n:"Charlotte Katakuri", niv:70, sc:'newworld', twin:'boss4', pr:3.3, imm:'mochi',
+{id:'c_kata', nat:'pirate', only:'pirate|marine|gm', n:"Charlotte Katakuri", niv:70, sc:'newworld', twin:'boss4', pr:3.3, imm:'mochi', immS:45,
  xf:"Mochi Mochi no Mi",
  k:"Le bras droit d'un Empereur",
  i:"Il t'attend au bout de la salle, debout, le trident planté dans le parquet. Il te dit bonjour par ton nom et il ajoute qu'il t'a vu arriver bien avant que tu ouvres la porte.<br><br>Il veut que tu ressortes par où tu es entré et que personne n'apprenne que tu es venu jusqu'ici. Il te laisse dix secondes pour décider.",
@@ -4080,7 +4086,7 @@ var ADV = [
  m:"Il voit trois secondes dans l'avenir. Tu n'as pas eu ces trois secondes.",
  f:"Tu renonces avant le contact. Personne ne t'en voudra, et toi tu t'en voudras longtemps."},
 
-{id:'c_marco', nat:'pirate', only:'pirate|marine|gm', imm:'regen', n:"Marco le Phénix", niv:72, sc:'newworld', pr:3.2,
+{id:'c_marco', nat:'pirate', only:'pirate|marine|gm', imm:'regen', immS:45, n:"Marco le Phénix", niv:72, sc:'newworld', pr:3.2,
  xf:"Tori Tori no Mi, modèle Phénix",
  k:"Le premier commandant de Barbe Blanche",
  i:"Un Zoan mythique de flammes bleues qui soigne au lieu de brûler. Il commande la première division de l'équipage le plus puissant du monde et il n'a jamais cherché à commander autre chose.<br><br>Il te dit bonjour. C'est sincère, et ça ne change rien à ce qui va suivre.",
@@ -4109,7 +4115,7 @@ var ADV = [
    un des siens qui est parti, et c'est meme le seul qui l'ait fait.
    L'identifiant c_aokiji ne bouge PAS : les drapeaux bat_c_aokiji et le
    portrait c_aokiji.jpg en dependent. */
-{id:'c_aokiji', nat:'pirate', imm:'logia', n:"Kuzan, l'ancien Amiral", niv:73, sc:'newworld', pr:3.4,
+{id:'c_aokiji', nat:'pirate', imm:'logia', immS:60, n:"Kuzan, l'ancien Amiral", niv:73, sc:'newworld', pr:3.4,
  xf:"Hie Hie no Mi",
  k:"Le dixième navire de Barbe Noire",
  i:"Il a porté le manteau blanc pendant vingt ans, il l'a perdu contre Akainu, et il est parti sans rien dire à personne.<br><br>On l'a retrouvé au bras de Barbe Noire, qui lui a offert la seule chose que la Marine ne lui donnait plus : le droit de choisir. Il bâille toujours autant. Il gèle toujours l'océan sur des kilomètres.",
@@ -4125,7 +4131,7 @@ var ADV = [
  m:"Le froid ne prévient pas et ne fait pas mal longtemps.",
  f:"Il ne te poursuit pas. Il t'a laissé partir et vous le savez tous les deux."},
 
-{id:'c_kizaru', nat:'marine', imm:'logia', n:"L'Amiral Kizaru", niv:74, sc:'sabaody', twin:'boss4c', only:'pirate|revo', pr:3.4,
+{id:'c_kizaru', nat:'marine', imm:'logia', immS:60, n:"L'Amiral Kizaru", niv:74, sc:'sabaody', twin:'boss4c', only:'pirate|revo', pr:3.4,
  xf:"Pika Pika no Mi",
  k:"Un Amiral détaché sur l'archipel",
  ih:"Il se déplace à la vitesse de la lumière et il parle comme un homme qui a tout son temps. C'est la contradiction la plus dangereuse de la Marine.<br><br>Il connaît ton nom par cœur. Il l'a lu ce matin dans un rapport qu'il a trouvé trop long.",
@@ -4136,7 +4142,8 @@ var ADV = [
  re:{
   obs:{ok:"Tu ne le vois pas partir, tu sens où il va s'arrêter, et tu y es déjà. La lumière va vite, mais elle va droit.",
        ko:"Tu lis son intention et il arrive avant ta lecture. Entre les deux, il n'y a rien à voir."},
-  arm:{ok:"Ton Haki de l'Armement accroche la lumière une fraction de seconde. C'est tout ce qu'il faut, et il le sait avant toi.",
+  arm:{ok:{_:"Ton Haki de l'Armement accroche la lumière une fraction de seconde. C'est tout ce qu'il faut, et il le sait avant toi.",
+          tir:"Tu tires sur de la lumière, et une balle durcie l'accroche. Il regarde le trou dans sa manche avec une politesse gênée."},
        ko:"Ton coup traverse un homme fait de lumière et ressort de l'autre côté. Il n'a même pas changé de position.",
        sup:"Il lève la main et arrête ton coup enduit de Haki à mains nues, comme on rattrape une balle. Puis il s'excuse d'avoir été brusque."}},
  lec:[{b:['obs'],m:['franc']},{b:['obs'],m:['tenir']},{b:['obs','arm'],m:['franc']}],
@@ -4160,8 +4167,10 @@ var ADV = [
     "Il tire à travers son propre couvert pour te forcer à sortir du tien.",
     "Il cesse de viser toi et vise ce sur quoi tu allais poser le pied."],
  re:{
-  franc:{ok:"{B} recule et arme son fusil. Tu couvres la distance avant qu'il ajuste, le coup part trop haut.",
-       ko:"{B} n'a pas eu besoin de viser deux fois. Une balle, à la distance qu'il a choisie, et tu es cueilli en pleine course."}},
+  franc:{ok:{_:"{B} recule et arme son fusil. Tu couvres la distance avant qu'il ajuste, le coup part trop haut.",
+          tir:"Vous tirez en même temps. Sa balle rate de deux centimètres, la tienne non, et il siffle d'admiration en tombant."},
+       ko:{_:"{B} n'a pas eu besoin de viser deux fois. Une balle, à la distance qu'il a choisie, et tu es cueilli en pleine course.",
+          tir:"Vous tirez en même temps. Il a visé ton canon et pas toi, et ton arme est en deux morceaux dans ta main."}}},
  lec:[{b:['obs'],m:['franc']},{b:['ruse','tenir'],m:[]},{b:['obs'],m:['franc']}],
  w:"Tu arrives à trois mètres et il baisse son arme de lui-même. Il te dit que ça faisait longtemps, puis il te parle de son fils pendant une heure.",
  l:"Il t'immobilise sans te blesser, trois balles autour de toi, et il repart en te disant de t'entraîner à couvert.",
@@ -4190,8 +4199,13 @@ var ADV = [
     "Il tire enfin Yoru et l'air se fend jusqu'à l'horizon.",
     "Il attend. C'est à toi de venir, et il le sait."],
  re:{
-  spe:{ok:"Tu sors ton attaque en entier et il la reçoit sur le plat de sa lame. Il ne recule pas, mais il te regarde autrement.",
-       ko:"Il ne dégaine pas la grande. Il te répond avec le petit couteau qu'il porte au cou, et ça suffit.",
+  spe:{ok:{_:"Tu sors ton attaque en entier et il la reçoit sur le plat de sa lame. Il ne recule pas, mais il te regarde autrement.",
+          sabre:"Il dégaine la grande. C'est la seule chose que tu voulais de cette vie, et il te l'accorde sans un mot.",
+          tir:"À cette distance il devrait dévier chaque balle du plat de la lame. Celle-là passe, et il regarde son épaule comme si elle avait menti.",
+          arts:"Il ne dégaine pas contre un homme sans arme. Tu passes sa garde à mains nues, et c'est lui qui recule d'un pas."},
+       ko:{_:"Il ne dégaine pas la grande. Il te répond avec le petit couteau qu'il porte au cou, et ça suffit.",
+          tir:"Il ne bouge pas la tête. La lame monte, et tes balles partent de côté une par une, comme on chasse des mouches.",
+          arts:"Il te dit qu'il ne dégaine pas contre un homme sans arme. Le petit couteau du cou suffit, et ça fait plus mal que la lame."},
        sup:"Il ne dégaine toujours pas. Il dévie ce que tu envoies d'un mouvement du poignet, comme on écarte une branche, et il attend la suite."}},
  lec:[{b:['spe','rois'],m:['franc']},{b:['obs'],m:['tenir']},{b:['spe','obs'],m:['equipage']}],
  w:"Il baisse la lame et il te dit que le titre changera de main un jour, mais pas ce jour-ci. Venant de lui, c'est la plus haute chose qu'on puisse entendre.",
@@ -4270,8 +4284,10 @@ var ADV = [
     "Son poing arrive avec un Fluide de l'Armement de cinquante ans de métier.",
     "Il te dit que tu lui rappelles quelqu'un, et il frappe plus fort."],
  re:{
-  spe:{ok:"{B} arrive à mains nues et t'accueille du poing. Tu encaisses sur la garde et tu tiens debout, ce que peu de gens font.",
-       ko:"{B} n'a pas besoin d'arme. Un seul poing, et ta voie ne compte plus."}},
+  spe:{ok:{_:"{B} arrive à mains nues et t'accueille du poing. Tu encaisses sur la garde et tu tiens debout, ce que peu de gens font.",
+          arts:"Poing contre poing, sans arme ni pouvoir. Le sien est plus lourd, le tien est plus rapide, et cette fois la vitesse gagne."},
+       ko:{_:"{B} n'a pas besoin d'arme. Un seul poing, et ta voie ne compte plus.",
+          arts:"Poing contre poing, et tu découvres ce que valent cinquante ans de métier. Ton bras ne répond plus."}}},
  lec:[{b:['obs'],m:['tenir']},{b:['arm'],m:['franc']},{b:['rois','spe'],m:[]}],
  w:"Tu tiens debout devant le Poing de la Marine. Il éclate de rire, il te dit que le monde change, et il ne fait pas de rapport.",
  l:"Il te met à terre d'un seul coup et il te laisse là, parce qu'il n'a jamais aimé arrêter les jeunes.",
@@ -4294,7 +4310,7 @@ var ADV = [
  m:"Vingt mètres de bouddha d'or, et un homme qui avait tout calculé.",
  f:"Tu décroches. La flotte ne poursuit pas, parce qu'il a déjà calculé où tu iras."},
 
-{id:'c_akainu', nat:'marine', leg:1, imm:'logia', n:"Sakazuki, dit Akainu", niv:78, sc:'newworld', only:'pirate|revo', pr:3.8,
+{id:'c_akainu', nat:'marine', leg:1, imm:'logia', immS:60, n:"Sakazuki, dit Akainu", niv:78, sc:'newworld', only:'pirate|revo', pr:3.8,
  xf:"Magu Magu no Mi",
  k:"La Justice Absolue",
  i:"La mer bout à trois cents mètres derrière lui et il avance dessus sans se presser. Akainu ne regarde pas ton navire, il regarde les gens qui sont dessus, et il compte.<br><br>Il ne veut pas ta reddition, il ne l'a pas proposée. Il veut que ça se termine ici, et il te dit que fuir ne changerait que l'endroit où on te retrouvera.",
@@ -4362,8 +4378,10 @@ var ADV = [
     "Il encaisse un coup qu'il aurait pu esquiver, juste pour voir ce que tu vaux.",
     "La lame noire passe à travers ta garde comme si elle n'était pas là."],
  re:{
-  spe:{ok:"{B} monte les trois lames durcies d'un coup. La tienne passe dans l'intervalle et il doit rompre.",
-       ko:"{B} plante son troisième sabre entre ses dents et charge. Trois traits, un seul passage, ta garde est ouverte.",
+  spe:{ok:{_:"{B} monte les trois lames durcies d'un coup. La tienne passe dans l'intervalle et il doit rompre.",
+          sabre:"Trois lames contre les tiennes, et pour la première fois il doit poser un pied en arrière. Il te demande ton nom."},
+       ko:{_:"{B} plante son troisième sabre entre ses dents et charge. Trois traits, un seul passage, ta garde est ouverte.",
+          sabre:"Il te rend ton attaque avec la même, en mieux. Tu comprends au poignet que ça fait vingt ans qu'il répète ce geste."},
        sup:"Il ne dégaine que deux lames et ça suffit. Il te dit que la troisième, il la garde pour quelqu'un d'autre."}},
  lec:[{b:['arm','obs'],m:['franc']},{b:['spe'],m:['ruse']},{b:['arm'],m:['tenir','franc']}],
  w:"Tu tiens jusqu'à ce que sa garde s'ouvre, une fois, et une fois suffit. Il rengaine et il te dit d'aller au bout de ce que tu fais.",
@@ -4413,7 +4431,8 @@ var ADV = [
     "Il te prend par le col et monte. Très haut."],
  re:{
   arm:{ok:"{B} durcit sa lame et bloque. Ton Haki passe quand même, et les flammes de son dos vacillent.",
-       ko:"Les crans de son sabre happent ton arme et l'arrachent. Ce qui sort de la pointe ensuite est un dragon de feu.",
+       ko:{_:"Les crans de son sabre happent ton arme et l'arrachent. Ce qui sort de la pointe ensuite est un dragon de feu.",
+          sabre:"Ta lame durcie mord, et ne trouve rien. Il faudrait autre chose que du tranchant contre cette peau, et tu ne sais pas encore quoi."},
        sup:"Tu frappes bien, au bon endroit, et rien ne marque. Sa peau n'est pas de ce monde, et il ne s'est même pas retourné."}},
  lec:[{b:['obs'],m:['tenir']},{b:['arm','obs'],m:['franc']},{b:['ruse'],m:['equipage','tenir']}],
  w:"Tu le fais tomber en visant ce que le masque ne protège pas. Il se relève une fois, puis il ne se relève plus. Onigashima entière l'a vu.",
@@ -4575,7 +4594,7 @@ var ADV = [
  m:"Il n'a pas voulu. Il est resté près de toi jusqu'au bout et il a écrit ton nom dans un carnet qu'il garde depuis ses débuts.",
  f:"Il te laisse partir et note l'heure exacte. Il ne ment jamais dans ses rapports, et ça finira par te coûter."},
 
-{id:'c_smoker', nat:'marine', only:'pirate|revo', imm:'logia', n:"Le capitaine Smoker", niv:46, sc:'loguetown', pr:2.3,
+{id:'c_smoker', nat:'marine', only:'pirate|revo', imm:'logia', immS:29, n:"Le capitaine Smoker", niv:46, sc:'loguetown', pr:2.3,
  xf:"Moku Moku no Mi",
  k:"Il fume deux cigares a la fois",
  i:"Il te barre le passage sans presser le pas. Son corps devient de la fumée là où tu frappes, et son jitte est en Granit Marin, ce qui règle la question dans l'autre sens.<br><br>Derrière lui, une femme à lunettes tient déjà la garde de son sabre.",
@@ -4746,9 +4765,36 @@ var IMMUNITES = {
 function seuilDurcissement(){
   try { return HAKI.arm.t[1][0]; } catch(e) { return 14; }
 }
+/* ============ CHANTIER C : L'IMMUNITE A DES RANGS ======================
+   Enrick, 25 aout : « seuilDurcissement() vaut 14 sur 100, le deuxieme palier
+   sur cinq. A 14 d'Armement on peut deja toucher Akainu. Je veux un seuil PAR
+   ADVERSAIRE, lie a sa force : un Logia de haut rang demande beaucoup plus
+   qu'un Smoker. »
+   Il avait raison et le defaut etait grossier : Monet, capitaine de labo, et
+   Sakazuki, Amiral en chef, demandaient exactement la meme chose.
+
+   LES SEUILS SUIVENT LES PALIERS D'ARMEMENT DU JEU, 1, 14, 29, 45 et 60. Ce
+   n'est pas cosmetique : le joueur voit ces paliers dans sa fiche, avec leur
+   nom, donc « il me faut le palier 4 pour toucher Ace » est une phrase qu'il
+   peut se dire. Un seuil arbitraire, lui, ne se lit nulle part.
+
+   LA RECHERCHE PROPOSAIT 75 POUR AKAINU, ET J'AI MESURE AVANT DE SUIVRE.
+   Distribution de l'Armement en fin de carriere, 300 carrieres : mediane 22,
+   90e centile 53, maximum 81. Un seuil a 75 serait donc hors de portee de 98 %
+   des joueurs, et le dossier interdit deja de poser un dernier palier « pile
+   sur le maximum de la distribution ». Le plafond est le dernier palier, 60,
+   tenu par 5 % des carrieres. C'est deja tres dur, et c'est le sujet.
+
+   UNE IMMUNITE NE REND PAS INVINCIBLE. Elle bloque `franc`, `ruse`,
+   `equipage` et `spe` selon la famille : il reste l'Armement, l'Observation,
+   le Fluide des Rois, encaisser et l'Eveil. La garde des trois manoeuvres
+   minimum tient le reste. */
+function seuilImm(a){
+  return (a && typeof a.immS === 'number') ? a.immS : seuilDurcissement();
+}
 function immunite(a){
   if(!a.imm) return null;
-  if(S.f.haki_arm && S.st.arm >= seuilDurcissement()) return null;
+  if(S.f.haki_arm && S.st.arm >= seuilImm(a)) return null;
   return IMMUNITES[a.imm] || null;
 }
 /* L'IMMUNITE JOUE DANS LES DEUX SENS.
@@ -4767,6 +4813,70 @@ function advAHaki(a){ return a.niv >= 55; }
 function joueurIntouchable(a){
   if(!S.fruit || !a) return false;
   return String(S.fruit.t || '').indexOf('Logia') >= 0 && !advAHaki(a);
+}
+/* ============ CE QUE TU FAIS DEPEND DE CE QUE TU ES ====================
+   Enrick, 26 aout : « il faut aussi que les textes du joueur deviennent
+   adaptes ». Releve avant correction : sur les NEUF manoeuvres du jeu, deux
+   seulement etaient ecrites pour la voie du joueur, l'Armement et la
+   manoeuvre de voie. Les sept autres servaient le meme texte a tout le monde.
+   Le pire cas etait l'attaque franche, qui disait « ca passe parce que tu as
+   FRAPPE plus fort » a un tireur et a un corps modifie.
+   C'est exactement le defaut qu'Enrick avait deja fait corriger le 24 aout,
+   quand le Fluide de l'Armement se mettait toujours sur le bras, y compris
+   pour un sabreur qui n'a pas lache sa lame depuis l'enfance.
+   Les manoeuvres qui ne dependent pas de la voie gardent un texte unique, et
+   c'est juste : le Fluide des Rois est un regard, l'ordre a l'equipage est
+   une voix, l'Eveil appartient au Fruit. */
+var VOIE_MANO = {
+  franc:{
+    sabre:  {n:"Charger, lame en avant, sans feinte",
+             ok:"Pas de garde, pas d'angle, juste la lame et le poids du corps. Ça passe parce que tu es arrivé plus vite que la parade.",
+             ko:"Une charge sans feinte se lit de loin. {B} n'avait qu'à choisir le moment."},
+    tir:    {n:"Vider ton chargeur sans chercher l'angle",
+             ok:"Tu ne vises plus, tu couvres. Une balle sur six suffit, et celle-là est passée.",
+             ko:"Tu tires trop et trop vite. {B} compte les coups et avance pendant que tu recharges."},
+    science:{n:"Ouvrir les gaz et rentrer dedans",
+             ok:"Tu pousses ton corps au-delà du confortable et tu rentres dans le tas. Le métal encaisse ce que la chair n'aurait pas encaissé.",
+             ko:"Tu forces la mécanique et elle proteste. {B} entend le grincement avant l'impact."},
+    fruit:  {n:"Lâcher ton Fruit en plein, sans finesse",
+             ok:"Pas de technique, juste ton pouvoir en plein. Ça passe parce que ça pèse plus lourd que ce qu'il y a en face.",
+             ko:"Ton pouvoir sort sans intention derrière, et {B} n'a plus qu'à se placer."},
+    _:      {n:"Frapper franchement, sans finesse et sans plan",
+             ok:"Pas de technique, pas de ruse. Ça passe parce que tu as frappé plus fort.",
+             ko:"Frapper fort sans plan devant {B}, c'est offrir l'ouverture."}
+  },
+  tenir:{
+    sabre:  {n:"Tenir la garde et attendre son erreur",
+             ok:"Tu prends tout sur le plat de la lame et tu ne recules pas d'un pas. Au bout d'un moment, c'est en face que ça s'énerve.",
+             ko:"Parer sans jamais répondre, c'est laisser {B} choisir quand ça se termine."},
+    tir:    {n:"Rompre en tirant, et attendre son erreur",
+             ok:"Tu recules sans jamais cesser de tirer. {B} avance dans quelque chose qui ne s'arrête pas, et il finit par se découvrir.",
+             ko:"Reculer devant {B} sans rien lui coûter, c'est seulement choisir où tu vas tomber."},
+    science:{n:"Verrouiller ton corps et encaisser",
+             ok:"Tu bloques tes articulations et tu deviens un mur. {B} frappe du métal pendant que tu comptes.",
+             ko:"Le mécanisme chauffe et quelque chose lâche à l'intérieur bien avant que {B} se fatigue."},
+    fruit:  {n:"Laisser ton Fruit absorber, et attendre",
+             ok:"Tu laisses ton pouvoir prendre ce qui arrive. {B} met du temps à comprendre que ça ne le mène nulle part.",
+             ko:"Ton pouvoir encaisse jusqu'à ce qu'il n'encaisse plus, et {B} attendait exactement ce moment."},
+    _:      {n:"Encaisser, tenir, et attendre son erreur",
+             ok:"Tu prends tout sans reculer. Au bout d'un moment, c'est en face que ça s'énerve, et qui s'énerve s'ouvre.",
+             ko:"Tenir contre {B} sans jamais rendre les coups, c'est juste se faire démolir plus lentement."}
+  },
+  obs:{
+    tir:    {n:"Lire ses intentions au Fluide de l'Observation",
+             ok:"Tu ne le suis pas des yeux, tu sens où il va s'arrêter. Le canon y est déjà.",
+             ko:"Tu lis une intention et il en joue une autre. Ta balle part vers un endroit qu'il a quitté."},
+    sabre:  {n:"Lire ses intentions au Fluide de l'Observation",
+             ok:"Tu vois le geste une demi-seconde avant qu'il parte, et ta lame est déjà sur le chemin.",
+             ko:"En face, on pense à un coup et on en donne un autre. Ta garde se ferme du mauvais côté."},
+    _:      {n:"Lire ses intentions au Fluide de l'Observation",
+             ok:"Tu vois le geste une demi-seconde avant qu'il parte. Tu n'es plus là quand il arrive.",
+             ko:"En face, on pense à un coup et on en donne un autre. Tu pares le mauvais."}
+  }
+};
+function voieMano(id){
+  var t = VOIE_MANO[id];
+  return (S.spec && t[S.spec.id]) || t._;
 }
 /* tout=true rend aussi les manoeuvres deja jouees : sert a garantir trois
    choix quand les immunites et les tours precedents ont vide la liste. */
@@ -4800,9 +4910,8 @@ function manosDispo(tout){
     ok:"Ton Haki de l'Armement remonte jusqu'à l'épaule et ton poing passe enfin la garde de {B}.",
     ko:"En face aussi le Fluide monte, et il est plus dense que le tien. Ton bras cède."};
   if(S.f.haki_arm) add({id:'arm', n:ar.n, st:'arm', b:6, ok:ar.ok, ko:ar.ko});
-  if(S.f.haki_obs) add({id:'obs', n:"Lire ses intentions au Fluide de l'Observation", st:'obs', b:5,
-    ok:"Tu vois le geste une demi-seconde avant qu'il parte. Tu n'es plus là quand il arrive.",
-    ko:"En face, on pense à un coup et on en donne un autre. Tu pares le mauvais."});
+  var vo = voieMano('obs');
+  if(S.f.haki_obs) add({id:'obs', n:vo.n, st:'obs', b:5, ok:vo.ok, ko:vo.ko});
   if(S.f.haki_rois) add({id:'rois', n:"Le figer d'un seul regard, au Fluide des Rois", st:'rois', b:9,
     ok:"Tout le monde tombe autour de vous. En face, personne ne tombe, mais il y a eu un battement de paupières.",
     /* LE TEXTE SUPPOSAIT QUE L'ADVERSAIRE A LE FLUIDE DES ROIS. Enrick le
@@ -4820,15 +4929,13 @@ function manosDispo(tout){
   var sp = S.spec && SPE_MANO[S.spec.id];
   if(sp && (S.spec.id!=='fruit' || S.fruit))
     add({id:'spe', n:sp.n, st:sp.st, b:(sommetVoie() ? 11 : 5), ok:sp.ok, ko:sp.ko});
-  add({id:'franc', n:"Frapper franchement, sans finesse et sans plan", st:'combat', b:0,
-    ok:"Pas de technique, pas de ruse. Ça passe parce que tu as frappé plus fort.",
-    ko:"Frapper fort sans plan devant {B}, c'est offrir l'ouverture."});
+  var vf = voieMano('franc');
+  add({id:'franc', n:vf.n, st:'combat', b:0, ok:vf.ok, ko:vf.ko});
   add({id:'ruse', n:"Viser ce qu'il protège au lieu de viser lui", st:'ruse', b:2,
     ok:"Tu ne vises pas en face. Tu vises ce qu'on ne peut pas laisser tomber, et la garde s'ouvre.",
     ko:"On te laisse t'occuper de ce qui ne compte pas, et on te prend à revers."});
-  add({id:'tenir', n:"Encaisser, tenir, et attendre son erreur", st:'vol', b:3,
-    ok:"Tu prends tout sans reculer. Au bout d'un moment, c'est en face que ça s'énerve, et qui s'énerve s'ouvre.",
-    ko:"Tenir contre {B} sans jamais rendre les coups, c'est juste se faire démolir plus lentement."});
+  var vt = voieMano('tenir');
+  add({id:'tenir', n:vt.n, st:'vol', b:3, ok:vt.ok, ko:vt.ko});
   if(S.crew>=4) add({id:'equipage', n:"Ordonner la manœuvre à ton équipage", st:'renom', b:4,
     ok:"Tes hommes font exactement ce que tu demandes, à la seconde près. En face, on n'attendait pas un équipage.",
     ko:"Tes hommes hésitent une seconde de trop. {B} n'en demandait pas plus."});
@@ -5461,13 +5568,26 @@ function cbManche(){
   for(i=ms.length-1;i>0;i--){ var j2=ri(i+1), tmp=ms[i]; ms[i]=ms[j2]; ms[j2]=tmp; }
 
   /* l'etiquette se lit sur la probabilite BRUTE, jamais sur la reelle */
-  var best = ms[0];
-  for(i=1;i<ms.length;i++) if(ms[i]._e > best._e) best = ms[i];
+  /* ============ L'ETIQUETTE NE JUGE PLUS, ELLE CLASSE ====================
+     Enrick, 26 aout : « retire les mentions ton meilleur angle, jouable, etc.
+     sinon ça revient à pointer les bonnes décisions, c'est contraire à notre
+     nouveau système. Mets plutôt Armement, Observation ou Ruse, en gros
+     l'attribut que ce choix couvre, comme ça ça n'a pas de lien avec si c'est
+     une bonne décision ou pas. »
+     Il a raison et ça annulait tout le chantier B. J'avais deja retire le
+     bonus de lecture du calcul de l'etiquette, mais « Ton meilleur angle »
+     designait quand meme la meilleure manoeuvre BRUTE : le joueur suivait la
+     pastille au lieu de lire la scene. C'est le meme defaut que le Trone Vide,
+     ou le pourcentage affiche a cote de la phrase avait tue la phrase, et il
+     survivait sous une autre forme.
+     L'etiquette dit desormais SUR QUOI la manoeuvre s'appuie. C'est une
+     information vraie, utile pour choisir selon ses forces, et strictement
+     muette sur la qualite du choix dans cette scene. */
+  var MANO_TAG = {combat:'Combat', arm:'Armement', obs:'Observation',
+                  rois:'Fluide des Rois', vol:'Volonté', ruse:'Ruse',
+                  renom:'Renommée'};
   for(i=0;i<ms.length;i++){
-    var pr = ms[i]._e;
-    var lab = (ms[i] === best) ? 'Ton meilleur angle'
-            : pr >= 0.50 ? 'Jouable'
-            : pr >= 0.30 ? 'Risqué' : 'Presque désespéré';
+    var lab = MANO_TAG[ms[i].st] || 'Combat';
     h += '<button class="opt" data-i="'+i+'"><span class="n">'+(i+1)+'</span>'
        + '<b>'+esc(ms[i].n)+'</b><span class="tag">'+lab+'</span></button>';
   }
@@ -5501,12 +5621,25 @@ function cbManche(){
    Le seuil est de 8 points de force, l'ecart a partir duquel cbProba tombe
    sous une victoire sur trois. AUCUNE PROBABILITE N'EST TOUCHEE ICI : c'est
    du texte, et seulement du texte. Rien a remesurer. */
+/* UN TIREUR ET UN SABREUR NE PEUVENT PAS LIRE LA MEME CHOSE FACE A MIHAWK.
+   Enrick, 26 aout : « ca rend les combats plus vivants si mes decisions sont
+   differentes selon qui je suis et l'adversaire en face, exemple un tireur ou
+   un arts martiaux qui affronte Mihawk ou Yasopp ou King ».
+   Un texte de reaction accepte donc une chaine, comme avant, OU un objet
+   indexe par voie. C'est le meme mecanisme que `voix()` pour les camps, decrit
+   dans le dossier : la voie l'emporte si elle est presente, sinon `_`.
+   Les 200 textes ecrits en chaine ne bougent pas d'un caractere. */
+function parVoie(x){
+  if(!x) return null;
+  if(typeof x === 'string') return x;
+  return (S.spec && x[S.spec.id]) || x._ || null;
+}
 function reactionAdv(m, a, gagne){
   var re = a && a.re && a.re[m.id];
   if(!re) return null;
-  if(gagne) return re.ok || null;
-  if(re.sup && (a.niv - cbForce(m)) >= 8) return re.sup;
-  return re.ko || null;
+  if(gagne) return parVoie(re.ok);
+  if(re.sup && (a.niv - cbForce(m)) >= 8) return parVoie(re.sup);
+  return parVoie(re.ko);
 }
 function cbResoudre(m){
   var a = S.cb.adv, r = S.cb.r;
@@ -5521,7 +5654,20 @@ function cbResoudre(m){
   var txt = (reactionAdv(m, a, gagne) || (gagne ? m.ok : m.ko)).replace(/\{B\}/g, esc(a.n));
   var dh = '';
   for(var k=0;k<d.length;k++) dh += '<span class="d '+(d[k][1]>0?'up':'dn')+'">'+STATNOM[d[k][0]]+' +'+d[k][1]+'</span>';
+  /* ============ LA LECTURE SE VOIT, MAIS SEULEMENT APRES COUP ============
+     Enrick, 26 aout : « je n'ai pas l'impression que les choses aient ete
+     ajoutees grace a B, je n'ai pas l'impression qu'il y ait de mauvaises
+     reponses ». Il avait raison, et c'etait ma faute : B ne deplacait que des
+     probabilites, donc RIEN a l'ecran ne disait qu'on avait bien ou mal lu.
+     Un mecanisme que le joueur ne peut pas percevoir n'existe pas pour lui.
+     On le dit donc APRES la resolution, jamais avant. Avant, ce serait la
+     reponse donnee gratuitement, et le chantier entier s'effondrerait. Apres,
+     c'est ce qui permet d'apprendre a lire les annonces. */
+  var lu = lecture(m, a, r), lh = '';
+  if(lu > 0) lh = '<div class="lec ok">Tu avais lu ce qu\'il préparait.</div>';
+  else if(lu < 0) lh = '<div class="lec ko">Ce qu\'il préparait disait le contraire.</div>';
   $('cb_res').innerHTML = '<div class="res '+(gagne?'ok':'bad')+'"><b>'+(gagne?'Manche pour toi.':'Manche pour lui.')+'</b><br>'+txt+'</div>'
+                        + lh
                         + (dh ? '<div class="deltas">'+dh+'</div>' : '');
   $('cb_opts').innerHTML = '';
   $('cb_text').innerHTML = cbBar();
