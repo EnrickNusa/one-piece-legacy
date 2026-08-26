@@ -8989,7 +8989,7 @@ opts:[
    Elles portent pic:'c_crossguild', une image qu'Enrick fournit. */
 E({id:'a5_crossguild', pic:'c_crossguild', act:5, scene:'newworld', w:14, dt:1, once:1, verrou:60,
 kicker:"La maison qui met des primes sur la Marine", title:"Le Cross Guild",
-text:"Le système des Grands Corsaires n'existe plus. Ceux qui en vivaient n'ont pas disparu avec lui : trois d'entre eux ont monté leur propre maison, et elle ne rend de comptes à personne.<br><br>Crocodile la dirige avec Dracule Mihawk. Baggy est le nom sur l'enseigne. Ils impriment des avis de recherche sur des officiers de la Marine, et des chasseurs les encaissent.<br><br>On reçoit ici sous trêve, parce qu'une maison qui vend des contrats a besoin qu'on puisse venir lui parler. Le cigare et le crochet en or sont ceux des affiches d'Alabasta. L'homme derrière, non : il n'a plus de titre à perdre.",
+text:"Les Grands Corsaires n'existent plus. Trois d'entre eux ont monté leur propre maison, et elle ne rend de comptes à personne.<br><br>Crocodile la dirige avec Mihawk, Baggy est le nom sur l'enseigne. Ils impriment des avis de recherche sur des officiers de la Marine, et des chasseurs les encaissent. On reçoit ici sous trêve : une maison qui vend des contrats a besoin qu'on puisse venir lui parler.",
 opts:[
  {t:"Prendre un contrat sur un officier", tag:"Chasseur", d:1, ineed:"pirate|revo",
   eff:{combat:11, ruse:8, renom:12, obs:5}, bounty:1.5,
@@ -19841,14 +19841,41 @@ function imuJoue(i){
     $('b_imu').onclick = imuSeq;
     save(); return;
   }
-  S.alive = false;
-  /* Annoncer puis ne pas revenir laisse une trace au bilan : c'est la seule
-     chose qu'un mort paie encore. */
+  /* ============ TROIS ISSUES AU TRONE VIDE, PAS DEUX ====================
+     Enrick, 26 aout : « pour Imu, mets trois solutions de fin : soit on gagne,
+     soit on meurt, soit on repart perdant mais en vie. Actuellement la mort a
+     cause d'Imu rend le jeu chiant, donc mets trois solutions a parts
+     egales. »
+     Il a raison sur le fond : rater un echange tuait a tous les coups, donc la
+     derniere scene du jeu se jouait a quitte ou double sur un seul tirage,
+     apres cinquante chapitres. Perdre doit rester possible sans effacer la
+     carriere entiere.
+     La probabilite de VICTOIRE ne bouge pas d'un point : c'est un equilibre
+     mesure au playtest du 22 aout, « au mieux 51 %, au pire 36 % », et le
+     dossier interdit d'y toucher sans remesurer. C'est l'ECHEC qui se partage
+     en deux moities egales : la moitie meurt, l'autre ressort vivante. */
   if(S.miseTrone) S.f.trone_annonce_rate = true;
-  S.cause = "Tu es allé sous le Trône Vide et tu n'en es pas ressorti. Les flammes noires n'ont rien laissé : ni corps, ni annonce, ni trace. Le monde continuera exactement comme avant, et c'est précisément là que réside sa puissance.";
-  S.tl.push({a:S.age, t:"Le Trône Vide", l:'mariejoie', c:o.tag, dead:1, maj:1});
-  $('im_res').innerHTML = '<div class="res bad"><b>Tu meurs à '+S.age+' ans.</b><br>'+esc(S.cause)+'</div>'+
-    '<div class="row end" style="margin-top:14px"><button class="btn red" id="b_imu">Voir ton avis de recherche</button></div>';
+  S.tl.push({a:S.age, t:"Le Trône Vide", l:'mariejoie', c:o.tag, dead:rnd() < 0.5 ? 1 : 0, maj:1});
+  if(S.tl[S.tl.length-1].dead){
+    S.alive = false;
+    S.cause = "Tu es allé sous le Trône Vide et tu n'en es pas ressorti. Les flammes noires n'ont rien laissé : ni corps, ni annonce, ni trace. Le monde continuera exactement comme avant, et c'est précisément là que réside sa puissance.";
+    $('im_res').innerHTML = '<div class="res bad"><b>Tu meurs à '+S.age+' ans.</b><br>'+esc(S.cause)+'</div>'+
+      '<div class="row end" style="margin-top:14px"><button class="btn red" id="b_imu">Voir ton avis de recherche</button></div>';
+    $('b_imu').onclick = function(){ S.ended=true; save(); showEnd(); };
+    save(); return;
+  }
+  /* RESSORTIR VIVANT N'EST PAS RESSORTIR INDEMNE. On garde la vie, on perd ce
+     qu'on etait venu chercher, et on emporte la seule chose qui compte : on
+     sait ce qu'il y a en dessous. Le drapeau `secret_imu` est celui que lisent
+     deja les reves et le tableau du monde. */
+  S.f.trone_vu = true; S.f.secret_imu = true;
+  bump('vol', 14); bump('obs', 10); bump('renom', -12);
+  $('im_res').innerHTML = '<div class="res bad"><b>Tu ressors vivant.</b><br>'+
+    "Tu n'as pas tenu l'échange. Ce qui était assis là n'a pas jugé utile de te finir, et c'est peut-être le pire de tout : "+
+    "on t'a laissé remonter le grand escalier parce que tu ne changeais rien.<br><br>"+
+    "Tu es le seul homme au monde à savoir ce qu'il y a sous Marie-Joie. Tu ne le diras à personne, parce que personne ne te croirait, "+
+    "et parce que ceux qui te croiraient ne te laisseraient pas finir ta phrase.</div>"+
+    '<div class="row end" style="margin-top:14px"><button class="btn" id="b_imu">Reprendre ta route</button></div>';
   $('b_imu').onclick = function(){ S.ended=true; save(); showEnd(); };
   save();
 }
