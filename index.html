@@ -269,14 +269,41 @@ b,strong{font-weight:800}
    24 aout : bancal. Ce sont des paragraphes, separes par un filet fin, avec
    leur premiere phrase en tete. Ce qui est reussi ou rate se lit deja dans les
    grands titres juste en dessous, mot pour mot. */
-.recit{margin-top:15px;padding-top:13px;border-top:1px solid var(--line);
-  font-size:16px;line-height:1.62;max-width:64ch}
-.recit b{display:block;font-family:var(--disp);font-weight:800;font-size:17.5px;
-  line-height:1.25;color:var(--ink);margin-bottom:4px;letter-spacing:-.01em}
+/* ============ LA CARTE DE FIN RESPIRE, 26 AOUT ==========================
+   Enrick, capture a l'appui : « par pitie fais une grosse mise a jour
+   d'affichage pour cette carte, c'est illisible, moche et dense ».
+   Quatre causes distinctes, toutes visibles sur sa capture :
+   1. « Ce qu'on dit de toi » etait CENTRE au milieu d'une page alignee a
+      gauche, parce que son conteneur portait encore la classe `.tro` de la
+      rangee de pastilles qu'il remplacait. Classe retiree dans shell.html.
+   2. DEUX COLONNES DE LECTURE. Les `.recit` etaient bornes a 64 caracteres
+      pendant que les `<p>` voisins prenaient toute la largeur de la carte :
+      une phrase cassait au milieu, la suivante filait sur trente centimetres.
+      La largeur de lecture vit maintenant sur le bloc entier, une seule fois.
+   3. UNE LIGNE VIDE APRES CHAQUE TITRE. `.recit b` est en display:block, et
+      le code ajoutait un `<br>` derriere. Deux sauts pour un seul.
+   4. DENSITE. Quinze pixels entre deux recits, aucune respiration entre le
+      titre et son corps, tout a la meme graisse apparente. */
+.cardtext{max-width:66ch}
+/* le paragraphe d'ouverture est le chapeau du recit : il porte la fin de la
+   carriere en une phrase, il a droit a un corps au-dessus des autres */
+.cardtext>p:first-of-type{font-size:17.5px;line-height:1.62;margin-bottom:16px}
+.cardtext>p:first-of-type b{font-family:var(--disp);letter-spacing:-.01em}
+/* le titre de la carte ne colle plus a la premiere ligne de texte */
+.cardtext{margin-top:20px}
+.recit{margin-top:26px;padding-top:20px;border-top:1px solid var(--line);
+  font-size:16px;line-height:1.68}
+.recit b{display:block;font-family:var(--disp);font-weight:800;font-size:18.5px;
+  line-height:1.3;color:var(--ink);margin-bottom:9px;letter-spacing:-.01em}
+/* la deuxieme phrase en gras d'un recit conclut, elle ne titre pas : elle
+   garde la taille du corps et se detache par un blanc, pas par un corps 18 */
+.recit b+b,.recit .rd+b{font-size:16px;margin-top:14px;margin-bottom:0;color:var(--red2)}
+/* le detail chiffre d'un reve, sur sa propre ligne, en retrait de ton */
+.recit .rd{display:block;color:var(--ink2);margin-bottom:2px}
 .recit .res{margin-top:10px}
 /* « Ce qu'on dit de toi » : une phrase, plus une rangee de pastilles centrees
    qui flottaient sans intitule au milieu de la fiche. */
-.ondit{margin:14px 0 0;font-size:15px;line-height:1.55;color:var(--ink2);max-width:64ch}
+.ondit{margin:18px 0 0;font-size:15px;line-height:1.6;color:var(--ink2);text-align:left}
 .ondit b{font-family:var(--disp);font-weight:800;color:var(--ink)}
 @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 /* Le combat ecrit « deltas » avec un s, le reste du jeu « delta ». Seule la
@@ -1629,7 +1656,7 @@ h1,h2,h3{text-wrap:balance}
       <div class="badge" id="end_badge">—</div>
       <h2 class="cardtitle" id="end_title">—</h2>
       <div class="pjs" id="end_niv"></div>
-      <div class="tro" id="end_traits"></div>
+      <div id="end_traits"></div>
       <div class="cardtext" id="end_text"></div>
     </div>
 
@@ -17309,7 +17336,7 @@ function showEnd(){
     txt += '<div class="recit"><b>' +
            (mq <= 4 ? 'Il t\'a manqué un cheveu.' :
             mq <= 12 ? 'Il t\'a manqué un peu.' : 'Tu en étais encore loin.') +
-           '</b><br>' +
+           '</b>' +
            (mq <= 4
              ? 'Un combat de plus, ou un seul choix joué autrement, et la porte s\'ouvrait.'
              /* PLUS DE LECON DE BAREME ICI. Le texte enumerait les statistiques
@@ -17338,7 +17365,7 @@ function showEnd(){
     var dt = reveDetail();
     txt += '<div class="recit">'+
       '<b>Ton rêve : '+esc(S.reve.n)+'.</b>'+
-      (dt ? esc(dt)+'<br>' : '')+
+      (dt ? '<span class="rd">'+esc(dt)+'</span>' : '')+
       (rv ? "<b>C'est fait.</b> Ce n'était le rêve de personne d'autre et personne d'autre ne pouvait le faire à ta place."
           : "<b>Tu ne l'as pas fait.</b> C'est la seule chose de ce bilan que tu ne partageras avec personne.")+'</div>';
   }
