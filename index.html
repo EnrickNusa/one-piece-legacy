@@ -284,6 +284,13 @@ b,strong{font-weight:800}
       le code ajoutait un `<br>` derriere. Deux sauts pour un seul.
    4. DENSITE. Quinze pixels entre deux recits, aucune respiration entre le
       titre et son corps, tout a la meme graisse apparente. */
+/* ============ L'ANNONCE DE L'ADVERSAIRE, CHANTIER B =====================
+   La phrase existait deja et se lisait comme de l'ambiance. Elle dit
+   maintenant ce qu'il prepare, et ce qu'on en fait compte : elle se detache
+   par un filet dore a gauche, la meme grammaire que le reste du jeu. */
+.cbann{margin:12px 0 0;font-size:16px;line-height:1.55}
+.cbann.lit{border-left:3px solid var(--gold);padding:2px 0 2px 14px;font-weight:700}
+
 .cardtext{max-width:66ch}
 
 /* ============ LES BLOCS DE LA CARTE DE FIN ==============================
@@ -3133,6 +3140,7 @@ var ADV = [
  re:{
   franc:{ok:"{B} tend la main pour t'attraper et t'essorer. Tu es plus rapide qu'elle ne l'attendait, ses doigts se referment sur rien.",
        ko:"{B} te cueille au vol et serre. Ça ne fait même pas mal, et tu regardes ton propre jus couler entre ses doigts."}},
+ pr:[{b:['obs'],m:['equipage']},{b:['ruse'],m:['franc']},{b:['rois','spe'],m:[]}],
  w:"Elle lâche prise, ce qu'elle n'a pas fait depuis longtemps, et te dit que sa mère saura ton nom ce soir.",
  l:"Elle referme la main. Ce qui sort n'est plus que la moitié de ce qui est entré.",
  m:"Elle a essoré et elle a repose. Il n'y a rien a rapatrier.",
@@ -3147,6 +3155,7 @@ var ADV = [
  re:{
   franc:{ok:"Tu crèves le pantin et {B} apparaît dedans. Un autre soldat de biscuit se lève déjà, mais cette fois tu sais où regarder, et sa main tremble.",
        ko:"Ton coup casse une armure de biscuit, et deux autres se dressent derrière. Deux bras, deux lames durcies, et tu recules."}},
+ pr:[{b:['ruse'],m:['franc']},{b:['arm'],m:['franc']},{b:['equipage'],m:['tenir']}],
  w:"La dernière armure tombe et il est là, petit, épuisé, et il a l'air surpris qu'on l'ait vu.",
  l:"Tu casses du biscuit jusqu'à ne plus pouvoir lever le bras. La lame arrive après.",
  m:"Il n'a jamais eu à sortir de la dernière armure.",
@@ -3161,6 +3170,7 @@ var ADV = [
  re:{
   obs:{ok:"{B} lit ton coup avant que tu l'amorces et t'accueille jambe en feu. Tu as déjà bougé, la jambe brûle le vide.",
        ko:"Ton Haki de l'Observation est plus lent que le sien. {B} enchaîne, et la chaleur de sa jambe te cuit sur place."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['obs'],m:['franc']},{b:['rois','equipage'],m:['franc']}],
  w:"Il se relève une fois de trop, allume une cigarette de travers, et te dit qu'il te fera à manger si tu repasses.",
  l:"Tu ne vois pas la jambe qui arrive. Personne ne la voit, c'est tout l'intérêt.",
  m:"Il n'a pas voulu. Il a cuisiné pour ton équipage le soir même, sans que personne comprenne pourquoi.",
@@ -3175,6 +3185,7 @@ var ADV = [
  re:{
   arm:{ok:"Ton bras durci passe à travers les flammes et trouve le corps de {B}. Son poing de feu part quand même, mais dans le vide.",
        ko:"Ton coup traverse une silhouette de feu. {B} se reforme derrière toi et te met deux balles de flamme dans le dos."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['arm'],m:['franc']},{b:['franc','ruse','spe'],m:[]}],
  w:"Il rit dans les cendres, tape son chapeau contre sa cuisse, et te demande ton nom pour de bon cette fois.",
  l:"Le feu ne se pare pas et ne se fatigue pas. Toi si.",
  m:"Il s'est excusé pendant que ça brûlait. Il le pensait.",
@@ -3189,6 +3200,7 @@ var ADV = [
  re:{
   spe:{ok:"{B} ouvre ses flancs et lâche une salve. Ta machinerie tient le choc et tu passes dessous.",
        ko:"{B} allonge son cou de dinosaure au bout d'un câble et te cueille à bout portant."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['equipage','rois'],m:[]},{b:['ruse'],m:['equipage','franc']}],
  w:"Il se replie sur son cou de brachiosaure en criant que ce n'est pas réglementaire. Personne ne sait de quel règlement il parle.",
  l:"Le cou arrive comme un bélier et le reste est en métal. Tu ne te relèves pas.",
  m:"Ce n'est pas le coup qui t'a eu, c'est ce qu'il y avait dans la poudre.",
@@ -3203,6 +3215,7 @@ var ADV = [
  re:{
   franc:{ok:"{B} tend la paume pour repousser ton coup. Tu changes d'angle au dernier moment, et la paume claque à côté.",
        ko:"La paume de {B} touche ton poing et te renvoie comme une balle. Puis c'est l'air lui-même qu'il t'envoie, et l'air te traverse."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['franc','spe'],m:['rois']},{b:['obs'],m:['equipage']}],
  w:"Il s'arrête net, au milieu du geste. Quelque chose qui n'a pas été effacé vient de reprendre la main une seconde.",
  l:"Une paume t'atteint et tu n'es plus là. Tu te réveilles trois jours plus tard sur une île sans nom.",
  m:"Il t'a renvoyé dans une direction où il n'y a que de l'eau sur mille lieues.",
@@ -3217,6 +3230,7 @@ var ADV = [
  re:{
   rois:{ok:"Ta volonté cogne la sienne. Sa masse dévie d'un cheveu et l'éclair tombe à côté.",
        ko:"{B} charge sa masse d'éclairs noirs. Elle te passe dessus, et ta volonté ne pèse rien contre celle du sang de Kaidou."}},
+ pr:[{b:['obs'],m:['franc']},{b:['obs'],m:['tenir']},{b:['rois','spe'],m:[]}],
  w:"Il rit franchement, s'assoit sur son kanabo, et te dit que c'est la première fois que quelqu'un tient. Il le dit sans amertume.",
  l:"Le kanabo est plus lourd que ton bateau et il arrive plus vite que ta garde.",
  m:"Il s'est arrêté juste après. Il n'a jamais voulu ressembler à son père sur ce point-là.",
@@ -3231,6 +3245,7 @@ var ADV = [
  re:{
   rois:{ok:"Ta volonté cogne la sienne, et la plaie que tu ouvres reste ouverte. C'est la seule chose qui marche sur un homme comme lui.",
        ko:"Tu l'ouvres en deux et il se referme devant toi, sans un mot. Ce qui le recoud ne vient pas de lui."}},
+ pr:[{b:['rois'],m:['equipage']},{b:['obs'],m:['tenir']},{b:['rois','ruse'],m:[]}],
  w:"Il cesse de rire. C'est la seule chose qui compte dans cette pièce et tout le monde l'a vu.",
  l:"Il n'a pas eu besoin de se déplacer. Tu es venu à lui et c'était déjà l'erreur.",
  m:"On ne consigne pas la mort de quelqu'un qui n'aurait pas dû se trouver là.",
@@ -3245,6 +3260,7 @@ var ADV = [
  re:{
   franc:{ok:"Tu ne lui laisses pas le temps d'ouvrir sa boîte. {B} cherche ses pilules, ton coup arrive avant, et rien ne part de son bras.",
        ko:"{B} encaisse ton coup en riant et avale une poignée de pilules. La goutte d'eau qu'il envoie ensuite te traverse et continue sa route dans le mur."}},
+ pr:[{b:['franc','ruse'],m:['tenir']},{b:['obs'],m:['tenir']},{b:['rois','spe'],m:[]}],
  w:"Il vieillit de vingt ans en quatre minutes, sous tes yeux, et il continue de crier ce qu'il a toujours crié. Ce n'est pas toi qui l'as battu.",
  l:"Sous l'eau, chez lui, dopé jusqu'aux yeux : tu n'as jamais eu le terrain, et tu l'as compris trop tard.",
  m:"Une balle d'eau tirée à bout portant fait le même trou qu'un boulet.",
@@ -3259,6 +3275,7 @@ var ADV = [
  re:{
   spe:{ok:"{B} engage le fer pour te briser l'arme. Ton acier tient, tu passes dans l'ouverture, et l'ombre qui anime ce corps commence à le lâcher.",
        ko:"{B} te laisse venir puis répond d'un revers. L'air comprimé traverse ta garde comme s'il tirait au fusil."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['arm'],m:['franc','spe']},{b:['spe'],m:['rois']}],
  w:"L'ombre le quitte et il s'effondre en poussière et en ferraille. La lame reste plantée droite, et elle ne t'appartient pas encore.",
  l:"Un seul geste, propre, à la hauteur exacte. Tu apprends ce que veut dire quatre cents ans de pratique.",
  m:"Il te salue de nouveau avant de partir. C'est la dernière chose que tu vois.",
@@ -3273,6 +3290,7 @@ var ADV = [
  re:{
   franc:{ok:"Tu vises la trajectoire et pas la femme. Ton coup passe à côté du plan de son bras, et l'anneau se referme sur le vide.",
        ko:"Ton poing traverse le corps de {B} sans résistance. Quand tu le ressors, ton bras est pris dans un anneau de fer, et elle n'a même pas eu à te toucher."}},
+ pr:[{b:['ruse'],m:['franc']},{b:['obs'],m:['rois']},{b:['obs'],m:['franc','tenir']}],
  w:"Elle allume une cigarette et te regarde partir sans donner l'ordre de te suivre. Hina impressionnée.",
  l:"Tu passes au travers d'elle une fois de trop. On te descend du navire dans une cage montée sur roulettes.",
  m:"Elle n'a pas voulu ça. Elle fera le rapport elle-même, sans arranger une virgule.",
@@ -3287,6 +3305,7 @@ var ADV = [
  re:{
   arm:{ok:"Ton Haki mord la neige et elle saigne. Le corps de {B} se défait au milieu du geste, et elle a l'air aussi surprise que toi.",
        ko:"{B} esquive ton bras durci au lieu de l'encaisser, puis referme une coque de neige sur toi. Tu frappes de l'intérieur."}},
+ pr:[{b:['arm'],m:['tenir','franc']},{b:['obs','ruse'],m:[]},{b:['arm'],m:['franc']}],
  w:"Elle se reforme une dernière fois, plus lentement, et arrête de sourire. C'est la seule vraie blessure que tu lui fais.",
  l:"Le froid entre par les vêtements avant d'entrer par les blessures. Tu t'assois sans le décider.",
  m:"On ne t'a pas retrouvé sous la neige. On n'a pas beaucoup cherché non plus.",
@@ -3306,6 +3325,7 @@ var ADV = [
  re:{
   franc:{ok:"{B} s'efface dans une porte au moment où ton poing arrive. Tu attends la porte plutôt que l'homme, et il ressort exactement là où tu regardes.",
        ko:"Ton coup traverse l'endroit où {B} se tenait. Il est déjà derrière toi, sorti d'une autre porte, et son doigt te trouve les côtes."}},
+ pr:[{b:['obs'],m:['franc']},{b:['obs'],m:['ruse']},{b:['obs'],m:['franc']}],
  w:"Il n'a plus le temps d'ouvrir. Il encaisse, essuie le comptoir par réflexe, et te dit que c'est fermé.",
  l:"Tu frappes une porte. La porte se referme sur toi et tu ressors dans une pièce sans issue.",
  m:"Il t'a fait passer par une porte qui donnait sur l'eau, à trois cents mètres du quai.",
@@ -3320,6 +3340,7 @@ var ADV = [
  re:{
   arm:{ok:"Ton poing durci trouve {B} là où le gaz aurait dû s'ouvrir. Son arme tombe et il crie qu'on ne devrait pas pouvoir le toucher.",
        ko:"{B} retire tout l'oxygène avant que tu sois à portée. Ton bras est prêt, ton Haki est en place, et tu n'as plus d'air pour t'en servir."}},
+ pr:[{b:['ruse'],m:['equipage']},{b:['obs'],m:['franc']},{b:['rois','ruse'],m:['tenir']}],
  w:"Il se recompose au sol en jurant que ce n'était pas prévu et qu'il refera le calcul. Il le refera vraiment.",
  l:"Tu ne perds pas contre lui, tu perds contre l'air. C'est plus humiliant et ça revient au même.",
  m:"Le rapport dira asphyxie. Il n'y aura pas d'enquête, l'île n'est sur aucune carte.",
@@ -3334,6 +3355,7 @@ var ADV = [
  re:{
   franc:{ok:"Ta charge s'écrase sur un mur invisible. Tu contournes par le flanc pendant qu'il n'a plus de surface à couvrir, et {B} se retrouve nu derrière sa propre barrière.",
        ko:"Ton coup arrive de face et le mur invisible le prend entier. Il ne bouge pas d'un millimètre, puis {B} le retourne et te renvoie ta propre puissance."}},
+ pr:[{b:['ruse'],m:['franc']},{b:['obs'],m:['equipage']},{b:['rois','ruse'],m:[]}],
  w:"Une barrière cède, la deuxième aussi. Il découvre le monde sans mur et il n'aime pas ça du tout.",
  l:"Tu épuises tout ce que tu as sur une paroi qui ne bouge pas. Il te laisse t'écrouler tout seul.",
  m:"Il a fermé la boîte. Il ne l'a pas rouverte.",
@@ -3348,6 +3370,7 @@ var ADV = [
  re:{
   spe:{ok:"{B} se replie sur lui-même pour n'offrir aucun point faible. Tu attends qu'il se déplie pour frapper, et tu passes dans la seconde d'ouverture.",
        ko:"{B} prend appui sur une main et lâche une volée de coupes d'air. Elles partent dans tous les sens à la fois, il n'y a pas de côté où aller."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['obs','ruse'],m:[]},{b:['rois','franc'],m:[]}],
  w:"Il reprend forme humaine, s'assoit sur une poutre, et te dit que ta lame est bien entretenue. C'est un compliment de charpentier.",
  l:"Deux lames et cinq mètres de portée. Tu n'as jamais eu la distance que tu croyais avoir.",
  m:"Il l'a fait proprement, comme il fait tout. Le rapport tient en quatre lignes.",
@@ -3362,6 +3385,7 @@ var ADV = [
  re:{
   ruse:{ok:"{B} sort une larme et une histoire triste pour te faire baisser la garde. Tu joues le jeu, il s'avance trop, et sa garde de fer n'est pas en place quand tu frappes.",
        ko:"{B} gobe ton piège avec un air désolé, puis referme la main. Dix doigts te rentrent dedans en même temps."}},
+ pr:[{b:['ruse','rois'],m:['tenir']},{b:['obs'],m:['franc']},{b:['franc','ruse'],m:[]}],
  w:"Il reste au sol et te dit que tu es le premier à ne pas avoir écouté. Il a l'air presque soulagé.",
  l:"Tu hésites une seconde à cause d'une histoire inventée. Une seconde, c'est tout ce qu'il demandait.",
  m:"Il n'a pas menti sur cette dernière phrase. C'est la seule.",
@@ -3376,6 +3400,7 @@ var ADV = [
  re:{
   spe:{ok:"{B} t'accueille tout en beauté, en commentant sa propre garde. Tu tiens l'échange assez longtemps pour qu'il s'endorme, et ce qui se réveille frappe au hasard.",
        ko:"{B} ferme les yeux au milieu de sa phrase et quelque chose d'autre prend la main. Tu ne vois pas la lame partir, tu vois seulement la coupe."}},
+ pr:[{b:['franc','ruse'],m:[]},{b:['obs','tenir'],m:['franc']},{b:['obs'],m:['franc']}],
  w:"Il se réveille au sol, découvre le carnage autour, et s'excuse pour les dégâts avec une élégance sincère.",
  l:"Tu ne perds pas contre Cavendish. Tu perds contre celui qui prend sa place quand il ferme les yeux.",
  m:"Au matin il ne saura pas ce qu'il a fait, et personne n'aura envie de le lui dire.",
@@ -3390,6 +3415,7 @@ var ADV = [
  re:{
   franc:{ok:"{B} tend la main pour te toucher au passage. Tu frappes plus long qu'elle et sa main fend l'air à vide.",
        ko:"{B} encaisse ton épaule et pose deux doigts sur ton bras. Au geste suivant, tu as vingt ans de plus."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['rois','tenir'],m:['spe']},{b:['franc','ruse'],m:[]}],
  w:"Elle te rend ton âge en jurant, et elle s'assoit pour finir son plat. Elle te demande ton nom seulement à la fin.",
  l:"Tu te bats avec des bras de gamin de huit ans, ou avec ceux d'un vieillard. Elle choisit, pas toi.",
  m:"Tu es mort de vieillesse en quatre secondes, ce que le registre a bien du mal à formuler.",
@@ -3404,6 +3430,7 @@ var ADV = [
  re:{
   franc:{ok:"Tu ne cognes pas, tu le déplaces. {B} attend le choc qui va le nourrir, il ne vient pas, et il frappe sans avoir eu de quoi gonfler.",
        ko:"Ton coup entre en plein. {B} sourit, ses bras doublent de volume, et ce qui revient vaut deux fois ce que tu viens de donner."}},
+ pr:[{b:['ruse'],m:['franc']},{b:['obs'],m:['franc']},{b:['ruse'],m:['franc']}],
  w:"Il redevient petit d'un coup, essoufflé, et il rit franchement. Il te dit que ça faisait longtemps.",
  l:"Chaque coup que tu donnes te coûte deux fois : une pour la fatigue, une pour ce que ça lui rend.",
  m:"Le dernier coup faisait la taille d'un mât. Il s'est excusé après.",
@@ -3418,6 +3445,7 @@ var ADV = [
  re:{
   equipage:{ok:"{B} ouvre son propre corps et lâche sa milice. Tes gens tiennent la porte, personne ne se laisse prendre, et il n'a plus personne à envoyer.",
        ko:"Une aura rose se pose sur ton second et il disparaît à l'intérieur de {B}. La négociation change de camp avant que le combat ait commencé."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['ruse'],m:['franc','equipage']},{b:['rois','franc'],m:[]}],
  w:"Sa forteresse se replie mal, ses hommes ressortent en désordre. Il rajuste sa veste et note ton nom dans un carnet.",
  l:"Tu te bats contre un château et le château a des murs, des canons et des étages.",
  m:"Tu es entré. Il a refermé. Il n'y a pas eu de témoin extérieur.",
@@ -3432,6 +3460,7 @@ var ADV = [
  re:{
   franc:{ok:"Tu ne frappes pas la statue, tu cherches l'homme dedans. {B} doit déplacer sa partie humaine en catastrophe, et le bras de pierre part de travers.",
        ko:"Ton coup part dans le bloc de pierre et n'atteint rien de vivant. La montagne se referme sur toi, avec cette petite voix qui annonce ce qui arrive."}},
+ pr:[{b:['obs'],m:['franc']},{b:['obs'],m:['tenir']},{b:['rois','equipage'],m:[]}],
  w:"La pierre le recrache au milieu de la place. Il se relève, minuscule à l'échelle de ce qu'il était, et il n'a plus de ville à emprunter.",
  l:"On ne frappe pas une ville. Tu comprends ça sous quelque chose qui pèse le poids d'un quartier.",
  m:"Une statue de trente mètres a bougé. C'est tout ce que les témoins savent dire.",
@@ -3446,6 +3475,7 @@ var ADV = [
  re:{
   obs:{ok:"Tu vois venir son geste et tes mains sont sur tes oreilles avant le son. L'entaille ne prend pas, et il perd son sourire.",
        ko:"{B} te regarde droit dans les yeux et frappe une note. La coupure arrive, tu n'as rien vu passer, parce qu'il n'y avait rien à voir."}},
+ pr:[{b:['obs','arm'],m:['tenir']},{b:['ruse','rois'],m:['equipage']},{b:['obs'],m:['tenir']}],
  w:"Le son se casse dans sa gorge. Il te propose une alliance avant même d'être debout.",
  l:"Tu ne peux pas parer une note. Tu l'apprends mesure après mesure.",
  m:"La dernière note était grave et très courte.",
@@ -3460,6 +3490,7 @@ var ADV = [
  re:{
   franc:{ok:"Tu enchaînes sans lui laisser d'air. Ses poupées de paille partent l'une après l'autre, et à la dixième il n'y a plus personne pour prendre le coup à sa place.",
        ko:"Ton coup entre en plein et {B} ne bronche pas. Une poupée de paille sort de son torse, brisée, et c'est quelqu'un d'autre qui tombe à ta place."}},
+ pr:[{b:['rois','tenir'],m:[]},{b:['ruse'],m:['franc']},{b:['obs'],m:['franc']}],
  w:"Il tire une dernière carte, la regarde longtemps, et la range. Il ne dit pas ce qu'elle annonçait.",
  l:"Tu as frappé dix fois et tu as tué dix inconnus. Lui n'a pas une égratignure.",
  m:"Il avait annoncé le chiffre au début. Tu ne l'avais pas cru.",
@@ -3474,6 +3505,7 @@ var ADV = [
  re:{
   franc:{ok:"Tu vises le chapeau, pas le corps. {B} recule d'un pas pour couvrir son front, et ce qu'il préparait ne part pas à temps.",
        ko:"Ton coup s'enfonce dans un corps qui ondule comme un drap. La lame qui revient serpente et arrive par un angle que tu ne couvres pas."}},
+ pr:[{b:['franc'],m:['spe']},{b:['obs'],m:['tenir']},{b:['rois','ruse'],m:[]}],
  w:"Sa cape redevient dure au mauvais moment et le retourne. La foule change de camp en une seconde, comme toujours.",
  l:"Tu tombes à travers un sol qui n'a plus de consistance, et il salue pendant que tu descends.",
  m:"Le drapeau qu'il t'a passé autour du cou a durci d'un coup.",
@@ -3488,6 +3520,7 @@ var ADV = [
  re:{
   arm:{ok:"{B} couvre tout son corps de Haki, sûr que rien ne passera. Le tien mord quand même, et il découvre qu'il n'est pas le seul à savoir faire.",
        ko:"{B} durcit son bambou et frappe. Ton arme se brise, exactement comme celle de Smoker avant toi."}},
+ pr:[{b:['arm'],m:['franc']},{b:['franc','ruse'],m:[]},{b:['rois','spe'],m:[]}],
  w:"Le bambou casse. C'est la première fois en quinze ans, et son visage le dit avant sa bouche.",
  l:"Un homme entièrement enrobé de Fluide ne se frappe pas, il se subit. Tu apprends la différence.",
  m:"Il a rangé son bâton avant que tu touches le sol.",
@@ -3502,6 +3535,7 @@ var ADV = [
  re:{
   franc:{ok:"{B} ouvre sa gueule pour te prendre en pleine charge. Tu passes par le flanc, sa queue arrive en retard, et sa hache tape le sol.",
        ko:"{B} te laisse arriver et referme les mâchoires. Il broie, il recrache, et tu comprends qu'il mord au travers d'une coque blindée."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['ruse','rois'],m:[]},{b:['rois','ruse'],m:['franc']}],
  w:"Il redevient humain et te regarde sans rancune. Il te dit que ça l'arrange, et tu ne sauras jamais pourquoi.",
  l:"Six mètres de dinosaure blindé de Fluide. Il n'y avait pas de plan pour ça.",
  m:"Il a fermé la mâchoire. Son rapport parlera d'un accident de patrouille.",
@@ -3516,6 +3550,7 @@ var ADV = [
  re:{
   arm:{ok:"Tu durcis ta garde et {B} envoie son onde. Ton Haki est assez dense pour l'étouffer, et pour une fois le bruit s'arrête à la surface.",
        ko:"Ta garde est parfaite et ça ne change rien. L'onde traverse le Haki comme s'il n'existait pas, et elle te déchire de l'intérieur."}},
+ pr:[{b:['obs'],m:['franc']},{b:['rois','ruse'],m:[]},{b:['spe','equipage'],m:[]}],
  w:"Il pose une faux, garde l'autre, et arrête de rire une seconde entière. Tu comprends ce que ça lui coûte.",
  l:"Deux lames en rotation ne laissent aucun angle. Tu cherches l'ouverture jusqu'au bout.",
  m:"Il ne riait pas à ce moment-là.",
@@ -3530,6 +3565,7 @@ var ADV = [
  re:{
   ruse:{ok:"Tu passes par le côté et tu attrapes le bras qui tient la fumigène avant qu'il la casse. {B} n'a rien d'autre. Il te tend son sabre par la garde, celui dont il ne s'est jamais servi.",
         ko:"{B} attrape le premier villageois qui passe et te le met dans les bras. Le temps que tu le poses, la fumée a rempli le chemin et il n'y a plus personne dedans."}},
+ pr:[{b:['ruse','equipage'],m:['franc']},{b:['equipage','rois'],m:['franc']},{b:['ruse','rois'],m:['tenir']}],
  w:"Il repart vers la montagne sans ses hommes et sans son bâton. Le village te nourrit trois jours et personne ne te demande ton nom.",
  l:"Il ne te tue pas, il te dépouille. Tu te réveilles sans arme, sans bourse et sans barque, à l'endroit exact où tu avais commencé.",
  m:"Trente contre un dans un chemin creux. Le bureau des primes n'aura jamais eu à ouvrir ton dossier.",
@@ -3544,6 +3580,7 @@ var ADV = [
  re:{
   franc:{ok:"Tu prends la hache de face et tu la bloques au manche, là où il n'y a plus que de l'os. {B} découvre qu'un bras qui coupe reste un bras, et que le sien est le seul qu'il ait.",
          ko:"Le fer passe et fend le sol à côté de toi. {B} hurle son propre grade avant de relever la hache, et ses hommes reculent d'un pas de leur côté à eux."}},
+ pr:[{b:['obs','ruse'],m:[]},{b:['rois','equipage'],m:[]},{b:['rois','ruse'],m:['tenir']}],
  w:"Ses propres marins ne le relèvent pas. Ils attendent, ils regardent, et l'un d'eux finit par baisser la hache à sa place.",
  l:"La hache passe à trois centimètres et le manche te prend en pleine tempe. Tu te réveilles dans une cellule dont la porte n'est même pas fermée.",
  m:"Il ne s'arrête pas au premier coup. Personne dans la cour ne lui a dit de s'arrêter.",
@@ -3558,6 +3595,7 @@ var ADV = [
  re:{
   equipage:{ok:"Tes hommes passent devant ses gardes sans les regarder. {B} sort le pistolet, la seule arme qu'il sache tenir, et il ne tire pas. Il attendait que quelqu'un d'autre le fasse.",
             ko:"{B} jette le grade de son père une fois de trop et la cour se referme. Ils ne sont pas là pour lui, ils sont là parce que le nom marche encore aujourd'hui."}},
+ pr:[{b:['rois'],m:['equipage']},{b:['rois','equipage'],m:['franc']},{b:['rois','ruse'],m:[]}],
  w:"Il s'assoit par terre et arrête de crier. C'est la première fois que quelqu'un ne recule pas, et ça lui fait plus d'effet que le coup.",
  l:"Ce ne sont pas ses coups qui te mettent à terre, ce sont les six fusils derrière lui. Il te fait enfermer et vient te le raconter deux fois.",
  m:"Il n'a pas donné l'ordre lui-même. Il a juste haussé les épaules, et quelqu'un a compris.",
@@ -3572,6 +3610,7 @@ var ADV = [
  re:{
   equipage:{ok:"Un des tiens tape une fois sur le museau du lion et la bête s'assoit. {B} reste debout avec son fouet, et il comprend en même temps que toi qu'il n'a jamais eu que le lion.",
             ko:"Le lion prend un des tiens au sol pendant que {B} recule de trois pas. Le fouet claque quelque part derrière, mais ce n'est pas lui qui vous tient."}},
+ pr:[{b:['obs'],m:['franc']},{b:['spe'],m:['tenir']},{b:['equipage','rois'],m:[]}],
  w:"Le lion s'assoit et refuse de repartir. Mohji le tire par le collier en te promettant que ce n'est pas fini.",
  l:"Tu t'occupes de l'homme, et c'est le lion qui te met au sol. Tu apprends l'ordre dans lequel il fallait s'y prendre.",
  m:"On ne combat pas un fauve à mains nues sans le savoir avant. Tu l'as su après.",
@@ -3586,6 +3625,7 @@ var ADV = [
  re:{
   rois:{ok:"Tu pousses une deuxième fois et {B} plie le genou. Il a tenu plus longtemps que ses hommes, ça se voit, mais il a tenu avec la volonté d'un lieutenant, pas d'autre chose.",
         ko:"Les marins autour de {B} tombent tous en même temps. Lui reste debout, le poing de fer serré, un peu surpris lui-même. Il n'a rien pour te répondre, sauf du temps."}},
+ pr:[{b:['obs','ruse'],m:[]},{b:['franc','ruse'],m:[]},{b:['rois','franc'],m:[]}],
  w:"Il reste assis contre le bastingage à répéter que ce n'était pas un jour comme les autres. Son rapport dira autre chose.",
  l:"Le poing de fer arrive plus vite que tu ne le croyais. Tu passes par-dessus deux tables et tu ne te relèves pas.",
  m:"Il n'avait pas prévu de te tuer. C'est arrivé quand même, et son rapport a été accepté sans question.",
@@ -3600,6 +3640,7 @@ var ADV = [
  re:{
   spe:{ok:"Tu restes au sec et tu le forces à venir sur la terre ferme. Sans eau autour de lui, ses prises n'ont plus rien à faire tourner et son élan ne part plus. Il ne lui reste que le coup droit, et il te l'annonce à chaque fois.",
        ko:"Le tranchant de sa main arrive dans ta nuque avant que tu aies fini ton geste. {B} annonce le suivant par-dessus, plus lourd. Tu ne sauras jamais ce que ça donne."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['obs'],m:['franc']},{b:['rois','spe'],m:[]}],
  w:"Il reste dans l'eau à te regarder, sans remonter. Ce n'est pas la douleur qui l'empêche de sortir, c'est ce que ça voudrait dire.",
  l:"Sous l'eau, tu ne pèses rien du tout. Il te ramène sur le ponton lui-même, pour que les autres voient.",
  m:"Il t'a tenu sous la surface le temps qu'il fallait, sans colère particulière.",
@@ -3614,6 +3655,7 @@ var ADV = [
  re:{
   arm:{ok:"Tu ne bloques pas, tu accompagnes. Le tonfa passe à côté et son élan emporte {B} avec lui. C'est une arme lourde, et une arme lourde qui rate coûte cher.",
        ko:"{B} bondit et le tonfa tombe sur ta garde. Ce que tu as durci ne tient pas plus longtemps que le bouclier d'acier de son second, c'est-à-dire pas du tout."}},
+ pr:[{b:['obs'],m:['rois']},{b:['spe'],m:['franc']},{b:['rois','ruse'],m:[]}],
  w:"Il pose les tonfas et te demande si tu as mangé. La question est sincère et elle te déstabilise plus que le combat.",
  l:"Les deux tonfas arrivent en même temps de deux côtés différents. Tu ne vois passer que le premier.",
  m:"Il ne voulait pas. Il l'a fait parce qu'on le lui a demandé, et il n'a rien dit ensuite.",
@@ -3628,6 +3670,7 @@ var ADV = [
  re:{
   spe:{ok:"Tu changes de main au dernier moment. Sa garde se referme sur du vide, et six sabres à trois cents kilos ne se replacent pas vite. {B} lâche tout et lève les six bras.",
        ko:"Ta lame s'arrête net. {B} l'a attrapée à mains nues, trois paumes dessus, et il te dit ce qu'il va faire pendant qu'il serre. Les cinq autres sabres attendent."}},
+ pr:[{b:['arm','obs'],m:['franc']},{b:['franc','ruse'],m:[]},{b:['rois','ruse','tenir'],m:[]}],
  w:"Il lâche les six sabres d'un coup et lève les six bras. Il te dit que ce n'était pas son idée et tu le crois sans effort.",
  l:"Six lames, et il n'en faut que deux qui passent. Tu apprends que le nombre de bras n'est pas une plaisanterie.",
  m:"Il a frappé plus fort qu'il ne voulait. Il l'a répété toute la nuit à des gens qui s'en moquaient.",
@@ -3642,6 +3685,7 @@ var ADV = [
  re:{
   equipage:{ok:"Un des tiens lui lance quelque chose qui ressemble à une bombe. {B} l'avale sans réfléchir, par habitude, et ce n'en était pas une. Sa partenaire attend l'explosion pour décoller, et l'explosion ne vient pas.",
             ko:"{B} fait sauter son bras et le souffle envoie sa partenaire à dix mètres au-dessus de vous, ombrelle ouverte, légère comme un kilo. Elle ne redescend pas à un kilo."}},
+ pr:[{b:['obs'],m:['franc']},{b:['obs'],m:['franc']},{b:['obs','ruse','equipage'],m:[]}],
  w:"Elle atterrit mal, il tire trop tôt, et pour la première fois depuis longtemps ils se parlent, fort, en public.",
  l:"Tu suis l'un pendant que l'autre monte. Dix mille kilos plus tard, tu comprends l'erreur.",
  m:"Une détonation à bout portant. Ils cochent la ligne sur un carnet et passent au nom suivant.",
@@ -3656,6 +3700,7 @@ var ADV = [
  re:{
   ruse:{ok:"Tu ramasses un morceau de cire durcie et tu tapes avec sur celle qui te tient la cheville. Les deux blocs s'effritent ensemble. {B} n'avait pas prévu qu'on se serve de sa cire contre sa cire.",
         ko:"{B} n'est pas là où tu frappes. Tu viens de casser une statue de cire à son effigie, et le vrai finit tranquillement de couler la sienne autour de ta cheville."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['franc','ruse'],m:['tenir']},{b:['rois','franc'],m:[]}],
  w:"La cire casse et il regarde les morceaux plus longtemps qu'il ne te regarde toi. Il ramasse un éclat et le met dans sa poche.",
  l:"Tu comprends que tu es pris quand tu essaies de tourner la tête. Il tourne autour de toi et te dit que tu es très réussi.",
  m:"Il n'aime pas tuer, il aime finir. La différence ne t'aura pas beaucoup servi.",
@@ -3670,6 +3715,7 @@ var ADV = [
  re:{
   franc:{ok:"Tu ne suis pas les rebonds, tu regardes où il doit revenir. Quand {B} repasse, tu mets le poing sur la trajectoire. Tout l'élan qu'il a accumulé arrive dans ta main, et il s'écroule d'un coup.",
          ko:"{B} rebondit sur les murs de plus en plus vite et le bruit des ressorts te brouille l'oreille. Tu frappes là où il était. Le poing arrive de l'autre côté avec tout ce qu'il a ramassé en route."}},
+ pr:[{b:['obs'],m:['franc']},{b:['rois','equipage'],m:[]},{b:['rois','spe'],m:[]}],
  w:"Le rire s'arrête dans la salle avant de s'arrêter sur son visage. Il reste au sol et personne ne l'aide à se relever.",
  l:"Il te renvoie contre le comptoir et se laisse retomber sur toi de tout son poids. La salle applaudit en cadence.",
  m:"Il n'a pas retenu le dernier rebond. Sa bande a mis un certain temps à cesser de rire.",
@@ -3684,6 +3730,7 @@ var ADV = [
  re:{
   franc:{ok:"Tu arrêtes de frapper le fantôme et tu cherches la pièce d'à côté. Le vrai corps de {B} y est, allongé, inconscient, sans personne pour le garder. La projection revient tout de suite.",
          ko:"Ton coup traverse {B} sans rien rencontrer et va se planter dans le mur derrière. Elle grandit jusqu'au plafond, juste pour te le montrer, puis elle pose un fantôme sur ton épaule et tu n'as plus envie de rien."}},
+ pr:[{b:['rois','tenir'],m:['franc']},{b:['equipage','ruse'],m:[]},{b:['obs'],m:['franc']}],
  w:"Elle disparaît en criant que ce n'est pas juste, et son ombrelle reste plantée dans le parquet. Le manoir se tait d'un coup.",
  l:"Ce ne sont pas les coups. C'est que tu t'assoies et que tu n'aies plus envie de te relever, pendant qu'elle passe à côté sans te regarder.",
  m:"Personne ne meurt de ces fantômes. Tu es mort de ce que tu as fait pendant qu'ils te traversaient.",
@@ -3698,6 +3745,7 @@ var ADV = [
  re:{
   ruse:{ok:"Tu attends. {B} porte encore le visage de quelqu'un que tu ne frapperas pas, et tant qu'il le porte il ne peut rien faire non plus. À la seconde où il se touche le visage de la main gauche, tu sais que c'est lui.",
         ko:"Tu retiens ton coup une demi-seconde, parce que la personne en face de toi n'est pas censée être là. {B} met ce temps à profit, et le talon qui arrive a un bec d'acier au bout."}},
+ pr:[{b:['rois','obs'],m:['franc']},{b:['obs','ruse'],m:['equipage']},{b:['obs'],m:['franc']}],
  w:"Il reprend son propre visage pour perdre, ce qu'il n'était pas obligé de faire. Il te salue en révérence et s'en va en dansant mal.",
  l:"Tu frappes ton propre visage une demi-seconde trop tard, et cette demi-seconde suffit.",
  m:"La dernière chose que tu vois, c'est ta propre tête au-dessus de toi.",
@@ -3712,6 +3760,7 @@ var ADV = [
  re:{
   obs:{ok:"Il disparaît, mais tu suis le bruit de sa respiration. Tu frappes le vide au bon endroit, l'invisibilité lâche une seconde, et sa main part de travers.",
        ko:"Tu cherches {B} des yeux et il n'y a rien à voir. Trois coups te touchent avant que tu saches d'où ils viennent."}},
+ pr:[{b:['obs'],m:['franc']},{b:['equipage','obs'],m:[]},{b:['obs'],m:['ruse']}],
  w:"Il redevient visible en tombant, ce qui est la seule chose qu'il ne contrôle pas. Les chiens s'arrêtent tous en même temps.",
  l:"Tu frappes trois fois le vide et la quatrième te revient dessus. Tu te réveilles dans une pièce que tu ne reconnais pas.",
  m:"Tu n'as pas vu ce qui t'a tué. Le rapport parlera d'un accident dans un manoir vide.",
@@ -3727,6 +3776,7 @@ var ADV = [
  re:{
   franc:{ok:"Tu vises le manche de la masse, la seule chose sur elle qui ne glisse pas, et tu la lui arraches des mains. Son corps ne retient rien, une arme qui tombe à trois mètres non plus.",
          ko:"Ton coup part droit et il dérape sur elle comme sur une coque savonnée. {B} n'a pas bougé les pieds. Elle ramasse la masse pendant que tu cherches où ton poing est passé."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['obs'],m:['franc']},{b:['obs'],m:['ruse']}],
  w:"Elle finit assise contre le mât, la masse hors de portée, à te demander qui tu es. Quatre villages apprennent la nouvelle avant le soir.",
  l:"Elle te sort du combat d'un revers et te laisse sur le pont sans t'achever. Ce n'est pas de la clémence, c'est du mépris.",
  m:"Cinquante kilos de fer lancés à pleine volée ne demandent pas de talent, seulement de la place. Elle en avait.",
@@ -3741,6 +3791,7 @@ var ADV = [
  re:{
   obs:{ok:"Tu arrêtes de le suivre des yeux et tu écoutes le sol. Ses pas ne font aucun bruit, dix lames qui traînent si. Tu l'attrapes par le manteau au passage, et tout s'arrête net, parce qu'il n'a jamais su l'arrêter autrement.",
        ko:"{B} se balance et il part. Il n'y a plus rien à lire, parce que lui non plus ne sait pas où il va. Les entailles arrivent de partout, y compris sur ses propres hommes."}},
+ pr:[{b:['obs'],m:['franc']},{b:['tenir'],m:['obs','equipage']},{b:['ruse'],m:['spe']}],
  w:"Tu attends qu'il repasse et tu frappes l'endroit où il va être, pas celui où il est. Il s'écroule en te disant que son plan était parfait.",
  l:"Dix lames, cent passages, et tu ne l'as jamais vu venir une seule fois. Il te laisse par terre parce qu'un mort attire la Marine.",
  m:"Il ne t'a pas visé. C'est justement ce qui fait que tu n'as rien pu esquiver.",
@@ -3755,6 +3806,7 @@ var ADV = [
  re:{
   ruse:{ok:"{B} se met à genoux et demande grâce. Tu ne baisses pas la garde et tu lui prends l'épaulière gauche. Le vrai gaz est encore dedans.",
         ko:"Il tire quelque chose de son épaule et tu vas au-devant pour l'intercepter. Ce n'était pas la bombe, c'était le leurre, et tu prends les lames en pleine poitrine."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['obs'],m:['franc','tenir']},{b:['ruse','tenir'],m:['franc']}],
  w:"Tu attends qu'il ait tout tiré. Un homme qui n'a plus de munitions dans une armure de deux cents kilos n'est plus qu'un homme lourd.",
  l:"L'armure encaisse tout ce que tu donnes, et lui n'a même pas eu à viser. Tu te réveilles à la dérive sur une chaloupe.",
  m:"Il n'y a pas d'honneur, pas de duel, pas de dernier mot. Juste du gaz et une mer très grande.",
@@ -3773,6 +3825,7 @@ var ADV = [
         ko:"Ta lame le coupe en quatre et il tombe. Tu te retournes. Une main que tu n'avais pas comptée arrive avec quatre couteaux entre les doigts."},
   franc:{ok:"Tu laisses la lame au fourreau et tu frappes du poing. Ça ne coupe pas, donc ça ne le démonte pas, et il le prend comme n'importe qui.",
          ko:"Tu frappes fort et bien, sauf qu'il t'a vu venir. Il s'ouvre en morceaux avant l'impact et ton poing traverse un homme qui n'est plus là."}},
+ pr:[{b:['obs'],m:['spe']},{b:['obs'],m:['franc']},{b:['ruse'],m:['spe']}],
  w:"Tu cesses de viser le corps et tu vises les pieds, la seule partie qu'il ne détache jamais. Il tombe en hurlant que c'est de la triche.",
  l:"Tu passes une heure à découper un homme qui adore être découpé. À la fin, c'est toi qui es fatigué.",
  m:"Trois couteaux flottants et pas un bras pour les tenir. On ne pare pas ce qui n'a pas d'épaule.",
@@ -3787,6 +3840,7 @@ var ADV = [
  re:{
   franc:{ok:"Tu ramasses le jeu de dents qu'il vient de recracher et tu t'en sers contre lui. {B} te dit qu'un humain ne saura pas s'en servir. Il a raison, et ça suffit quand même.",
          ko:"Tu lui casses les dents et il en a un nouveau jeu avant que tu aies reculé. Celui-là est plus dur. Il remet son nez en place au passage, sans un mot."}},
+ pr:[{b:['ruse'],m:['franc','tenir']},{b:['arm'],m:['franc']},{b:['obs','tenir'],m:['franc']}],
  w:"Tu le forces à rester au sec et tu ne lui laisses plus une seule occasion de replonger. Le village arrête de payer le soir même.",
  l:"Il te ramène dans l'eau, et dans l'eau il n'y a plus de combat, il n'y a que la noyade que quelqu'un t'évite de justesse.",
  m:"Il te tient sous la surface le temps qu'il faut. Un Homme-poisson n'a pas besoin de se presser.",
@@ -3802,6 +3856,7 @@ var ADV = [
  re:{
   franc:{ok:"Tu lui donnes quelque chose de mou à avaler et il s'étrangle avec. Sa bouche ne sait pas quoi faire de ce qui plie. Le temps qu'il recrache, il n'est plus un canon.",
          ko:"{B} ouvre la bouche et ton arme y disparaît. Trois secondes plus tard elle ressort de son bras, pointée sur toi, avec un peu de bave dessus."}},
+ pr:[{b:['ruse'],m:['franc','spe']},{b:['obs'],m:['franc']},{b:['equipage','arm'],m:['ruse']}],
  w:"Tu attends qu'il ait la bouche pleine. Un roi qui mâche ne parle pas, et un roi qui ne parle pas ne commande plus rien.",
  l:"Il avale ton arme. Littéralement. Tu finis le combat les mains vides devant un homme qui a maintenant ta lame dans le ventre.",
  m:"Il mange à peu près tout. On ne t'a pas retrouvé.",
@@ -3819,6 +3874,7 @@ var ADV = [
   arm:{ok:"Tu ne cherches plus le tranchant, tu cherches l'endroit où l'acier est le plus mince. Ton Haki de l'Armement passe, et son bras se fend dans le sens de la lame.",
        ko:"Tu frappes une lame avec une lame. La sienne n'a ni tranchant ni dos, donc tu ne sais jamais de quel côté elle va s'ouvrir. Elle s'ouvre du mauvais.",
        sup:"Il durcit tout son corps d'un coup et ton coup rebondit sans laisser de trace. Il n'a pas paré, il n'a simplement pas eu besoin de bouger."}},
+ pr:[{b:['arm'],m:['franc']},{b:['arm'],m:['spe']},{b:['arm'],m:['franc','tenir']}],
  w:"Il te faut comprendre qu'on ne coupe pas l'acier avec de l'acier, mais avec quelque chose de plus dur. Quand tu le comprends, il tombe presque avec satisfaction.",
  l:"Tu t'acharnes sur un homme qui est fait de la chose même avec laquelle tu essaies de le tuer. Il te laisse debout par curiosité.",
  m:"Il te coupe proprement, sans un mot, comme on classe un dossier.",
@@ -3833,6 +3889,7 @@ var ADV = [
  re:{
   ruse:{ok:"{B} se perce la main avec son couteau pour tuer l'effet de ton piège. Il perd une seconde à saigner, tu la prends.",
        ko:"{B} regarde ta ruse arriver, se plante son couteau dans la paume, et sa garde ne bouge pas d'un pouce. La douleur lui sert de discipline."}},
+ pr:[{b:['arm'],m:['franc']},{b:['equipage','spe'],m:[]},{b:['spe'],m:['ruse']}],
  w:"Tu le mets à genoux devant ses propres hommes. Le rapport partira quand même, mais il partira avec ton nom écrit correctement.",
  l:"Un Vice-Amiral, c'est un mur. Tu t'y casses proprement et il te laisse fuir parce que la poursuite coûterait des vies.",
  m:"Le Quartier Général ne fait pas de prisonniers quand la mer est loin et que personne ne regarde.",
@@ -3851,6 +3908,7 @@ var ADV = [
        sup:"Il a vu ton Haki monter et il n'attend pas le coup. Le sable se referme sur ton poignet avant, et il te demande si tu comptais vraiment prendre un désert à mains nues."},
   ruse:{ok:"Tu ne frappes pas, tu mouilles. De l'eau sur du sable ça fait de la boue, et de la boue, ça se tient.",
         ko:"Il assèche la flaque avant qu'elle t'atteigne. Ici, l'eau lui appartient, elle n'est pas à toi."}},
+ pr:[{b:['arm'],m:['franc']},{b:['obs'],m:['tenir','franc']},{b:['arm','obs'],m:['equipage']}],
  w:"L'eau. Il suffit d'eau, et d'accepter de se rapprocher assez pour la lui mettre dessus. Le royaume revoit la pluie dans la semaine.",
  l:"Tu frappes du sable pendant une heure. À la fin il te plante son crochet dans le ventre et te laisse dans une fosse.",
  m:"Il t'assèche entièrement. Ça prend moins de temps qu'on ne l'imagine.",
@@ -3869,6 +3927,7 @@ var ADV = [
        sup:"Il te voit venir avant que tu bouges. La colonne tombe pendant que ton bras monte encore, et ton Haki n'a pas eu le temps de durcir."},
   obs:{ok:"Tu lis son intention pendant qu'il lit la tienne. Il n'a pas l'habitude d'être vu, et ce demi-temps lui coûte la manche.",
        ko:"Il sait ce que tu vas faire avant toi. Il te le dit à voix haute, poliment, puis il le fait."}},
+ pr:[{b:['obs'],m:['ruse']},{b:['obs'],m:['franc']},{b:['arm'],m:['franc','spe']}],
  w:"Il n'a jamais rencontré quelqu'un que l'électricité ne traverse pas comme il faut. Le jour où ça arrive, un dieu redevient un homme très surpris.",
  l:"Il t'entend penser. Chaque coup arrive une seconde trop tard et le dernier te laisse sur le sol de l'île du ciel.",
  m:"Deux cents millions de volts. Il n'a même pas eu à se lever.",
@@ -3884,6 +3943,7 @@ var ADV = [
  re:{
   franc:{ok:"{B} durcit tout son corps pour te renvoyer ton coup dans les os. Tu retiens ta frappe au dernier instant, sa posture est engagée, et il ne peut plus bouger avant que tu enchaînes.",
        ko:"Ton poing rencontre un corps durci comme du fer et c'est ton bras qui craque. {B} n'avait pas besoin de contre-attaquer, il le fait quand même."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['obs'],m:['franc']},{b:['arm'],m:['ruse','equipage']}],
  w:"Tu tiens jusqu'à ce que le Rokushiki lui coûte plus cher qu'à toi. Il s'effondre en te disant que la justice n'a pas de camp, et il n'y croit pas non plus.",
  l:"Un doigt. Il te met à terre avec un doigt, et il repart en réajustant sa cravate.",
  m:"Le Cipher Pol ne laisse pas de témoins et ne rédige pas de rapport là-dessus.",
@@ -3899,6 +3959,7 @@ var ADV = [
  re:{
   franc:{ok:"{B} permute avec son ombre au dernier moment. Tu avais visé l'ombre, pas l'homme, et cette fois c'est l'homme qui prend.",
        ko:"Ton coup traverse ce qui n'était qu'une ombre. {B} est déjà de l'autre côté et te couvre de chauves-souris qu'on ne peut pas tuer."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['equipage','rois'],m:['franc']},{b:['arm','rois'],m:['franc']}],
  w:"Le soleil. Il suffit de tenir jusqu'au lever du soleil, et de le forcer à rester dessus. Mille ombres repartent chez elles d'un coup.",
  l:"Tu te bats contre cent morts pendant que le vivant se repose. Tu perds parce que tu es fatigué, pas parce qu'il est fort.",
  m:"Il te prend ton ombre. Le corps tient encore quelques jours, mais le soleil finit toujours par se lever.",
@@ -3914,6 +3975,7 @@ var ADV = [
  re:{
   franc:{ok:"{B} gonfle son visage et arme son clin d'œil. Tu es déjà passé sous la ligne de tir, et le souffle part au-dessus de ton épaule.",
        ko:"{B} cligne de l'œil. Le souffle te renvoie ton propre élan dans la poitrine, et tu repars d'où tu venais."}},
+ pr:[{b:['obs'],m:['franc']},{b:['ruse'],m:['franc']},{b:['rois'],m:['equipage']}],
  w:"Tu le mets à terre. Il te regarde et il te demande, sérieusement, si tu sais pour qui tu travailles. La question restera.",
  l:"Il te rend une partie de tes propres coups avec des hormones que tu ne comprends pas, et te laisse partir vivant, exprès.",
  m:"On ne meurt pas souvent contre lui. Tu as trouvé le moyen.",
@@ -3931,6 +3993,7 @@ var ADV = [
  re:{
   spe:{ok:"Tu la prends de très près, plus près que la portée du coup. Le Karaté des Hommes-Poissons a besoin d'un peu d'air entre vous pour porter l'onde. Collé à {B}, il n'y a plus d'air.",
        ko:"Le poing de {B} s'arrête à dix centimètres de ta garde et tu encaisses quand même. Le coup est passé par l'humidité de l'air, puis par l'eau qui est dans toi. Ta garde n'a rien eu à bloquer."}},
+ pr:[{b:['obs','ruse'],m:['franc']},{b:['obs'],m:['tenir']},{b:['rois','ruse'],m:['franc']}],
  w:"Tu la mets à terre. Elle ne demande rien pour elle, elle demande ce qui va arriver au village. Tu n'as pas de réponse à donner.",
  l:"Elle te désarticule l'épaule proprement, te laisse assis contre un mur, et le village est vide quand les renforts arrivent.",
  m:"Tu as sous-estimé une instructrice de village. C'est écrit comme ça dans le rapport, et le rapport ne dit pas qui elle était.",
@@ -3946,6 +4009,7 @@ var ADV = [
  re:{
   arm:{ok:"Ton Haki tient son tuyau à distance. {B} bascule sur une prise en griffe, et elle passe à côté.",
        ko:"{B} charge son tuyau de Haki et frappe le premier. Ton bras cède avant le sien."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['arm'],m:['franc']},{b:['ruse','rois'],m:[]}],
  w:"Tu le tiens au sol un instant, et il te dit merci. Puis il se relève quand même. Ce que tu retiens, c'est le merci.",
  l:"Il te met dehors sans t'achever et referme derrière lui. Ce qu'il est venu chercher à Marie-Joie, il l'emporte.",
  m:"Le couloir a brûlé sur toute sa longueur. On a retrouvé ton insigne, et rien qui permette de le rendre à quelqu'un.",
@@ -3961,6 +4025,7 @@ var ADV = [
  re:{
   franc:{ok:"Tu passes par le feu avant d'entrer. Le poison recule sur ses bras, rien ne prend forme, et ton coup arrive sur un homme et pas sur une flaque.",
        ko:"Ton poing s'enfonce dans la couche de poison. {B} n'a rien fait pour parer, et ta peau commence à fondre pendant que la chose se dresse quand même."}},
+ pr:[{b:['ruse'],m:['tenir','equipage']},{b:['obs'],m:['tenir']},{b:['rois'],m:['franc']}],
  w:"Tu ne le touches jamais. Tu tiens simplement plus longtemps que son propre poison ne lui permet de tenir, et tu passes. Personne n'avait fait ça.",
  l:"Le poison te prend avant lui. On te remonte au niveau quatre pour vingt ans, et vingt ans ici valent une vie.",
  m:"Une seule inspiration de trop dans le mauvais couloir.",
@@ -3977,6 +4042,7 @@ var ADV = [
  re:{
   franc:{ok:"{B} charge et compte sur sa masse. Tu tiens le choc, il glisse, et lui qui n'abandonne jamais doit reculer d'un pas.",
        ko:"{B} te prend de plein fouet. Le coup qui suit déplace un pan de mur, et tu n'es pas plus lourd qu'un mur."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['obs'],m:['equipage']},{b:['arm'],m:['franc']}],
  w:"Tu le mets à terre à l'usure, parce qu'il ne sait pas s'arrêter. Un des trois Fléaux de l'Empereur ne se relève pas ce jour-là.",
  l:"Il ne comprend pas la défaite, il comprend seulement la fatigue. La tienne arrive en premier.",
  m:"Un mammouth lancé à pleine charge, et aucune raison de ralentir.",
@@ -3992,6 +4058,7 @@ var ADV = [
  re:{
   equipage:{ok:"{B} accroche ses fils sur ton second pour le retourner contre toi. Tes gens sont assez nombreux pour l'arracher aux fils avant qu'il frappe.",
        ko:"{B} sourit, tire deux doigts, et c'est ton propre équipage qui se retourne contre toi. Ça ne se discute pas."}},
+ pr:[{b:['obs'],m:['franc']},{b:['rois','tenir'],m:['spe']},{b:['arm','obs'],m:['equipage']}],
  w:"Tu coupes ce que personne n'arrive à couper et le pays se réveille d'un coup. Des milliers de jouets redeviennent des gens qui manquaient à quelqu'un.",
  l:"Il te tient par les bras et par les jambes, comme il tient tout le reste, et il t'explique en riant pourquoi ce monde ne changera pas.",
  m:"Un fil au bon endroit, à la bonne tension. Ça ne fait presque pas de bruit.",
@@ -4007,6 +4074,7 @@ var ADV = [
  re:{
   obs:{ok:"{B} voit ton coup arriver et ouvre un trou dans son corps pour le laisser passer. Ton second coup part d'un futur qu'il n'a pas vu, et il encaisse.",
        ko:"{B} a déjà vu les trois secondes qui viennent. Ce qui t'attend est là où tu vas poser le pied."}},
+ pr:[{b:['obs'],m:['ruse']},{b:['arm'],m:['tenir']},{b:['spe'],m:['franc']}],
  w:"Il faut lui montrer un avenir qu'il n'avait pas prévu. Quand son dos touche enfin le sol, il te demande de couvrir sa chute pour que ses hommes ne voient rien. Tu le fais.",
  l:"Tu tiens des heures contre quelqu'un qui sait tout à l'avance. Il te laisse vivre parce qu'il respecte ce que tu as tenu.",
  m:"Il voit trois secondes dans l'avenir. Tu n'as pas eu ces trois secondes.",
@@ -4023,6 +4091,7 @@ var ADV = [
   arm:{ok:"{B} charge sa jambe de Haki et frappe. Tu tiens le coup, et ses flammes bleues doivent réparer son propre bras.",
        ko:"Les deux talons en feu. Tu le transperces en retour et ça ne change rien, les flammes referment le trou.",
        sup:"Tu le touches proprement trois fois. Trois fois le trou se referme, et il attend que tu comprennes tout seul."}},
+ pr:[{b:['rois'],m:['franc','spe']},{b:['obs'],m:['franc']},{b:['rois','tenir'],m:[]}],
  w:"Tu l'épuises jusqu'à ce que les flammes ne remontent plus. Il s'assied, il souffle, et il te dit que le vieux aurait bien aimé te rencontrer.",
  l:"On ne gagne pas contre quelqu'un qui se répare plus vite qu'on ne l'abîme. Il te repose au sol presque doucement.",
  m:"Il n'a pas voulu ça. Ça arrive quand même, à cette hauteur-là.",
@@ -4050,6 +4119,7 @@ var ADV = [
  re:{
   equipage:{ok:"{B} gèle la mer d'un bloc. Ton équipage saute à temps, la glace se referme sur du vide.",
        ko:"La mer prend d'un bloc, tes hommes avec, et {B} marche dessus sans se presser."}},
+ pr:[{b:['obs'],m:['equipage']},{b:['arm'],m:['franc']},{b:['arm'],m:['tenir']}],
  w:"Il finit par s'asseoir dans la neige qu'il a faite. Il dit qu'il n'a pas changé de justice, seulement de pavillon, et que personne ne l'a cru non plus la première fois. Un ancien Amiral vient de perdre, et le monde le saura.",
  l:"Il gèle ce qu'il faut pour que tu ne puisses plus rien faire, et il te laisse sur la glace sans t'achever. Il n'avait pas envie.",
  m:"Le froid ne prévient pas et ne fait pas mal longtemps.",
@@ -4069,6 +4139,7 @@ var ADV = [
   arm:{ok:"Ton Haki de l'Armement accroche la lumière une fraction de seconde. C'est tout ce qu'il faut, et il le sait avant toi.",
        ko:"Ton coup traverse un homme fait de lumière et ressort de l'autre côté. Il n'a même pas changé de position.",
        sup:"Il lève la main et arrête ton coup enduit de Haki à mains nues, comme on rattrape une balle. Puis il s'excuse d'avoir été brusque."}},
+ pr:[{b:['obs'],m:['franc']},{b:['obs'],m:['tenir']},{b:['obs','arm'],m:['franc']}],
  w:"Tu le touches. Une seule fois, mais tu le touches, et un Amiral qui saigne sur Sabaody, ça se raconte sur les cinq mers pendant dix ans.",
  l:"Tu ne le vois jamais. Tu encaisses la lumière jusqu'à ce que quelqu'un te tire de là, et tu ne sauras jamais qui.",
  m:"À la vitesse de la lumière, il n'y a pas de dernier instant. Il y a juste avant, et plus rien.",
@@ -4091,6 +4162,7 @@ var ADV = [
  re:{
   franc:{ok:"{B} recule et arme son fusil. Tu couvres la distance avant qu'il ajuste, le coup part trop haut.",
        ko:"{B} n'a pas eu besoin de viser deux fois. Une balle, à la distance qu'il a choisie, et tu es cueilli en pleine course."}},
+ pr:[{b:['obs'],m:['franc']},{b:['ruse','tenir'],m:[]},{b:['obs'],m:['franc']}],
  w:"Tu arrives à trois mètres et il baisse son arme de lui-même. Il te dit que ça faisait longtemps, puis il te parle de son fils pendant une heure.",
  l:"Il t'immobilise sans te blesser, trois balles autour de toi, et il repart en te disant de t'entraîner à couvert.",
  m:"Tu n'as jamais su d'où venait le tir. Personne à bord n'a su non plus.",
@@ -4105,6 +4177,7 @@ var ADV = [
  re:{
   obs:{ok:"Tu cherches son regard pour lire son coup. L'onde part, tu détournes les yeux à temps, et la pierre ne prend pas.",
        ko:"Tu la regardes une seconde de trop. {B} sourit, et tu finis en statue."}},
+ pr:[{b:['obs'],m:['franc']},{b:['ruse'],m:['franc']},{b:['obs'],m:['tenir']}],
  w:"Tu la mets hors de combat sans la détruire, et la porte du laboratoire s'ouvre de l'intérieur. Vegapunk sort, regarde ton corps, et te dit qu'il peut faire beaucoup mieux que ça.",
  l:"Tu sors du hangar avec un bras que tu ne sens plus. La porte du laboratoire ne s'est jamais ouverte, et le siège continue sans toi.",
  m:"Il n'y a plus rien à rendre à ton {EQUIPAGE}. La pierre ne se recoud pas.",
@@ -4120,6 +4193,7 @@ var ADV = [
   spe:{ok:"Tu sors ton attaque en entier et il la reçoit sur le plat de sa lame. Il ne recule pas, mais il te regarde autrement.",
        ko:"Il ne dégaine pas la grande. Il te répond avec le petit couteau qu'il porte au cou, et ça suffit.",
        sup:"Il ne dégaine toujours pas. Il dévie ce que tu envoies d'un mouvement du poignet, comme on écarte une branche, et il attend la suite."}},
+ pr:[{b:['spe','rois'],m:['franc']},{b:['obs'],m:['tenir']},{b:['spe','obs'],m:['equipage']}],
  w:"Il baisse la lame et il te dit que le titre changera de main un jour, mais pas ce jour-ci. Venant de lui, c'est la plus haute chose qu'on puisse entendre.",
  l:"Il ne te tue pas. Il te montre exactement de combien tu es en dessous, ce qui est pire et beaucoup plus utile.",
  m:"Il n'aime pas ça. Il le fait proprement, et il repart sans se retourner.",
@@ -4134,6 +4208,7 @@ var ADV = [
  re:{
   obs:{ok:"{B} efface sa présence et ton avance disparaît. Tu te fies à tes yeux, pas à ton Haki, et tu esquives quand même.",
        ko:"Tu cherches la seconde d'avance et il n'y a plus rien à lire. Un seul coup, celui qu'il a appris en regardant Roger."}},
+ pr:[{b:['rois'],m:['equipage']},{b:['ruse'],m:['franc']},{b:['rois','spe'],m:[]}],
  w:"À la fin, il rit, il te tend la main droite, et il te dit que le monde va être beaucoup plus intéressant. Un Empereur vient de perdre et il a l'air content.",
  l:"Il te bat sans t'humilier, ce qui est sa manière à lui, puis il t'invite à boire. Tu bois, parce qu'on ne refuse pas.",
  m:"Il n'a pas voulu de ce combat. Il l'a fini quand même, et il ne s'en remettra pas complètement.",
@@ -4149,6 +4224,7 @@ var ADV = [
  re:{
   spe:{ok:"{B} attrape ton pouvoir pour l'éteindre. Tu te dégages avant que sa main se referme, et ton Fruit répond encore.",
        ko:"La main de {B} se pose et ton Fruit se tait. Puis l'air se fend, et tu n'as plus rien pour amortir."}},
+ pr:[{b:['franc'],m:['spe','eveil']},{b:['ruse'],m:['franc']},{b:['rois'],m:['equipage','tenir']}],
  w:"Tu le forces à lâcher prise. Il crache du sang, il rit quand même, et il te dit que ce n'était que le premier essai.",
  l:"Il te prend ce que tu as de plus précieux et il te laisse en vie exprès, pour que tu racontes.",
  m:"Il aspire, et il n'y a rien de l'autre côté.",
@@ -4164,6 +4240,7 @@ var ADV = [
  re:{
   rois:{ok:"{B} te réclame ta vie et tend la main. Tu ne cilles pas, et sa main revient vide.",
        ko:"Ta volonté flanche une seconde. Elle prend les années qu'elle veut."}},
+ pr:[{b:['rois','tenir'],m:[]},{b:['obs','equipage'],m:['franc']},{b:['arm'],m:['tenir']}],
  w:"Tu tiens jusqu'à ce que la crise la prenne, et tu ne recules pas quand elle passe. Un Empereur tombe au milieu de ses propres gâteaux.",
  l:"Elle te prend des années. Tu ne les sentiras pas tout de suite, et tu les sentiras toute ta vie.",
  m:"Elle a pris le reste. Il n'y avait pas beaucoup à prendre.",
@@ -4180,6 +4257,7 @@ var ADV = [
   arm:{ok:"Ton bras durci trouve la peau sous les écailles. C'est la marque que ton Haki vaut celui d'Oden.",
        ko:"Ton Haki glisse sur les écailles sans les marquer. La massue tombe, et un ou deux coups suffisent.",
        sup:"Il te laisse frapper le premier, par politesse. Ton meilleur coup ne laisse rien, et il te demande si tu as autre chose."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['arm'],m:['franc']},{b:['arm','rois'],m:['franc']}],
  w:"Tu le mets à terre sur le toit d'Onigashima, devant tous ses hommes. Il tombe en riant et Wano se met à hurler d'un seul bloc.",
  l:"Il t'envoie à travers deux étages et il retourne boire. Tu es en vie parce que ça l'ennuyait de descendre.",
  m:"La créature la plus puissante du monde n'a pas eu besoin de se transformer.",
@@ -4194,6 +4272,7 @@ var ADV = [
  re:{
   spe:{ok:"{B} arrive à mains nues et t'accueille du poing. Tu encaisses sur la garde et tu tiens debout, ce que peu de gens font.",
        ko:"{B} n'a pas besoin d'arme. Un seul poing, et ta voie ne compte plus."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['arm'],m:['franc']},{b:['rois','spe'],m:[]}],
  w:"Tu tiens debout devant le Poing de la Marine. Il éclate de rire, il te dit que le monde change, et il ne fait pas de rapport.",
  l:"Il te met à terre d'un seul coup et il te laisse là, parce qu'il n'a jamais aimé arrêter les jeunes.",
  m:"Il n'a pas voulu frapper si fort. Il a passé les soixante-dix ans et il ne sait toujours pas se retenir.",
@@ -4209,6 +4288,7 @@ var ADV = [
  re:{
   equipage:{ok:"{B} place ses hommes pour couper les tiens, puis lâche une onde dans la brèche. Ton équipage tient la ligne et l'onde se perd.",
        ko:"Le dispositif se referme sur ta bande. Le Bouddha d'or lève la paume et balaie tout le monde d'un coup."}},
+ pr:[{b:['equipage'],m:['ruse']},{b:['obs'],m:['equipage']},{b:['rois','tenir'],m:[]}],
  w:"Tu bats l'homme qui commande toutes les mers. Le Gouvernement mettra une semaine à admettre que c'est arrivé.",
  l:"Il ne t'a jamais laissé une seule ouverture. Tu te réveilles enchaîné, et enchaîné par Sengoku, on le reste.",
  m:"Vingt mètres de bouddha d'or, et un homme qui avait tout calculé.",
@@ -4224,6 +4304,7 @@ var ADV = [
  re:{
   franc:{ok:"{B} envoie un poing de magma de face. Tu casses l'angle, et le sol derrière toi devient du verre.",
        ko:"Le magma te traverse. Ça ne se bloque pas, ça brûle en passant, exactement comme pour Ace."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['arm'],m:['franc']},{b:['rois'],m:['equipage']}],
  w:"Tu mets à terre l'homme le plus dur de la Marine. Il te dit en tombant que quelqu'un d'autre viendra, et il a raison.",
  l:"Il te laisse la marque sur le torse pour le restant de tes jours. C'est délibéré, c'est une signature.",
  m:"Il ne s'arrête jamais avant que ce soit fini. Jamais.",
@@ -4240,6 +4321,7 @@ var ADV = [
  re:{
   franc:{ok:"{B} fend l'air d'un poing. L'onde passe à côté et découpe la mer derrière toi.",
        ko:"{B} craque l'air d'un poing. Il n'y a rien à parer, l'onde traverse ce que tu mets devant."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['arm'],m:['equipage','tenir']},{b:['franc','spe'],m:['rois']}],
  w:"Tu bats l'homme le plus fort du monde. Il rit en tombant, il dit que c'est bien, et rien dans ta vie ne sera plus jamais aussi grand que cet instant.",
  l:"Il ne t'achève pas. Il te dit de revenir quand tu auras compris ce que tu cherches vraiment.",
  m:"Il a cassé l'air autour de toi. Il n'a pas fallu davantage.",
@@ -4264,6 +4346,7 @@ var ADV = [
  re:{
   franc:{ok:"{B} disparaît au moment de l'impact et se repose vingt mètres plus loin. Il réapparaît trop près, et ton second coup le trouve.",
        ko:"Ton poing traverse le vide. {B} est déjà derrière toi, le canon braqué sur ta nuque."}},
+ pr:[{b:['obs'],m:['franc']},{b:['obs'],m:['tenir']},{b:['ruse'],m:['equipage']}],
  w:"Tu finis par lire le rythme entre deux sauts et tu es sur lui à la troisième détonation. Il repart sans son fusil, ce qui ne lui était jamais arrivé.",
  l:"Tu n'as jamais vu le tireur. Tu as vu les impacts se rapprocher, puis plus rien pendant longtemps.",
  m:"Une balle unique, à une distance que personne ne croira dans le rapport.",
@@ -4282,6 +4365,7 @@ var ADV = [
   spe:{ok:"{B} monte les trois lames durcies d'un coup. La tienne passe dans l'intervalle et il doit rompre.",
        ko:"{B} plante son troisième sabre entre ses dents et charge. Trois traits, un seul passage, ta garde est ouverte.",
        sup:"Il ne dégaine que deux lames et ça suffit. Il te dit que la troisième, il la garde pour quelqu'un d'autre."}},
+ pr:[{b:['arm','obs'],m:['franc']},{b:['spe'],m:['ruse']},{b:['arm'],m:['tenir','franc']}],
  w:"Tu tiens jusqu'à ce que sa garde s'ouvre, une fois, et une fois suffit. Il rengaine et il te dit d'aller au bout de ce que tu fais.",
  l:"Il te bat en te laissant debout, ce qui est sa façon de dire que ça valait le coup. Puis il repart dans la mauvaise direction.",
  m:"Une seule lame, et elle n'était pas noire. Il n'y avait pas besoin.",
@@ -4299,6 +4383,7 @@ var ADV = [
   ruse:{ok:"Une sphère s'ouvre autour de vous et {B} tente de te déplacer d'un geste. Ton Haki est trop lourd, tu ne bouges pas d'un pouce.",
        ko:"La sphère s'ouvre sans bruit. Un mot, et ton cœur bat dans un cube, au creux de sa main.",
        sup:"La sphère est déjà là avant que tu aies décidé quoi que ce soit. Il te rend ton cœur à la fin, et c'est bien pire que de te le prendre."}},
+ pr:[{b:['obs'],m:['franc']},{b:['obs'],m:['franc']},{b:['rois','tenir'],m:[]}],
  w:"Tu le frappes hors de sa sphère avant qu'il ne la referme. Il tousse, il rit une seconde, et il te dit que c'était bien joué.",
  l:"Tu te réveilles trois jours plus tard, recousu proprement, avec tout à sa place. C'est plus humiliant qu'une blessure.",
  m:"Il n'a pas eu besoin de te toucher. Le rapport d'autopsie ne trouvera aucune plaie.",
@@ -4314,6 +4399,7 @@ var ADV = [
  re:{
   obs:{ok:"Tu ne le vois pas, mais tu sens la lame. Tu déplaces la garde et le tranchant rate ta gorge de deux doigts.",
        ko:"Rien à voir, rien à entendre. {B} sort du vide, et la lame est déjà dans ton flanc."}},
+ pr:[{b:['obs'],m:['franc']},{b:['obs'],m:['ruse']},{b:['franc','spe'],m:[]}],
  w:"Tu frappes le vide au bon endroit, par élimination, et il apparaît en tombant. Il n'a pas l'air de comprendre ce qui s'est passé.",
  l:"On ne pare pas ce qu'on ne voit pas. Il te laisse vivant parce que ça l'amuse plus.",
  m:"Tu n'as jamais vu l'homme qui t'a tué. Personne à bord ne l'a vu non plus.",
@@ -4329,6 +4415,7 @@ var ADV = [
   arm:{ok:"{B} durcit sa lame et bloque. Ton Haki passe quand même, et les flammes de son dos vacillent.",
        ko:"Les crans de son sabre happent ton arme et l'arrachent. Ce qui sort de la pointe ensuite est un dragon de feu.",
        sup:"Tu frappes bien, au bon endroit, et rien ne marque. Sa peau n'est pas de ce monde, et il ne s'est même pas retourné."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['arm','obs'],m:['franc']},{b:['ruse'],m:['equipage','tenir']}],
  w:"Tu le fais tomber en visant ce que le masque ne protège pas. Il se relève une fois, puis il ne se relève plus. Onigashima entière l'a vu.",
  l:"Il te lâche de trente mètres au-dessus du pont et repart sans regarder si tu t'écrases.",
  m:"Il n'y avait rien à faire contre cette peau-là, et tu l'as compris trop tard.",
@@ -4343,6 +4430,7 @@ var ADV = [
  re:{
   equipage:{ok:"{B} lève son fusil et tes gens s'interposent. Le canon hésite une seconde, et cette seconde est à toi.",
        ko:"{B} n'a même pas tiré. Le canon sur la tempe, et derrière lui l'équipage du Roux au complet. Tu ranges tes hommes."}},
+ pr:[{b:['obs'],m:['ruse']},{b:['obs'],m:['tenir']},{b:['rois'],m:['equipage']}],
  w:"Tu le prends de vitesse sur le seul temps où il ne t'avait pas prévu. Il siffle, content, et il va chercher son capitaine.",
  l:"Il n'a pas tiré une balle. Il a juste occupé chaque endroit où tu allais, avant toi.",
  m:"Une seule balle, tirée sans viser, dans un couloir qu'il connaissait mieux que toi.",
@@ -4358,6 +4446,7 @@ var ADV = [
  re:{
   ruse:{ok:"{B} entend ton intention avant ton geste et abaisse sa lame pour t'écraser au sol. Tu en avais préparé deux, il suit la mauvaise.",
        ko:"{B} sourit sous son bandeau. Il a lu la vraie, la gravité te colle au sol, et il n'a pas eu à dégainer."}},
+ pr:[{b:['tenir'],m:['franc']},{b:['obs'],m:['tenir']},{b:['obs'],m:['franc']}],
  w:"Tu passes sous la gravité au lieu de lutter contre elle. Il rengaine, il s'incline légèrement, et il te dit qu'il aurait préféré une autre issue.",
  l:"Tu finis à plat ventre sous ton propre poids, sans pouvoir lever la tête. Il s'en va en tapant le sol devant lui.",
  m:"Le ciel lui a obéi une fois de trop. Il fait le tour du cratère et il prie, ce qui ne change rien.",
@@ -4372,6 +4461,7 @@ var ADV = [
  re:{
   equipage:{ok:"La forêt sort du sol sous tes hommes. Vous êtes assez rapides, les branches se referment sur rien.",
        ko:"Les branches traversent ton équipage et boivent. Tes gens tombent secs, et {B} rit encore."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['franc','ruse'],m:[]},{b:['arm'],m:['equipage','franc']}],
  w:"Tu brûles ce qui pousse plus vite qu'il ne le fait pousser. Il redevient un homme maigre allongé par terre, et il demande à manger.",
  l:"Les racines te trouvent, et ce qu'elles prennent ne revient pas tout de suite. Tu mets des mois à remonter.",
  m:"Il t'a vidé sans se lever, et il a continué sa route en flottant.",
@@ -4386,6 +4476,7 @@ var ADV = [
  re:{
   spe:{ok:"{B} arrive portée par une flèche en plein vol, l'estoc en avant. Ta lame dévie la sienne au dernier instant.",
        ko:"{B} monte sur une flèche et fond sur toi. Un seul point touché, et c'est fini."}},
+ pr:[{b:['obs'],m:['franc']},{b:['arm','ruse'],m:['franc']},{b:['obs'],m:['tenir']}],
  w:"Tu casses la formation en visant ce qui la porte au lieu de ce qui vole. Elle remonte, se retire, et ne donne aucune explication à Marie-Joie.",
  l:"Tu passes deux traits, pas les six. On te ramasse à quarante mètres de là où tu étais.",
  m:"Une flèche est arrivée d'un angle qui n'existait pas. Il n'y a rien d'autre à écrire.",
@@ -4400,6 +4491,7 @@ var ADV = [
  re:{
   obs:{ok:"{B} voit venir ton coup et déplace sa hache. Tu as changé d'avis en cours de route, et le futur qu'il avait vu n'arrive pas.",
        ko:"{B} a vu la scène avant toi. La hache tombe pile où tu vas être."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['arm'],m:['franc']},{b:['rois','ruse'],m:[]}],
  w:"Tu le tiens jusqu'à ce qu'il baisse les haches de lui-même. Il rit, il dit que ça faisait longtemps, et il te parle de Roger pendant toute la nuit.",
  l:"Un vieil homme de l'équipage de Roger reste un homme de l'équipage de Roger. Il te laisse ta vie et ton navire.",
  m:"Il n'a pas voulu ça et il te le dit pendant que tu tombes. Ça ne t'aide pas beaucoup.",
@@ -4414,6 +4506,7 @@ var ADV = [
  re:{
   rois:{ok:"{B} charge son marteau d'un Haki qui grésille en éclairs noirs. Ta volonté tient une seconde, le marteau passe à côté, et la foudre tombe à vide.",
        ko:"{B} abat son marteau, chargé du Haki des Rois. Le ciel suit, et rien de ce qui est touché ne se répare."}},
+ pr:[{b:['obs'],m:['tenir']},{b:['ruse'],m:['franc']},{b:['rois','spe'],m:[]}],
  w:"Tu le mets à terre sans qu'il ait pu se relever une seule fois. Elbaf ne te remercie pas et Elbaf n'oublie pas.",
  l:"Un géant enchaîné reste un géant. Tu sors du trou en rampant, avec deux côtes en moins.",
  m:"Il n'était même pas debout. Personne au village ne descendra chercher ce qu'il en reste.",
@@ -4428,6 +4521,7 @@ var ADV = [
  re:{
   spe:{ok:"Son sabre devient un chien à trois têtes. Tu tiens les trois gueules à distance et il doit le rappeler.",
        ko:"Ta lame croise la sienne et la chose se réveille. Trois gueules, trois lames, et une seule garde chez toi."}},
+ pr:[{b:['obs'],m:['franc']},{b:['obs'],m:['ruse']},{b:['rois','spe'],m:[]}],
  w:"Tu le mets à genoux devant sa propre escorte. Marie-Joie ne publiera jamais ça, et c'est précisément pour cette raison qu'on te cherchera.",
  l:"Tu perds contre un homme qui a le visage d'un Empereur et les moyens du Gouvernement. Il te laisse repartir avec ça dans la tête.",
  m:"Un Chevalier Divin qui dégaine pour de bon ne laisse pas de récit derrière lui.",
@@ -4455,6 +4549,7 @@ var ADV = [
  re:{
   arm:{ok:"{B} voit ton Haki monter sur ton arme et durcit la sienne en réponse. Elle tient deux échanges, puis sa garde cède, parce que son Haki n'est pas encore au niveau du tien.",
        ko:"{B} fait passer le Haki dans sa lame et coupe à travers ta défense. Tu comprends trop tard que la capitaine qui trébuche sur ses lunettes sait durcir son acier."}},
+ pr:[{b:['ruse'],m:['spe']},{b:['obs'],m:['ruse']},{b:['rois','tenir'],m:['franc']}],
  w:"Elle ramasse ses lunettes, te regarde longtemps, et note quelque chose dans un carnet qu'elle ne montre à personne. Tu n'as pas gagné contre une débutante.",
  l:"Elle te désarme proprement, sans t'ouvrir une seule fois. Ta lame part au dépôt de Marineford avec une fiche remplie à la main.",
  m:"Tu as sous-estimé la fille aux lunettes. Beaucoup l'ont fait. Une partie n'a pas eu le temps de le regretter longtemps.",
@@ -4474,6 +4569,7 @@ var ADV = [
  re:{
   obs:{ok:"Vous vous lisez tous les deux en même temps et {B} te trouve d'abord. Mais son poing part sur ton ombre, parce que tu as changé d'intention en cours de route.",
        ko:"{B} entend ta décision avant que ton corps bouge. Il se déplace trop vite pour l'œil, et son poing arrive là où tu allais te mettre."}},
+ pr:[{b:['obs'],m:['ruse']},{b:['spe'],m:['equipage']},{b:['rois','tenir'],m:[]}],
  w:"Il reste à genoux et te remercie de ne pas avoir touché ses hommes. Tu ne sais pas quoi faire de ça, et ça te suit longtemps.",
  l:"Il te met à terre sans te casser un seul os, ce qui demande plus de maîtrise que l'inverse. Tu te réveilles soigné, dans un lit, la porte ouverte.",
  m:"Il n'a pas voulu. Il est resté près de toi jusqu'au bout et il a écrit ton nom dans un carnet qu'il garde depuis ses débuts.",
@@ -4492,6 +4588,7 @@ var ADV = [
        sup:"Il ne se laisse pas toucher deux fois. La fumée se durcit là où tu frappes, exactement là, et ton poing s'arrête dans quelque chose de mou qui ne cède plus."},
   spe:{ok:"Il avance la pointe de son arme pour éteindre ce que tu prépares. Tu passes à côté et tu sors ton coup de l'autre main.",
        ko:"La pointe de son arme te touche avant que tu finisses. Ce n'est pas du métal ordinaire, et tout ce que tu avais s'éteint comme une lampe."}},
+ pr:[{b:['arm'],m:['franc']},{b:['obs'],m:['tenir']},{b:['franc'],m:['spe','eveil']}],
  w:"Tu le mets à terre sur son propre quai, devant ses hommes. Il se relève en toussant, allume un cigare, et ne te poursuit pas. Il n'oubliera pas.",
  l:"On ne frappe pas de la fumée. Il te laisse partir parce qu'il a vu que tu l'avais compris.",
  m:"Le Granit Marin t'a vidé, et le reste n'a pas pris longtemps. Il a écrit le rapport lui-même.",
@@ -4507,6 +4604,7 @@ var ADV = [
  re:{
   equipage:{ok:"{B} étend déjà sa corde à linge pour tes hommes. Tu les disperses avant l'essorage, et elle se retrouve avec du fil vide.",
        ko:"{B} ramasse ton équipage d'un geste, le lave, et le met à sécher. Tes gars pendent au fil, plats, et ils ne se battront plus aujourd'hui."}},
+ pr:[{b:['franc'],m:['ruse']},{b:['obs'],m:['equipage']},{b:['equipage','rois'],m:['ruse']}],
  w:"Tu la bats en faisant exactement ce qu'elle n'aurait jamais prévu, parce que toi non plus tu ne l'avais pas prévu. Elle finit son thé et te dit que c'était bien joué.",
  l:"Tu n'as pas perdu contre une vieille femme, tu as perdu contre trois coups d'avance. Elle te fait raccompagner poliment.",
  m:"Elle avait placé tout le monde avant que tu arrives. Il n'y a jamais eu de combat, seulement une fin annoncée.",
@@ -4522,6 +4620,7 @@ var ADV = [
  re:{
   spe:{ok:"{B} tend la main pour arracher ton arme. Tu tiens bon, elle ne fait que vibrer.",
        ko:"Ton arme part toute seule vers lui et rejoint le tas de ferraille. Le poing qui suit contient ta propre lame."}},
+ pr:[{b:['franc','arm'],m:['spe']},{b:['obs'],m:['tenir']},{b:['ruse'],m:['franc']}],
  w:"Tu le mets à terre en le privant de tout métal à portée. Il rit dans la poussière et te dit qu'on se reverra, ce qui chez lui est un compliment.",
  l:"Vingt mètres de ferraille aimantée ne se parent pas. On te ramasse sous ce qu'il en reste.",
  m:"Il a refermé le poing. Ce qui était dedans n'est pas ressorti.",
@@ -4536,6 +4635,7 @@ var ADV = [
  re:{
   franc:{ok:"Tu frappes de face et des épines invisibles te déchirent la main. Tu passes quand même, et son bras part.",
        ko:"Ton poing entre dans les ronces. {B} referme, et ça serre jusqu'à l'os."}},
+ pr:[{b:['obs'],m:['ruse']},{b:['ruse'],m:['franc']},{b:['rois','tenir'],m:[]}],
  w:"Tu tiens jusqu'à ce qu'il remonte en selle. Marie-Joie ne publie rien, et c'est cette absence de communiqué qui te suit ensuite.",
  l:"Il n'a presque pas dégainé. Ce sont les ronces qui ont fait le travail, et tu sais maintenant à qui tu tiens.",
  m:"Un Chevalier Divin qui dégaine pour de bon ne laisse pas de récit derrière lui.",
@@ -4552,6 +4652,7 @@ var ADV = [
  re:{
   franc:{ok:"{B} tend le sol comme une bâche pour te renvoyer ton coup. Tu frappes à côté de la zone qu'il a rendue élastique, et ça passe.",
        ko:"Ton attaque rebondit sur le décor devenu élastique et te revient dessus. Puis arrive un poing plus gros que toi."}},
+ pr:[{b:['obs'],m:['franc']},{b:['ruse'],m:['franc']},{b:['arm','obs'],m:['franc']}],
  w:"Tu bats l'homme que le monde vient de sacrer, et le monde met longtemps à l'écrire. Lui se relève en riant et te dit que c'était un bon combat.",
  l:"Tu perds contre quelqu'un qui n'avait pas l'air de se battre sérieusement. C'est ce détail-là qui reste.",
  m:"Il n'a pas voulu ça, il le dira longtemps. Ça ne change rien pour toi.",
@@ -4566,6 +4667,7 @@ var ADV = [
  re:{
   equipage:{ok:"{B} ne bouge pas. Ce sont ses commandants qui avancent, et ton équipage tient la ligne assez longtemps pour que tu passes.",
        ko:"L'Armée Révolutionnaire se referme sur ta bande sans que {B} ait levé la main. Il te regarde, et c'est tout ce qu'on saura de lui."}},
+ pr:[{b:['obs'],m:['equipage']},{b:['rois'],m:['equipage']},{b:['rois','ruse'],m:[]}],
  w:"Tu tiens debout devant lui. Aucun rapport ne le mentionnera jamais, et pourtant tout Marie-Joie le saura.",
  l:"Tu n'as pas vu ce qui t'a mis à terre. Le vent est retombé, et il n'était plus là.",
  m:"Il n'y aura pas de rapport. Le Gouvernement ne reconnaît pas les combats qu'il ne comprend pas.",
@@ -4585,6 +4687,7 @@ var ADV = [
  re:{
   rois:{ok:"Les cinq ouvrent des cercles d'abysse autour de vous. Ta volonté claque, les cercles se referment, et ils repartent d'où ils venaient.",
        ko:"Ils sont cinq, en formes de bête éveillées, et ils ne se fatiguent pas. Ce que tu ouvres se referme aussitôt."}},
+ pr:[{b:['rois'],m:['franc','spe']},{b:['rois','tenir'],m:[]},{b:['equipage','obs'],m:['franc']}],
  w:"Tu tiens contre ce que personne n'était censé voir, et tu repars. Le monde ne l'apprendra pas, mais eux savent, et c'est déjà énorme.",
  l:"On ne bat pas huit cents ans d'organisation à cinq contre un. Ils te laissent en vie, ce qui est une décision, pas une négligence.",
  m:"Ton nom est retiré des registres avant même que ton corps refroidisse. Il n'y aura pas eu de combat.",
@@ -4815,13 +4918,49 @@ function cbForce(m){
      change, mais un adversaire plus haut redevient plus haut. */
   return f - 8;
 }
-function cbProba(m, adv, r){
+/* ---------------- LIRE CE QU'IL PREPARE, CHANTIER B -----------------------
+   Enrick, 25 aout : « il faut toujours que tu puisses rater des choses qui
+   etaient bonnes a la base ». La contrainte est forte et elle commande tout :
+   UNE BONNE REPONSE AUGMENTE LES CHANCES, ELLE NE GARANTIT RIEN. Si la bonne
+   reponse est identifiable et sure, plus personne ne se trompe et le combat
+   meurt.
+
+   L'ANNONCE EXISTAIT DEJA ET NE SERVAIT A RIEN. `a.s[manche]` est affiche dans
+   cb_text AVANT que les manoeuvres soient proposees : « le magma monte le long
+   de son bras », « il attrape un de tes hommes et le repose vide ». Trois
+   phrases par adversaire, 288 en tout, purement decoratives depuis le debut du
+   jeu. Le chantier B ne les remplace pas, il leur donne un sens.
+
+   `pr` aligne une entree sur chaque phrase de `s` : {b:[...], m:[...]}.
+   b, les manoeuvres que la scene favorise. m, celles qu'elle punit.
+   Le reste ne bouge pas.
+
+   Le dosage vient de cbProba, dont la base est 0,63 a niveau egal : +10 points
+   fait passer une manche de 63 a 73 %, donc la meilleure lecture perd encore
+   plus d'une fois sur quatre. A quinze niveaux d'ecart la probabilite est
+   planchee a 0,10 et lire juste ne sauve toujours pas. C'est voulu.
+   L'etiquette reste relative a l'adversaire, jamais absolue. */
+var LECTURE_BON = 0.10, LECTURE_MAL = 0.08;
+function lecture(m, adv, r){
+  if(!adv || !adv.pr || !adv.s || !adv.s.length) return 0;
+  /* meme index que la phrase affichee : cbManche lit a.s[(r-1) % a.s.length] */
+  var p = adv.pr[(r-1) % adv.s.length];
+  if(!p) return 0;
+  if(p.b && p.b.indexOf(m.id) >= 0) return  LECTURE_BON;
+  if(p.m && p.m.indexOf(m.id) >= 0) return -LECTURE_MAL;
+  return 0;
+}
+/* `brut` rend la probabilite SANS le bonus de lecture. Voir plus bas : c'est
+   ce qui empeche l'etiquette de vendre la meche. */
+function cbProba(m, adv, r, brut){
   /* LA PENTE, PAS LA COMPOSITION. Ancrer cbForce sur le niveau n'avait
      presque rien change : pour un personnage equilibre, l'ancienne formule
      valait deja a peu pres le niveau. Ce qui rendait un adversaire de dix
      niveaux au-dessus battable une fois sur trois, c'est que chaque niveau
      d'ecart ne coutait que trois points de pourcentage. Il en coute cinq. */
   var p = 0.63 + (cbForce(m) - adv.niv)*0.038 - (r-1)*0.03;
+  /* CE QU'IL VIENT D'ANNONCER PESE SUR TON CHOIX, sans jamais le decider. */
+  if(!brut) p += lecture(m, adv, r);
   if(S.pot) p += (S.pot.g==='S'?0.06 : S.pot.g==='A'?0.03 : S.pot.g==='D'?-0.04 : 0);
   /* on ne touche pas de la fumee avec un poing nu */
   if(joueurIntouchable(adv)) p = Math.max(p, 0.88);
@@ -5188,7 +5327,11 @@ function cbManche(){
      de titre en compte cinq : aux manches quatre et cinq, a.s[3] et a.s[4]
      n'existent pas et le joueur lisait « undefined » en pleine finale. La
      sonde l'a vu tout de suite. On boucle sur les trois lignes existantes. */
-  $('cb_text').innerHTML = cbBar() + etat + '<p>' + tpl(a.s[(r-1) % a.s.length]) + '</p>';
+  /* LA PHRASE DEVIENT UNE ANNONCE, donc elle se detache. Elle dit ce qu'il
+     prepare, elle ne dit jamais quoi jouer : « le magma monte le long de son
+     bras » et non « attention, une attaque de feu arrive ». */
+  $('cb_text').innerHTML = cbBar() + etat +
+    '<p class="cbann' + (a.pr ? ' lit' : '') + '">' + tpl(a.s[(r-1) % a.s.length]) + '</p>';
   var imm = immunite(a);
   if(imm) $('cb_text').innerHTML += '<div class="res bad"><b>Ce corps-là ne se frappe pas.</b><br>'+esc(imm.r)+'</div>';
   /* On ne propose pas de reveiller son Fruit ni d'ecraser au Fluide des Rois
@@ -5231,15 +5374,77 @@ function cbManche(){
   /* Quatre lignes maximum, jamais cinq. Et l'etiquette est RELATIVE : une
      seule manoeuvre peut etre ton meilleur angle, sinon le mot ne veut rien
      dire et le joueur lit cinq fois la meme chose. */
-  for(i=0;i<poss.length;i++) poss[i]._p = cbProba(poss[i], a, r);
-  poss.sort(function(x,y){ return y._p - x._p; });
+  /* DEUX PROBABILITES, ET C'EST TOUT L'ENJEU DU CHANTIER B.
+     Enrick, 26 aout : « il faut que les quatre reponses soient dans un ordre
+     aleatoire, toujours, pour bien melanger le cerveau de l'utilisateur ».
+     L'ordre l'etait deja, un melange de Fisher-Yates plus bas. Le vrai
+     revelateur etait ailleurs : L'ETIQUETTE. « Ton meilleur angle » designe la
+     meilleure manoeuvre ou qu'elle se trouve, donc melanger les boutons ne
+     cache rien du tout.
+     Si cette etiquette integrait le bonus de lecture, elle dirait litteralement
+     quoi jouer, et personne ne lirait plus l'annonce. C'est mot pour mot le
+     defaut du Trone Vide, ou le pourcentage affiche a cote de la phrase avait
+     fait que plus personne ne lisait la phrase.
+       _e  probabilite BRUTE, sans la lecture : sert au tri, au choix des
+           manoeuvres proposees et a l'etiquette. C'est ce que vaut la manoeuvre
+           en soi, ce que le joueur a le droit de savoir.
+     La probabilite REELLE, avec la lecture, n'est calculee qu'au moment de
+     resoudre, dans cbResoudre. On ne la stocke pas : un champ ecrit et jamais
+     relu est le piege que ce dossier signale quatre fois.
+     Lire la scene reste donc ton travail, et il rapporte. */
+  for(i=0;i<poss.length;i++) poss[i]._e = cbProba(poss[i], a, r, true);
+  poss.sort(function(x,y){ return y._e - x._e; });
   /* On gardait le meilleur angle puis TROIS AU HASARD dans tout le reste.
      Mesure : une manche sur cinq n'offrait qu'un seul angle correct sur
      quatre, les trois autres etant "Risque" ou "Presque desespere". Un choix
      force n'est pas un choix. On garde les DEUX meilleurs et on tire les deux
      derniers dans le reste : la variete tient, l'impasse disparait. */
-  var ms = poss.slice(0, Math.min(2, poss.length)), reste = poss.slice(2);
-  while(ms.length < 4 && reste.length) ms.push(reste.splice(ri(reste.length),1)[0]);
+  /* ============ LA COMPOSITION DES QUATRE REPONSES ======================
+     Enrick, 26 aout : « je propose toujours 4 reponses, 2 bonnes 1 neutre
+     1 mauvaise, ou 2 bonnes 2 mauvaises, et dans un cas extreme contre
+     quelqu'un de tres fort ca peut etre 1 bonne 1 neutre 2 mauvaises. Il faut
+     vraiment varier, pas etre clement. »
+
+     POURQUOI C'ETAIT NECESSAIRE, mesure a l'appui. On gardait les deux
+     meilleures brutes puis on tirait le reste au hasard, sans jamais regarder
+     ce que la scene favorisait. Resultat sur 250 carrieres : jouer la bonne
+     reponse rapportait 56 % contre 53 % pour une mauvaise, soit trois points
+     au lieu des dix-huit attendus. Le bonus de lecture etait bien applique,
+     mais la bonne reponse n'etait tout simplement PAS PROPOSEE la plupart du
+     temps. Un mecanisme correct qui ne rencontre jamais le joueur.
+
+     La severite suit l'ecart de force, elle n'est pas fixe : plus il te
+     domine, moins il t'offre de portes. */
+  var pScene = (a.pr && a.s && a.s.length) ? a.pr[(r-1) % a.s.length] : null;
+  var ms = [];
+  if(pScene && poss.length){
+    var parCat = {b:[], n:[], m:[]}, kk;
+    for(i=0;i<poss.length;i++){
+      kk = (pScene.b||[]).indexOf(poss[i].id) >= 0 ? 'b'
+         : (pScene.m||[]).indexOf(poss[i].id) >= 0 ? 'm' : 'n';
+      parCat[kk].push(poss[i]);
+    }
+    var ecart = a.niv - cbForce(poss[0]);
+    var cible = ecart > 9 ? {b:1, n:1, m:2}          /* il te domine */
+              : ecart > 0 ? (ri(2) ? {b:2, n:0, m:2} /* il est au-dessus */
+                                   : {b:2, n:1, m:1})
+              :             {b:2, n:1, m:1};         /* tu tiens la scene */
+    var prend = function(k, n2){
+      var L = parCat[k];
+      for(var z=0; z<n2 && L.length; z++) ms.push(L.splice(ri(L.length),1)[0]);
+    };
+    prend('b', cible.b); prend('m', cible.m); prend('n', cible.n);
+    /* on complete avec ce qui reste, quelle que soit la categorie : une scene
+       peut n'avoir aucune mauvaise reponse disponible ce tour-la. */
+    var rab2 = parCat.b.concat(parCat.n, parCat.m);
+    while(ms.length < 4 && rab2.length) ms.push(rab2.splice(ri(rab2.length),1)[0]);
+  } else {
+    /* repli : aucune scene tagguee, on garde l'ancien comportement */
+    var reste = poss.slice(2);
+    ms = poss.slice(0, Math.min(2, poss.length));
+    while(ms.length < 4 && reste.length) ms.push(reste.splice(ri(reste.length),1)[0]);
+  }
+  ms = ms.slice(0, 4);
   /* LE FLUIDE DES ROIS NE PASSE PAS PAR LE TIRAGE AU SORT.
      Mesure du 24 aout, 250 carrieres : 51 % de ceux qui l'ont ne se le voient
      JAMAIS proposer de toute leur carriere, et il n'apparaissait que dans 24 %
@@ -5255,10 +5460,11 @@ function cbManche(){
   if(iRois >= 0 && !dansMs && ms.length) ms[ms.length-1] = poss[iRois];
   for(i=ms.length-1;i>0;i--){ var j2=ri(i+1), tmp=ms[i]; ms[i]=ms[j2]; ms[j2]=tmp; }
 
+  /* l'etiquette se lit sur la probabilite BRUTE, jamais sur la reelle */
   var best = ms[0];
-  for(i=1;i<ms.length;i++) if(ms[i]._p > best._p) best = ms[i];
+  for(i=1;i<ms.length;i++) if(ms[i]._e > best._e) best = ms[i];
   for(i=0;i<ms.length;i++){
-    var pr = ms[i]._p;
+    var pr = ms[i]._e;
     var lab = (ms[i] === best) ? 'Ton meilleur angle'
             : pr >= 0.50 ? 'Jouable'
             : pr >= 0.30 ? 'Risqué' : 'Presque désespéré';
