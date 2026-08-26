@@ -1186,23 +1186,28 @@ h1,h2,h3{text-wrap:balance}
 
 
 /* ============ LES TROIS BARRES DEPLIANTES ===============================
-   Enrick, 26 aout : « quand je disais statistiques en vert, c'etait le menu
-   depliant, pas que quand tu deplies ca prend la couleur verte de tout.
-   Remets les couleurs d'avant, c'est les barres qui doivent avoir des
-   couleurs. » Le fond teinte s'etendait a tout le contenu et ecrasait les
-   couleurs propres des blocs ranges dedans. Seule la BARRE porte la teinte,
-   le contenu reprend le panneau normal. */
-.mg.stt>summary,.mg.mnd>summary,.mg.atr>summary{
-  border-radius:9px;padding:7px 11px;border-left:3px solid currentColor}
-.mg.stt>summary{background:#eef9f3;color:#0f6b43}
-.mg.mnd>summary{background:#f5f1fb;color:#5b3f7d}
-.mg.atr>summary{background:#fdf6e9;color:#8a6208}
-.mg.stt>summary:after{border-color:#3f9c72}
-.mg.mnd>summary:after{border-color:#8a6fb0}
-.mg.atr>summary:after{border-color:#b9902f}
-.mg.stt,.mg.mnd,.mg.atr{margin-bottom:14px}
-.mg.stt[open]>summary,.mg.mnd[open]>summary,.mg.atr[open]>summary{margin-bottom:12px}
-/* les blocs ranges dans une barre gardent leur propre separation */
+   Enrick, 26 aout, en trois passes. D'abord « en vert », puis « c'est les
+   barres qui doivent avoir des couleurs, pas tout le contenu », enfin « fais
+   bien attention au contour, faut que ce soit net comme ca l'etait avant ».
+   Les deux premieres versions posaient un fond teinte, qui entrait en choc
+   avec les couleurs des blocs ranges dedans et cassait le trace du panneau.
+   La barre garde donc EXACTEMENT la forme d'origine, celle du depliant Haki :
+   meme graisse, meme interligne, meme chevron. Seule la couleur du libelle et
+   du chevron change, et un filet de la meme teinte marque la separation quand
+   la barre est ouverte. Rien d'autre. */
+.mg.stt,.mg.mnd,.mg.atr{margin-bottom:15px}
+.mg.stt>summary{color:#0f6b43}
+.mg.mnd>summary{color:#5b3f7d}
+.mg.atr>summary{color:#8a6208}
+.mg.stt>summary:after{border-right-color:#3f9c72;border-bottom-color:#3f9c72}
+.mg.mnd>summary:after{border-right-color:#8a6fb0;border-bottom-color:#8a6fb0}
+.mg.atr>summary:after{border-right-color:#b9902f;border-bottom-color:#b9902f}
+.mg.stt[open]>summary,.mg.mnd[open]>summary,.mg.atr[open]>summary{
+  margin-bottom:12px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+.mg.stt[open]>summary{border-bottom-color:#cfe8db}
+.mg.mnd[open]>summary{border-bottom-color:#ddd4ec}
+.mg.atr[open]>summary{border-bottom-color:#ecdfc2}
+/* les blocs ranges dans une barre gardent la separation du panneau */
 .mg.stt>.mg,.mg.atr>.mg{margin-top:15px;padding-top:15px;border-top:1px solid var(--line)}
 .mg.stt>.mg:first-of-type,.mg.atr>.mg:first-of-type{margin-top:0;padding-top:0;border-top:0}
 
@@ -14408,11 +14413,13 @@ function renderManager(){
     + '<details class="mg wide fold stt" open><summary>Statistiques</summary>'
     +   B_niv + B_haki
     + '</details>'
-    + B_monde
+    /* LE PERSONNEL AVANT LE GLOBAL. Enrick : « fais remonter Attributs au-dessus
+       de l'etat du monde, on met les choses perso avant les globales ». */
     + '<details class="mg wide fold atr"><summary>Attributs</summary>'
     +   B_prime + B_fruit + B_equipage + B_navire + B_flotte
     +   B_courbe + B_traits + B_faits
-    + '</details>';
+    + '</details>'
+    + B_monde;
 }
 
 /* La courbe de la carriere. Destiny Eleven trace la valeur marchande sur
