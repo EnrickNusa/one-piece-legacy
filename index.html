@@ -1211,6 +1211,32 @@ h1,h2,h3{text-wrap:balance}
 .mg.stt>.mg,.mg.atr>.mg{margin-top:15px;padding-top:15px;border-top:1px solid var(--line)}
 .mg.stt>.mg:first-of-type,.mg.atr>.mg:first-of-type{margin-top:0;padding-top:0;border-top:0}
 
+/* ============ RESPIRATION DANS LES BARRES ================================
+   Enrick, 26 aout : « assure-toi que chacune des barres respire, parce que
+   pour l'instant il y a des ecritures qui depassent hors des cadres, les
+   lignes sont pas tres ecartees, ca fait que plus ca avance plus c'est
+   brouillon ».
+   Trois defauts distincts, corriges separement :
+     les lignes se touchaient, il n'y avait aucun espace entre deux mesures
+     un nom long poussait la valeur hors du cadre au lieu de se couper
+     les blocs empiles n'avaient pas de marge interieure propre */
+.mg.stt .hkr,.mg.atr .hkr{margin-bottom:13px}
+.mg.stt .hkr:last-child,.mg.atr .hkr:last-child{margin-bottom:0}
+.mg.stt .hkr .hb,.mg.atr .hkr .hb{margin-top:5px}
+/* un nom long se coupe au lieu de pousser la valeur dehors */
+.hkr{grid-template-columns:minmax(0,1fr) auto}
+.hkr .hn{min-width:0;overflow-wrap:anywhere;line-height:1.35}
+.hkr .hp{white-space:nowrap}
+/* le filet entre les Haki et les quatre mesures brutes prend de l'air */
+.sts{margin-top:15px;padding-top:15px}
+/* les listes de faits et de traits ne se collent plus */
+.mg.atr .lrs .lr{padding:7px 0}
+.mg.atr .lrs .lr+.lr{border-top:1px solid var(--line)}
+/* les pastilles de traits respirent aussi */
+.mg.atr .tro{gap:7px}
+/* le contenu d'une barre ne colle pas au bord bas */
+.mg.stt[open],.mg.atr[open],.mg.mnd[open]{padding-bottom:4px}
+
 </style>
 <div class="scene" id="scene" data-scene="village">
   <div class="ph"></div>
