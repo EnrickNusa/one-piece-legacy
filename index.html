@@ -7155,12 +7155,12 @@ opts:[
   fail:{p:.3, on:"vol", eff:{renom:3, vol:-9}, f:"akainu",
    why:"Un ordre qui dérape ne rapporte plus rien, et le prix intérieur reste entier.",
    r:"Le feu prend une rangée de maisons que personne n'avait prévue. Onze morts. Ton rapport est enterré à Marineford et ton avancement avec lui. Tu as tout payé pour rien."}},
- {t:"Refuser devant tes hommes", tag:"Justice morale", eff:{vol:11, ruse:4, renom:-5}, f:"aokiji",
+ {t:"Refuser devant témoins", tag:"Justice morale", eff:{vol:11, ruse:4, renom:-5}, f:"aokiji",
   why:"Quatorze hommes qui restent sous tes ordres après ça, c'est pour toi, pas pour le grade.",
-  r:"Conseil de discipline, deux ans d'avancement perdus. Mais quatorze de tes hommes demandent à rester sous tes ordres. C'est la première fois qu'on te suit pour ce que tu es.",
+  r:"Conseil de discipline, deux ans d'avancement perdus. Mais quatorze marins de la base demandent à servir sous toi. C'est la première fois qu'on te suit pour ce que tu es.",
   fail:{p:.28, on:"vol", eff:{vol:5, renom:-9}, f:"aokiji",
    why:"Un refus qui ne convainc personne coûte la carrière et ne sauve pas le village.",
-   r:"On te relève de ton commandement sur place et ton second exécute l'ordre en une demi-heure. Tu regardes brûler ce que tu voulais protéger, sans galons, devant les mêmes hommes."}},
+   r:"On te relève sur place et l'officier suivant exécute l'ordre en une demi-heure. Tu regardes brûler ce que tu voulais protéger, sans galons, devant les mêmes hommes."}},
  {t:"Payer le tribut de ta poche et étouffer l'affaire", tag:"Ruse", eff:{ruse:12, renom:3, vol:3, obs:-6},
   why:"Découvrir une troisième porte entre obéir et désobéir vaut plus qu'un grade.",
   r:"Tu vides ta solde et tu maquilles le registre. Le village ne saura jamais. Ton supérieur non plus. Entre obéir et désobéir, il existe une troisième porte.",
@@ -7624,9 +7624,17 @@ opts:[
   fail:{p:.28, on:"obs", eff:{obs:4, renom:-3},
    why:"Un homme qui a vu Grand Line et qu'on a renvoyé au port a une raison d'avoir été renvoyé.",
    r:"Il a bien fait le passage. Il ne dit pas dans quel état il en est revenu. Deux mois plus tard il refuse de sortir de sa couchette un matin de gros temps, et personne ne lui en veut vraiment."}},
- {t:"Ne rien demander et opérer seul", tag:"Isolé", eff:{ruse:9, vol:7, renom:-6}, f:"solo",
-  why:"Renoncer à des hommes qu'on ne t'aurait pas retirés est un choix que ta hiérarchie retiendra.",
-  r:"Tu rends la liste vierge. Le bureau note « affectation refusée » et te regarde autrement. Tu travailles seul, tu réponds de tout seul, et personne ne partage ce que tu vois."}
+ /* UN OFFICIER DE MARINE NE PEUT PLUS REFUSER SES HOMMES. Enrick, 26 aout :
+    « meme Garp a des hommes, donc tu peux supprimer le truc du marine qui est
+    seul ». Il a raison, et c'est une difference de nature entre les camps :
+    un pirate RECRUTE, donc il peut choisir de rester seul, alors qu'un
+    officier se voit AFFECTER des hommes et n'a pas voix au chapitre.
+    L'option reste ouverte au Gouvernement, ou opérer seul est le métier :
+    un agent du Cipher Pol travaille sans equipage par definition. */
+ {t:"Ne rien demander et opérer seul", tag:"Isolé", ineed:"gm",
+  eff:{ruse:9, vol:7, renom:-6}, f:"solo",
+  why:"Un agent qui refuse une équipe garde le contrôle de ce qu'il rapporte, et le service préfère souvent ça.",
+  r:"Tu rends la liste vierge. Le bureau note « effectifs déclinés » et te regarde autrement. Tu travailles seul, tu réponds de tout seul, et personne ne partage ce que tu vois."}
 ]});
 
 /* =========================================================================
@@ -9567,7 +9575,7 @@ opts:[
    r:"Le deuxième convoi tombe sur une inspection qui n'était pas prévue. On refoule tout le monde. Tu as sauvé la première moitié. Tu ne parles jamais de la seconde."}}
 ]});
 
-E({id:"mar3_c", act:3, scene:"water7", w:26, ineed:"marine",
+E({id:"mar3_c", act:3, scene:"water7", w:26, ineed:"marine", also:"!solo",
 kicker:"Prise de commandement", title:"La base que le Quartier Général a rayée de ses tableaux",
 text:"On te donne une base et des hommes aux dents limées. Aucun officier ne demande cette affectation deux fois.<br><br>Ils t'appellent {NOM}, sans grade devant, dès le premier matin. C'est un test et tout le monde le sait.",
 opts:[
@@ -12109,7 +12117,7 @@ opts:[
  {t:"Rester sur le pont et regarder passer les Rois des Mers", tag:"Sang-froid",
   eff:{obs:11, vol:8, ruse:-7, renom:-4},
   why:"Voir de près ce qui tue des équipages entiers apprend à jauger un danger réel.",
-  r:"Tu ne quittes pas la lisse. Un œil grand comme une charrette passe sous toi, s'attarde, repart. Tes hommes retiennent que tu n'as pas reculé. Toi, tu retiens l'échelle de ce monde."},
+  r:"Tu ne quittes pas la lisse. Un œil grand comme une charrette passe sous toi, s'attarde, repart. L'équipage retient que tu n'as pas reculé. Toi, tu retiens l'échelle de ce monde."},
  {t:"Étudier la coque et le Granit Marin", tag:"Méthode",
   eff:{ruse:12, obs:6, renom:-6},
   why:"Comprendre ce qui te protège vaut mieux que d'en profiter sans savoir.",
@@ -14771,7 +14779,7 @@ opts:[
  {t:"Lui proposer d'embarquer", tag:"Le recrutement", ineed:"pirate|revo", crew:1,
   eff:{combat:9, renom:8, vol:6, ruse:-3, obs:-5},
   why:"Un second qui a tenu jusqu'au bout d'un naufrage vaut mieux que trois hommes ramassés dans une taverne.",
-  r:"Il regarde ton pont, tes gens, et il monte sans dire un mot. Il ne parlera pas plus à bord, mais il sera debout au bon endroit à chaque fois."},
+  r:"Il regarde ton pont, ce qu'il y a dessus, et il monte sans dire un mot. Il ne parlera pas plus à bord, mais il sera debout au bon endroit à chaque fois."},
  {t:"Le laisser tranquille", tag:"Rien", sauf:"pirate|revo",
   eff:{obs:6, vol:5, renom:-6, combat:-6},
   why:"Certains hommes assis contre un mur ont juste besoin qu'on ne s'arrête pas.",
