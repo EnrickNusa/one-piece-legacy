@@ -5485,10 +5485,24 @@ function cbForce(m){
      seulement. Ce n'est pas de la clemence : c'est le seul combat de la partie
      ou il arrive prepare, au sommet de sa voie, et ou l'autre ne sait meme pas
      qu'on vient lui prendre quelque chose. */
-  /* Ramene de 9 a 5 : pose hier pour rendre les titres prenables, ce bonus
-     rendait aussi Mihawk battable treize niveaux trop tot. Avec la formule
-     ancree sur le niveau, il n'a plus besoin d'etre aussi gros. */
-  if(S.cb && S.cb.titre) f += 7;
+  /* LE BONUS SUIT L'ECART, IL N'EST PLUS LE MEME POUR TOUS.
+     A +7 fixe, les cinq duels n'etaient pas du tout au meme prix. Mesure du
+     26 aout, 1000 carrieres, taux de victoire une fois le duel engage :
+         tir 59 %   science 48 %   sabre 39 %   arts 30 %   fruit 12 %
+     La cause tient au tenant : Serafim pese 67 et Yasopp 70, on les affronte
+     donc a egalite ou au-dessus, la ou Kaidou pese 84 et se presente avec onze
+     niveaux d'avance. Un bonus plat aidait beaucoup celui qui n'en avait pas
+     besoin et pas assez celui qui partait de loin.
+     Il suit maintenant l'ecart : la base descend, et chaque niveau de retard
+     rend un peu de terrain. Ce n'est pas de la clemence non plus, c'est la
+     meme idee poussee au bout : plus l'autre te domine, moins il croit avoir
+     quelque chose a perdre, et c'est exactement la ou tu arrives prepare. */
+  /* Base ramenee de 4 a 2 apres mesure : le bonus proportionnel avait remis
+     quatre voies sur cinq entre 38 et 41 % de victoire, mais laissait le tir a
+     60 %. Son tenant, Yasopp, pese 70 quand on arrive a 73 : on le depasse
+     deja, et le bonus de base s'ajoutait par-dessus. Il ne reste presque rien
+     quand on est le plus fort des deux, et tout quand on part de loin. */
+  if(S.cb && S.cb.titre) f += 2 + Math.max(0, S.cb.adv.niv - niveau()) * 0.9;
   /* Un nom qu'on ne prononce pas vaut quelques points avant le premier
      echange : l'adversaire se bat deja moins bien parce qu'il sait qui tu es. */
   if(S.f.tr_terreur) f += 3;
@@ -21394,7 +21408,7 @@ function reprendre(){
      verification va chercher dans la page servie. Une premiere version le
      rangeait dans une variable intermediaire : le motif ne trouvait alors
      jamais rien et le jeu ne se serait jamais mis a jour. */
-  window.__OPL_VER = '1787768892';
+  window.__OPL_VER = '1787770380';
   var VER = window.__OPL_VER;
   /* on ne verifie ni trop souvent ni pendant un ecran de saisie */
   function verifie(){
