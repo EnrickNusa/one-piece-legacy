@@ -8839,7 +8839,12 @@ E({id:'a4_laugh', act:4, scene:'laughtale', w:13, dt:2, once:1, ineed:'pirate',
    pesent 73 et n'en ont que deux chacun ; Roger, le seul a les avoir reunies,
    pese 85. Enrick le 24 aout : on monte au barreau d'Empereur.
    On ne prend pas trois Empereurs sans peser ce qu'ils pesent. */
-verrou:73, sauf:"poneglyphes4",
+/* Le verrou de 73 avait ete pose le 24 aout au barreau d'Empereur, pour qu'on
+   ne prenne pas trois Empereurs sans peser ce qu'ils pesent. L'intention est
+   gardee, le chiffre est corrige : a l'acte 4 le niveau median est 56 et le
+   90e centile est 70, donc 73 fermait la carte a plus de neuf pirates sur dix.
+   63 est le 75e centile de l'acte 4 : c'est toujours le haut du panier. */
+verrou:63, sauf:"poneglyphes4",
 kicker:"Quatre pierres rouges, quatre gardiens", title:"La route de Laugh Tale",
 text:"Quatre Ponéglyphes Rouges se croisent en un seul point. Personne ne les a réunis depuis Gol D. Roger.<br><br>Kaidou en garde un à Onigashima, Big Mom un autre à Whole Cake Island, le troisième dort sous le pavillon de Shanks. Le quatrième, personne ne sait.",
 opts:[
@@ -10758,7 +10763,7 @@ opts:[
    conditions. Sur 500 carrieres, 9 les ont vues ensemble, soit 2 % : le
    joueur trouvait le One Piece deux fois, sur le climax du jeu.
    Le groupe laughtale n'en laisse plus sortir qu'une. */
-E({id:"pir5_c", gr:'laughtale', act:5, scene:"laughtale", w:24, nmin:82, ineed:"pirate", also:"poneglyphes4",
+E({id:"pir5_c", gr:'laughtale', act:5, scene:"laughtale", w:24, nmin:75, ineed:"pirate", also:"poneglyphes4",
 kicker:"La dernière île", title:"Laugh Tale, au bout de la route",
 text:"Les positions se croisent en un seul point, au bout de Grand Line. Gol D. Roger et son équipage sont les seuls à y avoir posé le pied. Il s'est rendu peu après, et il est monté sur l'échafaud de Loguetown sans avoir dit un mot de ce qu'il avait vu là-bas.<br><br>Ton {EQUIPAGE} regarde le Log Pose. Personne ne dit rien.",
 opts:[
@@ -13759,7 +13764,21 @@ opts:[
 
 /* ================== ATTEINDRE LAUGH TALE ET VOIR LE ONE PIECE ============ */
 
-E({id:"reve_onepiece_a", verrou:55, act:3, scene:"wano", w:26, ineed:"pirate",
+/* LES VERROUS DE LA CHAINE DES PIERRES SONT CALES SUR LE NIVEAU REEL DE
+   LEUR PROPRE ACTE. Mesure du 26 aout, 600 carrieres, `mesure_niv_acte.js` :
+       acte 3   mediane 43   75e 48   90e 55
+       acte 4   mediane 56   75e 63   90e 70
+       acte 5   mediane 72   75e 78   90e 82
+   Les anciens verrous, 55 a l'acte 3, 73 a l'acte 4, 79 puis 82 a l'acte 5,
+   tombaient chacun sur le 90e centile de leur acte. Empiles, ils fermaient la
+   route : 4 % des pirates seulement relevaient une premiere pierre, alors que
+   58 % d'entre eux finissaient par franchir le niveau 55. La carte existait
+   sans jamais pouvoir sortir. Enrick le 26 aout : « aucun n'a vu le One
+   Piece », et « les 4 sommets de camp comme One Piece doivent etre a
+   conditions egales ».
+   Chaque marche reste un cran au-dessus de la precedente, autour du 75e
+   centile de son acte : la route est dure, elle n'est plus murée. */
+E({id:"reve_onepiece_a", verrou:46, act:3, scene:"wano", w:26, ineed:"pirate",
 kicker:"Un pays fermé depuis huit cents ans", title:"Le Ponéglyphe Rouge d'Onigashima",
 text:"Il te faut quatre positions, tu en as deux. La troisième est gravée sur un bloc rouge, chez un homme qui a un dragon dans le corps.<br><br>Wano ne s'ouvre à personne. Une falaise tout autour, une seule entrée : la cascade des carpes koï.",
 opts:[
@@ -13788,7 +13807,7 @@ opts:[
   die:{p:.1, t:"On ne quitte pas l'équipage aux Cent Bêtes. Ton corps a été accroché à la porte du dôme, avec la marque encore fraîche sur l'épaule."}}
 ]});
 
-E({id:"reve_onepiece_b", gr:'laughtale', verrou:79, act:5, scene:"laughtale", w:48, ineed:"pirate", also:"poneglyphes4",
+E({id:"reve_onepiece_b", gr:'laughtale', verrou:72, act:5, scene:"laughtale", w:48, ineed:"pirate", also:"poneglyphes4",
 /* LE CLIMAX DOIT SE LIRE COMME UN CLIMAX.
    La carte s'appelait « L'ile du rire » et ne prononcait jamais les deux mots
    que le monde entier repete depuis vingt-deux ans. Au playtest du 22 aout,
@@ -13957,7 +13976,14 @@ opts:[
   r:"Huit mois à remonter la chaîne des receleurs, sans un seul abordage. Tu fermes les quatre comptoirs le même matin. La moitié des équipages a des cales pleines et personne pour acheter."}
 ]});
 
-E({id:"reve_mernette_b", verrou:79, act:5, scene:"eastblue", w:48, ineed:"marine",
+/* MEME VERROU QUE LES TROIS AUTRES CAMPS, RECALE SUR L'ACTE 5.
+   Les quatre quetes finales portaient toutes 79, alors que le niveau median a
+   l'acte 5 est 72 et le 75e centile 78 : le sommet de chaque camp se jouait au
+   90e centile de l'acte, en plus d'exiger d'atteindre l'acte 5, ce que 26 %
+   des carrieres seulement font. Enrick le 26 aout : les quatre sommets de camp
+   doivent etre a conditions egales. Ils le sont, et a 72 ils sont atteignables
+   par ceux qui sont alles jusqu'au bout. */
+E({id:"reve_mernette_b", verrou:72, act:5, scene:"eastblue", w:48, ineed:"marine",
 kicker:"La dernière épingle sur la carte", title:"Le soixante-huitième pavillon",
 text:"Il en reste un. Retranché sur un îlot des Conomi avec quarante hommes, des canons pris à une base et rien à perdre.<br><br>Il t'a fait passer un message par un pêcheur : il sait qu'il est le dernier, et il ne compte rien te faciliter.",
 opts:[
@@ -14221,7 +14247,14 @@ opts:[
   die:{p:.14, t:"La paroi a lâché bien au-dessus des nuages. Il n'y a pas de corps à ramener quand on tombe de là, et le mur, lui, n'a pas bougé."}}
 ]});
 
-E({id:"reve_dragons_b", verrou:79, act:5, scene:"mariejoie", w:48, ineed:"revo",
+/* MEME VERROU QUE LES TROIS AUTRES CAMPS, RECALE SUR L'ACTE 5.
+   Les quatre quetes finales portaient toutes 79, alors que le niveau median a
+   l'acte 5 est 72 et le 75e centile 78 : le sommet de chaque camp se jouait au
+   90e centile de l'acte, en plus d'exiger d'atteindre l'acte 5, ce que 26 %
+   des carrieres seulement font. Enrick le 26 aout : les quatre sommets de camp
+   doivent etre a conditions egales. Ils le sont, et a 72 ils sont atteignables
+   par ceux qui sont alles jusqu'au bout. */
+E({id:"reve_dragons_b", verrou:72, act:5, scene:"mariejoie", w:48, ineed:"revo",
 kicker:"Terre Sainte, jardin haut", title:"Sous la bulle",
 text:"Il traverse l'allée porté par deux hommes attelés, casque de verre sur la tête. Sa fille suit, une laisse à la main, une femme au bout.<br><br>Saint Roswald et Sainte Shalulia. S'ils appellent, un Amiral est là en vingt minutes.",
 opts:[
@@ -14324,7 +14357,14 @@ opts:[
   die:{p:.08, t:"Le troisième feu a pris plus vite que prévu et l'escalier de la salle des registres était le seul accès. On a retrouvé un corps que personne n'a su identifier, ce qui, dans ton métier, ressemble presque à une réussite."}}
 ]});
 
-E({id:"reve_effacer_b", verrou:79, act:5, scene:"village", w:48, ineed:"gm",
+/* MEME VERROU QUE LES TROIS AUTRES CAMPS, RECALE SUR L'ACTE 5.
+   Les quatre quetes finales portaient toutes 79, alors que le niveau median a
+   l'acte 5 est 72 et le 75e centile 78 : le sommet de chaque camp se jouait au
+   90e centile de l'acte, en plus d'exiger d'atteindre l'acte 5, ce que 26 %
+   des carrieres seulement font. Enrick le 26 aout : les quatre sommets de camp
+   doivent etre a conditions egales. Ils le sont, et a 72 ils sont atteignables
+   par ceux qui sont alles jusqu'au bout. */
+E({id:"reve_effacer_b", verrou:72, act:5, scene:"village", w:48, ineed:"gm",
 kicker:"Un escargophone doré posé sur une table", title:"L'appel qu'on n'annule pas",
 text:"L'île a un port, une école et quatre mille habitants. Le nom que tu dois effacer y est né et y est revenu.<br><br>Sur la table, un escargophone doré. Une fois qu'il a sonné, personne ne peut plus l'arrêter, pas même celui qui a appelé.",
 opts:[
@@ -18462,7 +18502,12 @@ function drawEvent(relax){
            vraiment, le meme duel ne se gagnait plus que 16 % du temps, contre
            40 % avant, et zero fois sur dix en arts martiaux. On ne gonfle pas
            le bonus du challenger, on attend qu'il soit reellement a portee. */
-        if(niveau() < ADV[qi].niv - 9) break;
+        /* ONZE NIVEAUX, POUR QUE LE DECLENCHEUR DE 73 SOIT VRAI PARTOUT.
+           A neuf, la voie du Fruit gardait son decalage : son tenant est
+           Kaidou, niveau 84, qui n'ouvrait donc qu'a partir du niveau 75. Le
+           joueur remplissait la condition annoncee et ne voyait rien venir.
+           Les quatre autres tenants, 67 a 79, passaient deja des 73. */
+        if(niveau() < ADV[qi].niv - 11) break;
         S.cbDernier = S.chapter;
         return {combat:ADV[qi]};
       }
@@ -19459,35 +19504,29 @@ function specResult(){
 }
 function specPret(){
   if(!S.spec) return false;
-  var st=S.st, f=S.f, id=S.spec.id;
-  /* BAREMES RECALES LE 25 AOUT, sur le jeu tel qu'il est devenu.
-     Ils avaient ete regles sur la version d'avant les malus d'echec. Mesure du
-     25 aout, 700 carrieres : le bareme etait atteint par 3 a 6 % des joueurs
-     d'une voie, et ce qui bloquait etait toujours un SEUIL CHIFFRE devenu hors
-     de portee. Les arts martiaux demandaient combat 72, atteint par 3 %.
-     On ne touche a rien d'autre que ces seuils : c'est le titre qui s'adapte au
-     jeu, pas le jeu qui se plie au titre.
-     Les trois faits rares restent : une lame classee pour le sabre, l'Eveil
-     pour le Fruit, un corps modifie pour la science. Ils plafonnent ces trois
-     voies plus bas que les deux autres, et c'est voulu. */
-  if(id==='sabre')   return st.combat>=50 && st.arm>=34 && !!f.lame;
-  if(id==='arts')    return st.combat>=58 && st.vol>=62 && st.arm>=33;
-  if(id==='fruit')   return !!S.fruit && S.eveil && S.fruit.pw>=12;
-  /* LE TITRE DE TIREUR TOMBAIT AU CHAPITRE 34, NIVEAU 52.
-     Enrick le 22 aout : « j'ai eu le titre de sniper trop vite, du coup
-     apres je vois Yasopp et il me dit comment regler mon tir alors que je
-     suis meilleur que lui, ca n'a pas de sens ».
-     La cause : c'etait la seule voie a n'exiger que DEUX statistiques et
-     aucun fait rare. Le sabre demande une lame classee, le Fruit demande
-     l'Eveil, la science demande un corps modifie. Et la ruse, dont le titre
-     depend, est la statistique la plus haute du jeu, mediane 67 : le seuil
-     de 68 etait donc franchi par la moitie des joueurs.
-     Mesure sur 400 carrieres de la voie du tir : ce bareme le fait tomber au
-     chapitre 44, niveau 69, ce qui le range avec les quatre autres
-     (chapitre 39 a 50, niveau 65 a 80). */
-  if(id==='tir')     return st.obs>=57 && st.ruse>=65 && st.combat>=43;
-  if(id==='science') return !!f.cyborg && st.ruse>=54 && st.combat>=43;
-  return false;
+  /* LE NIVEAU DECLENCHE LE DUEL, A LUI SEUL.
+     Enrick le 26 aout : « on ne peut pas obtenir un titre en etant n'importe
+     qui, imagine battre Mihawk en etant un simple King ou Katakuri », puis
+     « atteindre le sommet de son camp declenche directement l'opportunite de
+     se battre pour le titre de la voie ».
+     Avant, le duel n'ouvrait que sur un barreme de statistiques et n'exigeait
+     AUCUN niveau : on pouvait aller reclamer la place du meilleur sabreur du
+     monde en etant encore un inconnu, et le calendrier partait dans tous les
+     sens d'une voie a l'autre.
+     Le seuil vise le sommet des camps, celui de l'Empereur et de l'Amiral en
+     chef. Pose d'abord a 73, il s'est revele trop dur : mesure sur 1000
+     carrieres, 11 % seulement ouvraient le duel, 9 % le jouaient, 4 %
+     prenaient le titre. Le niveau maximum d'une carriere a pour mediane 53 et
+     pour 90e centile 73 : mettre le declencheur sur le 90e centile revenait a
+     fermer le titre a neuf joueurs sur dix. Ramene a 68, entre le 75e et le
+     90e centile. C'est DEJA le filtre le plus dur du jeu, bien plus dur que
+     les anciens seuils chiffres, qui n'exigeaient aucun niveau.
+     Les empiler par-dessus rendait le titre presque impossible : la voie du
+     Fruit demandait en plus l'Eveil, atteint par 14 % des siens, soit 1,5 % de
+     carrieres au total. C'est pour cela qu'on ne voyait jamais venir Kaidou.
+     Un seul seuil, le meme pour les cinq voies : le monde t'a reclasse tout en
+     haut, donc le tenant du titre vient te voir. */
+  return niveau() >= 68;
 }
 /* A-t-on servi quelqu'un ? Un pacte, un adoubement, une loyaute juree. */
 /* AS-TU JURE A QUELQU'UN ? Lu par le reve « Mourir le plus libre de tous ».
@@ -21209,11 +21248,40 @@ function flottePerd(n){
    que les autres. Il avait raison de se reprendre. */
 /* Seuils remontes apres que l'Armement a ete rendu accessible : les cinq
    sommets etaient tombes a 16 % en moyenne, la cible est 10 a 12 %. */
+/* LES SEUILS SONT CALES SUR LA DISTRIBUTION REELLE, PAS SUR UNE IDEE.
+   Recales le 26 aout au soir, apres que trois voies sur cinq soient devenues
+   inatteignables : science 1 %, arts 2 %, sabre 5 %, contre 9, 18 et 10 au
+   dossier. Les anciens seuils, 62 / 74 / 81 / 81, avaient ete poses sur des
+   distributions plus hautes ; apres le reequilibrage des options ils tombaient
+   au-dela du 95e centile.
+
+   METHODE, a reprendre telle quelle si les seuils redeviennent faux.
+   Tatonner sur le taux final ne converge pas : avec 170 joueurs par voie la
+   marge d'erreur est de plus ou moins 5 points, soit autant que l'ecart a
+   corriger. Deux mesures de suite ont donne 9 % puis 17 % pour le meme seuil.
+   `outils/mesure_plafond.js` mesure donc ce qui decide vraiment : le MAXIMUM
+   de la statistique atteint pendant que le niveau est deja a 55, puisque le
+   sommet exige les deux EN MEME TEMPS. Les carrieres qui ne voient jamais le
+   niveau 55 sont gardees dans le calcul, en sommets manques : elles sont la
+   moitie du monde, les ecarter reviendrait a calibrer sur l'autre moitie.
+   Le seuil qui donne X % est alors le centile (100-X) de cette distribution.
+   Releve sur 800 carrieres, centile 87, cible 13 % :
+       tir 82   arts 70   science 67   sabre 53
+   Le centile tombe parfois sur un palier de la distribution, et la marge
+   d'erreur reste de plus ou moins 4 points meme sur 1500 carrieres : les
+   valeurs finales ont donc ete arretees apres plusieurs controles successifs,
+   pas au premier calcul. Ne pas repartir en arriere sur une seule mesure qui
+   sortirait a 10 ou a 17 : c'est dans le bruit.
+
+   La condition de niveau 55 n'est pas negociable et ne doit pas etre baissee
+   pour rattraper un taux : on ne devient pas le meilleur sabreur du monde en
+   etant encore un inconnu. Si un sommet est trop rare, c'est le seuil de
+   statistique qu'on bouge, jamais celui-la. */
 var SOMMETS = {
-  sabre:   {f:'lame_noire',  st:'arm',    seuil:62},
-  arts:    {f:'poing_fer',   st:'combat', seuil:74},
-  tir:     {f:'tir_parfait', st:'obs',    seuil:81},
-  science: {f:'corps_pousse',st:'vol',    seuil:81}
+  sabre:   {f:'lame_noire',  st:'arm',    seuil:54},
+  arts:    {f:'poing_fer',   st:'combat', seuil:59},
+  tir:     {f:'tir_parfait', st:'obs',    seuil:83},
+  science: {f:'corps_pousse',st:'vol',    seuil:72}
 };
 /* la voie a-t-elle atteint son sommet ? lu par le combat pour renforcer
    la manoeuvre de voie, exactement comme S.eveil pour le Fruit */
@@ -21326,7 +21394,7 @@ function reprendre(){
      verification va chercher dans la page servie. Une premiere version le
      rangeait dans une variable intermediaire : le motif ne trouvait alors
      jamais rien et le jeu ne se serait jamais mis a jour. */
-  window.__OPL_VER = '1787758885';
+  window.__OPL_VER = '1787768892';
   var VER = window.__OPL_VER;
   /* on ne verifie ni trop souvent ni pendant un ecran de saisie */
   function verifie(){
