@@ -17463,7 +17463,14 @@ function renderManager(){
      un Fruit est une chose qu'on porte, avec un nom et une description. */
   $('manager').innerHTML =
       B_etat
-    + '<details class="mg wide fold stt" open><summary><span class="sml">Statistiques</span>'
+    /* LES TROIS BARRES SONT FERMEES AU DEPART. Enrick, 26 aout : « fais en
+       sorte que par defaut le panneau statistique reste ferme, on fait le
+       choix de l'ouvrir et pas l'inverse ».
+       Statistiques etait le seul ouvert, au motif que « trois barres fermees
+       ne diraient rien au premier coup d'oeil ». L'argument ne tient plus
+       depuis que chaque barre porte son chiffre : fermee, elle annonce deja
+       « Niveau 33 · Lieutenant ». Ouvrir devient une decision. */
+    + '<details class="mg wide fold stt"><summary><span class="sml">Statistiques</span>'
     +   '<span class="smv">Niveau ' + nv + ' · ' + esc(pp.t) + '</span></summary>'
     +   B_niv + B_haki
     + '</details>'
