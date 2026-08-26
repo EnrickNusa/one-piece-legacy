@@ -3990,7 +3990,7 @@ var ADV = [
        ko:"Tu vas droit sur un homme qui a construit toute sa carrière sur les gens qui vont droit sur lui."},
   tenir:{ok:"Tu encaisses la salve derrière une couverture. Il vide tout, et après il n'a plus rien.",
        ko:"Tenir sous ce qu'il envoie, c'est rester dans le nuage. Le nuage n'est pas de la fumée."},
-  ruse:{ok:"{B} se met à genoux et demande grâce. Tu ne baisses pas la garde et tu lui prends l'épaulière gauche. Le vrai gaz est encore dedans.",
+  ruse:{ok:"{B} se met à genoux et demande grâce. Tu ne baisses pas la garde et tu bloques l'épaulière gauche fermée. Le vrai gaz est encore dedans.",
         ko:"Il tire quelque chose de son épaule et tu vas au-devant pour l'intercepter. Ce n'était pas la bombe, c'était le leurre, et tu prends les lames en pleine poitrine."}},
  lec:[{b:['obs'],m:['tenir']},{b:['obs'],m:['franc','tenir']},{b:['ruse','tenir'],m:['franc']}],
  w:"Tu attends qu'il ait tout tiré. Un homme qui n'a plus de munitions dans une armure de deux cents kilos n'est plus qu'un homme lourd.",
@@ -5315,9 +5315,17 @@ function manosDispo(tout){
     add({id:'spe', n:sp.n, st:sp.st, b:(sommetVoie() ? 11 : 5), ok:sp.ok, ko:sp.ko});
   var vf = voieMano('franc');
   add({id:'franc', n:vf.n, st:'combat', b:0, ok:vf.ok, ko:vf.ko});
-  add({id:'ruse', n:"Viser ce qu'il protège au lieu de viser lui", st:'ruse', b:2,
-    ok:"Tu ne vises pas en face. Tu vises ce qu'on ne peut pas laisser tomber, et la garde s'ouvre.",
-    ko:"On te laisse t'occuper de ce qui ne compte pas, et on te prend à revers."});
+  /* LA RUSE NE VISE PLUS UN OBJET QU'ON TIENT. Enrick, 26 aout : « viser ce
+     qu'il protege, c'est un peu nul, car quasiment personne ne se bat en
+     tenant un truc dans One Piece ».
+     Il a raison, et c'etait le libelle du bouton, donc la phrase qu'on lit a
+     chaque manche. Dans l'oeuvre, ruser c'est se servir de ce qu'il y a
+     autour : on mouille Crocodile, on prend Baggy par les pieds, on sort
+     Arlong de l'eau, on retire son nuage a Enel. Le terrain, jamais un sac
+     qu'on lui arracherait des mains. */
+  add({id:'ruse', n:"Te servir de ce qui vous entoure", st:'ruse', b:2,
+    ok:"Tu ne le frappes pas, tu frappes autour. Le sol, l'eau, ce qui va tomber. Il s'en aperçoit une seconde trop tard.",
+    ko:"Tu montes ton angle sur le décor et {B} avance dedans sans même le remarquer."});
   var vt = voieMano('tenir');
   add({id:'tenir', n:vt.n, st:'vol', b:3, ok:vt.ok, ko:vt.ko});
   if(S.crew>=4) add({id:'equipage', n:"Ordonner la manœuvre à ton équipage", st:'renom', b:4,
@@ -6006,7 +6014,7 @@ var RE_FAM = {
   intang:{
     franc:{ok:"Tu frappes l'endroit exact où il redevient solide, et il y a un instant très court où c'est le cas. Il ne s'y attendait pas.",
            ko:"Ton poing passe au travers et ressort de l'autre côté. Il se referme derrière comme de l'eau."},
-    ruse:  {ok:"Tu arrêtes de viser le corps et tu vises ce qui le tient. Ça, ça ne traverse pas.",
+    ruse:  {ok:"Tu arrêtes de viser le corps et tu prends l'endroit où il doit revenir. Ça, ça ne traverse pas.",
             ko:"Ton angle suppose quelqu'un à cet endroit. Il n'y a personne à cet endroit, il y a juste sa forme."},
     obs:   {ok:"Tu ne regardes plus où il est, tu sens où il va se reformer. Tu y es avant lui.",
             ko:"Tu lis une intention et le corps qui devait la porter se défait avant de bouger."},
@@ -6028,7 +6036,7 @@ var RE_FAM = {
   acier:{
     franc:{ok:"Tu frappes là où deux plaques ne se rejoignent pas tout à fait. Ça cède d'un centimètre, et un centimètre suffit.",
            ko:"Ton coup sonne comme sur une enclume. C'est ta main qui a mal, pas lui."},
-    ruse:  {ok:"Tu ne cherches plus à percer. Tu cherches ce qui le tient debout, et tu le lui prends.",
+    ruse:  {ok:"Tu ne cherches plus à percer. Tu cherches ce qui le tient debout, et tu fais céder le sol dessous.",
             ko:"Il te laisse ruser. Le temps que tu montes ton angle, il a fermé la seule ouverture qu'il avait."},
     obs:   {ok:"Un corps aussi dur bouge lentement, et tu lis ce retard. Tu es passé avant que la garde arrive.",
             ko:"Tu vois le coup venir et ça ne change rien. Savoir où ça va tomber n'empêche pas que ça tombe."},
