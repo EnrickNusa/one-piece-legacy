@@ -5678,7 +5678,12 @@ function lanceCombat(adv){
          {id:'fuir',   t:"Renoncer au titre", s:"Tu repars entier. Le titre reste à lui, et tu ne le reverras pas."}];
   } else {
     o = [{id:'battre', t:"L'affronter", s:motManches(S.cb.n)+" manches. Chaque manche est une décision.", d:(ecart>=6?1:0)},
-         {id:'parler', t:cbMotParler(), s:"Un seul jet, sur ta Ruse. Si ça rate, tu te bats quand même, mal engagé."},
+         /* LES DEUX ISSUES, PAS SEULEMENT LA MAUVAISE. Enrick, 26 aout :
+            « laisse plutot l'indication, si ça marche tu passes, si ça rate
+            tu te bats quand meme mal engage ». La phrase ne disait que
+            l'echec : on lisait « si ça rate » sans savoir ce qu'on gagnait a
+            essayer, donc l'option se lisait comme un risque pur. */
+         {id:'parler', t:cbMotParler(), s:"Sur ta Ruse. Si ça marche tu passes, si ça rate tu te bats quand même, mal engagé."},
          {id:'fuir',   t:"Refuser le combat", s:"Aucun risque de mort. Ta réputation en prend un coup."}];
   }
   var h='';
