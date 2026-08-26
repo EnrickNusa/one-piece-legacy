@@ -1127,18 +1127,7 @@ h1,h2,h3{text-wrap:balance}
    separe par un filet, l'intitule ecrit une seule fois. Le palier dore est
    celui que le joueur vise : plein ou non, les gens dedans sont ceux qu'il
    faudra deloger. */
-/* L'ETAT DU MONDE A SON PROPRE CADRE. Enrick, 26 aout : « fais en sorte qu'il
-   ait son propre menu depliant comme le truc jaune ecrit niveau 37, au-dessus,
-   dans une autre couleur, et le joueur ouvre celui qu'il veut ». Il portait le
-   depliant nu du Haki, sans cadre : il flottait au-dessus du panneau au lieu
-   d'en etre le premier bloc. Meme boite que .mg.niv, teinte violette du Trone
-   pour qu'on ne confonde pas les deux d'un coup d'oeil. */
-.mg.niv,.mg.mnd{border-radius:13px;padding:12px 14px}
-.mg.mnd{background:#f7f4fc;border:1px solid #e2daf0;margin-bottom:14px}
-.mg.mnd>summary{padding:0 0 2px}
-.mg.mnd>summary,.mg.mnd .mgl{color:#5b3f7d}
-.mg.mnd>summary:after{border-color:#8a6fb0}
-.mg.mnd[open]>summary{margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #e2daf0}
+
 .mn{display:flex; flex-direction:column; gap:0}
 .mnc{border-top:1px solid var(--line); padding:8px 0 4px}
 .mnc:first-child{border-top:0; padding-top:2px}
@@ -1185,12 +1174,7 @@ h1,h2,h3{text-wrap:balance}
    statistiques dans un depliant vert, avec l'ecart du chapitre. Meme cadre que
    le niveau et que l'etat du monde : trois blocs de meme nature, trois teintes,
    le joueur ouvre celui qu'il veut. */
-.mg.stt{border-radius:13px;padding:12px 14px;margin-bottom:14px;
-  background:#f2fbf6;border:1px solid #d3ebdd}
-.mg.stt>summary{padding:0 0 2px}
-.mg.stt>summary,.mg.stt .mgl{color:#0f6b43}
-.mg.stt>summary:after{border-color:#3f9c72}
-.mg.stt[open]>summary{margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #d3ebdd}
+
 /* les quatre statistiques brutes, separees des trois Haki par un filet */
 .sts{margin-top:10px;padding-top:10px;border-top:1px solid #d3ebdd}
 .hb.pl i{background:#3f9c72}
@@ -1199,19 +1183,28 @@ h1,h2,h3{text-wrap:balance}
 .sd.up{color:var(--ok)}
 .sd.dn{color:var(--bad)}
 
-/* ATTRIBUTS, le troisieme depliant : ce que tu possedes. Teinte ambre, celle
-   de la prime, qui ouvre le bloc. */
-.mg.atr{border-radius:13px;padding:12px 14px;margin-bottom:14px;
-  background:#fdf8ee;border:1px solid #eee0c4}
-.mg.atr>summary{padding:0 0 2px}
-.mg.atr>summary,.mg.atr .mgl{color:#8a6208}
+
+
+/* ============ LES TROIS BARRES DEPLIANTES ===============================
+   Enrick, 26 aout : « quand je disais statistiques en vert, c'etait le menu
+   depliant, pas que quand tu deplies ca prend la couleur verte de tout.
+   Remets les couleurs d'avant, c'est les barres qui doivent avoir des
+   couleurs. » Le fond teinte s'etendait a tout le contenu et ecrasait les
+   couleurs propres des blocs ranges dedans. Seule la BARRE porte la teinte,
+   le contenu reprend le panneau normal. */
+.mg.stt>summary,.mg.mnd>summary,.mg.atr>summary{
+  border-radius:9px;padding:7px 11px;border-left:3px solid currentColor}
+.mg.stt>summary{background:#eef9f3;color:#0f6b43}
+.mg.mnd>summary{background:#f5f1fb;color:#5b3f7d}
+.mg.atr>summary{background:#fdf6e9;color:#8a6208}
+.mg.stt>summary:after{border-color:#3f9c72}
+.mg.mnd>summary:after{border-color:#8a6fb0}
 .mg.atr>summary:after{border-color:#b9902f}
-.mg.atr[open]>summary{margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #eee0c4}
-/* les blocs ranges DANS un depliant ne rejouent pas le filet de separation du
-   panneau : le cadre du depliant fait deja le travail. */
-.mg.stt>.mg,.mg.atr>.mg{margin-top:12px}
-.mg.stt>.mg:first-of-type,.mg.atr>.mg:first-of-type{margin-top:0}
-.mg.stt .mg.niv{background:#eaf7f0;border-color:#d3ebdd}
+.mg.stt,.mg.mnd,.mg.atr{margin-bottom:14px}
+.mg.stt[open]>summary,.mg.mnd[open]>summary,.mg.atr[open]>summary{margin-bottom:12px}
+/* les blocs ranges dans une barre gardent leur propre separation */
+.mg.stt>.mg,.mg.atr>.mg{margin-top:15px;padding-top:15px;border-top:1px solid var(--line)}
+.mg.stt>.mg:first-of-type,.mg.atr>.mg:first-of-type{margin-top:0;padding-top:0;border-top:0}
 
 </style>
 <div class="scene" id="scene" data-scene="village">
