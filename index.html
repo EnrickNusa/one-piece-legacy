@@ -1210,7 +1210,30 @@ h1,h2,h3{text-wrap:balance}
    Ceci annule la consigne du 25 aout « ne pas remettre de fond sur la barre ».
    Elle valait pour des barres fines ou le fond cognait avec le contenu range
    dessous. Ici le fond EST la barre, et le contenu deplie reste blanc. */
-.mg.stt,.mg.mnd,.mg.atr{margin-bottom:14px}
+/* LA MARGE INTERIEURE DES BLOCS A FOND, RENDUE. `.mg.fold>*:not(summary)`
+   met le padding a zero pour que le contenu d'un depliant s'aligne sur son
+   titre. Depuis que le niveau et le statut vivent DANS la barre Statistiques,
+   cette regle les touchait aussi : leur texte et la pastille de grade
+   collaient contre la bordure du cadre bleu. Signale par Enrick le 26 aout,
+   « fais attention au detourage de niveau et statut ». Mesure avant
+   correction : la pastille finissait a 1 px du bord au lieu de 14. */
+.mg.stt>.mg.niv,.mg.stt>.mg.obj,.mg.stt>.mg.etat,
+.mg.atr>.mg.niv,.mg.atr>.mg.obj,.mg.atr>.mg.etat{padding:12px 14px}
+
+/* le compteur des faits d'armes, qui portait le badge du summary disparu */
+.mgl .cnt{font-family:var(--body);font-size:11px;background:var(--red2);
+  color:#ffffff;border-radius:999px;padding:2px 7px;font-weight:800;letter-spacing:0}
+
+/* LE DEBORDEMENT HORIZONTAL, SIGNALE PAR ENRICK LE 26 AOUT.
+   Le panneau est une grille, et un item de grille a `min-width:auto` : il
+   refuse de descendre sous la largeur intrinseque de son contenu. La valeur
+   de la barre est en `white-space:nowrap`, donc « Niveau 35 · Terreur de sa
+   mer natale » elargissait la colonne entiere au lieu de se tronquer, et une
+   barre de defilement horizontale apparaissait dans le panneau.
+   Mesure avant correction, panneau de 294 px : les barres faisaient 364, soit
+   70 px de trop. `min-width:0` rend la troncature possible. */
+.mg.stt,.mg.mnd,.mg.atr{margin-bottom:14px;min-width:0}
+.mg.stt>summary,.mg.mnd>summary,.mg.atr>summary{overflow:hidden}
 /* Le panneau posait un filet et dix-sept pixels entre deux blocs voisins.
    Entre trois barres pleines ce filet ne separe plus rien, il creuse un
    couloir gris au milieu du panneau. Les barres se separent toutes seules. */
@@ -14503,8 +14526,14 @@ function renderManager(){
   if(pierIG) fh += '<div class="lr"><span>'+esc(pierIG)+'</span><b>✓</b></div>';
   for(var z=0;z<FAITS.length;z++) if(S.f[FAITS[z][0]]) fh += '<div class="lr"><span>'+esc(FAITS[z][1])+'</span><b>✓</b></div>';
   var nb = (fh.match(/<div class="lr">/g)||[]).length;
-  h += '<details class="mg wide fold"><summary>Faits d\'armes <b>'+nb+'</b></summary>' +
-       (fh ? '<div class="lrs">'+fh+'</div>' : '<div class="mgv off">Rien encore</div>') + '</details>';
+  /* PLUS DE DEPLIANT DANS UN DEPLIANT. Enrick, 26 aout : « faits d'armes, vu
+     que maintenant c'est dans un menu depliant, tu peux ecrire directement
+     dedans sans deplier ». La barre ATTRIBUTS est deja le geste d'ouverture :
+     un second niveau demandait deux appuis pour une liste de six lignes. */
+  h += '<div class="mg wide"><div class="mgl">Faits d\'armes'
+     + (nb ? ' <b class="cnt">'+nb+'</b>' : '') + '</div>'
+     + (fh ? '<div class="lrs">'+fh+'</div>' : '<div class="mgv off">Rien encore</div>')
+     + '</div>';
 
   var B_faits = h;
 
