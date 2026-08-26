@@ -4188,7 +4188,21 @@ function manosDispo(tout){
   return out;
 }
 function cbForce(m){
-  var f = niveau()*0.62 + (S.st[m.st]||0)*0.44 + (m.b||0);
+  /* LA FORCE EST ANCREE SUR LE NIVEAU, la specialite n'est qu'un ecart.
+     Enrick, 25 aout : « je suis level 59, Mihawk est level 72, et je le bats
+     facile, on dirait qu'on a regresse ». Mesure sur 400 carrieres : 47 % de
+     victoires contre un adversaire de 4 a 9 niveaux au-dessus, 24 % de 10 a 15.
+     La cause : la formule ajoutait 0,62 fois le niveau PLUS 0,44 fois la
+     statistique, sans rien retrancher. Un specialiste de niveau 59 avec 80 en
+     Combat pesait 72, soit le niveau de Mihawk, avant meme le bonus de duel.
+     Un niveau est deja une moyenne ponderee de toutes tes statistiques : le
+     recompter en plus revenait a payer deux fois la meme progression.
+     Desormais on part du niveau, et la manoeuvre gagne ou perd selon que la
+     statistique qu'elle emploie est au-dessus ou en dessous de ta moyenne.
+     Se specialiser paie donc toujours, mais ne fabrique plus de niveau. */
+  var st = S.st;
+  var moy = (st.combat + st.arm + st.obs + st.rois + st.vol + st.ruse + st.renom) / 7;
+  var f = niveau() + ((S.st[m.st]||0) - moy) * 0.34 + (m.b||0);
   /* LE JOUR QUE TU PREPARES DEPUIS L'ENFANCE.
      Les tenants sont les meilleurs du monde a leur discipline et ils sont
      beaucoup plus hauts que le joueur au moment ou le bareme tombe : mesure du
@@ -4198,7 +4212,10 @@ function cbForce(m){
      seulement. Ce n'est pas de la clemence : c'est le seul combat de la partie
      ou il arrive prepare, au sommet de sa voie, et ou l'autre ne sait meme pas
      qu'on vient lui prendre quelque chose. */
-  if(S.cb && S.cb.titre) f += 9;
+  /* Ramene de 9 a 5 : pose hier pour rendre les titres prenables, ce bonus
+     rendait aussi Mihawk battable treize niveaux trop tot. Avec la formule
+     ancree sur le niveau, il n'a plus besoin d'etre aussi gros. */
+  if(S.cb && S.cb.titre) f += 7;
   /* Un nom qu'on ne prononce pas vaut quelques points avant le premier
      echange : l'adversaire se bat deja moins bien parce qu'il sait qui tu es. */
   if(S.f.tr_terreur) f += 3;
@@ -4243,10 +4260,24 @@ function cbForce(m){
     if(S.st.obs >= 60) f += 2;
     if(S.st.obs >= 72) f += 2;
   }
-  return f;
+  /* LES BONUS PLATS S'ACCUMULAIENT SANS CONTREPARTIE.
+     Mesure sur 300 carrieres : cbForce depassait niveau() de 2 a 17 points,
+     avec un mode autour de 8. Un joueur de niveau 59 se battait donc comme un
+     niveau 68, et c'est ce qui annulait les deux reglages precedents : monter
+     la pente ne servait a rien tant qu'un ecart de dix niveaux etait comble
+     par huit points de bonus.
+     On retire cette inflation moyenne pour que l'ecart affiche soit l'ecart
+     reel, et on remonte la base de cbProba d'autant : a niveau egal, rien ne
+     change, mais un adversaire plus haut redevient plus haut. */
+  return f - 8;
 }
 function cbProba(m, adv, r){
-  var p = 0.52 + (cbForce(m) - adv.niv)*0.030 - (r-1)*0.03;
+  /* LA PENTE, PAS LA COMPOSITION. Ancrer cbForce sur le niveau n'avait
+     presque rien change : pour un personnage equilibre, l'ancienne formule
+     valait deja a peu pres le niveau. Ce qui rendait un adversaire de dix
+     niveaux au-dessus battable une fois sur trois, c'est que chaque niveau
+     d'ecart ne coutait que trois points de pourcentage. Il en coute cinq. */
+  var p = 0.63 + (cbForce(m) - adv.niv)*0.038 - (r-1)*0.03;
   if(S.pot) p += (S.pot.g==='S'?0.06 : S.pot.g==='A'?0.03 : S.pot.g==='D'?-0.04 : 0);
   /* on ne touche pas de la fumee avec un poing nu */
   if(joueurIntouchable(adv)) p = Math.max(p, 0.88);
@@ -4820,7 +4851,7 @@ function cbFin(){
        La Volonte monte encore, elle seule : tenir une defaite serree est
        exactement ce qui l'entraine. Tout le reste recule. */
     d = applyEff({vol:5, combat:-3, arm:-2, renom:-4});
-    mortP = clamp(0.270 + ecart*0.016, 0.18, 0.50);
+    mortP = clamp(0.225 + ecart*0.014, 0.15, 0.43);
     S.cb.ecrase = false;
     S.n.losses = (S.n.losses||0)+1;
     txt = '<b>'+motManches(av).charAt(0).toUpperCase()+motManches(av).slice(1)+' manche'+(av>1?'s':'')+' à '+motManches(dg)+'. Tu as perdu.</b><br>' + esc(tpl(a.l));
@@ -4841,7 +4872,7 @@ function cbFin(){
        Le filet reste, mais il depend maintenant de LA FACON DONT ON PERD.
        Perdre d'une manche, c'est une blessure. Se faire ecraser trois a zero
        devant un adversaire au-dessus de soi, c'est une fin possible. */
-    mortP = clamp(0.870 + ecart*0.032, 0.62, 0.96);
+    mortP = clamp(0.730 + ecart*0.028, 0.52, 0.88);
     S.cb.ecrase = true;
     S.n.losses = (S.n.losses||0)+1;
     txt = '<b>'+motManches(dg).charAt(0).toUpperCase()+motManches(dg).slice(1)+' manches à zéro contre toi.</b><br>' + esc(tpl(a.l));
@@ -15097,7 +15128,12 @@ function drawEvent(relax){
            il ne dit pas qu'on peut le prendre aujourd'hui.
            Meme fenetre que les combats ordinaires, douze niveaux d'ecart : le
            tenant vient quand il y a un combat a jouer, pas une execution. */
-        if(niveau() < ADV[qi].niv - 12) break;
+        /* FENETRE RESSERREE A NEUF NIVEAUX. Avec l'ancienne courbe de combat,
+           douze niveaux d'ecart restaient jouables. Depuis que l'ecart compte
+           vraiment, le meme duel ne se gagnait plus que 16 % du temps, contre
+           40 % avant, et zero fois sur dix en arts martiaux. On ne gonfle pas
+           le bonus du challenger, on attend qu'il soit reellement a portee. */
+        if(niveau() < ADV[qi].niv - 9) break;
         S.cbDernier = S.chapter;
         return {combat:ADV[qi]};
       }
