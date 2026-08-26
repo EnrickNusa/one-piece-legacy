@@ -14600,6 +14600,599 @@ opts:[
   r:"Le blé reste sous scellés. Les deux îles envoient des délégations, puis des suppliques, puis leurs terres. Ju Peter reprend un morceau et dit que c'est une bonne gestion."}
 ]});
 
+/* =========================================================================
+   LES VISAGES QU'ON NE CROISAIT QU'EN COMBAT
+   Enrick, 26 aout : « rajoute des variantes hors combat a tout etage ».
+
+   MESURE QUI A DECLENCHE CE FICHIER : 67 des 96 adversaires n'apparaissaient
+   dans AUCUNE carte. Or on ne livre que deux combats par carriere en moyenne :
+   leur portrait etait donc embarque dans la page, compresse, verifie, et
+   presque personne ne le voyait jamais.
+
+   Cinq rencontres par acte, une par personnage. Ce ne sont pas des combats :
+   on les croise, on decide quelque chose, on repart. Chacune est `once` et
+   porte un `pic`, donc le plafond par visage de core.js s'applique.
+
+   REGLES SUIVIES, toutes tirees de ce dossier :
+   - trois options minimum, sinon choix_minces.js remonte la carte
+   - le texte justifie chacune de ses options
+   - aucun « ton equipage » ou « ton navire » sans verifier que le joueur l'a
+   - francais, aucun tiret cadratin, aucun point-virgule
+   ========================================================================= */
+
+/* ============================ ACTE 1 ============================ */
+
+E({id:"vis_higuma", pic:'c_higuma', act:1, scene:"eastblue", w:9, once:1, imax:5,
+kicker:"Le chemin du village est pris", title:"Le péage du chemin",
+text:"Il est assis au milieu du chemin avec quinze hommes derrière lui, et il brandit son propre avis de recherche comme une carte de visite. Huit millions.<br><br>Il porte un sabre dont il ne s'est jamais servi. Ce qu'il sait faire, c'est prendre quelqu'un en otage et partir dans la fumée.",
+opts:[
+ {t:"Payer le passage et retenir son nom", tag:"Le calcul",
+  eff:{ruse:9, renom:-5, vol:4},
+  why:"Un bandit qui se vante de sa prime dit exactement combien il vaut, et ce n'est pas beaucoup.",
+  r:"Tu paies, il te laisse passer, et il rit fort pour que tout le village entende. Tu retiens le chemin qu'il prend pour rentrer."},
+ {t:"Lui prendre son sabre et le lui rendre par la garde", tag:"L'humiliation", d:1,
+  eff:{combat:11, renom:8, ruse:5, vol:4},
+  why:"Un homme qui porte une arme sans savoir s'en servir la perd devant ses hommes, et il ne s'en remet pas.",
+  r:"Tu le désarmes en deux gestes et tu lui tends la lame par la garde, devant les quinze. Ils regardent ailleurs. Il part sans rien dire.",
+  fail:{p:.22, on:"combat", eff:{combat:5, renom:-7},
+   why:"Désarmer quelqu'un demande d'être plus rapide que lui, et il a fait ça toute sa vie.",
+   r:"Il recule d'un pas et attrape le premier villageois qui passe. Tu poses les mains à plat et tu attends que la fumée retombe."}},
+ {t:"Prévenir le village et repartir par la côte", tag:"Le détour",
+  eff:{obs:8, ruse:8, renom:5, combat:-4},
+  why:"Un chemin bloqué se contourne, et le village se souviendra de qui l'a prévenu.",
+  r:"Tu fais deux heures de plus par les rochers. En passant, tu dis aux gens du port ce qui les attend sur la route. Ça ne te coûte rien et ça vaudra quelque chose un jour."}
+]});
+
+E({id:"vis_morgan", pic:'c_morgan', act:1, scene:"eastblue", w:9, once:1, imax:6,
+kicker:"Une statue à sa propre gloire", title:"La statue et le gamin",
+text:"Sur la place de la base, une statue de lui, deux fois sa taille. Un marin de vingt ans lave le socle à genoux, et il a l'air d'avoir fait ça toute la semaine.<br><br>Morgan hurle son propre grade avant chaque phrase. Ses hommes reculent d'un pas quand il lève le bras, et ce n'est pas de ton côté qu'ils reculent.",
+opts:[
+ {t:"Saluer la statue, très bas, sans un mot", tag:"La comédie",
+  eff:{ruse:12, renom:5, vol:-5},
+  why:"Un homme qui a besoin qu'on admire sa statue ne regarde plus rien d'autre pendant ce temps.",
+  r:"Tu restes courbé cinq secondes de trop. Il jubile, il t'explique pourquoi il la mérite, et tu apprends la disposition de toute la base pendant qu'il parle."},
+ {t:"Relever le gamin qui lave le socle", tag:"Le geste", d:1,
+  eff:{renom:12, vol:10, ruse:-5, combat:4}, f:"reputation_pop",
+  why:"Ce que fait cet homme à ses propres hommes se voit de loin, et quelqu'un finira par le raconter.",
+  r:"Tu le remets debout devant tout le monde. Morgan te met la hache sous le menton et il ne va pas plus loin, parce que trente marins vous regardent.",
+  fail:{p:.3, on:"renom", eff:{renom:-8, vol:6},
+   why:"Devant un capitaine qui décide de tout ici, un geste juste peut coûter cher tout de suite.",
+   r:"Le gamin te repousse, terrorisé, et se remet à frotter. Tu as juste rendu sa semaine pire."}},
+ {t:"Demander à être affecté ailleurs", tag:"Le retrait", ineed:"marine|gm",
+  eff:{ruse:9, obs:7, renom:-6},
+  why:"Sous l'uniforme, on ne discute pas un capitaine sur sa base. On demande une mutation.",
+  r:"Ta demande part par le courrier du soir. Elle mettra six mois, et six mois ici c'est long, mais tu ne finiras pas à genoux devant un socle."},
+ {t:"Passer sans rien dire", tag:"Rien", sauf:"marine|gm",
+  eff:{obs:7, ruse:5, vol:-4},
+  why:"Une base de la Marine n'est pas un endroit où on s'attarde quand on n'en est pas.",
+  r:"Tu traverses la place les yeux sur tes pieds. Personne ne te retient. Tu penseras à ce gamin en repassant par là, des années plus tard."}
+]});
+
+E({id:"vis_helmeppo", pic:'c_helmeppo', act:1, scene:"eastblue", w:8, once:1, imax:6,
+kicker:"Le fils du capitaine, en ville", title:"Personne ne paie",
+text:"Il fait le tour des étals avec deux gardes et il ne paie rien. Quand une marchande proteste, il jette le nom de son père trois fois en deux phrases.<br><br>Ses deux gardes se regardent. Ils ne bougent pas. Ils ne sont pas là pour lui, ils sont là parce que le nom marche encore aujourd'hui.",
+opts:[
+ {t:"Payer l'étal à sa place, devant lui", tag:"L'affront",
+  eff:{renom:11, ruse:7, vol:6},
+  why:"Il n'a pas d'argent à lui et tout le marché le sait. Payer devant lui dit ça sans un mot.",
+  r:"Tu poses les pièces sur l'étal. La marchande te remercie très fort, exprès. Il devient rouge et il s'en va, et ses gardes mettent trois secondes à le suivre."},
+ {t:"Parler aux deux gardes, pas à lui", tag:"Le vrai pouvoir",
+  eff:{ruse:12, obs:8, combat:-4},
+  why:"Ce ne sont pas ses hommes, ce sont ceux de son père, et ils savent très bien la différence.",
+  r:"Tu demandes à l'un d'eux depuis combien de temps il fait ça. Il ne répond pas, mais il te regarde enfin. Le fils continue de parler tout seul."},
+ {t:"Le suivre et regarder où il va", tag:"La filature",
+  eff:{obs:12, ruse:6},
+  why:"Un homme qui ne paie rien finit forcément quelque part où il doit quelque chose.",
+  r:"Il rentre à la base par une porte de service que personne ne garde. Tu notes l'heure, et la porte."}
+]});
+
+E({id:"vis_mohji", pic:'c_mohji', act:1, scene:"loguetown", w:8, once:1, imax:6,
+kicker:"Un lion sur le quai", title:"Le lion s'assoit",
+text:"Un homme en costume de fauve fait asseoir un lion au milieu du quai, et les gens s'écartent en cercle. Le lion s'assoit vraiment.<br><br>Il annonce qu'il travaille pour Baggy le Clown, et il le répète deux fois, parce que la première n'a pas fait l'effet qu'il espérait.",
+opts:[
+ {t:"Applaudir avec la foule et lui demander comment il fait", tag:"Le curieux",
+  eff:{ruse:8, obs:9, renom:4},
+  why:"Un homme vexé qu'on ne le reconnaisse pas répond à quiconque s'intéresse à lui.",
+  r:"Il t'explique le dressage pendant vingt minutes, et il finit par te dire où son équipage a mouillé. Il ne s'en rend même pas compte."},
+ {t:"Tenir tête au lion, pas au dompteur", tag:"La bête", d:1,
+  eff:{combat:12, vol:9, renom:7},
+  why:"Le lion fait tout le travail. Un dompteur sans sa bête est un homme en costume ridicule.",
+  r:"Tu avances sur le fauve et tu ne recules pas. Il grogne, il renifle, et il se rassoit. Mohji reste debout avec son fouet et plus rien à montrer.",
+  fail:{p:.28, on:"vol", eff:{combat:5, vol:5, renom:-6},
+   why:"Un lion de cinq cents kilos n'a aucune raison de te croire.",
+   r:"Il te met au sol d'un coup d'épaule et le quai entier retient son souffle. Mohji le rappelle, très content de lui."}},
+ {t:"Repartir vers ton navire", tag:"Rien",
+  eff:{obs:6, ruse:5, renom:-3},
+  why:"Un spectacle de rue reste un spectacle de rue, et l'équipage de Baggy n'est pas ton affaire aujourd'hui.",
+  r:"Tu remontes le quai pendant que la foule regarde ailleurs. Personne ne se souviendra que tu étais là, et c'est parfois ce qu'on cherche."}
+]});
+
+E({id:"vis_fullbody", pic:'c_fullbody', act:1, scene:"eastblue", w:8, once:1, imax:7,
+kicker:"Une table au fond du restaurant", title:"Le vin le plus cher de la carte",
+text:"Il commande le vin le plus cher de la carte pour impressionner la femme en face de lui, et il en dit trois choses fausses de suite. Le cuisinier, derrière, ne relève pas.<br><br>Il porte un poing de fer à la main droite et il en parle plus qu'il ne s'en sert.",
+opts:[
+ {t:"Corriger le vin, poliment", tag:"Le détail",
+  eff:{ruse:11, renom:7, combat:-4},
+  why:"Un homme qui se donne l'air de savoir déteste qu'on sache mieux que lui, surtout devant quelqu'un.",
+  r:"Tu donnes l'année et la région, sans lever la voix. Elle te regarde. Il s'interrompt au milieu de sa phrase et il ne la finit jamais."},
+ {t:"L'observer se servir de son poing de fer", tag:"La mesure",
+  eff:{obs:12, combat:5},
+  why:"Une arme dont on parle beaucoup est une arme qu'on sort peu, et ça se vérifie en regardant.",
+  r:"Il frappe la table pour ponctuer une histoire. Le geste est lourd, l'appui est mauvais, et tu sais maintenant exactement ce qu'il vaut."},
+ {t:"Payer sa note sans qu'il le sache", tag:"La dette", d:1,
+  eff:{ruse:13, renom:6, vol:-5},
+  why:"Un officier qui découvre qu'un inconnu a réglé son dîner passe le reste de la soirée à se demander pourquoi.",
+  r:"Tu règles au comptoir et tu pars. Il l'apprendra au moment de payer, devant elle, et il retiendra ton visage pour de mauvaises raisons.",
+  fail:{p:.2, on:"ruse", eff:{ruse:6, renom:-5},
+   why:"Le personnel n'a aucune raison de couvrir un inconnu contre un lieutenant de la Marine.",
+   r:"Le serveur lui dit qui a payé, tout de suite, en te désignant. Il vient te remercier très fort, et toute la salle vous regarde."}}
+]});
+
+/* ============================ ACTE 2 ============================ */
+
+E({id:"vis_gin", pic:'c_gin', act:2, scene:"eastblue", w:10, once:1,
+kicker:"Un homme qui ne demande rien", title:"Celui qui ne demande rien",
+text:"Il est assis contre un mur du port, deux tonfas posés à côté de lui, et il ne mendie pas. Il regarde la mer comme on regarde une adresse.<br><br>Quelqu'un dit qu'il était le second de Don Krieg et qu'il a survécu à quelque chose dont personne ne revient.",
+opts:[
+ {t:"Lui payer un repas sans poser de question", tag:"Le silence",
+  eff:{vol:11, renom:7, ruse:4},
+  why:"Un homme qui ne demande rien ne répondra pas non plus, et une assiette dit tout ce qu'il faut.",
+  r:"Il mange sans se presser et il ne dit pas merci. En partant, il te dit une seule phrase sur les eaux à éviter à l'ouest, et cette phrase te servira."},
+ {t:"Lui demander ce qui s'est passé", tag:"La question", d:1,
+  eff:{obs:11, vol:8, ruse:6, renom:-4},
+  why:"Ce qu'un survivant a vu vaut plus que ce qu'une carte peut dire, s'il accepte de le raconter.",
+  r:"Il parle d'une mer où le calme dure des semaines et où un galion peut revenir en morceaux sans qu'on sache pourquoi. Il ne dit pas ce qu'il a vu. Il dit ce que ça fait de le voir.",
+  fail:{p:.3, on:"vol", eff:{obs:4, renom:-6},
+   why:"On ne fait pas raconter ça à quelqu'un qui s'est assis contre un mur pour ne plus en parler.",
+   r:"Il ramasse ses tonfas et il s'en va. Tu restes avec ta question, et l'impression très nette d'avoir mal fait."}},
+ {t:"Lui proposer d'embarquer", tag:"Le recrutement", ineed:"pirate|revo", crew:1,
+  eff:{combat:9, renom:8, vol:6, ruse:-5},
+  why:"Un second qui a tenu jusqu'au bout d'un naufrage vaut mieux que trois hommes ramassés dans une taverne.",
+  r:"Il regarde ton pont, tes gens, et il monte sans dire un mot. Il ne parlera pas plus à bord, mais il sera debout au bon endroit à chaque fois."},
+ {t:"Le laisser tranquille", tag:"Rien", sauf:"pirate|revo",
+  eff:{obs:6, vol:5},
+  why:"Certains hommes assis contre un mur ont juste besoin qu'on ne s'arrête pas.",
+  r:"Tu passes ton chemin. Il ne lève pas les yeux, et c'est probablement ce qu'il voulait."}
+]});
+
+E({id:"vis_hatchan", pic:'c_hatchan', act:2, scene:"eastblue", w:10, once:1,
+kicker:"Une charrette de takoyaki", title:"Un takoyaki sur trois",
+text:"Un Homme-poisson pieuvre tient un stand de takoyaki à l'entrée du port, et il en rate un sur trois. Il s'excuse à chaque fois, sincèrement.<br><br>Il a six bras, six sabres rangés dans le dos, et il n'a visiblement pas envie de s'en servir aujourd'hui.",
+opts:[
+ {t:"Manger et payer le double", tag:"Le geste",
+  eff:{renom:9, vol:7, ruse:4},
+  why:"Un homme-poisson qui tient un stand dans un port humain se fait rarement payer correctement.",
+  r:"Il te sert une deuxième fournée en s'excusant de la première. En partant, il te dit que si tu passes par l'Île des Hommes-Poissons, tu peux dire que tu le connais."},
+ {t:"Lui demander de te montrer les six sabres", tag:"La curiosité", d:1,
+  eff:{combat:11, obs:8, ruse:-4},
+  why:"Six lames tenues en même temps, ça ne se lit pas dans un livre, et il n'a aucune raison de refuser.",
+  r:"Il pose la louche, sort les six, et fait trois passes lentes pour que tu voies. Six hauteurs différentes, en même temps. Tu comprends pourquoi on n'attaque pas ça de face.",
+  fail:{p:.24, on:"obs", eff:{combat:4, obs:4},
+   why:"Regarder six bras bouger ensemble ne suffit pas à comprendre ce qu'ils font.",
+   r:"Il va trop vite et tu ne retiens rien. Il recommence deux fois, gentiment, et tu ne retiens toujours rien."}},
+ {t:"Lui demander qui tient le port", tag:"Le renseignement",
+  eff:{obs:11, ruse:9, renom:-3},
+  why:"Quelqu'un qui vend à tout le monde depuis des mois sait qui paie qui dans ce port.",
+  r:"Il te dit le nom, la fréquence des tournées, et le jour où les hommes d'Arlong passent encaisser. Il le dit sans rancune, comme on parle de la pluie."}
+]});
+
+E({id:"vis_mr5", pic:'c_mr5', act:2, scene:"alabasta", w:10, once:1,
+kicker:"Deux voyageurs très polis", title:"Deux voyageurs très polis",
+text:"Un homme en costume et une femme sous une ombrelle jaune partagent votre table à l'auberge. Ils demandent votre destination, votre nom, et l'heure de votre départ, dans cet ordre.<br><br>Elle rit à tout ce qu'il dit. Lui ne rit à rien. Personne dans la salle ne les regarde en face.",
+opts:[
+ {t:"Mentir sur ta destination", tag:"Le faux", d:1,
+  eff:{ruse:14, obs:7, renom:-4},
+  why:"Des gens qui demandent l'heure de ton départ avant ton nom ne voyagent pas pour le plaisir.",
+  r:"Tu donnes un port au sud, avec un détail vrai dedans pour que ça tienne. Ils partent avant l'aube dans cette direction. Tu pars au nord.",
+  fail:{p:.26, on:"ruse", eff:{ruse:5, renom:-7},
+   why:"Un agent qui fait ce métier depuis des années sait à quoi ressemble un détail ajouté exprès.",
+   r:"Il répète ton mensonge à voix haute, lentement, et il attend. Elle rit. Tu comprends que tu viens de te désigner."}},
+ {t:"Les faire parler d'eux", tag:"La conversation",
+  eff:{obs:12, ruse:8},
+  why:"Deux personnes qui posent toutes les questions n'ont pas l'habitude qu'on leur en pose.",
+  r:"Ils répondent à côté, tous les deux, et pas de la même façon. Elle invente, lui se tait. Tu apprends surtout qu'ils travaillent pour quelqu'un qu'ils ne nomment pas."},
+ {t:"Changer de table", tag:"Le retrait",
+  eff:{obs:8, vol:5, renom:-4},
+  why:"Il n'y a rien à gagner à une table où on te demande ton heure de départ.",
+  r:"Tu prends ton assiette et tu vas au comptoir. Ils ne te suivent pas. Ils regardent la table suivante, et quelqu'un d'autre répond à leur place."}
+]});
+
+E({id:"vis_mr3", pic:'c_mr3', act:2, scene:"alabasta", w:9, once:1,
+kicker:"Un atelier de cire, en plein désert", title:"Dix statues sous une bâche",
+text:"Sous une bâche, un homme coule des statues de cire à taille réelle. Elles sont bonnes. Trop bonnes, même, et il y en a une dizaine sous la toile.<br><br>Il commente à voix haute la qualité de la pose que tu prends en entrant, comme un sculpteur qui choisit un modèle.",
+opts:[
+ {t:"Lui commander une statue et payer d'avance", tag:"Le client",
+  eff:{ruse:12, renom:7, vol:-4},
+  why:"Un artisan payé d'avance parle de son travail, et son travail est exactement ce qu'il faut comprendre.",
+  r:"Il t'explique le temps de prise, la dureté finale, et ce qui ramollit la cire. Il te vend le secret de sa propre technique pour le prix d'un buste."},
+ {t:"Regarder les visages des statues déjà faites", tag:"L'inventaire", d:1,
+  eff:{obs:14, ruse:6, vol:5},
+  why:"Une dizaine de statues à taille réelle dans un désert, ce sont dix visages que quelqu'un a voulu garder.",
+  r:"Tu soulèves la bâche. Trois des visages sont sur des avis de recherche que tu as vus ce mois-ci. Tu reposes la toile très doucement.",
+  fail:{p:.28, on:"obs", eff:{obs:5, renom:-6},
+   why:"On ne fouille pas l'atelier d'un homme qui durcit le sol sous vos pieds pendant qu'il parle.",
+   r:"Le sol autour de tes chevilles a durci pendant que tu regardais. Il te demande, très poliment, ce que tu cherches exactement."}},
+ {t:"Ressortir sans toucher à la bâche", tag:"Rien",
+  eff:{obs:7, ruse:6},
+  why:"Il y a des ateliers où la curiosité coûte plus cher que ce qu'elle rapporte.",
+  r:"Tu remercies pour l'ombre et tu repars dans le sable. Tu penseras à cette bâche pendant plusieurs jours."}
+]});
+
+E({id:"vis_koala", pic:'c_koala', act:2, scene:"eastblue", w:9, once:1,
+kicker:"Une classe dans un entrepôt", title:"La classe de l'entrepôt",
+text:"Dans un entrepôt du port, une jeune femme apprend à lire à une vingtaine d'enfants, et elle a posé un registre de vente d'esclaves sur la table comme support de lecture.<br><br>Elle sait exactement qui entre. Elle n'a pas arrêté sa phrase quand tu as poussé la porte.",
+opts:[
+ {t:"Écouter jusqu'au bout de la leçon", tag:"L'attention",
+  eff:{obs:10, vol:9, renom:5}, f:"reputation_pop",
+  why:"Ce qu'elle fait lire à ces gamins dit ce que l'Armée Révolutionnaire fait vraiment, mieux qu'un discours.",
+  r:"Elle leur fait épeler les noms des acheteurs, un par un, sans commentaire. Les enfants ne comprennent pas encore. Toi si."},
+ {t:"Lui demander de te montrer sa garde", tag:"Le karaté", d:1,
+  eff:{combat:12, obs:8, ruse:-4},
+  why:"Le Karaté des Hommes-Poissons frappe à travers l'eau qui est dans le corps, et une humaine qui le maîtrise, ça se regarde.",
+  r:"Elle te fait tendre le bras et frappe à dix centimètres. Tu encaisses quelque chose que rien n'a touché. Les enfants applaudissent.",
+  fail:{p:.25, on:"combat", eff:{combat:5, renom:-5},
+   why:"Elle enseigne, elle ne fait pas de démonstration pour les visiteurs.",
+   r:"Elle refuse, gentiment, et reprend sa leçon. Un des gamins te fait remarquer que ce n'est pas l'heure."}},
+ {t:"Signaler l'entrepôt à qui de droit", tag:"Le rapport", ineed:"marine|gm",
+  eff:{ruse:10, renom:8, vol:-9, obs:5},
+  why:"Une cellule révolutionnaire qui instruit des enfants dans un port est un renseignement, et l'uniforme s'attend à ce que tu le fasses remonter.",
+  r:"Ton rapport part le soir même. Il ne se passera rien avant six mois, et d'ici là elle aura déplacé la classe. Tu as fait ce qu'on attendait de toi."},
+ /* le rapport est reserve a l'uniforme, la carte tombait a deux choix pour
+    les autres camps : voici leur troisieme porte */
+ {t:"Lui laisser de quoi tenir la classe un mois", tag:"Le soutien", sauf:"marine|gm",
+  eff:{renom:9, vol:8, ruse:-5}, f:"reputation_pop",
+  why:"Un entrepôt, des livres et vingt enfants, ça coûte quelque chose à quelqu'un, et ce quelqu'un ne demande rien.",
+  r:"Tu poses de quoi payer un mois sur la table sans commentaire. Elle ne te remercie pas et ne compte pas devant toi. Un des gamins te suit jusqu'à la porte pour te regarder partir."}
+]});
+
+/* ============================ ACTE 3 ============================ */
+
+E({id:"vis_tashigi", pic:'c_tashigi', act:3, scene:"loguetown", w:10, once:1,
+kicker:"Une boutique de sabres, à la fermeture", title:"La boutique à la fermeture",
+text:"Elle tient une lame contre la lumière et récite son nom, son forgeron, et l'année. Le marchand ne la contredit pas, parce qu'elle a raison.<br><br>Elle trébuche sur le seuil en sortant, rattrape ses lunettes, et remet la conversation exactement là où elle l'avait laissée.",
+opts:[
+ {t:"Lui faire nommer ta propre arme", tag:"L'expertise",
+  eff:{obs:11, combat:7, renom:5},
+  why:"Quelqu'un qui connaît les douze Sabres Suprêmes par cœur sait aussi ce que vaut ce que tu portes.",
+  r:"Elle prend ton arme des deux mains, comme on prend un enfant. Elle te dit ce qu'elle est vraiment, et ce n'était pas ce qu'on t'avait raconté en te la vendant."},
+ {t:"Lui demander pourquoi elle collectionne les lames", tag:"La raison",
+  eff:{vol:10, obs:8, ruse:4},
+  why:"Une officière de la Marine qui traque les sabres célèbres ne le fait pas pour les revendre.",
+  r:"Elle dit qu'un sabre célèbre finit toujours dans les mains de quelqu'un qui s'en sert mal, et qu'elle a l'intention de tous les récupérer. Elle le dit sérieusement."},
+ {t:"Croiser le fer avec elle, sans lame", tag:"Les gestes", d:1, ineed:"sp_sabre",
+  eff:{combat:13, arm:8, obs:6, renom:5},
+  why:"Deux sabreurs peuvent tout se dire à mains nues, en montrant les gardes, et elle en a envie depuis qu'elle t'a vu entrer.",
+  r:"Vous faites les passes au ralenti, entre deux étagères, sans toucher une seule lame. Elle corrige ton appui arrière. Elle a raison, et tu le sauras pour toujours.",
+  fail:{p:.26, on:"combat", eff:{combat:6, renom:-5},
+   why:"Montrer sa garde, c'est aussi montrer son défaut à quelqu'un dont c'est le métier.",
+   r:"Elle voit ton défaut en trois passes et te le nomme, avec le mot exact. Tu passeras des mois à essayer de le corriger."}},
+ {t:"Sortir avant qu'elle demande ton nom", tag:"Rien", sauf:"sp_sabre",
+  eff:{obs:7, ruse:7, renom:-3},
+  why:"Une capitaine de la Marine dans une boutique de sabres finit toujours par demander qui tu es.",
+  r:"Tu ressors avant la question. Elle te regarde partir dans le reflet de la vitrine et elle ne te retient pas."}
+]});
+
+E({id:"vis_hina", pic:'c_hina', act:3, scene:"loguetown", w:9, once:1,
+kicker:"Un couloir, et personne d'autre", title:"Le couloir",
+text:"Elle avance dans le couloir sans se presser et elle se met exactement sur ta trajectoire. Pas devant toi, sur ta trajectoire, ce qui n'est pas la même chose.<br><br>Elle parle d'elle à la troisième personne, du même ton pour tout, et rien dans sa voix ne dit si c'est grave.",
+opts:[
+ {t:"S'arrêter et attendre qu'elle parle", tag:"La patience",
+  eff:{obs:11, vol:8, ruse:4},
+  why:"Quelqu'un qui se met sur ton chemin a quelque chose à dire, et bouger le premier revient à répondre avant la question.",
+  r:"Elle attend cinq secondes de plus que le confortable. Puis elle te dit qu'elle a lu ton nom quelque part ce matin, et elle passe."},
+ {t:"Changer de couloir sans hésiter", tag:"Le contournement",
+  eff:{ruse:11, obs:7, renom:-5},
+  why:"Ses anneaux ne se referment que sur ce qui traverse sa ligne, et une ligne se contourne.",
+  r:"Tu prends la porte de gauche sans ralentir. Elle ne te suit pas. Ses anneaux ne servent à rien sur quelqu'un qui n'est pas passé devant."},
+ {t:"Lui dire ton nom avant qu'elle le demande", tag:"Le devant", d:1,
+  eff:{renom:12, vol:8, ruse:-6},
+  why:"Un nom donné n'est plus un nom qu'on arrache, et elle n'a plus de raison de fermer le couloir.",
+  r:"Tu le dis clairement. Elle répète « Hina intéressée », du même ton exactement, et elle s'écarte d'un demi-pas pour te laisser passer.",
+  fail:{p:.24, on:"renom", eff:{renom:-8, obs:5},
+   why:"Donner son nom à la Marine quand on n'est pas obligé, c'est parfois juste donner son nom à la Marine.",
+   r:"Elle le note. Elle le note vraiment, dans un carnet, et elle range le carnet. Tu repasseras des années à te demander ce qu'il en est advenu."}}
+]});
+
+E({id:"vis_koby", pic:'c_koby', act:3, scene:"marineford", w:10, once:1,
+kicker:"Un jeune officier au rapport", title:"Il annonce ton geste",
+text:"Il annonce ton geste à voix haute une seconde avant que tu le fasses, s'excuse, et explique qu'il ne le contrôle pas encore.<br><br>Il a l'air d'avoir dix-huit ans et il porte un grade que des hommes de quarante ans attendent toujours.",
+opts:[
+ {t:"Lui demander comment il a eu ce grade", tag:"La question",
+  eff:{obs:10, vol:8, renom:4},
+  why:"Un grade obtenu si vite tient soit à un exploit, soit à quelqu'un qui pousse derrière, et les deux se racontent.",
+  r:"Il dit qu'il ne le mérite pas encore et il le pense. Puis il énumère ce qu'il compte faire pour le mériter, et la liste est sérieuse."},
+ {t:"Se laisser lire, exprès", tag:"L'exercice", d:1,
+  eff:{obs:14, ruse:7, combat:5},
+  why:"Un homme qui entend les intentions est le meilleur partenaire d'entraînement qu'on puisse trouver pour apprendre à cacher les siennes.",
+  r:"Tu décides une chose et tu en fais une autre, vingt fois de suite. Il se trompe deux fois sur vingt, et ces deux fois-là valent des mois de travail seul.",
+  fail:{p:.25, on:"obs", eff:{obs:6, renom:-4},
+   why:"Cacher une intention à quelqu'un qui les entend demande d'en avoir de fausses, et ça ne s'improvise pas.",
+   r:"Il annonce tes vingt décisions sur vingt, de plus en plus gêné. À la fin il s'excuse encore, et ça n'arrange rien."}},
+ {t:"Lui dire de se méfier de ce qu'on lui demandera", tag:"L'avertissement",
+  eff:{vol:11, renom:7, ruse:-4},
+  why:"Il croit à ce qu'il fait, sincèrement, et personne dans cette base n'a l'air de vouloir lui dire ce que ça coûte.",
+  r:"Il t'écoute jusqu'au bout sans t'interrompre, ce que peu de gens font. Puis il te remercie, et tu ne sauras jamais s'il a retenu."}
+]});
+
+E({id:"vis_cavendish", pic:'c_cavendish', act:3, scene:"sabaody", w:9, once:1,
+kicker:"Une foule devant une auberge", title:"La paupière qui tombe",
+text:"Il signe des autographes sur le perron et il commente sa propre garde à voix haute pendant qu'il le fait. La foule adore.<br><br>Au milieu d'une phrase, sa paupière tombe. La rue devient très silencieuse d'un coup, et deux personnes reculent sans savoir pourquoi.",
+opts:[
+ {t:"Le réveiller avant que ça tourne mal", tag:"Le réflexe", d:1,
+  eff:{obs:12, renom:10, vol:6},
+  why:"Ce qui prend la main quand il s'endort ne fait pas la différence entre la foule et un adversaire.",
+  r:"Tu le secoues par l'épaule au bon moment. Il se réveille, furieux, puis il comprend et il devient très pâle. Il ne te remerciera jamais à voix haute.",
+  fail:{p:.3, on:"obs", eff:{obs:6, renom:-8},
+   why:"Il y a une seconde entre la paupière qui tombe et ce qui se lève, et une seconde c'est court.",
+   r:"Tu arrives une demi-seconde trop tard. Ce qui se lève frappe au hasard dans la rue, et tu passes le reste de la soirée à sortir des gens de là."}},
+ {t:"Le laisser parler de lui, longtemps", tag:"La vanité",
+  eff:{ruse:11, obs:7, renom:5},
+  why:"Il commente sa propre technique en public, gratuitement, et c'est une leçon que personne ne pense à écouter.",
+  r:"En quarante minutes de vantardise, il donne trois détails précis sur sa façon d'engager. Tu les notes. La foule, elle, retient sa coiffure."},
+ {t:"Repartir avant que la paupière retombe", tag:"Le retrait",
+  eff:{obs:8, ruse:8, renom:-4},
+  why:"Ce qui dort là-dedans ne choisit pas qui il frappe, et tu n'as rien à faire dans cette rue.",
+  r:"Tu remontes la rue à contre-courant de la foule qui arrive. Tu entends les cris deux minutes plus tard, derrière toi."}
+]});
+
+E({id:"vis_bonney", pic:'c_bonney', act:3, scene:"sabaody", w:9, once:1,
+kicker:"Une table, et beaucoup d'assiettes", title:"Douze ans pendant trente secondes",
+text:"Elle mange pour quatre à la terrasse d'un restaurant, seule, et personne ne vient réclamer l'addition.<br><br>Au milieu du repas, elle a douze ans pendant trente secondes. Puis elle a de nouveau son âge, et elle continue sa phrase.",
+opts:[
+ {t:"Payer l'addition et t'asseoir", tag:"L'invitation",
+  eff:{ruse:10, renom:8, vol:5},
+  why:"Elle mange seule parce que personne ne paie, pas parce que personne ne l'intéresse.",
+  r:"Elle te laisse t'asseoir et elle continue de manger. Elle parle du Gouvernement Mondial pendant une heure, avec une haine très calme et très précise."},
+ {t:"Lui demander ce qui vient de se passer", tag:"La question", d:1,
+  eff:{obs:12, vol:9, renom:-5},
+  why:"Une femme qui rajeunit trente secondes en public ne le contrôle pas, et ce qu'elle ne contrôle pas se raconte.",
+  r:"Elle repose sa fourchette. Elle dit que ce n'est pas un pouvoir, que c'est ce qu'on lui a fait, et elle ne dit pas qui.",
+  fail:{p:.3, on:"vol", eff:{obs:5, renom:-7},
+   why:"Il y a des questions qu'on ne pose pas à quelqu'un qui mange seul depuis des années.",
+   r:"Elle te regarde longtemps. Puis elle demande l'addition, la laisse sur la table, et s'en va sans l'avoir payée."}},
+ {t:"L'observer sans rien dire", tag:"La mesure",
+  eff:{obs:13, ruse:6},
+  why:"Ce qui lui arrive suit un rythme, et un rythme se compte si on regarde assez longtemps.",
+  r:"Ça arrive trois fois en une heure, toujours après une contrariété. Tu repars avec quelque chose qu'elle-même n'a peut-être pas remarqué."}
+]});
+
+/* ============================ ACTE 4 ============================ */
+
+E({id:"vis_bege", pic:'c_bege', act:4, scene:"newworld", w:10, once:1,
+kicker:"Une invitation à dîner", title:"Le dîner en famille",
+text:"Il t'invite à dîner sur son navire, en famille, avec sa femme et son fils à table. Le repas est excellent et personne ne parle affaires.<br><br>À un moment, il consulte quelqu'un à l'intérieur de lui-même avant de répondre à une question. Sa femme ne relève pas.",
+opts:[
+ {t:"Parler de sa famille, pas de son métier", tag:"La table",
+  eff:{ruse:12, renom:8, obs:6},
+  why:"Un homme qui fait dîner sa femme et son fils avec toi t'a déjà dit ce qui compte, et il attend que tu l'aies compris.",
+  r:"Il parle de son fils pendant vingt minutes. Puis il te dit, sans changer de ton, qu'il ne s'attaque jamais à quelqu'un qui a mangé à cette table."},
+ {t:"Demander à voir l'intérieur", tag:"La forteresse", d:1,
+  eff:{obs:14, ruse:7, vol:5, renom:-4},
+  why:"Ce qu'il porte en lui est une garnison entière, et personne ne l'a jamais vue de l'intérieur en repartant.",
+  r:"Il te fait entrer. Il y a une cour, des hommes, des canons, et une place de village. Tu ressors dix minutes plus tard et tu ne dors pas cette nuit-là.",
+  fail:{p:.3, on:"vol", eff:{obs:5, renom:-8},
+   why:"Il fait entrer les gens chez lui. La question intéressante est de savoir dans quel état ils ressortent.",
+   r:"La porte se referme derrière toi et il négocie avec toi de l'intérieur, tranquillement, pendant que sa femme sert le dessert dehors."}},
+ {t:"Refuser poliment et repartir", tag:"Le retrait",
+  eff:{ruse:9, vol:6, renom:-5},
+  why:"On peut refuser un dîner. On ne refuse pas deux fois, mais on peut refuser une fois.",
+  r:"Il ne se vexe pas, il ne se lève même pas. Il te dit que la porte reste ouverte, et tu sens très bien que c'est vrai dans les deux sens."}
+]});
+
+E({id:"vis_hawkins", pic:'c_hawkins', act:4, scene:"newworld", w:10, once:1,
+kicker:"Des cartes posées sur un tonneau", title:"Le chiffre sur le tonneau",
+text:"Il tire trois cartes sur un tonneau, à quai, et il annonce un chiffre : les chances que ton navire arrive à bon port.<br><br>Le chiffre n'est pas bon. Il ne le dit ni pour te faire peur ni pour te vendre quoi que ce soit, il le dit comme on lit un thermomètre.",
+opts:[
+ {t:"Lui demander de tirer pour lui-même", tag:"Le retour",
+  eff:{ruse:12, obs:8, vol:5},
+  why:"Un homme qui annonce les chances des autres a forcément tiré les siennes, et sa réaction dira ce que ça vaut.",
+  r:"Il tire, il regarde, et il range les cartes sans donner le chiffre. C'est la réponse la plus claire que tu obtiendras de lui."},
+ {t:"Changer de route à cause du chiffre", tag:"La prudence", d:1,
+  eff:{obs:11, ruse:9, renom:-6, vol:-4},
+  why:"Ses prédictions se vérifient assez souvent pour que des équipages entiers changent de cap, et ça se sait.",
+  r:"Tu prends la route longue. Trois jours plus tard, un navire qui a pris la courte est retrouvé vide, la coque intacte.",
+  fail:{p:.28, on:"obs", eff:{ruse:5, renom:-6},
+   why:"Une prédiction qui fait changer de route peut aussi être une prédiction qui fait perdre trois jours.",
+   r:"La route longue ne donne rien, et la courte non plus n'a rien donné à personne. Tu as perdu trois jours sur une carte à jouer."}},
+ {t:"Ignorer le chiffre et lui dire pourquoi", tag:"Le refus",
+  eff:{vol:13, renom:7, obs:-4},
+  why:"Un homme qui décide de sa route sur un tirage de cartes ne décide plus rien du tout.",
+  r:"Tu lui dis que tu préfères te tromper toi-même. Il hoche la tête, sincèrement, et il note quelque chose. Tu ne sauras jamais quoi."}
+]});
+
+E({id:"vis_drake", pic:'c_drake', act:4, scene:"newworld", w:10, once:1,
+kicker:"Un capitaine qui hésite", title:"Celui qui hésite",
+text:"Il te croise sur un quai et il ne dégaine pas. Il hésite, visiblement, et tu ne sais pas de quel côté vient l'hésitation.<br><br>Il porte le tatouage d'un équipage et il se tient comme quelqu'un qui a été officier ailleurs.",
+opts:[
+ {t:"Lui dire que tu ne diras rien", tag:"Le pacte",
+  eff:{ruse:13, obs:8, renom:-4},
+  why:"Un homme qui hésite à ce point porte quelque chose que quelqu'un pourrait dire à sa place.",
+  r:"Il ne confirme rien et il ne nie rien. Il te dit seulement que si tu as besoin d'une porte ouverte un jour dans le Nouveau Monde, tu peux essayer son nom."},
+ {t:"Lui demander pour qui il travaille vraiment", tag:"La question", d:1,
+  eff:{obs:12, vol:8, renom:-6},
+  why:"Il tient trop droit pour un pirate et il attend trop longtemps pour un officier.",
+  r:"Il te répond par une autre question, et cette question contient la réponse. Vous vous quittez sans que rien ait été dit à voix haute.",
+  fail:{p:.32, on:"obs", eff:{obs:5, renom:-7},
+   why:"On ne demande pas ça sur un quai à quelqu'un dont la vie tient à ce que personne ne le demande.",
+   r:"Il change de visage, ouvre la gueule, et le quai se vide en dix secondes. Il ne te poursuit pas, et c'est la seule bonne nouvelle."}},
+ {t:"Passer sans le regarder", tag:"Rien",
+  eff:{obs:7, ruse:7},
+  why:"Un homme qui hésite finit par décider, et il vaut mieux ne pas être là quand ça arrive.",
+  r:"Tu remontes le quai. Dans ton dos, tu l'entends rester au même endroit très longtemps sans bouger."}
+]});
+
+E({id:"vis_sanji", pic:'c_sanji', act:4, scene:"newworld", w:10, once:1,
+kicker:"Une cuisine de bord, la nuit", title:"Trois heures du matin",
+text:"Il cuisine à trois heures du matin pour un équipage qui dort. Il n'y a personne pour manger et il fait quand même le service complet.<br><br>Il te sert sans demander qui tu es. Il demande d'abord si tu as mangé aujourd'hui.",
+opts:[
+ {t:"Manger, simplement", tag:"La table",
+  eff:{vol:10, renom:6, ruse:5},
+  why:"Un cuisinier qui ne demande pas ton nom avant de te nourrir a une règle, et cette règle ne se discute pas.",
+  r:"C'est le meilleur repas que tu aies fait depuis des mois. Il ne pose aucune question et il n'en attend aucune. En partant tu comprends que tu ne pourras plus jamais le combattre sans y penser."},
+ {t:"Lui demander pourquoi il ne se sert jamais de ses mains", tag:"La règle", d:1,
+  eff:{combat:12, obs:8, vol:5},
+  why:"Un homme qui combat uniquement des jambes s'est imposé ça, et ce qu'on s'impose a toujours une raison.",
+  r:"Il dit que les mains sont pour la cuisine, et il le dit comme une évidence qu'il n'a jamais eu à défendre. Puis il te montre pourquoi ses jambes suffisent.",
+  fail:{p:.24, on:"combat", eff:{combat:5, renom:-4},
+   why:"C'est une question qu'on lui a déjà posée mille fois, et la plupart du temps pour se moquer.",
+   r:"Il te répond sèchement, allume une cigarette, et retourne à ses casseroles. La conversation est finie."}},
+ {t:"Lui parler de sa famille", tag:"Le sujet", d:1,
+  eff:{obs:11, vol:9, renom:-7},
+  why:"On raconte qu'il vient d'une lignée qu'il a reniée, et il n'y a que deux façons dont ça peut tourner.",
+  r:"Il pose son couteau. Il parle très peu et très précisément, pendant quatre minutes. Puis il te ressert et il change de sujet lui-même.",
+  fail:{p:.35, on:"vol", eff:{renom:-9, vol:5},
+   why:"Il y a des sujets qu'on n'aborde pas avec quelqu'un qui vient de te nourrir gratuitement.",
+   r:"La cuisine devient très silencieuse. Il ne se fâche pas, il attend juste que tu partes, et tu pars."}}
+]});
+
+E({id:"vis_law", pic:'c_law', act:4, scene:"newworld", w:10, once:1,
+kicker:"Un cabinet improvisé sur le port", title:"L'opération sur le quai",
+text:"Il opère un pêcheur sur une table de fortune, à quai, avec un matériel qu'aucun hôpital ne reconnaîtrait. Le pêcheur va très bien après.<br><br>Il ne demande rien pour ça. Il demande juste qu'on ne raconte pas où il est.",
+opts:[
+ {t:"Te faire soigner ce que tu traînes", tag:"Les soins",
+  eff:{vol:12, combat:8, renom:-4},
+  why:"Personne dans ce métier n'arrive à ce stade sans traîner quelque chose qui ne s'est jamais bien refermé.",
+  r:"Il regarde, il découpe, il remet en place. Ça prend quatre minutes et une douleur ancienne disparaît. Il ne te dit pas ce que c'était."},
+ {t:"Lui demander ce qu'il cherche vraiment ici", tag:"La question", d:1,
+  eff:{obs:13, ruse:8, renom:-5},
+  why:"Un chirurgien de ce niveau qui opère gratuitement sur un quai n'est pas là pour les pêcheurs.",
+  r:"Il répond en te posant une question sur ce que tu sais des Ponéglyphes. La conversation dure une heure et personne n'a rien concédé.",
+  fail:{p:.3, on:"ruse", eff:{obs:6, renom:-6},
+   why:"Il a construit sa vie entière autour du fait que personne ne sache ce qu'il cherche.",
+   r:"Une sphère s'ouvre autour de vous sans un bruit. Quand elle se referme, tu es à quarante mètres, sur un toit, et il a repris son opération."}},
+ {t:"Le laisser travailler et t'en aller", tag:"Rien",
+  eff:{obs:7, vol:6, renom:4},
+  why:"Il a demandé une seule chose, qu'on ne dise pas où il est, et il ne l'a demandée qu'une fois.",
+  r:"Tu pars sans un mot. Trois ports plus loin, quelqu'un demande si tu l'as vu, et tu réponds non sans hésiter."}
+]});
+
+/* ============================ ACTE 5 ============================ */
+
+E({id:"vis_kuma", pic:'c_kuma', act:5, scene:"mariejoie", w:10, once:1,
+kicker:"Un homme immobile près d'un mur", title:"L'homme qu'on a laissé là",
+text:"Il se tient debout, immobile, à l'endroit exact où on l'a posé. Des gens passent devant lui depuis des heures et personne ne le regarde.<br><br>Il ne dit rien. Il n'a plus de quoi dire quoi que ce soit, et ce n'est pas une figure de style.",
+opts:[
+ {t:"Rester avec lui un moment", tag:"La présence",
+  eff:{vol:14, renom:5, ruse:-5},
+  why:"Il y a des choses qu'on fait sans que ça serve, et la carrière d'un homme se juge aussi là-dessus.",
+  r:"Tu restes une heure sans rien dire. Rien ne se passe. En repartant, tu sais quelque chose sur ce que le Gouvernement fait des gens, et ça ne s'oublie pas."},
+ {t:"Chercher qui l'a mis là", tag:"L'enquête", d:1,
+  eff:{obs:13, ruse:10, renom:-6}, f:"ennemi_gm",
+  why:"Un homme n'arrive pas debout contre un mur de Marie-Joie tout seul, et il y a forcément un registre quelque part.",
+  r:"Tu remontes trois signatures et deux services. Le nom au bout n'est pas celui que tu attendais, et il vaut mieux ne pas le prononcer ici.",
+  fail:{p:.34, on:"ruse", eff:{obs:6, renom:-9},
+   why:"Poser des questions sur un dossier des Dragons Célestes, à Marie-Joie, se remarque très vite.",
+   r:"On te demande poliment ce que tu cherches. Tu réponds bien, mais ton nom est maintenant écrit sur une liste que tu ne verras jamais."}},
+ {t:"Passer, comme les autres", tag:"Rien",
+  eff:{ruse:7, vol:-6, obs:5},
+  why:"Tout le monde ici passe devant lui sans le voir, et il y a une raison à ça.",
+  r:"Tu fais comme les autres. Ça prend trois secondes et ça reste beaucoup plus longtemps que ça."}
+]});
+
+E({id:"vis_beckman", pic:'c_beckman', act:5, scene:"newworld", w:10, once:1,
+kicker:"Une partie de cartes sur un pont", title:"La partie de cartes",
+text:"Il joue aux cartes avec trois de ses hommes, le fusil posé contre la rambarde, et il te dit exactement ce que tu vas faire dans les dix prochaines secondes.<br><br>Tu le fais. Il ne triomphe pas, il continue sa partie.",
+opts:[
+ {t:"T'asseoir et jouer une main", tag:"La partie",
+  eff:{ruse:13, obs:9, renom:6},
+  why:"On apprend plus sur un second en une main de cartes qu'en trois heures de discussion.",
+  r:"Il te laisse gagner la première et il gagne les quatre suivantes. Entre deux mains, il te dit une chose sur son capitaine que personne n'écrit nulle part."},
+ {t:"Lui demander ce qu'il pense de toi", tag:"La question", d:1,
+  eff:{obs:11, vol:9, renom:-5},
+  why:"Un homme capable d'annoncer tes dix prochaines secondes a une opinion très précise sur ce que tu vaux.",
+  r:"Il répond en deux phrases, sans méchanceté, et les deux phrases sont exactes. Tu y penseras pendant des années.",
+  fail:{p:.28, on:"vol", eff:{obs:5, renom:-6},
+   why:"Poser cette question à ce niveau, c'est demander à quelqu'un de te dire ce que tu n'as pas envie d'entendre.",
+   r:"Il répond en deux phrases, sans méchanceté, et les deux phrases sont exactes. Tu n'étais pas prêt à les entendre."}},
+ {t:"Repartir sans jouer", tag:"Le retrait",
+  eff:{ruse:8, obs:6, renom:-4},
+  why:"Une table où le second du Roux annonce tes gestes n'est pas une table où on gagne quelque chose.",
+  r:"Tu remontes le pont. Il ne lève pas les yeux de ses cartes et il dit à voix haute, pour ses hommes, que tu as bien fait."}
+]});
+
+E({id:"vis_fujitora", pic:'c_fujitora', act:5, scene:"mariejoie", w:10, once:1,
+kicker:"Un amiral assis par terre", title:"L'amiral perd aux dés",
+text:"Il joue aux dés avec des gamins sur une place, assis à même le sol, et il perd. Il perd vraiment, et ça le fait rire.<br><br>Il est aveugle par choix. Il te reconnaît avant que tu aies parlé, et il ne se lève pas.",
+opts:[
+ {t:"S'asseoir et jouer avec eux", tag:"Les dés",
+  eff:{vol:11, renom:8, ruse:5},
+  why:"Un amiral qui perd aux dés contre des gamins n'est pas en train de perdre, il est en train de regarder quelque chose.",
+  r:"Vous jouez trois parties. Il parle de la différence entre ce qu'on lui ordonne et ce qu'il croit juste, sans jamais nommer personne."},
+ {t:"Lui demander pourquoi il s'est aveuglé", tag:"La question", d:1,
+  eff:{obs:12, vol:10, renom:-5},
+  why:"Personne ne fait ça par accident, et il ne s'en cache pas.",
+  r:"Il dit qu'il a vu une chose qu'il ne voulait plus voir. Il ne dit pas laquelle. Il ajoute que depuis, il voit beaucoup mieux le reste.",
+  fail:{p:.26, on:"vol", eff:{obs:6, renom:-5},
+   why:"C'est une question qu'on lui pose souvent, et il a une réponse toute prête pour ceux qui la posent mal.",
+   r:"Il te sort une plaisanterie, les gamins rient, et la conversation est fermée sans que personne ait été impoli."}},
+ {t:"Lui parler de ce que tu as vu faire au Gouvernement", tag:"Le rapport", d:1,
+  eff:{vol:13, renom:9, ruse:-8}, f:"ennemi_gm",
+  why:"C'est le seul amiral connu pour avoir demandé publiquement qu'on change quelque chose, et il écoute.",
+  r:"Il t'écoute en entier sans interrompre, puis il reste silencieux longtemps. Il dit qu'il ne peut rien faire aujourd'hui, et qu'il retient. Venant de lui, ce n'est pas une formule.",
+  fail:{p:.3, on:"ruse", eff:{renom:-8, vol:6},
+   why:"Parler des Dragons Célestes à un amiral en service, sur une place de Marie-Joie, reste parler à un amiral en service.",
+   r:"Il lève la main pour t'arrêter avant la fin. Il te dit que ce n'est ni le lieu ni le jour, et il a raison sur les deux."}}
+]});
+
+E({id:"vis_gaban", pic:'c_gaban', act:5, scene:"elbaf", w:10, once:1,
+kicker:"Un vieil homme et deux haches", title:"Le bois derrière la maison",
+text:"Il fend du bois derrière une maison, deux haches, une dans chaque main, à un rythme que personne de son âge ne devrait tenir.<br><br>Il a servi sous Roger. Il est un des rares à ne pas être mort, et un des très rares à ne pas en parler.",
+opts:[
+ {t:"Fendre du bois avec lui, sans parler", tag:"Le travail",
+  eff:{combat:10, vol:12, renom:5},
+  why:"Il n'a pas envie de raconter et il n'a pas demandé de compagnie. Le bois, lui, ne pose pas de question.",
+  r:"Vous travaillez deux heures. À la fin il te tend une gourde et il te dit que tu tiens mieux ta hache que la plupart des gens qu'il a vus, et il en a vu."},
+ {t:"Lui demander comment était Roger", tag:"La question", d:1,
+  eff:{obs:11, vol:10, renom:6},
+  why:"Il reste très peu d'hommes vivants qui ont vu cet équipage de l'intérieur, et il est l'un d'eux.",
+  r:"Il pose la hache. Il dit trois choses que personne ne raconte, dont une qui contredit ce que le monde entier répète. Puis il reprend son bois.",
+  fail:{p:.28, on:"vol", eff:{obs:5, renom:-5},
+   why:"On a dû lui poser cette question mille fois, souvent par des gens qui voulaient s'en servir.",
+   r:"Il te demande pourquoi tu veux savoir. Tu réponds, et ta réponse ne lui suffit pas. Il reprend son bois sans rien ajouter."}},
+ {t:"Lui montrer ce que tu sais faire", tag:"La démonstration", d:1, ineed:"sp_sabre|sp_arts",
+  eff:{combat:13, arm:9, renom:7, vol:5},
+  why:"Un homme qui a tenu debout à côté de Roger sait en trois gestes ce que vaut celui qui les fait.",
+  r:"Il regarde sans commenter, puis il corrige une seule chose, une inclinaison de poignet. Ça change tout, et tu mettras un an à comprendre pourquoi.",
+  fail:{p:.3, on:"combat", eff:{combat:6, renom:-6},
+   why:"Se montrer devant quelqu'un de ce niveau, c'est montrer aussi tout ce qu'on ne sait pas.",
+   r:"Il regarde, il hoche la tête poliment, et il ne dit rien du tout. C'est la pire réponse possible et vous le savez tous les deux."}},
+ /* ON FERME UNE PORTE, ON EN OUVRE UNE AUTRE. L'option de demonstration se
+    ferme hors du sabre et des arts martiaux, et la carte tombait alors a deux
+    choix. Celle-ci prend sa place pour les trois autres voies. */
+ {t:"Lui demander ce qu'il ferait à ta place", tag:"Le conseil", sauf:"sp_sabre|sp_arts",
+  eff:{obs:10, vol:9, ruse:6},
+  why:"Un homme qui a traversé tout ce que le monde comptait de dangereux, et qui fend du bois derrière une maison, a forcément un avis sur la suite.",
+  r:"Il te répond par une question sur ce que tu comptes laisser derrière toi. Tu n'as pas la réponse, et c'était le but de la question."}
+]});
+
+E({id:"vis_dragon", pic:'c_dragon', act:5, scene:"newworld", w:9, once:1, nmin:60,
+kicker:"Une silhouette sous la pluie", title:"Le vent tourne d'un coup",
+text:"Le vent tourne d'un coup sur tout le port et retombe aussitôt. Sur le môle, un homme au visage tatoué regarde la mer, seul, et personne autour ne semble le voir.<br><br>On ne sait presque rien de lui. Ce qu'on sait, c'est que le Gouvernement Mondial l'appelle le pire criminel du monde et ne dit jamais pourquoi.",
+opts:[
+ {t:"L'aborder et dire ce que tu veux vraiment", tag:"La franchise", d:1,
+  eff:{vol:14, renom:10, obs:6},
+  why:"Il n'écoutera pas un discours, et il ne restera pas assez longtemps pour deux tentatives.",
+  r:"Tu dis une phrase. Il te regarde enfin, ce que le monde entier n'a pas obtenu en vingt ans. Il ne répond pas, mais il a entendu.",
+  fail:{p:.34, on:"vol", eff:{vol:6, renom:-7},
+   why:"Il y a des gens devant qui une phrase préparée sonne exactement comme une phrase préparée.",
+   r:"Il ne se retourne pas. Le vent se lève, la pluie te rentre dans les yeux, et quand tu les rouvres il n'y a plus personne sur le môle."}},
+ {t:"L'observer sans t'approcher", tag:"La mesure",
+  eff:{obs:14, ruse:7, renom:-4},
+  why:"Personne ne l'a jamais vu se battre. Ce qu'on peut apprendre de lui, on l'apprend en regardant.",
+  r:"Il ne fait rien pendant vingt minutes. Le vent, lui, ne fait pas rien, et tu commences à comprendre pourquoi personne ne sait ce qu'il porte."},
+ {t:"Prévenir la Marine", tag:"Le rapport", ineed:"marine|gm", d:1,
+  eff:{ruse:11, renom:12, vol:-10},
+  why:"C'est le nom le plus haut de toutes les listes, et le signaler est exactement ce que l'uniforme attend.",
+  r:"Tu envoies le message. Trois navires arrivent en quarante minutes, ce qui est un record. Il n'y a plus rien sur le môle depuis trente-cinq.",
+  fail:{p:.3, on:"ruse", eff:{renom:-8, vol:5},
+   why:"Signaler quelqu'un que personne n'a jamais réussi à retenir, c'est surtout signaler qu'on l'a laissé partir.",
+   r:"On te demande pourquoi tu n'as pas engagé. Tu expliques. La réponse est notée, et elle ne te sert pas."}},
+ {t:"Ne rien faire du tout", tag:"Rien", sauf:"marine|gm",
+  eff:{obs:8, vol:6},
+  why:"Certaines rencontres n'attendent rien de toi, et vouloir en faire quelque chose est la seule erreur possible.",
+  r:"Tu restes où tu es jusqu'à ce qu'il parte. Tu ne le raconteras à personne, et tu y repenseras souvent."}
+]});
+
 /* ======================= L'ETAT DU MONDE ================================
    Enrick, 25 aout : « en dessous du panneau depliant on pourrait en mettre un
    deuxieme qui represente l'etat de One Piece, les quatre Empereurs quand tu
