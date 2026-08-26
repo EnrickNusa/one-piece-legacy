@@ -3352,7 +3352,7 @@ var ADV = [
 {id:'c_vergo', nat:'marine', only:'pirate|revo|gm', n:"Vergo, le bambou", niv:58, sc:'newworld', pr:3.0,
  k:"Un Vice-Amiral qui n'a jamais servi la Marine",
  i:"Quinze ans de service exemplaire, des décorations, un grade réel, et une loyauté qui n'a jamais appartenu au Gouvernement une seule journée.<br><br>Il enrobe un simple bâton de bambou et ça vaut n'importe quelle lame classée.",
- s:["Le bambou noircit et le mur derrière toi se fend en deux.",
+ s:["Le bambou se couvre de Haki et le mur derrière toi se fend en deux.",
     "Il a de la nourriture collée sur la joue et personne n'ose le lui dire.",
     "Il te montre son grade, puis ce qu'il en fait."],
  w:"Le bambou casse. C'est la première fois en quinze ans, et son visage le dit avant sa bouche.",
@@ -3543,6 +3543,9 @@ var ADV = [
  s:["Elle ouvre en balançant la masse à hauteur de tête, sans prévenir.",
     "Elle brise le bastingage à l'endroit exact où tu allais poser le pied.",
     "Elle change de main et frappe du côté que tu ne surveillais pas."],
+ re:{
+  franc:{ok:"Tu vises le manche de la masse, la seule chose sur elle qui ne glisse pas, et tu la lui arraches des mains. Son corps ne retient rien, une arme qui tombe à trois mètres non plus.",
+         ko:"Ton coup part droit et il dérape sur elle comme sur une coque savonnée. {B} n'a pas bougé les pieds. Elle ramasse la masse pendant que tu cherches où ton poing est passé."}},
  w:"Elle finit assise contre le mât, la masse hors de portée, à te demander qui tu es. Quatre villages apprennent la nouvelle avant le soir.",
  l:"Elle te sort du combat d'un revers et te laisse sur le pont sans t'achever. Ce n'est pas de la clémence, c'est du mépris.",
  m:"Cinquante kilos de fer lancés à pleine volée ne demandent pas de talent, seulement de la place. Elle en avait.",
@@ -3554,6 +3557,9 @@ var ADV = [
  s:["Il disparaît. Le bruit vient de derrière toi et il est déjà passé.",
     "Il frappe sans regarder, au hasard, et c'est exactement ce qui le rend impossible à lire.",
     "Il se remet en garde et remonte ses lunettes. Il a compris comment tu bouges."],
+ re:{
+  obs:{ok:"Tu arrêtes de le suivre des yeux et tu écoutes le sol. Ses pas ne font aucun bruit, dix lames qui traînent si. Tu l'attrapes par le manteau au passage, et tout s'arrête net, parce qu'il n'a jamais su l'arrêter autrement.",
+       ko:"{B} se balance et il part. Il n'y a plus rien à lire, parce que lui non plus ne sait pas où il va. Les entailles arrivent de partout, y compris sur ses propres hommes."}},
  w:"Tu attends qu'il repasse et tu frappes l'endroit où il va être, pas celui où il est. Il s'écroule en te disant que son plan était parfait.",
  l:"Dix lames, cent passages, et tu ne l'as jamais vu venir une seule fois. Il te laisse par terre parce qu'un mort attire la Marine.",
  m:"Il ne t'a pas visé. C'est justement ce qui fait que tu n'as rien pu esquiver.",
@@ -3565,6 +3571,9 @@ var ADV = [
  s:["Il ouvre au gaz empoisonné, sans sommation, parce qu'il n'y a pas de règles chez lui.",
     "Sa cuirasse s'ouvre sur une batterie de lances et il vide tout d'un coup.",
     "Il charge, deux cents kilos d'acier, en pariant que tu ne tiendras pas."],
+ re:{
+  ruse:{ok:"{B} se met à genoux et demande grâce. Tu ne baisses pas la garde et tu lui prends l'épaulière gauche. Le vrai gaz est encore dedans.",
+        ko:"Il tire quelque chose de son épaule et tu vas au-devant pour l'intercepter. Ce n'était pas la bombe, c'était le leurre, et tu prends les lames en pleine poitrine."}},
  w:"Tu attends qu'il ait tout tiré. Un homme qui n'a plus de munitions dans une armure de deux cents kilos n'est plus qu'un homme lourd.",
  l:"L'armure encaisse tout ce que tu donnes, et lui n'a même pas eu à viser. Tu te réveilles à la dérive sur une chaloupe.",
  m:"Il n'y a pas d'honneur, pas de duel, pas de dernier mot. Juste du gaz et une mer très grande.",
@@ -3578,6 +3587,11 @@ var ADV = [
  s:["Ses mains se détachent et t'attaquent de deux côtés à la fois.",
     "Il place trois couteaux dans l'air, sans bras, à hauteur de gorge.",
     "Il envoie son buste entier pendant que ses jambes restent à couvert."],
+ re:{
+  ruse:{ok:"Tu ne vises pas {B}, tu vises ses pieds, les deux seuls morceaux qui ne décollent jamais du sol. Tout le reste de lui reste en l'air à hurler pendant que tu marches dessus.",
+        ko:"Ta lame le coupe en quatre et il tombe. Tu te retournes. Une main que tu n'avais pas comptée arrive avec quatre couteaux entre les doigts."},
+  franc:{ok:"Tu laisses la lame au fourreau et tu frappes du poing. Ça ne coupe pas, donc ça ne le démonte pas, et il le prend comme n'importe qui.",
+         ko:"Tu frappes fort et bien, sauf qu'il t'a vu venir. Il s'ouvre en morceaux avant l'impact et ton poing traverse un homme qui n'est plus là."}},
  w:"Tu cesses de viser le corps et tu vises les pieds, la seule partie qu'il ne détache jamais. Il tombe en hurlant que c'est de la triche.",
  l:"Tu passes une heure à découper un homme qui adore être découpé. À la fin, c'est toi qui es fatigué.",
  m:"Trois couteaux flottants et pas un bras pour les tenir. On ne pare pas ce qui n'a pas d'épaule.",
@@ -3589,6 +3603,9 @@ var ADV = [
  s:["Il plonge. Dans l'eau sa force double pendant que la tienne est divisée par deux.",
     "Il mord. C'est laid, c'est efficace, et ça arrache un morceau de bois de trente centimètres.",
     "Il arrache le pilotis et s'en sert comme d'un bélier."],
+ re:{
+  franc:{ok:"Tu ramasses le jeu de dents qu'il vient de recracher et tu t'en sers contre lui. {B} te dit qu'un humain ne saura pas s'en servir. Il a raison, et ça suffit quand même.",
+         ko:"Tu lui casses les dents et il en a un nouveau jeu avant que tu aies reculé. Celui-là est plus dur. Il remet son nez en place au passage, sans un mot."}},
  w:"Tu le forces à rester au sec et tu ne lui laisses plus une seule occasion de replonger. Le village arrête de payer le soir même.",
  l:"Il te ramène dans l'eau, et dans l'eau il n'y a plus de combat, il n'y a que la noyade que quelqu'un t'évite de justesse.",
  m:"Il te tient sous la surface le temps qu'il faut. Un Homme-poisson n'a pas besoin de se presser.",
@@ -3601,6 +3618,9 @@ var ADV = [
  s:["Il avale un canon entier et ressort en ayant la bouche d'un canon.",
     "Il mord dans la coque et emporte un mètre carré de bordé.",
     "Il fusionne deux de ses hommes en une seule chose qui ne devrait pas marcher."],
+ re:{
+  franc:{ok:"Tu lui donnes quelque chose de mou à avaler et il s'étrangle avec. Sa bouche ne sait pas quoi faire de ce qui plie. Le temps qu'il recrache, il n'est plus un canon.",
+         ko:"{B} ouvre la bouche et ton arme y disparaît. Trois secondes plus tard elle ressort de son bras, pointée sur toi, avec un peu de bave dessus."}},
  w:"Tu attends qu'il ait la bouche pleine. Un roi qui mâche ne parle pas, et un roi qui ne parle pas ne commande plus rien.",
  l:"Il avale ton arme. Littéralement. Tu finis le combat les mains vides devant un homme qui a maintenant ta lame dans le ventre.",
  m:"Il mange à peu près tout. On ne t'a pas retrouvé.",
@@ -3614,6 +3634,10 @@ var ADV = [
  s:["Ses avant-bras se transforment. Le sable autour de lui se coupe en deux tout seul.",
     "Il pare ton arme avec son épaule et ta lame s'ébrèche.",
     "Il te laisse frapper trois fois pour voir si tu comprends ce qu'il faut faire."],
+ re:{
+  arm:{ok:"Tu ne cherches plus le tranchant, tu cherches l'endroit où l'acier est le plus mince. Ton Haki de l'Armement passe, et son bras se fend dans le sens de la lame.",
+       ko:"Tu frappes une lame avec une lame. La sienne n'a ni tranchant ni dos, donc tu ne sais jamais de quel côté elle va s'ouvrir. Elle s'ouvre du mauvais.",
+       sup:"Il durcit tout son corps d'un coup et ton coup rebondit sans laisser de trace. Il n'a pas paré, il n'a simplement pas eu besoin de bouger."}},
  w:"Il te faut comprendre qu'on ne coupe pas l'acier avec de l'acier, mais avec quelque chose de plus dur. Quand tu le comprends, il tombe presque avec satisfaction.",
  l:"Tu t'acharnes sur un homme qui est fait de la chose même avec laquelle tu essaies de le tuer. Il te laisse debout par curiosité.",
  m:"Il te coupe proprement, sans un mot, comme on classe un dossier.",
@@ -3637,6 +3661,12 @@ var ADV = [
  s:["Ton coup passe à travers lui. Du sable retombe, c'est tout.",
     "Il te prend le poignet et t'assèche la main jusqu'à l'os en une seconde.",
     "Il fait monter une tempête de sable qui efface la ville autour de vous."],
+ re:{
+  arm:{ok:"Ton Haki de l'Armement tient assez pour que ta prise trouve autre chose que du sable. {B} découvre qu'on peut le saisir, et ça ne lui plaît pas du tout.",
+       ko:"Ton coup entre dans un torse qui se défait et ressort de l'autre côté. Il referme la main sur ton bras, et l'eau te quitte d'un coup.",
+       sup:"Il a vu ton Haki monter et il n'attend pas le coup. Le sable se referme sur ton poignet avant, et il te demande si tu comptais vraiment prendre un désert à mains nues."},
+  ruse:{ok:"Tu ne frappes pas, tu mouilles. De l'eau sur du sable ça fait de la boue, et de la boue, ça se tient.",
+        ko:"Il assèche la flaque avant qu'elle t'atteigne. Ici, l'eau lui appartient, elle n'est pas à toi."}},
  w:"L'eau. Il suffit d'eau, et d'accepter de se rapprocher assez pour la lui mettre dessus. Le royaume revoit la pluie dans la semaine.",
  l:"Tu frappes du sable pendant une heure. À la fin il te plante son crochet dans le ventre et te laisse dans une fosse.",
  m:"Il t'assèche entièrement. Ça prend moins de temps qu'on ne l'imagine.",
@@ -3649,6 +3679,12 @@ var ADV = [
  s:["Il annonce ton mouvement à voix haute avant que tu le fasses.",
     "La foudre tombe trois fois au même endroit, celui où tu allais aller.",
     "Il devient la foudre elle-même et traverse la place en un battement de cils."],
+ re:{
+  arm:{ok:"Tu montes la garde et tu absorbes la colonne au lieu de l'éviter. Ton Haki de l'Armement tient. Il tombe de son nuage sans comprendre ce qui l'a touché.",
+       ko:"Ta main traverse un homme fait de foudre et il n'y a rien à saisir. Deux cents millions de volts repartent par ton bras.",
+       sup:"Il te voit venir avant que tu bouges. La colonne tombe pendant que ton bras monte encore, et ton Haki n'a pas eu le temps de durcir."},
+  obs:{ok:"Tu lis son intention pendant qu'il lit la tienne. Il n'a pas l'habitude d'être vu, et ce demi-temps lui coûte la manche.",
+       ko:"Il sait ce que tu vas faire avant toi. Il te le dit à voix haute, poliment, puis il le fait."}},
  w:"Il n'a jamais rencontré quelqu'un que l'électricité ne traverse pas comme il faut. Le jour où ça arrive, un dieu redevient un homme très surpris.",
  l:"Il t'entend penser. Chaque coup arrive une seconde trop tard et le dernier te laisse sur le sol de l'île du ciel.",
  m:"Deux cents millions de volts. Il n'a même pas eu à se lever.",
@@ -3809,6 +3845,12 @@ var ADV = [
  s:["Il est à trente mètres. Il est à trente centimètres. Il n'y a rien entre les deux.",
     "Un rayon traverse le bosquet et ressort de l'autre côté de l'archipel.",
     "Il donne un coup de pied à la vitesse de la lumière, en s'excusant à moitié."],
+ re:{
+  obs:{ok:"Tu ne le vois pas partir, tu sens où il va s'arrêter, et tu y es déjà. La lumière va vite, mais elle va droit.",
+       ko:"Tu lis son intention et il arrive avant ta lecture. Entre les deux, il n'y a rien à voir."},
+  arm:{ok:"Ton Haki de l'Armement accroche la lumière une fraction de seconde. C'est tout ce qu'il faut, et il le sait avant toi.",
+       ko:"Ton coup traverse un homme fait de lumière et ressort de l'autre côté. Il n'a même pas changé de position.",
+       sup:"Il lève la main et arrête ton coup enduit de Haki à mains nues, comme on rattrape une balle. Puis il s'excuse d'avoir été brusque."}},
  w:"Tu le touches. Une seule fois, mais tu le touches, et un Amiral qui saigne sur Sabaody, ça se raconte sur les cinq mers pendant dix ans.",
  l:"Tu ne le vois jamais. Tu encaisses la lumière jusqu'à ce que quelqu'un te tire de là, et tu ne sauras jamais qui.",
  m:"À la vitesse de la lumière, il n'y a pas de dernier instant. Il y a juste avant, et plus rien.",
@@ -3850,6 +3892,10 @@ var ADV = [
  s:["Il pare avec le petit couteau qu'il porte en pendentif. Celui qui lui sert à manger.",
     "Il tire enfin Yoru et l'air se fend jusqu'à l'horizon.",
     "Il attend. C'est à toi de venir, et il le sait."],
+ re:{
+  spe:{ok:"Tu sors ton attaque en entier et il la reçoit sur le plat de sa lame. Il ne recule pas, mais il te regarde autrement.",
+       ko:"Il ne dégaine pas la grande. Il te répond avec le petit couteau qu'il porte au cou, et ça suffit.",
+       sup:"Il ne dégaine toujours pas. Il dévie ce que tu envoies d'un mouvement du poignet, comme on écarte une branche, et il attend la suite."}},
  w:"Il baisse la lame et il te dit que le titre changera de main un jour, mais pas ce jour-ci. Venant de lui, c'est la plus haute chose qu'on puisse entendre.",
  l:"Il ne te tue pas. Il te montre exactement de combien tu es en dessous, ce qui est pire et beaucoup plus utile.",
  m:"Il n'aime pas ça. Il le fait proprement, et il repart sans se retourner.",
@@ -4146,6 +4192,12 @@ var ADV = [
  s:["Ton poing traverse une épaule qui n'est plus là.",
     "La fumée t'entoure les chevilles et se resserre, lentement.",
     "Le jitte touche ta peau et tout ton corps devient lourd d'un coup."],
+ re:{
+  arm:{ok:"Ton Haki de l'Armement accroche la fumée à l'endroit exact où elle se densifie pour te saisir. {B} recule pour la première fois de la journée.",
+       ko:"Ton coup traverse un homme qui n'a pas de contour. La fumée se referme derrière, et la pointe de son arme, elle, est bien réelle.",
+       sup:"Il ne se laisse pas toucher deux fois. La fumée se durcit là où tu frappes, exactement là, et ton poing s'arrête dans quelque chose de mou qui ne cède plus."},
+  spe:{ok:"Il avance la pointe de son arme pour éteindre ce que tu prépares. Tu passes à côté et tu sors ton coup de l'autre main.",
+       ko:"La pointe de son arme te touche avant que tu finisses. Ce n'est pas du métal ordinaire, et tout ce que tu avais s'éteint comme une lampe."}},
  w:"Tu le mets à terre sur son propre quai, devant ses hommes. Il se relève en toussant, allume un cigare, et ne te poursuit pas. Il n'oubliera pas.",
  l:"On ne frappe pas de la fumée. Il te laisse partir parce qu'il a vu que tu l'avais compris.",
  m:"Le Granit Marin t'a vidé, et le reste n'a pas pris longtemps. Il a écrit le rapport lui-même.",
@@ -4316,21 +4368,21 @@ function manosDispo(tout){
      battent vraiment avec. */
   var AR_VOIE = {
     sabre:  {n:"Enrober ta lame de Fluide de l'Armement",
-             ok:"Le noir descend de la garde à la pointe. Le tranchant passe enfin la garde de {B}.",
+             ok:"Ton Haki de l'Armement court jusqu'à la pointe et durcit l'acier. Le tranchant passe enfin la garde de {B}.",
              ko:"En face aussi le Fluide monte, et il est plus dense que le tien. Ta lame ne mord pas."},
     tir:    {n:"Enrober tes balles de Fluide de l'Armement",
-             ok:"La balle part noire. Elle ne se pare pas et elle ne se contourne pas.",
+             ok:"Ton Haki de l'Armement enrobe la balle. Elle ne se pare pas et elle ne se contourne pas.",
              ko:"En face aussi le Fluide monte, et il est plus dense que le tien. La balle s'écrase à plat."},
     science:{n:"Faire monter le Fluide de l'Armement dans ton bras d'acier",
-             ok:"Le noir prend le métal comme il prendrait la peau. {B} découvre que les deux se durcissent.",
+             ok:"Ton Haki de l'Armement prend le métal comme il prendrait la peau. {B} découvre que les deux se durcissent.",
              ko:"En face aussi le Fluide monte, et il est plus dense que le tien. Le bras encaisse et grince."},
     arts:   {n:"Enrober tes poings de Fluide de l'Armement",
-             ok:"Le noir remonte jusqu'aux épaules et tes deux poings passent la garde de {B}.",
+             ok:"Ton Haki de l'Armement remonte jusqu'aux épaules et tes deux poings passent la garde de {B}.",
              ko:"En face aussi le Fluide monte, et il est plus dense que le tien. Tes poings s'arrêtent net."}
   };
   var ar = (S.spec && AR_VOIE[S.spec.id]) || {
     n:"Enrober ton bras de Fluide de l'Armement",
-    ok:"Le noir remonte jusqu'à l'épaule et ton poing passe enfin la garde de {B}.",
+    ok:"Ton Haki de l'Armement remonte jusqu'à l'épaule et ton poing passe enfin la garde de {B}.",
     ko:"En face aussi le Fluide monte, et il est plus dense que le tien. Ton bras cède."};
   if(S.f.haki_arm) add({id:'arm', n:ar.n, st:'arm', b:6, ok:ar.ok, ko:ar.ko});
   if(S.f.haki_obs) add({id:'obs', n:"Lire ses intentions au Fluide de l'Observation", st:'obs', b:5,
@@ -4908,6 +4960,36 @@ function cbManche(){
   })(j);
   save();
 }
+/* ---------------- CE QUE L'ADVERSAIRE FAIT DE TA MANOEUVRE ----------------
+   Mesure du 26 aout : 17 textes de resultat pour 96 adversaires, et
+   l'adversaire n'imposait quelque chose que dans 4 % des manches. Tu enrobais
+   ton arme de Haki contre Kizaru et le jeu te repondait « en face aussi le
+   Fluide monte, et il est plus dense que le tien ». C'est faux : un Amiral de
+   lumiere ne pare pas au Haki, ton coup le traverse.
+
+   Un adversaire porte donc `re:{<manoeuvre>:{ok, ko, sup}}`. Le texte propre
+   gagne sur le texte generique, et le generique reste pour tout le reste.
+
+   ON ECRIT CE QU'ON VOIT, PAS LE NOM DE LA TECHNIQUE. Enrick, 26 aout : « un
+   usager qui ne connait pas le nom des techniques ne comprend pas ce qui se
+   passe en jeu ». Donc pas de nom japonais : la lumiere ne se pare pas, les
+   dents repoussent, l'eau change tout.
+
+   `sup` : LA REACTION N'EST PAS FIGEE. Enrick, 26 aout : « selon le niveau,
+   certains adversaires s'adaptent. Sur Egghead, Kizaru pare le coup de pied de
+   Luffy enduit de Haki ». Quand l'adversaire te domine largement, il ne subit
+   pas ta manoeuvre, il y repond. `sup` remplace alors `ko`.
+
+   Le seuil est de 8 points de force, l'ecart a partir duquel cbProba tombe
+   sous une victoire sur trois. AUCUNE PROBABILITE N'EST TOUCHEE ICI : c'est
+   du texte, et seulement du texte. Rien a remesurer. */
+function reactionAdv(m, a, gagne){
+  var re = a && a.re && a.re[m.id];
+  if(!re) return null;
+  if(gagne) return re.ok || null;
+  if(re.sup && (a.niv - cbForce(m)) >= 8) return re.sup;
+  return re.ko || null;
+}
 function cbResoudre(m){
   var a = S.cb.adv, r = S.cb.r;
   var gagne = rnd() < cbProba(m, a, r);
@@ -4918,7 +5000,7 @@ function cbResoudre(m){
   eff[m.st] = gagne ? 6 : 3;
   if(!gagne) eff.vol = 3;
   var d = applyEff(eff);
-  var txt = (gagne ? m.ok : m.ko).replace(/\{B\}/g, esc(a.n));
+  var txt = (reactionAdv(m, a, gagne) || (gagne ? m.ok : m.ko)).replace(/\{B\}/g, esc(a.n));
   var dh = '';
   for(var k=0;k<d.length;k++) dh += '<span class="d '+(d[k][1]>0?'up':'dn')+'">'+STATNOM[d[k][0]]+' +'+d[k][1]+'</span>';
   $('cb_res').innerHTML = '<div class="res '+(gagne?'ok':'bad')+'"><b>'+(gagne?'Manche pour toi.':'Manche pour lui.')+'</b><br>'+txt+'</div>'
@@ -9708,10 +9790,10 @@ opts:[
  {t:"Durcir tes poings jusqu'à ce qu'il devienne touchable", tag:"Le corps", d:1, ineed:"sp_arts",
   eff:{combat:14, arm:15, vol:12, renom:17}, prime:200000000, f:"craint", cnt:{duels:1},
   why:"Un Logia est intouchable jusqu'au moment exact où quelqu'un couvre son bras de Fluide de l'Armement, et un homme qui a passé sa vie sur ses poings arrive là plus vite que les autres.",
-  r:"Tu ne cherches que la densité. Tu montes la garde, tu absorbes l'El Thor, et ton avant-bras devient noir. Sa foudre ne se dissout plus quand tu arrives dedans. Il tombe du nuage.",
+  r:"Tu ne cherches que la densité. Tu montes la garde, tu absorbes l'El Thor, et ton avant-bras se couvre de Haki. Sa foudre ne se dissout plus quand tu arrives dedans. Il tombe du nuage.",
   fail:{p:.35, on:"arm", eff:{combat:7, arm:9, vol:8, renom:-10},
    why:"Le Fluide de l'Armement ne se fabrique pas au milieu d'un combat, il se révèle ou il ne se révèle pas.",
-   r:"Le noir monte sur ton avant-bras et redescend juste quand tu en as besoin. Ton poing traverse un homme qui n'est plus rien. Tu passes la saison à réapprendre à fermer la main."}},
+   r:"Le Haki monte sur ton avant-bras et redescend juste quand tu en as besoin. Ton poing traverse un homme qui n'est plus rien. Tu passes la saison à réapprendre à fermer la main."}},
  {t:"Lui retirer son arche et son ciel", tag:"Ruse",
   eff:{ruse:17, obs:12, renom:8, vol:-7, combat:-5}, f:"reputation_pop", ile:1,
   why:"Un dieu tient sur trois choses, une peur, une armée de prêtres et un moyen de partir, et les trois se coupent sans jamais lever la main sur lui.",
@@ -9741,10 +9823,10 @@ opts:[
  {t:"Faire entrer ta lame dans le Poing de Fer", tag:"La lame", d:1, ineed:"sp_sabre",
   eff:{combat:14, arm:14, obs:11, renom:17}, prime:200000000, f:"ennemi_gm", cnt:{duels:1},
   why:"Le Tekkai est réputé imperméable à l'acier, et cette réputation tient uniquement parce qu'aucun sabreur suffisamment avancé n'a encore posé sa lame dessus.",
-  r:"Il te laisse frapper d'abord, pour que tu voies ta lame glisser sur du métal. Tu fais monter le noir jusqu'à la pointe et la deuxième passe entre. Le pigeon s'envole sans lui.",
+  r:"Il te laisse frapper d'abord, pour que tu voies ta lame glisser sur du métal. Tu fais monter le Haki jusqu'à la pointe et la deuxième passe entre. Le pigeon s'envole sans lui.",
   fail:{p:.35, on:"arm", eff:{combat:7, arm:9, obs:7, renom:-11},
    why:"Une lame qui n'entre pas dans le fer laisse son porteur immobile pendant qu'il essaie, et l'immobilité est exactement ce que les Six Pouvoirs punissent.",
-   r:"Le noir ne monte pas assez loin et ta lame reste bloquée contre lui. Il te prend le poignet, le casse en le tournant, et te met à travers deux cloisons. Ton arme reste là-bas."}},
+   r:"Le Haki ne monte pas assez loin et ta lame reste bloquée contre lui. Il te prend le poignet, le casse en le tournant, et te met à travers deux cloisons. Ton arme reste là-bas."}},
  {t:"Sortir le CP9 de l'ombre plutôt que le combattre", tag:"Ruse",
   eff:{ruse:17, obs:12, renom:9, combat:-7, arm:-5}, f:"dossier",
   why:"Une unité dont l'existence n'est officiellement reconnue nulle part perd toute sa puissance le jour où trente mille personnes savent qu'elle existe.",
