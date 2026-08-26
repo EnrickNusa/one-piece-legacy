@@ -2321,11 +2321,22 @@ var REVES = [
 
 
 /* ---------- POTENTIEL (le prodige) ---------- */
+/* LE POTENTIEL EST UNE CLOCHE, PAS UNE PENTE. Enrick, 26 aout : « D doit etre
+   rare comme S, car ce sont les deux extremites, et B le plus courant car
+   c'est le milieu, sans trop d'avance ».
+   Les seuils d'origine, 40/48/56/64, etaient poses sur une graine qui montait
+   plus haut. Depuis, mesure sur 300 carrieres : la graine a la revelation vaut
+   43 en mediane, 32 au dixieme centile et 56 au quatre-vingt-dixieme. Avec
+   l'ancien bareme, D ramassait tout le bas de la distribution, un joueur sur
+   cinq, pendant que S en tenait un sur vingt : ce n'etait pas une cloche,
+   c'etait une pente.
+   Les seuils sont recales SUR CETTE DISTRIBUTION, pas sur une idee : B occupe
+   le centre, C et A les epaules, D et S les deux queues a parts egales. */
 var POTS = [
   {g:'D', n:"Ordinaire",              m:0.72, min:-99, d:"Tu n'as rien d'exceptionnel. Certains des plus grands ont commencé exactement là."},
-  {g:'C', n:"Prometteur",             m:0.92, min:40,  d:"Les gens te remarquent. Pas encore assez pour parler de toi ailleurs."},
-  {g:'B', n:"Talent brut",            m:1.12, min:48,  d:"Il y a quelque chose chez toi que les vieux loups reconnaissent en une seconde."},
-  {g:'A', n:"Génie d'une génération", m:1.36, min:56,  d:"Il en naît très peu. Le Gouvernement commence à tenir une fiche."},
+  {g:'C', n:"Prometteur",             m:0.92, min:34,  d:"Les gens te remarquent. Pas encore assez pour parler de toi ailleurs."},
+  {g:'B', n:"Talent brut",            m:1.12, min:43,  d:"Il y a quelque chose chez toi que les vieux loups reconnaissent en une seconde."},
+  {g:'A', n:"Génie d'une génération", m:1.36, min:54,  d:"Il en naît très peu. Le Gouvernement commence à tenir une fiche."},
   {g:'S', n:"Monstre de la nature",   m:1.64, min:64,  d:"Tu n'es pas au niveau des autres. Tu n'as jamais été sur la même échelle qu'eux."}
 ];
 
