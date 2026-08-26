@@ -15193,6 +15193,942 @@ opts:[
   r:"Tu restes où tu es jusqu'à ce qu'il parte. Tu ne le raconteras à personne, et tu y repenseras souvent."}
 ]});
 
+/* =========================================================================
+   DEUXIEME LOT, 26 aout. Enrick : « oui fais tout le lot ».
+   Les 42 adversaires qui n'avaient toujours aucune carte apres le premier lot.
+   Memes regles : trois options minimum, le titre est une SCENE et jamais un
+   nom d'adversaire, et le texte justifie chacune de ses options.
+   ========================================================================= */
+
+/* ---------------------------- ACTE 1 ---------------------------- */
+
+E({id:"vis_kuroobi", pic:'c_kuroobi', act:1, scene:"eastblue", w:8, once:1, imax:7,
+kicker:"Un cours au bord du bassin", title:"La leçon au bord de l'eau",
+text:"Un Homme-poisson raie manta corrige la position de trois gamins au bord d'un bassin. Il frappe l'eau et l'eau frappe la cible une seconde plus tard.<br><br>Entre deux corrections, il explique aux enfants pourquoi les humains sont inférieurs par nature. Il le dit du même ton que le reste.",
+opts:[
+ {t:"Rester regarder la technique", tag:"L'école",
+  eff:{obs:11, combat:7, vol:-4},
+  why:"Le Karaté des Hommes-Poissons passe par l'eau qui est dans l'air et dans les corps, et il n'y a pas de livre là-dessus.",
+  r:"Tu regardes une heure. Tu comprends que ce n'est pas la force qui compte mais l'humidité entre les deux corps, et ça change ta façon de te placer pour toujours."},
+ {t:"Le contredire devant les gamins", tag:"Le mot", d:1,
+  eff:{vol:12, renom:8, combat:-5},
+  why:"Ce qu'il leur apprend là ne se corrige plus à vingt ans, et il n'y a personne d'autre pour le dire.",
+  r:"Tu dis une phrase courte et tu ne développes pas. Il ne te répond pas devant eux, ce qui est déjà une réponse. Un des gamins te suit des yeux jusqu'à la sortie.",
+  fail:{p:.3, on:"vol", eff:{renom:-7, vol:5},
+   why:"Un humain qui vient corriger un Homme-poisson chez lui confirme surtout ce qu'il raconte.",
+   r:"Il te laisse finir, puis il demande aux gamins ce qu'ils en pensent. Ils rient. Tu ressors en ayant aggravé les choses."}},
+ {t:"Repartir vers le port", tag:"Rien",
+  eff:{obs:6, ruse:6},
+  why:"Un cours au bord d'un bassin dans un port qu'on traverse ne demande rien à personne.",
+  r:"Tu remontes vers les quais. Le bruit des paumes sur l'eau te suit pendant deux rues."}
+]});
+
+/* ---------------------------- ACTE 2 ---------------------------- */
+
+E({id:"vis_bellamy", pic:'c_bellamy', act:2, scene:"loguetown", w:9, once:1,
+kicker:"Une taverne qui rit trop fort", title:"Le rire de la table du fond",
+text:"Une bande occupe le fond de la salle et rit en rythme, comme on applaudit. Au centre, un homme raconte ce qu'il pense des gens qui croient encore aux rêves.<br><br>Il rebondit sur le banc en parlant, sans s'en rendre compte, et le banc craque.",
+opts:[
+ {t:"Rire avec eux", tag:"La bande",
+  eff:{ruse:10, renom:6, vol:-6},
+  why:"Une table qui rit en rythme accepte n'importe qui, tant qu'on rit au bon moment.",
+  r:"Ils te font une place. En deux heures tu apprends où ils vont, pour qui ils travaillent, et le nom de l'homme qu'ils cherchent. Ça n'a rien coûté."},
+ {t:"Dire ton rêve à voix haute", tag:"Le rêve", d:1,
+  eff:{vol:14, renom:9, ruse:-7},
+  why:"Il attend précisément ça pour avoir quelqu'un à humilier devant sa bande, et le dire quand même est le sujet.",
+  r:"La salle entière se tait. Il rit, seul, trois secondes de trop, et son rire ne prend pas. Il change de sujet et personne ne rit plus de la soirée.",
+  fail:{p:.3, on:"vol", eff:{renom:-9, vol:6},
+   why:"Une salle qui a déjà choisi son camp ne change pas d'avis parce que quelqu'un est sincère.",
+   r:"Ils rient tous, longtemps. Tu finis ton verre debout et tu sors. Ça reste un moment que tu revois encore des années après."}},
+ {t:"L'observer rebondir", tag:"La mesure",
+  eff:{obs:12, combat:5},
+  why:"Il ne contrôle pas ses appuis quand il parle, et ce qui se voit à une table se retrouvera dans un combat.",
+  r:"Tu comptes trois rebonds avant chaque geste appuyé. Toujours trois. Tu sauras exactement quand il repassera."}
+]});
+
+E({id:"vis_perona", pic:'c_perona', act:2, scene:"loguetown", w:9, once:1,
+kicker:"Un manoir vide, et pas vide", title:"Le salon aux rideaux tirés",
+text:"Le manoir est ouvert et personne n'y vit. Dans le salon, une jeune femme assise dans un fauteuil trop grand ordonne à des serviteurs qui n'existent pas de servir le thé.<br><br>Quelque chose te traverse la poitrine, tout doucement, et tu te souviens d'une chose que tu avais rangée exprès.",
+opts:[
+ {t:"Chercher la pièce où dort son vrai corps", tag:"Le corps", d:1,
+  eff:{obs:14, ruse:8, vol:-5},
+  why:"Ce qui te traverse n'a pas de consistance, donc ce qui parle dans le fauteuil n'est pas ce qui respire dans la maison.",
+  r:"Tu la trouves dans une chambre du haut, allongée, endormie, sans personne pour la garder. Tu ressors sans rien toucher, et le salon s'est tu.",
+  fail:{p:.3, on:"obs", eff:{obs:6, vol:-7},
+   why:"Un manoir qu'on ne connaît pas a plus de couloirs qu'on ne croit, et elle n'a pas envie d'être trouvée.",
+   r:"Tu ouvres six portes et la septième donne sur la première. Elle rit quelque part au-dessus de toi, et un autre fantôme te traverse."}},
+ {t:"Lui tenir tête sur le thé", tag:"La comédie",
+  eff:{vol:11, ruse:8, renom:4},
+  why:"Elle joue une scène pour elle-même depuis longtemps, et personne n'a jamais donné la réplique.",
+  r:"Tu t'assois en face et tu commentes le thé. Elle boude, elle se vexe, puis elle joue vraiment, et elle finit par parler d'autre chose que du thé."},
+ {t:"Ressortir avant qu'un autre te traverse", tag:"Le retrait",
+  eff:{obs:7, vol:8, renom:-4},
+  why:"Ce qui t'a traversé une fois t'a coûté quelque chose, et il n'y a rien dans ce salon qui vaille le deuxième.",
+  r:"Tu ressors par où tu es entré. Il te faut une bonne heure pour te débarrasser de ce que tu as revu."}
+]});
+
+E({id:"vis_bonclay", pic:'c_bonclay', act:2, scene:"alabasta", w:9, once:1,
+kicker:"Deux fois la même personne", title:"Deux fois le même visage",
+text:"Au bout de la rue, quelqu'un de ton bord te fait signe. Il te fait signe une deuxième fois, à dix mètres du premier, et les deux ont exactement le même visage.<br><br>L'un des deux se touche la joue de la main gauche, machinalement, comme un tic.",
+opts:[
+ {t:"Aller vers celui qui ne s'est pas touché la joue", tag:"Le détail",
+  eff:{obs:14, ruse:9, combat:4},
+  why:"Un homme qui porte le visage d'un autre garde ses propres gestes, et ceux-là ne se copient pas.",
+  r:"Tu vas droit sur le bon. L'autre applaudit, sincèrement ravi qu'on l'ait démasqué proprement, et il fait deux pas de danse avant de disparaître."},
+ {t:"Ne bouger vers aucun des deux", tag:"L'attente",
+  eff:{vol:11, obs:8, ruse:5},
+  why:"Celui qui joue un rôle a besoin qu'on vienne à lui, et il ne tiendra pas la pose indéfiniment.",
+  r:"Tu restes planté au milieu de la rue. Au bout d'une minute, l'un des deux s'impatiente et parle en premier. C'était celui-là."},
+ {t:"Frapper le plus proche", tag:"La force", d:1,
+  eff:{combat:10, ruse:-8, renom:-5},
+  why:"Il y a une chance sur deux, et une chance sur deux vaut mieux que rester là.",
+  r:"Tu tombes sur le bon. Il encaisse en riant, très content du jeu, et il te dit que tu es le premier à ne pas hésiter.",
+  fail:{p:.5, on:"combat", eff:{combat:4, renom:-9, vol:-5},
+   why:"Une chance sur deux, c'est aussi une chance sur deux de frapper quelqu'un de son propre bord.",
+   r:"Tu frappes un des tiens en pleine figure devant la rue entière. Le vrai coupable applaudit depuis le trottoir d'en face."}}
+]});
+
+/* ---------------------------- ACTE 3 ---------------------------- */
+
+E({id:"vis_absalom", pic:'c_absalom', act:3, scene:"loguetown", w:9, once:1,
+kicker:"Une porte qui s'ouvre seule", title:"Personne n'est entré",
+text:"La porte de l'auberge s'ouvre et se referme, et personne n'est entré. Deux minutes plus tard, une chaise recule toute seule à la table du fond.<br><br>Le patron continue d'essuyer ses verres. Ça fait trois soirs que ça dure et il a arrêté de poser des questions.",
+opts:[
+ {t:"Répandre de la farine devant la porte", tag:"Le sol",
+  eff:{ruse:13, obs:9, combat:4},
+  why:"Un homme invisible reste un homme qui déplace ce qu'il y a par terre.",
+  r:"Tu prends le sac derrière le comptoir et tu couvres le seuil. Le lendemain, il y a des pas, la pointure, et la direction. Le patron te ressert gratuitement."},
+ {t:"Écouter au lieu de regarder", tag:"L'oreille",
+  eff:{obs:13, vol:5},
+  why:"Ce qu'on ne voit pas respire quand même, et une salle bruyante devient très utile quand on ferme les yeux.",
+  r:"Tu fermes les yeux dix minutes. Tu situes la respiration à un mètre de ton épaule gauche, et tu ne le montres pas."},
+ {t:"Payer un tour à toute la salle", tag:"Le bruit",
+  eff:{renom:10, ruse:8, vol:-4},
+  why:"Quelqu'un qui écoute aux tables sans être vu perd tout son intérêt le jour où la salle entière parle en même temps.",
+  r:"La salle devient trop bruyante pour qu'on y écoute quoi que ce soit. La porte se rouvre au bout d'un quart d'heure et se referme, et personne n'est sorti."}
+]});
+
+E({id:"vis_daz", pic:'c_daz', act:3, scene:"alabasta", w:9, once:1,
+kicker:"Un forgeron qui refuse le travail", title:"L'homme qui refuse la commande",
+text:"Il tient une forge et il refuse de te forger quoi que ce soit. Il ne donne pas de raison. Sur l'établi, une lame commencée qu'il n'a pas finie depuis longtemps.<br><br>Il ramasse une barre d'acier à main nue et la repose ailleurs, sans gant, sans pince.",
+opts:[
+ {t:"Lui demander pourquoi la lame n'est pas finie", tag:"L'établi",
+  eff:{obs:12, vol:7, ruse:5},
+  why:"Un forgeron qui laisse une pièce en plan depuis des mois a une raison, et cette raison en dit plus que la pièce.",
+  r:"Il dit qu'aucun sabreur n'a jamais réussi à l'égratigner et que ça finit par lasser. Il ne parle plus de la lame après ça."},
+ {t:"Lui demander de te montrer son bras", tag:"L'acier", d:1,
+  eff:{combat:12, arm:8, obs:6},
+  why:"Il vient de porter une barre brûlante à mains nues, et un homme qui fait ça devant toi veut peut-être qu'on le lui demande.",
+  r:"Il change l'avant-bras en lame, sans un mot, et le repose. Tu comprends que la difficulté n'est pas de le couper, c'est de trouver où il n'est pas de l'acier.",
+  fail:{p:.28, on:"obs", eff:{combat:5, renom:-5},
+   why:"On ne demande pas ça à quelqu'un qui a passé sa vie à ce qu'on ne le lui demande pas.",
+   r:"Il te regarde longtemps, puis il retourne à sa forge sans répondre. Tu ressors avec la nette impression d'avoir été impoli."}},
+ {t:"Aller commander ailleurs", tag:"Rien",
+  eff:{ruse:7, obs:5},
+  why:"Un forgeron qui refuse ne changera pas d'avis parce qu'on insiste, et il y a d'autres forges.",
+  r:"Tu trouves une autre forge deux rues plus loin, moins bonne, plus chère. Tu penseras à la lame inachevée en repartant."}
+]});
+
+E({id:"vis_ryuma", pic:'c_ryuma', act:3, scene:"loguetown", w:9, once:1,
+kicker:"Un tombeau ouvert de l'intérieur", title:"Le tombeau ouvert",
+text:"Dans le cimetière du village, une dalle a été poussée par en dessous. Le villageois qui te raconte ça dit que le samouraï enterré là était célèbre il y a des siècles.<br><br>Au fond de la fosse, une armure vide, et pas de sabre.",
+opts:[
+ {t:"Chercher qui a le sabre", tag:"La lame",
+  eff:{obs:12, ruse:9, combat:5},
+  why:"Une armure sans lame, ce n'est pas une profanation, c'est quelqu'un qui savait exactement ce qu'il venait chercher.",
+  r:"Tu remontes jusqu'à un acheteur de passage, un homme pâle qui payait comptant. Il n'est plus sur l'île, mais tu sais maintenant vers où il est parti."},
+ {t:"Refermer la dalle", tag:"Le respect",
+  eff:{vol:12, renom:6, ruse:-4},
+  why:"Le village ne le fera pas et personne d'autre ne passera par là.",
+  r:"Tu la remets en place seul, ça prend une heure. Un vieux du village t'apporte de l'eau sans rien dire, et il reste jusqu'à la fin."},
+ {t:"Interroger le villageois sur le samouraï", tag:"L'histoire",
+  eff:{obs:11, vol:6, renom:4},
+  why:"Un homme enterré ici depuis des siècles a laissé une histoire, et cette histoire dit peut-être qui vient la chercher.",
+  r:"Il raconte un duel contre un dragon, une île très loin au nord, et une lame qui a changé de couleur. Il dit que sa grand-mère le tenait de la sienne."}
+]});
+
+E({id:"vis_monet", pic:'c_monet', act:3, scene:"newworld", w:9, once:1,
+kicker:"De la neige où il n'en tombe pas", title:"La neige de l'entrepôt",
+text:"Il neige à l'intérieur d'un entrepôt fermé, et il fait vingt degrés dehors. La neige monte jusqu'aux chevilles et elle continue.<br><br>Une voix te souhaite la bienvenue par un haut-parleur, et la même voix dit exactement la même phrase à trois mètres de toi.",
+opts:[
+ {t:"Sortir de l'entrepôt tout de suite", tag:"Le retrait",
+  eff:{obs:10, ruse:8, vol:5},
+  why:"La neige monte à vue d'œil et rien dans ce bâtiment ne devrait produire de la neige.",
+  r:"Tu ressors à hauteur de genoux. Deux heures plus tard, l'entrepôt est plein jusqu'au toit, et personne ne sait ce qu'il y avait dedans."},
+ {t:"Chercher qui parle vraiment", tag:"La voix", d:1,
+  eff:{obs:14, ruse:7, vol:-5},
+  why:"Une voix au haut-parleur et une voix à trois mètres qui disent la même chose au même moment, ce n'est qu'une seule personne.",
+  r:"Tu la trouves adossée à une colonne, moitié femme moitié neige, et pas du tout gênée d'avoir été trouvée. Elle te laisse repartir en te souhaitant bonne route.",
+  fail:{p:.32, on:"obs", eff:{obs:6, vol:-6},
+   why:"Chercher quelqu'un dans un bâtiment qui se remplit de neige, c'est chercher dans son terrain à elle.",
+   r:"La neige se referme derrière ton bras et tu la sens durcir. Il te faut vingt minutes pour dégager le passage, et la voix te parle pendant tout ce temps."}},
+ {t:"Regarder ce que la neige recouvre", tag:"L'inventaire",
+  eff:{obs:11, ruse:6, renom:-4},
+  why:"On ne remplit pas un entrepôt de neige pour le plaisir, on le fait pour que personne ne voie ce qu'il y a dedans.",
+  r:"Sous la couche, des caisses marquées d'un sigle du Gouvernement et d'une lettre qui n'existe pas dans l'alphabet commun. Tu ne les ouvres pas."}
+]});
+
+E({id:"vis_blueno", pic:'c_blueno', act:3, scene:"loguetown", w:9, once:1,
+kicker:"Un bar où personne ne consomme", title:"Le bar sans clients",
+text:"Le bar est propre, ouvert, et vide à quinze heures. Le patron essuie un comptoir déjà sec et ne demande pas ce que tu veux boire.<br><br>Derrière lui, une porte que tu n'avais pas vue en entrant. Le mur, lui, tu l'avais vu.",
+opts:[
+ {t:"Commander et rester", tag:"La patience",
+  eff:{obs:12, ruse:8, vol:4},
+  why:"Un bar vide à quinze heures dans un port qui travaille est un bar qui sert à autre chose.",
+  r:"En deux heures, quatre personnes entrent, ne commandent rien, et ressortent par une porte qui n'était pas là. Tu comptes, tu notes les heures, et tu paies ton verre."},
+ {t:"Demander où mène la porte", tag:"La question", d:1,
+  eff:{obs:11, ruse:7, renom:-5},
+  why:"Il n'y avait pas de porte quand tu es entré, et il n'y a rien à perdre à le faire remarquer.",
+  r:"Il te répond qu'elle mène là où il faut, et il continue d'essuyer. C'est une réponse, et tu comprends que tu n'en auras pas d'autre.",
+  fail:{p:.3, on:"ruse", eff:{obs:5, renom:-6},
+   why:"Poser cette question, c'est dire à voix haute qu'on a remarqué, et ils préfèrent qu'on ne remarque pas.",
+   r:"Il pose son torchon et te regarde. La porte n'est plus là. Il te demande poliment si tu comptes commander quelque chose."}},
+ {t:"Ressortir et faire le tour du bâtiment", tag:"Le contrôle",
+  eff:{ruse:11, obs:9},
+  why:"Une porte qui n'existe pas de l'intérieur n'existe pas non plus de l'extérieur, et ça se vérifie en marchant.",
+  r:"Le mur est plein, sans ouverture, sur toute sa longueur. Tu repars en sachant une chose vraie sur ce que le Gouvernement sait faire."}
+]});
+
+E({id:"vis_hody", pic:'c_hody', act:3, scene:"newworld", w:9, once:1,
+kicker:"Un discours sur une place", title:"Le discours de la place",
+text:"Un Homme-poisson requin blanc parle debout sur une caisse et une centaine de jeunes l'écoutent. Il explique ce qu'on a fait à leur peuple, et tout ce qu'il dit sur ce point est vrai.<br><br>Ce qu'il en conclut, en revanche, ne l'est pas. Entre deux phrases, il gobe une pilule et ses cheveux blanchissent d'un cran.",
+opts:[
+ {t:"Écouter jusqu'au bout", tag:"L'écoute",
+  eff:{obs:11, vol:7, ruse:5},
+  why:"Il faut savoir ce qu'on raconte à cette génération-là, parce que c'est elle qu'on croisera dans dix ans.",
+  r:"Il parle une heure. Aucun de ces jeunes n'a vécu ce qu'il décrit, et c'est exactement pour ça que ça marche si bien sur eux."},
+ {t:"Lui demander ce qu'il a vécu, lui", tag:"La question", d:1,
+  eff:{ruse:13, vol:8, renom:-6},
+  why:"Il parle d'une souffrance au nom de gens qui l'ont vécue, et personne dans la foule ne lui a demandé s'il en était.",
+  r:"Il n'a rien vécu de tout ça. Il ne répond pas et il change de sujet, et quelques jeunes au premier rang le remarquent.",
+  fail:{p:.32, on:"ruse", eff:{renom:-8, vol:5},
+   why:"Poser cette question à un orateur devant sa foule, c'est lui offrir un ennemi à montrer du doigt.",
+   r:"Il te désigne à la centaine de jeunes comme la preuve vivante de ce qu'il racontait. Tu sors de la place en marchant vite."}},
+ {t:"Repérer d'où viennent les pilules", tag:"La filière",
+  eff:{obs:13, ruse:9, renom:-4},
+  why:"Personne ne fabrique ça sur une île de pêcheurs, et celui qui les fournit a un intérêt à ce discours.",
+  r:"Tu remontes deux intermédiaires jusqu'à une caisse marquée d'un sceau de laboratoire. Le sceau n'est pas de la Marine."}
+]});
+
+E({id:"vis_caesar", pic:'c_caesar', act:3, scene:"newworld", w:9, once:1,
+kicker:"Une conférence sans public", title:"La conférence sans public",
+text:"Dans un amphithéâtre vide, un homme en blouse présente ses travaux à des chaises. Il applaudit ses propres transparents et il flotte à deux mètres du sol.<br><br>L'air a un goût qu'il n'avait pas en entrant. Ça fait dix minutes que tu respires ça.",
+opts:[
+ {t:"Sortir immédiatement", tag:"L'air",
+  eff:{obs:11, ruse:7, vol:5},
+  why:"Un homme qui contrôle ce qu'il y a dans l'air n'a pas besoin d'être près de toi pour décider de ce que tu respires.",
+  r:"Tu sors et tu tousses pendant dix minutes dehors. Un technicien qui passe te dit que tu as eu de la chance de compter jusqu'à dix, et il ne plaisante pas."},
+ {t:"Applaudir et poser une question", tag:"Le public", d:1,
+  eff:{ruse:13, obs:9, vol:-6},
+  why:"Il présente à des chaises vides. Un seul spectateur qui applaudit vaut plus pour lui que n'importe quel argument.",
+  r:"Il répond à ta question pendant quarante minutes, ravi, et il détaille au passage comment il compte livrer sa production et à qui.",
+  fail:{p:.3, on:"vol", eff:{obs:5, vol:-7},
+   why:"Rester dans cette salle pour l'écouter, c'est rester dans cette salle.",
+   r:"Il parle, tu écoutes, et tu te réveilles dehors sans savoir qui t'a sorti. Il te manque deux heures."}},
+ {t:"Lire les transparents sans l'écouter", tag:"Les données",
+  eff:{obs:13, ruse:7, renom:-4},
+  why:"Ce qu'il raconte est de la vantardise. Ce qu'il a écrit sur ses planches est du travail.",
+  r:"Tu retiens trois formules et deux noms d'acheteurs. Il ne s'aperçoit même pas que tu ne le regardais pas."}
+]});
+
+E({id:"vis_bartolomeo", pic:'c_bartolomeo', act:3, scene:"loguetown", w:9, once:1,
+kicker:"Une file devant une estrade", title:"La file devant l'estrade",
+text:"Une file de gens attend devant une estrade pour serrer la main d'un homme à crête verte qui les insulte affectueusement un par un.<br><br>Un type essaie de monter sans faire la queue. Il s'arrête net à quinze centimètres de l'estrade, sur rien du tout.",
+opts:[
+ {t:"Faire la queue comme tout le monde", tag:"La file",
+  eff:{renom:9, ruse:7, vol:4},
+  why:"Il tient beaucoup à ce qu'on respecte la file, et c'est visiblement la seule chose à laquelle il tient.",
+  r:"Il te serre la main, t'insulte affectueusement, et te demande si tu connais un certain équipage au chapeau de paille. Tu repars avec un nom et un contact."},
+ {t:"Tester le mur invisible", tag:"La barrière", d:1,
+  eff:{obs:12, combat:6, renom:-5},
+  why:"Ce qui a arrêté cet homme est plat, invisible et parfaitement lisse, et savoir jusqu'où ça va vaut le coup d'œil.",
+  r:"Tu longes la surface avec la paume. Elle s'arrête à un mètre du bord de l'estrade, des deux côtés. Il ne couvre que devant, jamais autour.",
+  fail:{p:.26, on:"obs", eff:{obs:5, renom:-6},
+   why:"Tâter le mur d'un homme qui regarde exactement dans ta direction se remarque tout de suite.",
+   r:"Il te voit faire et il te le fait remarquer au micro, devant la file entière. Tout le monde se retourne."}},
+ {t:"Passer votre chemin", tag:"Rien",
+  eff:{ruse:6, obs:6},
+  why:"Une file d'attente pour serrer une main n'a jamais fait avancer une carrière.",
+  r:"Tu contournes la place. La file s'allonge encore derrière toi, et elle sera là demain."}
+]});
+
+E({id:"vis_kaku", pic:'c_kaku', act:3, scene:"loguetown", w:9, once:1,
+kicker:"Une expertise de coque", title:"L'expertise de la coque",
+text:"Un charpentier au nez très long inspecte une coque au chantier naval, et il annonce à voix haute chaque défaut avec un accent de chantier. Il a raison à chaque fois.<br><br>Pour atteindre la quille, il se penche d'une façon qu'aucune colonne vertébrale ne devrait permettre.",
+opts:[
+ {t:"Lui faire expertiser ta propre coque", tag:"Le métier", ineed:"pirate|revo",
+  eff:{obs:11, ruse:8, renom:5}, ship:1,
+  why:"Un charpentier de ce niveau voit en dix minutes ce qui te coûterait un naufrage à découvrir.",
+  r:"Il fait le tour, il tape sept endroits, il en marque trois à la craie. Les trois auraient lâché dans l'année. Il refuse d'être payé."},
+ {t:"Regarder comment il se penche", tag:"Le détail", d:1,
+  eff:{obs:14, combat:5, ruse:4},
+  why:"Un homme se plie jusqu'à un certain point et pas au-delà, et celui-là est allé bien au-delà.",
+  r:"Tu comptes trois articulations là où il en faudrait une. Tu ne dis rien et tu ranges ça avec les autres choses qu'il vaut mieux savoir.",
+  fail:{p:.28, on:"obs", eff:{obs:5, renom:-4},
+   why:"Regarder quelqu'un travailler d'un peu trop près se remarque, surtout chez un homme entraîné à remarquer.",
+   r:"Il se redresse et te demande, très aimablement, si son dos t'intéresse. Vous parlez de charpente pendant vingt minutes."}},
+ {t:"Lui demander ce qu'il pense du chantier", tag:"Le renseignement",
+  eff:{obs:10, ruse:9, renom:-3},
+  why:"Un expert qui passe ses journées sur les coques d'un port sait quels navires sont partis, chargés de quoi, et vers où.",
+  r:"Il te donne trois départs récents, les tonnages, et le nom d'un armateur qui ne devrait pas commander autant de blindage."},
+ {t:"Lui demander d'expertiser un bois que tu ne connais pas", tag:"Le bois", sauf:"pirate|revo",
+  eff:{obs:11, ruse:7, renom:4},
+  why:"Il annonce chaque défaut à voix haute avec un accent de chantier, et il ne demande rien pour ça.",
+  r:"Il gratte, il sent, il tape deux fois. Il te dit l'essence, la mer d'où elle vient, et pourquoi elle ne tiendra pas trois hivers ici."}
+]});
+
+E({id:"vis_jabra", pic:'c_jabra', act:3, scene:"loguetown", w:9, once:1,
+kicker:"Une histoire triste au comptoir", title:"L'histoire du frère",
+text:"L'homme à côté de toi au comptoir te raconte la mort de son frère, en détail, avec une larme qui part au bon moment.<br><br>Deux heures plus tard, tu entends la même histoire à l'autre bout de la salle, avec un autre frère et une autre maladie.",
+opts:[
+ {t:"Lui resservir un verre sans rien dire", tag:"Le jeu",
+  eff:{ruse:12, obs:9, renom:4},
+  why:"Un homme qui ment aussi bien travaille pour quelqu'un, et il continuera tant qu'il croit que ça marche.",
+  r:"Il en remet une couche, avec une sœur cette fois. Entre deux mensonges, il laisse tomber un vrai détail sur l'endroit où il doit se rendre demain."},
+ {t:"Lui raconter une histoire encore plus triste", tag:"Le concours", d:1,
+  eff:{ruse:13, vol:7, renom:6},
+  why:"Il déteste perdre, sur n'importe quoi, et il perdra son personnage avant de perdre le concours.",
+  r:"Tu inventes pire, avec plus de détails. Il s'énerve, il sort de son rôle, et pendant une seconde tu vois exactement à qui tu parles.",
+  fail:{p:.28, on:"ruse", eff:{ruse:5, renom:-6},
+   why:"Un agent formé à mentir toute la journée ment mieux que toi, et il le sait avant de commencer.",
+   r:"Il pleure plus fort, mieux, et toute la salle se retourne vers toi comme vers un monstre."}},
+ {t:"Changer de comptoir", tag:"Le retrait",
+  eff:{obs:8, ruse:7},
+  why:"Rien de ce qui commence par une larme au bon moment ne finit bien pour celui qui écoute.",
+  r:"Tu vas boire ailleurs. Depuis l'autre bout de la salle, tu le vois recommencer avec quelqu'un d'autre au bout de dix minutes."}
+]});
+
+/* ---------------------------- ACTE 4 ---------------------------- */
+
+E({id:"vis_urouge", pic:'c_urouge', act:4, scene:"newworld", w:9, once:1,
+kicker:"Un moine sur une île du ciel", title:"Le moine qui remercie",
+text:"Un moine énorme médite au bord d'un précipice et remercie à voix haute chaque douleur qu'il a reçue dans sa vie. Il en a une liste, et la liste est longue.<br><br>Quand il cite un coup particulièrement dur, son épaule gonfle un peu, comme un réflexe.",
+opts:[
+ {t:"Méditer à côté de lui, en silence",
+  tag:"Le silence", eff:{vol:13, obs:7, ruse:-4},
+  why:"Il n'a rien demandé et il ne demandera rien. La seule chose qu'on peut partager avec lui, c'est le silence.",
+  r:"Deux heures passent. À la fin il te dit une phrase sur la douleur qui nourrit, et tu comprends que ce n'est pas une image chez lui."},
+ {t:"Lui demander ce qui l'a le plus abîmé", tag:"La liste", d:1,
+  eff:{obs:12, vol:9, combat:5},
+  why:"Ce qui l'a le plus abîmé est aussi ce qui l'a rendu le plus fort, et il tient le compte.",
+  r:"Il cite une chute, un naufrage, et un homme dont il ne donne pas le nom. Son bras double de volume rien qu'à le raconter, et il s'excuse.",
+  fail:{p:.28, on:"vol", eff:{obs:5, vol:5},
+   why:"Il remercie ses douleurs, il ne les expose pas aux curieux.",
+   r:"Il sourit, il te remercie de l'intérêt, et il ne répond pas. Il reprend sa liste où il l'avait laissée."}},
+ {t:"Le pousser dans ses retranchements", tag:"La provocation", d:1,
+  eff:{combat:11, vol:8, renom:-7},
+  why:"Un homme qui grandit quand on le frappe est un homme qu'on peut mesurer sans se battre vraiment.",
+  r:"Tu dis quelque chose de désagréable, exprès. Il rit, son épaule craque, et il te remercie pour ça aussi. Tu ranges le renseignement.",
+  fail:{p:.3, on:"combat", eff:{renom:-8, combat:5},
+   why:"Provoquer quelqu'un qui se nourrit de ce qu'il encaisse est l'idée la plus stupide qu'on puisse avoir.",
+   r:"Il se lève. Il fait deux têtes de plus que toi debout et il souriait déjà avant. Tu recules, et il se rassoit."}}
+]});
+
+E({id:"vis_pica", pic:'c_pica', act:4, scene:"newworld", w:9, once:1,
+kicker:"Une voix dans toute la ville", title:"La voix dans les murs",
+text:"Une voix très aiguë résonne dans toute la ville et donne des ordres à des ouvriers qu'on ne voit pas. Deux de tes gens ricanent avant de comprendre d'où elle vient.<br><br>Un pan de rue se soulève à cinquante mètres. Ce n'était pas une rue.",
+opts:[
+ {t:"Faire taire tes gens tout de suite", tag:"La discipline", ineed:"pirate|revo|marine|gm",
+  eff:{ruse:11, renom:7, obs:6},
+  why:"Il déteste qu'on rie de sa voix plus que tout au monde, et il entend chaque rire de la ville entière.",
+  r:"Tu coupes court d'un mot. La rue à cinquante mètres se repose doucement. Vous traversez la ville sans un incident."},
+ {t:"Chercher où se trouve la partie humaine", tag:"Le corps", d:1,
+  eff:{obs:14, ruse:8, combat:5},
+  why:"Une montagne qui parle a forcément un homme dedans, et cet homme n'est pas au milieu du bloc.",
+  r:"Tu suis la voix pendant vingt minutes et tu la situes toujours au même niveau, jamais très haut. Tu sais maintenant où regarder.",
+  fail:{p:.3, on:"obs", eff:{obs:6, renom:-5},
+   why:"Suivre une voix dans une ville entière quand la ville est son corps, c'est marcher dans son oreille.",
+   r:"La rue se soulève sous tes pieds sans prévenir et te repose ailleurs, deux quartiers plus loin. La voix ne commente même pas."}},
+ {t:"Quitter la ville avant la nuit", tag:"Le départ",
+  eff:{obs:8, ruse:8, renom:-4},
+  why:"Une ville dont les murs obéissent à quelqu'un n'est pas une ville où on dort.",
+  r:"Vous êtes dehors avant le coucher du soleil. Derrière vous, deux quartiers changent de place pendant la nuit."}
+]});
+
+E({id:"vis_ivankov", pic:'c_ivankov', act:4, scene:"newworld", w:9, once:1,
+kicker:"Un cabaret plein à craquer", title:"Le cabaret plein",
+text:"Deux cents personnes chantent en même temps et le sol tremble. Sur scène, quelqu'un de très grand relève un homme au sol avec une aiguille et l'homme se met à danser.<br><br>Il n'y a pas de public et pas d'artistes ici, il n'y a que des gens qui n'avaient nulle part où aller.",
+opts:[
+ {t:"Chanter avec eux", tag:"La salle",
+  eff:{renom:11, vol:9, ruse:-5}, f:"reputation_pop",
+  why:"On n'entre pas ici en spectateur. Ceux qui restent au bord se font remarquer plus que les autres.",
+  r:"Tu chantes faux et personne ne s'en occupe. À la fin de la nuit, deux cents personnes savent ton nom et aucune ne le répétera à la Marine."},
+ {t:"Demander ce que font vraiment les aiguilles", tag:"La question", d:1,
+  eff:{obs:13, vol:8, combat:5},
+  why:"Ce qu'il vient d'injecter à cet homme l'a remis debout en trois secondes, et ça ne devrait pas exister.",
+  r:"Il explique que ça emprunte des heures à la vie qui reste, et que celui qui les reçoit le sait avant. Il ne le fait jamais sans qu'on le demande.",
+  fail:{p:.28, on:"vol", eff:{obs:5, renom:-5},
+   why:"Ce n'est pas une soirée où on pose des questions techniques.",
+   r:"Il te fait monter sur scène pour répondre, et deux cents personnes attendent que tu danses. Tu ne réponds jamais à ta propre question."}},
+ {t:"Repérer les sorties et les visages", tag:"Le métier",
+  eff:{obs:12, ruse:9, renom:-5},
+  why:"Deux cents personnes que le monde a rejetées, ça finit toujours par intéresser quelqu'un d'autre que toi.",
+  r:"Tu comptes quatre sorties, dont deux que la Marine ne connaît pas. Tu retiens aussi trois visages sur des avis de recherche."}
+]});
+
+E({id:"vis_apoo", pic:'c_apoo', act:4, scene:"newworld", w:9, once:1,
+kicker:"Un concert sur le pont d'en face", title:"Le concert d'en face",
+text:"Un navire mouillé à cent mètres du tien donne un concert que personne n'a demandé. Le capitaine joue lui-même, et il joue bien.<br><br>À la troisième mesure, un mât de ton bord s'entaille tout seul sur trente centimètres.",
+opts:[
+ {t:"Couvrir les oreilles de tout le monde", tag:"L'ordre",
+  eff:{obs:12, ruse:8, renom:5},
+  why:"L'entaille est arrivée avec la note. Ce qui coupe ici passe par ce qu'on entend.",
+  r:"Tu fais mettre du chiffon dans toutes les oreilles du bord avant la mesure suivante. Le concert continue et plus rien ne s'entaille."},
+ {t:"Applaudir très fort et demander un rappel", tag:"Le public", d:1,
+  eff:{ruse:13, renom:8, obs:5},
+  why:"Il est venu chercher une réaction, et un public qui redemande est la dernière chose qu'il attendait.",
+  r:"Il s'arrête, décontenancé, puis il rit et il joue une vraie chanson. Il n'entaille plus rien de la soirée et vous parlez de musique jusqu'à l'aube.",
+  fail:{p:.3, on:"ruse", eff:{renom:-6, obs:5},
+   why:"Il joue de la moquerie mieux que toi, et il a un navire entier pour rire avec lui.",
+   r:"Il prend ça au premier degré et joue plus fort. Deux vergues tombent avant que tu comprennes qu'il ne s'arrêtera pas."}},
+ {t:"Lever l'ancre et sortir de portée", tag:"La distance",
+  eff:{ruse:9, obs:8, renom:-5},
+  why:"Une arme qui passe par le son a une portée, et cent mètres est visiblement dedans.",
+  r:"Vous appareillez au milieu du morceau. À trois cents mètres, la musique n'est plus qu'une musique."}
+]});
+
+E({id:"vis_diamante", pic:'c_diamante', act:4, scene:"newworld", w:9, once:1,
+kicker:"Un commentateur dans une arène", title:"Le commentateur de l'arène",
+text:"Il annonce les combats d'une arène au micro, avec une voix faite pour ça, et il donne aux gladiateurs des surnoms qu'ils garderont toute leur vie.<br><br>Entre deux annonces, il replie un drapeau. Le drapeau était en métal il y a une seconde.",
+opts:[
+ {t:"Le laisser t'annoncer", tag:"Le nom", d:1,
+  eff:{renom:14, vol:7, ruse:-5},
+  why:"Un surnom donné dans cette arène fait le tour du Nouveau Monde en un mois, et il choisit lui-même.",
+  r:"Il t'invente un surnom devant six mille personnes, et le surnom est bon. Tu l'entendras dans des ports où tu n'as jamais mis les pieds.",
+  fail:{p:.3, on:"renom", eff:{renom:-8, vol:5},
+   why:"Il choisit le surnom, pas toi, et il aime aussi ceux qui font rire la foule.",
+   r:"Le surnom qu'il te donne est ridicule et il prend tout de suite. Six mille personnes le répètent en chœur, et tu le traîneras des années."}},
+ {t:"Regarder ce qu'il fait au drapeau", tag:"La matière",
+  eff:{obs:13, combat:6},
+  why:"Il vient de plier du métal comme du tissu, distraitement, en parlant d'autre chose.",
+  r:"Tu comprends que rien de solide ne l'est vraiment autour de lui, et que ça marche aussi sur ce qu'on tient à la main."},
+ {t:"Écouter comment il parle des combattants", tag:"La foule",
+  eff:{obs:10, ruse:9, renom:4},
+  why:"Un homme qui fabrique les réputations d'une arène entière sait exactement ce que la foule veut entendre.",
+  r:"Il monte un inconnu en héros en trois phrases et démolit un vétéran en deux. Tu notes la méthode, elle marche ailleurs que dans une arène."}
+]});
+
+E({id:"vis_vergo", pic:'c_vergo', act:4, scene:"newworld", w:9, once:1,
+kicker:"Un officier avec de la nourriture sur la joue", title:"La joue et le silence",
+text:"Un officier supérieur passe l'inspection d'une base avancée, impeccable, et il a un morceau de nourriture collé sur la joue depuis visiblement le début du repas.<br><br>Personne ne le lui dit. Quarante hommes au garde-à-vous et personne ne le lui dit.",
+opts:[
+ {t:"Le lui dire", tag:"Le mot", d:1,
+  eff:{vol:12, renom:8, ruse:-5},
+  why:"Quarante hommes se taisent depuis une heure, et ce silence en dit plus long sur cette base que l'inspection entière.",
+  r:"Il s'essuie, te remercie sincèrement, et continue son inspection. Deux hommes du rang te regardent comme si tu venais de désamorcer une bombe.",
+  fail:{p:.3, on:"vol", eff:{renom:-7, obs:5},
+   why:"On ne fait pas remarquer ça à un officier devant sa troupe, quelle que soit la bonne intention.",
+   r:"Il ne bouge pas un cil. Il termine l'inspection avec le morceau sur la joue et il te fait affecter à la corvée la plus longue de la base."}},
+ {t:"Observer la discipline de la base", tag:"L'inspection",
+  eff:{obs:13, ruse:7},
+  why:"Une base où personne n'ose signaler une miette est une base où personne ne signalera rien du tout.",
+  r:"Tu comptes trois manquements graves que personne ne remonte. Cette base tombera un jour, et pas à cause d'un ennemi."},
+ {t:"Te mettre au garde-à-vous comme les autres", tag:"Le rang", ineed:"marine|gm",
+  eff:{ruse:9, renom:6, vol:-5},
+  why:"Sous l'uniforme, une inspection n'est pas un moment où on prend des initiatives.",
+  r:"Tu tiens la position quarante minutes. Il passe devant toi sans s'arrêter, et c'est exactement ce que tu voulais."},
+ {t:"Sortir du bâtiment", tag:"Rien", sauf:"marine|gm",
+  eff:{obs:7, ruse:7},
+  why:"Une inspection de la Marine n'est pas un endroit où traîner quand on n'en est pas.",
+  r:"Tu ressors par où tu es entré. Personne ne t'a vu, parce que quarante hommes regardaient droit devant."}
+]});
+
+E({id:"vis_killer", pic:'c_killer', act:4, scene:"newworld", w:9, once:1,
+kicker:"Un homme qui rit au mauvais moment", title:"Le rire au mauvais moment",
+text:"Au fond de la taverne, un homme casqué éclate de rire pendant qu'on raconte la mort d'un marin. Il s'arrête net et il pose la main sur son casque.<br><br>Personne ne rit avec lui. Il n'avait pas envie de rire non plus, ça se voit.",
+opts:[
+ {t:"Ne rien dire et lui commander un verre", tag:"Le verre",
+  eff:{vol:11, renom:6, obs:5},
+  why:"Un homme qui rit à contretemps et qui s'arrête net n'a pas ri parce qu'il trouvait ça drôle.",
+  r:"Il pousse le verre sous son casque sans l'enlever. Il ne te remercie pas et il ne rit plus de la soirée, ce qui est sa façon de le faire."},
+ {t:"Lui demander ce qu'il a", tag:"La question", d:1,
+  eff:{obs:12, vol:8, renom:-5},
+  why:"Ce qui lui arrive n'est manifestement pas volontaire, et personne dans cette salle n'a l'air de vouloir le savoir.",
+  r:"Il dit qu'on lui a fait quelque chose et qu'il ne peut plus rien exprimer d'autre. Il le dit en riant, parce qu'il n'a plus le choix.",
+  fail:{p:.32, on:"vol", eff:{obs:5, renom:-6},
+   why:"On ne demande pas ça à un homme qui garde son casque à l'intérieur d'une taverne.",
+   r:"Il rit très fort, se lève, et sort. Toute la salle te regarde comme si tu avais fait quelque chose de laid."}},
+ {t:"Chercher qui il protège dans la salle", tag:"Le second",
+  eff:{obs:13, ruse:8},
+  why:"Il s'est assis dos au mur, entre la porte et une table précise, et ce n'est pas la sienne.",
+  r:"Tu identifies son capitaine en deux minutes. Il ne se retourne jamais vers lui et il ne le quitte jamais des yeux, ce qui est le vrai métier d'un second."}
+]});
+
+E({id:"vis_jack", pic:'c_jack', act:4, scene:"newworld", w:9, once:1,
+kicker:"Une île qui n'a plus d'eau", title:"L'île sans eau",
+text:"L'île n'a plus une seule source. Les habitants disent qu'un homme est passé il y a trois semaines, qu'il a demandé quelque chose, et que personne n'a compris quoi.<br><br>Il n'a rien détruit. Il a juste attendu, et l'eau est partie.",
+opts:[
+ {t:"Faire venir de l'eau pour eux", tag:"Le ravitaillement", ineed:"pirate|revo|marine",
+  eff:{renom:13, vol:9, ruse:-6}, f:"reputation_pop",
+  why:"Ils tiendront dix jours de plus, et dix jours suffisent parfois à ce que quelqu'un d'autre arrive.",
+  r:"Tu fais décharger ce que tu peux. Ce n'est pas assez et tout le monde le sait, mais le nom de ton pavillon reste sur cette île pour longtemps."},
+ {t:"Chercher ce qu'il venait chercher", tag:"L'enquête", d:1,
+  eff:{obs:13, ruse:9, renom:-4},
+  why:"Un homme qui assèche une île sans rien casser cherchait quelque chose de précis, et il ne l'a peut-être pas trouvé.",
+  r:"Tu remontes jusqu'à une famille qui cachait quelqu'un. Ils ne disent pas qui. Ils disent seulement qu'il est encore là et qu'ils ne le donneront pas.",
+  fail:{p:.3, on:"ruse", eff:{obs:6, renom:-6},
+   why:"Sur une île qui vient de perdre son eau, personne n'a envie de répondre à un étranger qui pose des questions.",
+   r:"On ne te dit rien du tout. On te suit jusqu'au port pour être sûr que tu repartes."}},
+ {t:"Repartir avant qu'il revienne", tag:"Le départ",
+  eff:{obs:8, ruse:8, vol:-5},
+  why:"Il n'a pas trouvé ce qu'il voulait, donc il reviendra, et ce jour-là il ne se contentera pas de l'eau.",
+  r:"Vous appareillez le soir même. Six semaines plus tard, on raconte qu'il est revenu, et cette fois-là ne ressemble pas à la première."},
+ {t:"Faire creuser avec eux", tag:"Le puits", ineed:"gm",
+  eff:{obs:10, vol:9, renom:6},
+  why:"L'eau de surface est partie, pas la nappe. Un service du Gouvernement sait faire creuser et personne ici n'a le matériel.",
+  r:"Vous ouvrez un puits en deux jours. Ce n'est pas généreux, c'est administratif, et ça sauve l'île quand même."}
+]});
+
+E({id:"vis_smoothie", pic:'c_smoothie', act:4, scene:"newworld", w:9, once:1,
+kicker:"Une réception sur un navire pâtissier", title:"La réception du gâteau",
+text:"On sert des jus sur le pont d'un navire immense qui sent le sucre. Une femme de six mètres verse elle-même, et personne ne demande d'où vient le jus.<br><br>Elle ne hausse jamais la voix. Un serviteur s'approche trop près de sa main et deux invités détournent les yeux.",
+opts:[
+ {t:"Refuser le verre poliment", tag:"Le refus",
+  eff:{ruse:11, vol:9, renom:-5},
+  why:"Personne ici ne demande d'où vient le jus, et c'est précisément la question.",
+  r:"Tu refuses en invoquant ton estomac. Elle sourit, elle n'insiste pas, et elle sert quelqu'un d'autre. Ce quelqu'un boit."},
+ {t:"Boire et rester", tag:"Le convive", d:1,
+  eff:{ruse:12, renom:9, vol:-8},
+  why:"Refuser un verre sur ce navire se remarque plus que le boire, et il y a des choses à entendre à cette réception.",
+  r:"Tu bois. Le goût est excellent et tu préfères ne pas y penser. Tu repars avec deux renseignements que personne d'autre n'a.",
+  fail:{p:.3, on:"vol", eff:{renom:-7, vol:-5},
+   why:"Ce qui est servi ici a été pris à quelqu'un, et le corps finit toujours par savoir ce qu'il avale.",
+   r:"Tu passes la moitié de la nuit à vomir dans une coursive. Deux invités te trouvent et rient sans méchanceté, comme d'une chose habituelle."}},
+ {t:"Regarder ce qu'elle fait de sa main", tag:"La main",
+  eff:{obs:13, combat:5},
+  why:"Un serviteur s'est approché trop près et deux invités ont détourné les yeux avant qu'il se passe quoi que ce soit.",
+  r:"Elle referme la main sur une pièce de fruit et ce qui coule entre ses doigts n'est pas du jus de fruit. Tu ne bois pas."}
+]});
+
+E({id:"vis_cracker", pic:'c_cracker', act:4, scene:"newworld", w:9, once:1,
+kicker:"Une armée qui sent le biscuit", title:"Les soldats de biscuit",
+text:"Une colonne de soldats en armure traverse la plaine en ordre parfait, et l'air sent la pâtisserie chaude sur trois cents mètres.<br><br>L'un d'eux tombe et se brise net, sans un cri. Personne ne se retourne, et la colonne continue.",
+opts:[
+ {t:"Compter les soldats", tag:"Le décompte",
+  eff:{obs:12, ruse:8},
+  why:"Une armée qui se fabrique a une cadence, et une cadence dit combien de temps son fabricant peut tenir.",
+  r:"Tu comptes jusqu'à trente et un et tu arrêtes. Le rythme faiblit vers le vingtième, très légèrement. C'est le renseignement le plus utile de la journée."},
+ {t:"Ramasser un morceau du soldat tombé", tag:"L'échantillon", d:1,
+  eff:{obs:13, ruse:7, vol:-4},
+  why:"Ce qui est tombé là ne se relève pas et personne ne s'est retourné pour le reprendre.",
+  r:"C'est du biscuit, vraiment, dur comme de la pierre à l'extérieur et friable au cœur. Tu sais maintenant où frapper une de ces armures.",
+  fail:{p:.26, on:"obs", eff:{obs:5, renom:-5},
+   why:"S'arrêter au milieu d'une plaine pour ramasser quelque chose se voit de très loin.",
+   r:"La colonne s'arrête d'un bloc et se retourne vers toi. Tu reposes le morceau très lentement, et elle repart."}},
+ {t:"Sortir de leur route", tag:"Le détour",
+  eff:{obs:8, ruse:9, renom:-4},
+  why:"Une colonne en ordre parfait qui ne se retourne même pas pour ses morts ne s'arrêtera pas pour toi non plus.",
+  r:"Vous passez par le nord, ça coûte une demi-journée. La colonne traverse la plaine sans changer d'allure une seule fois."}
+]});
+
+E({id:"vis_sabo", pic:'c_sabo', act:4, scene:"newworld", w:9, once:1,
+kicker:"Un homme qui rend des archives", title:"Les papiers rendus au village",
+text:"Un jeune homme en haut-de-forme rend à un village des papiers que le village n'a jamais eus : titres de propriété, actes de naissance, registres de taxes falsifiés.<br><br>Il ne prend rien, il ne demande rien, et il repart avant qu'on ait pu le remercier correctement.",
+opts:[
+ {t:"Lui demander d'où viennent ces papiers", tag:"La source", d:1,
+  eff:{obs:12, ruse:9, renom:-5},
+  why:"Des actes originaux d'un village entier ne se trouvent que dans un seul bâtiment, et ce bâtiment est très bien gardé.",
+  r:"Il te dit d'où ils viennent, sans se vanter, et l'endroit qu'il nomme n'est pas censé être accessible. Il te dit aussi comment il en est ressorti.",
+  fail:{p:.3, on:"ruse", eff:{obs:5, renom:-5},
+   why:"Il rend des papiers volés à un Gouvernement, et il ne raconte pas ses méthodes à quelqu'un qu'il vient de rencontrer.",
+   r:"Il sourit, il change de sujet, et il est déjà sur la route quand tu comprends qu'il n'a pas répondu."}},
+ {t:"L'aider à distribuer", tag:"Le travail",
+  eff:{renom:11, vol:9, ruse:-4}, f:"reputation_pop",
+  why:"Il y a trois cents papiers et une seule paire de mains, et le village ne sait pas lire pour moitié.",
+  r:"Vous y passez la journée. Il lit à voix haute pour ceux qui ne savent pas, sans jamais en faire un discours. Ça t'apprend plus sur la Révolution que n'importe quel tract."},
+ {t:"Lui demander de te rendre un papier, à toi", tag:"Le tien", sauf:"marine|gm",
+  eff:{ruse:11, vol:8, renom:5},
+  why:"Il sort d'une archive du Gouvernement avec trois cents actes. Il en a peut-être vu passer un à ton nom.",
+  r:"Il feuillette de mémoire et il en sort un, sans hésiter. Ce n'est pas celui que tu croyais, et il vaut beaucoup plus."},
+ {t:"Prévenir qui de droit", tag:"Le rapport", ineed:"marine|gm", d:1,
+  eff:{ruse:11, renom:10, vol:-11},
+  why:"Ces documents sortent d'une archive du Gouvernement, et l'homme qui les rend est sur toutes les listes.",
+  r:"Ton rapport part avec une description précise. Il est parti depuis six heures et il ne reviendra pas. Ta hiérarchie note ta diligence.",
+  fail:{p:.28, on:"ruse", eff:{renom:-8, vol:5},
+   why:"Un village qui vient de récupérer ses actes de naissance n'a aucune envie qu'on le signale.",
+   r:"Quelqu'un du village comprend ce que tu écris. Le temps que ton message parte, tout le monde ici connaît ton visage et ton uniforme."}}
+]});
+
+E({id:"vis_augur", pic:'c_augur', act:4, scene:"newworld", w:9, once:1,
+kicker:"Une détonation, puis une autre", title:"Deux détonations",
+text:"Une détonation claque au nord. Trois secondes de silence. Une deuxième détonation claque au sud, et c'est le même fusil.<br><br>Personne n'a été touché. Les deux balles se sont plantées dans le mât, à hauteur d'homme, à dix centimètres l'une de l'autre.",
+opts:[
+ {t:"Comprendre ce que les impacts veulent dire", tag:"Le message",
+  eff:{obs:13, ruse:8, vol:4},
+  why:"Deux balles à hauteur d'homme qui ne touchent personne ne sont pas deux balles ratées.",
+  r:"Les deux impacts encadrent exactement l'endroit où tu te tenais une seconde avant. C'est un avertissement, précis, et tu le prends comme tel."},
+ {t:"Répondre par un tir dans le vide", tag:"La réponse", d:1, ineed:"sp_tir",
+  eff:{obs:12, combat:9, renom:8},
+  why:"Il a parlé le premier, dans une langue que tu connais, et laisser sans réponse serait plus grave que mal répondre.",
+  r:"Tu tires une fois vers un point où il n'y a rien, à huit cents mètres. Une troisième détonation répond, plus loin, et c'est fini. Vous vous êtes compris.",
+  fail:{p:.3, on:"obs", eff:{combat:5, renom:-6},
+   why:"Répondre à un tireur de ce niveau, c'est lui donner ta position et ta cadence.",
+   r:"Ton tir part et rien ne répond. Ce silence-là est nettement plus inquiétant qu'une troisième détonation."}},
+ {t:"Faire descendre tout le monde du pont", tag:"L'abri",
+  eff:{ruse:10, obs:9, renom:-4},
+  why:"Un homme qui touche à huit cents mètres n'a pas raté, donc il n'a pas encore décidé de toucher.",
+  r:"Le pont se vide en quinze secondes. Il n'y a pas de troisième coup, et vous appareillez à la nuit sans qu'un seul homme soit blessé."},
+ {t:"Planter ton propre pavillon à l'endroit visé", tag:"Le signe", sauf:"sp_tir",
+  eff:{vol:12, renom:9, obs:5},
+  why:"Les deux impacts encadrent une place vide. Y mettre quelque chose est une réponse que n'importe qui peut donner.",
+  r:"Tu plantes ton pavillon entre les deux balles. Aucune troisième détonation ne vient, et c'est exactement ce que ça voulait dire."}
+]});
+
+E({id:"vis_serafim", pic:'c_serafim', act:4, scene:"mariejoie", w:9, once:1,
+kicker:"Une enfant dans un couloir blanc", title:"L'enfant du couloir blanc",
+text:"Une petite fille en uniforme attend seule dans un couloir de laboratoire. Elle a le visage de quelqu'un que tout le monde reconnaîtrait, en plus jeune.<br><br>Un technicien passe et lui parle comme on parle à un appareil. Elle répond exactement comme un appareil.",
+opts:[
+ {t:"Lui parler comme à une enfant", tag:"Le mot", d:1,
+  eff:{vol:13, obs:8, renom:-5},
+  why:"Tout le monde ici lui parle comme à un objet, et personne ne sait ce qui se passe si on fait autrement.",
+  r:"Elle met trois secondes à répondre, ce qui est très long pour elle. Elle pose une question qui n'était dans aucun de ses programmes, puis le technicien revient.",
+  fail:{p:.32, on:"vol", eff:{obs:5, renom:-7},
+   why:"Ce qui est en face de toi a été fabriqué pour obéir, et ce genre d'écart se remonte.",
+   r:"Elle enregistre ton nom, ton grade et l'heure, à voix haute, du même ton que le reste. Tu comprends que ça vient d'être versé quelque part."}},
+ {t:"Éviter son regard", tag:"Les yeux",
+  eff:{obs:11, ruse:8, vol:-4},
+  why:"Le visage qu'elle porte appartient à quelqu'un dont le regard change les gens en pierre, et ce n'est pas qu'une ressemblance.",
+  r:"Tu regardes ses chaussures pendant toute la conversation. Le technicien te félicite du réflexe, ce qui est une façon de confirmer."},
+ {t:"Lire ce qui est écrit sur son dossier", tag:"Le dossier",
+  eff:{obs:13, ruse:9, renom:-6},
+  why:"Le classeur est posé sur la chaise à côté d'elle, ouvert, parce que personne ici n'imagine qu'un visiteur puisse lire.",
+  r:"Tu retiens une lettre, un numéro de série, et le mot qui désigne le programme. Ce mot ne devrait pas exister pour un être vivant."}
+]});
+
+E({id:"vis_ace", pic:'c_ace', act:4, scene:"newworld", w:9, once:1,
+kicker:"Un homme endormi à table", title:"L'homme endormi à table",
+text:"Un homme s'est endormi assis, le front dans son assiette, au milieu du repas. Personne autour ne s'inquiète, ce qui veut dire que ça arrive souvent.<br><br>La nappe sous son bras roussit lentement et personne ne bouge. Le patron pose une assiette d'eau à côté, par habitude.",
+opts:[
+ {t:"Le réveiller avant que la nappe prenne", tag:"Le réflexe",
+  eff:{obs:10, renom:8, vol:5},
+  why:"Il dort, la nappe chauffe, et il y a une cuisine juste derrière ce mur.",
+  r:"Il se réveille d'un coup, s'excuse trois fois, et paie la nappe. Il t'offre à manger et il parle de son frère pendant une heure."},
+ {t:"Le laisser dormir et rester à côté", tag:"La veille",
+  eff:{vol:11, obs:7, renom:5},
+  why:"Le patron a posé de l'eau, donc il connaît le risque et il l'accepte. Quelqu'un doit quand même regarder.",
+  r:"Tu restes vingt minutes. Il se réveille tout seul, voit l'eau, comprend, et te remercie d'un signe de tête sans un mot."},
+ {t:"Lui demander ce qu'il cherche dans le Nouveau Monde", tag:"La question", d:1,
+  eff:{obs:12, vol:8, ruse:5},
+  why:"Un homme qui traverse ces eaux seul, avec ce pouvoir, ne se promène pas.",
+  r:"Il dit qu'il cherche quelqu'un de son ancien équipage, et il donne un nom. Le nom te glace, et tu comprends pourquoi il ne dort que par accident.",
+  fail:{p:.28, on:"vol", eff:{obs:5, renom:-5},
+   why:"Ce qu'il cherche ne se raconte pas à un inconnu dans une auberge.",
+   r:"Il change de sujet et parle de la nourriture. Il en parle très bien, et tu n'apprends rien d'autre."}}
+]});
+
+E({id:"vis_zoro", pic:'c_zoro', act:4, scene:"newworld", w:9, once:1,
+kicker:"Un homme perdu à deux rues du port", title:"Perdu à deux rues du port",
+text:"Un sabreur à trois lames te demande où est le port. Le port est à deux rues, visible depuis l'endroit où vous êtes, et il vient d'en venir.<br><br>Il ne plaisante pas. Il a l'air sincèrement perdu et sincèrement pressé.",
+opts:[
+ {t:"L'accompagner jusqu'au quai", tag:"Le guide",
+  eff:{renom:9, vol:7, ruse:5},
+  why:"Il repartira dans la mauvaise direction dans dix secondes, et ce n'est pas une façon de parler.",
+  r:"Tu le mènes jusqu'à la coupée. Sur le chemin il ne dit presque rien, sauf une phrase sur ce qu'il a promis à quelqu'un, et cette phrase se retient."},
+ {t:"Lui demander de croiser le fer", tag:"Les passes", d:1, ineed:"sp_sabre",
+  eff:{combat:14, arm:9, obs:6, renom:6},
+  why:"Il porte trois lames dont une qui ne devrait pas se laisser tenir, et une occasion pareille ne repasse pas.",
+  r:"Vous faites six passes dans une ruelle, sans forcer. Il gagne les six, sans commentaire, puis il corrige ton appui et il repart dans la mauvaise direction.",
+  fail:{p:.3, on:"combat", eff:{combat:6, renom:-5},
+   why:"Six passes contre quelqu'un de ce niveau, c'est six occasions de mesurer très exactement l'écart.",
+   r:"Il gagne les six sans que tu voies comment. Il ne dit rien du tout, ce qui est bien pire qu'un commentaire."}},
+ {t:"Lui indiquer la direction et le laisser", tag:"Le doigt",
+  eff:{obs:7, ruse:6, renom:-3},
+  why:"Le port est visible. Il n'y a rien de plus à faire que de tendre le bras.",
+  r:"Tu montres la direction. Il te remercie, il part exactement à l'opposé, et tu le regardes disparaître au coin de la rue."},
+ {t:"Lui demander ce qu'il a promis à quelqu'un", tag:"La promesse", sauf:"sp_sabre",
+  eff:{vol:12, obs:8, renom:4},
+  why:"Il porte trois lames et il est pressé sans savoir où aller, ce qui veut dire qu'il a un rendez-vous avec lui-même.",
+  r:"Il répond en une phrase, sans se retourner, et cette phrase dit exactement pourquoi il ne s'arrêtera jamais. Puis il repart du mauvais côté."}
+]});
+
+E({id:"vis_queen", pic:'c_queen', act:4, scene:"newworld", w:9, once:1,
+kicker:"Une soirée dans un laboratoire", title:"La soirée du laboratoire",
+text:"Il y a de la musique dans un laboratoire, très fort, et une trentaine d'hommes dansent vraiment entre les paillasses. Au fond, un homme en blouse dirige les deux.<br><br>Sur la table derrière lui, des bocaux étiquetés avec des dates et des noms de villages.",
+opts:[
+ {t:"Danser avec eux", tag:"La soirée",
+  eff:{ruse:12, renom:7, vol:-5},
+  why:"Personne ne remarque un invité de plus dans une salle où tout le monde danse, et tout le monde danse.",
+  r:"Tu passes une heure dedans sans que personne demande qui tu es. En partant tu connais le plan du bâtiment et l'heure de la relève."},
+ {t:"Lire les étiquettes des bocaux", tag:"Les bocaux", d:1,
+  eff:{obs:14, ruse:8, vol:-5},
+  why:"Des dates et des noms de villages sur des bocaux, dans un laboratoire, ne se lisent jamais dans le bon sens.",
+  r:"Trois des villages ont été déclarés perdus dans un accident. Les dates ne correspondent pas aux accidents, elles les précèdent de deux semaines.",
+  fail:{p:.3, on:"ruse", eff:{obs:6, renom:-6},
+   why:"S'approcher de la table du fond, c'est s'approcher de lui, et la musique n'empêche pas de voir.",
+   r:"Il coupe la musique d'un geste. Trente hommes s'arrêtent en même temps et se tournent vers toi. Il te demande, très aimablement, si tu aimes la science."}},
+ {t:"Sortir avant la fin du morceau", tag:"Le retrait",
+  eff:{obs:8, ruse:8},
+  why:"Une salle qui danse est une salle qui ne regarde pas, et ça ne dure que le temps d'un morceau.",
+  r:"Tu sors pendant que le refrain couvre tout. Personne ne te voit partir, et c'était le seul bon moment de la soirée."}
+]});
+
+/* ---------------------------- ACTE 5 ---------------------------- */
+
+E({id:"vis_shiryu", pic:'c_shiryu', act:5, scene:"newworld", w:9, once:1,
+kicker:"Une coupure sans personne autour", title:"La coupure sans personne",
+text:"Un homme de ton bord s'ouvre l'avant-bras sur trente centimètres. Il n'y avait personne à moins de cinq mètres et rien de tranchant à bord.<br><br>La pluie sur le pont dessine une forme creuse pendant une demi-seconde, à trois pas de toi, puis plus rien.",
+opts:[
+ {t:"Faire mouiller tout le pont", tag:"L'eau",
+  eff:{ruse:13, obs:10, combat:5},
+  why:"La pluie a dessiné une forme pendant une demi-seconde. De l'eau partout et il n'y a plus de demi-seconde.",
+  r:"Tu fais vider les baquets sur tout le pont. La silhouette apparaît en creux, nette, deux secondes entières, et elle choisit de partir."},
+ {t:"Rassembler tout le monde dos à dos", tag:"Le cercle",
+  eff:{obs:11, vol:9, renom:5},
+  why:"On ne peut pas viser ce qu'on ne voit pas, mais on peut faire en sorte que personne ne soit seul.",
+  r:"Personne d'autre n'est touché de la nuit. Au matin, il manque deux barils et une chaloupe, et pas un homme."},
+ {t:"Le chercher seul", tag:"La chasse", d:1,
+  eff:{combat:12, obs:9, vol:-6},
+  why:"Il est monté à bord et il repartira, et personne d'autre ici n'a le niveau pour s'en occuper.",
+  r:"Tu le trouves à la troisième coursive, parce qu'il a voulu être trouvé. Il redevient visible une seconde, uniquement pour que tu voies qu'il sourit, et il saute.",
+  fail:{p:.34, on:"obs", eff:{combat:5, vol:-8},
+   why:"Chercher seul dans le noir un homme qu'on ne voit pas, c'est lui offrir exactement ce qu'il attend.",
+   r:"Une entaille s'ouvre sur ton flanc et il n'y a personne à côté. Tu ne l'as jamais vu, ni avant ni après."}}
+]});
+
+E({id:"vis_kid", pic:'c_kid', act:5, scene:"newworld", w:9, once:1,
+kicker:"Une montagne de ferraille sur la plage", title:"La montagne de ferraille",
+text:"Sur la plage, trente mètres de ferraille empilée : ancres, canons, coques entières. Un homme au bras de métal est assis dessus et regarde la mer.<br><br>Toutes les pièces métalliques de ton bord tirent légèrement dans sa direction, y compris ce que tu portes.",
+opts:[
+ {t:"Poser ton arme avant d'approcher", tag:"Le désarmement",
+  eff:{ruse:11, vol:9, obs:6},
+  why:"Tout ce qui est en métal ici lui appartient déjà, et arriver armé revient à lui apporter une pièce de plus.",
+  r:"Tu montes les mains vides. Il ne se retourne pas, mais il parle, et il parle longtemps de quelqu'un qu'il compte battre."},
+ {t:"Lui demander ce qu'il compte faire de tout ça", tag:"La question",
+  eff:{obs:12, ruse:7, renom:4},
+  why:"Trente mètres de ferraille sur une plage ne sont pas un tas, c'est un stock, et un stock se constitue pour quelque chose.",
+  r:"Il dit un nom d'Empereur, sans emphase, comme un rendez-vous déjà pris. Tu comprends que ce tas est une arme en pièces détachées."},
+ {t:"Faire demi-tour tout de suite", tag:"Le départ", d:1,
+  eff:{obs:9, ruse:10, renom:-6},
+  why:"Il attire déjà le métal de ton bord depuis la plage, et ton navire en est plein.",
+  r:"Vous repartez avant qu'il se lève. À trois cents mètres, les pièces cessent de tirer et l'équipage recommence à respirer.",
+  fail:{p:.26, on:"ruse", eff:{obs:5, renom:-6},
+   why:"Un navire ne fait pas demi-tour discrètement devant quelqu'un qui sent chaque clou de sa coque.",
+   r:"Il lève la main sans se retourner. Deux ancres et un canon quittent ton pont et vont rejoindre le tas, tranquillement."}}
+]});
+
+E({id:"vis_king", pic:'c_king', act:5, scene:"newworld", w:9, once:1,
+kicker:"Une ombre au-dessus des nuages", title:"L'ombre au-dessus des nuages",
+text:"Quelque chose d'immense passe au-dessus de la couverture nuageuse et le pont s'assombrit pendant quatre secondes. Il fait plus chaud d'un coup.<br><br>Une plume tombe sur le pont. Elle brûle encore quand elle touche le bois, et elle ne s'éteint pas dans l'eau.",
+opts:[
+ {t:"Ramasser la plume avec du granit marin", tag:"L'échantillon", d:1,
+  eff:{obs:14, ruse:8, combat:5},
+  why:"Quelque chose qui ne s'éteint pas dans l'eau ne s'éteindra pas non plus dans une cale.",
+  r:"Elle cesse de brûler dès qu'elle touche la pierre. Tu la gardes. Un savant t'apprendra bien plus tard ce que ça veut dire sur celui qui l'a perdue.",
+  fail:{p:.3, on:"obs", eff:{obs:5, vol:-6},
+   why:"Ce qui brûle sans oxygène brûle aussi ce qu'on met autour pour le porter.",
+   r:"Le seau prend feu, puis une partie du bastingage. Vous passez une heure à noyer un incendie qui n'a pas de raison de s'éteindre."}},
+ {t:"Faire éteindre tous les feux du bord", tag:"Le noir",
+  eff:{ruse:12, obs:9, renom:5},
+  why:"Ce qui vole là-haut cherche quelque chose au sol, et un navire éclairé est le seul point visible sur cette mer.",
+  r:"Vous passez la nuit sans une lampe. L'ombre repasse deux fois et ne redescend pas. Au matin, un autre navire manque à l'horizon."},
+ {t:"Le regarder passer", tag:"La mesure",
+  eff:{obs:12, vol:7, renom:-4},
+  why:"Personne à bord n'a jamais vu ça, et savoir ce que c'est vaudra mieux plus tard que de l'avoir évité aujourd'hui.",
+  r:"Tu comptes l'envergure sur la longueur du navire. Le chiffre que tu obtiens ne rentre dans aucune catégorie connue, et tu le notes quand même."}
+]});
+
+E({id:"vis_yamato", pic:'c_yamato', act:5, scene:"newworld", w:9, once:1,
+kicker:"Un journal recopié à la main", title:"Le journal recopié",
+text:"Dans une auberge de montagne, quelqu'un recopie un vieux journal de bord à la main, page après page, en récitant les passages qu'il connaît par cœur.<br><br>Aux poignets, deux menottes qui clignotent. Elles sont ouvertes, et il les porte quand même.",
+opts:[
+ {t:"Écouter la lecture jusqu'au bout", tag:"Le journal",
+  eff:{obs:12, vol:9, renom:4},
+  why:"Un journal de bord recopié à la main dans une auberge de montagne contient forcément quelque chose que personne ne veut imprimer.",
+  r:"Le texte parle d'un pays ouvert sur le monde et d'une frontière qu'un homme a refusé de fermer. Tu retiens un nom de port et une date."},
+ {t:"Demander pourquoi les menottes sont encore là", tag:"Les chaînes", d:1,
+  eff:{vol:13, obs:8, renom:-4},
+  why:"Elles sont ouvertes. Les porter quand même est une décision, et une décision se raconte.",
+  r:"La réponse tient en une phrase sur quelqu'un qui n'a pas fini son travail, et sur le fait qu'on ne se libère pas seulement en ouvrant une serrure.",
+  fail:{p:.3, on:"vol", eff:{obs:5, renom:-5},
+   why:"C'est une question qu'on pose à un ami, pas à quelqu'un qu'on vient de rencontrer dans une auberge.",
+   r:"Le regard change. La copie reprend, plus vite, et la conversation ne repart jamais."}},
+ {t:"Proposer de recopier avec lui", tag:"Les mains",
+  eff:{vol:11, renom:7, ruse:-4},
+  why:"Il y a trois cents pages et une seule main, et il tient à ce que ce texte existe en double.",
+  r:"Vous copiez jusqu'au matin. Il te laisse partir avec deux pages, celles qu'il juge les plus importantes, et elles le sont."}
+]});
+
+E({id:"vis_aokiji", pic:'c_aokiji', act:5, scene:"newworld", w:9, once:1,
+kicker:"Un homme endormi sur un vélo", title:"L'homme endormi sur un vélo",
+text:"Un très grand type dort assis sur un vélo posé contre un mur, en plein soleil, un masque de sommeil sur les yeux. Le sol autour de lui est givré sur deux mètres.<br><br>Il te parle sans enlever le masque et sans avoir l'air de s'être réveillé.",
+opts:[
+ {t:"S'asseoir et parler de rien", tag:"La conversation",
+  eff:{obs:11, vol:9, ruse:5},
+  why:"Il a engagé la conversation le premier, sans se réveiller, et il n'a manifestement rien de prévu.",
+  r:"Vous parlez du temps, des glaces, et d'une justice qu'il appelle nonchalante. Au bout d'une heure il te dit une chose sur son ancien employeur qui vaut cher."},
+ {t:"Lui demander pourquoi il a quitté la Marine", tag:"La question", d:1,
+  eff:{obs:13, vol:9, renom:-5},
+  why:"Un ancien amiral qui dort sur un vélo dans un port du Nouveau Monde a fait un choix, et ce choix a une date.",
+  r:"Il raconte un duel de dix jours sur une île de magma et il ne dit pas qui a gagné, parce que ce n'est pas la question. Il dit pourquoi il s'est battu.",
+  fail:{p:.3, on:"vol", eff:{obs:6, renom:-5},
+   why:"C'est la question que tout le monde lui pose, et il a une façon très polie de ne pas y répondre.",
+   r:"Il bâille, il dit que c'est compliqué, et il se rendort vraiment. Le givre gagne encore vingt centimètres."}},
+ {t:"Passer sans le déranger", tag:"Rien",
+  eff:{ruse:8, obs:7},
+  why:"Il y a deux mètres de givre autour de lui en plein soleil, et il n'a rien demandé à personne.",
+  r:"Tu contournes largement. Il te dit bonne route sans enlever le masque, et tu ne sais pas s'il dormait."}
+]});
+
+E({id:"vis_ryokugyu", pic:'c_ryokugyu', act:5, scene:"newworld", w:9, once:1,
+kicker:"Une forêt qui a poussé en une nuit", title:"La forêt d'une nuit",
+text:"Une forêt de trente mètres de haut couvre une plaine qui était nue avant-hier. Les racines ont soulevé les fondations de deux fermes.<br><br>Au milieu, un homme allongé dans les branches dit à voix haute qu'il n'a pas mangé depuis trois ans et que ce n'est toujours pas suffisant.",
+opts:[
+ {t:"Faire évacuer les fermes", tag:"L'évacuation",
+  eff:{renom:12, vol:9, ruse:-5}, f:"reputation_pop",
+  why:"Les racines montent encore et les gens de ces fermes regardent leur maison se soulever sans savoir quoi faire.",
+  r:"Vous sortez onze personnes et deux troupeaux avant l'aube. Au matin il ne reste rien des fermes, et rien des onze personnes non plus n'a été perdu."},
+ {t:"Lui demander ce qu'il cherche ici", tag:"La question", d:1,
+  eff:{obs:12, ruse:8, renom:-6},
+  why:"Un amiral ne fait pas pousser une forêt sur une plaine sans qu'on le lui ait demandé.",
+  r:"Il répond franchement, en bâillant, et le nom qu'il donne n'est pas celui d'un pirate. C'est un nom de village, et ce village n'existe plus.",
+  fail:{p:.32, on:"ruse", eff:{obs:5, renom:-7},
+   why:"Poser une question à un amiral en opération, c'est se signaler comme quelqu'un qui a le temps.",
+   r:"Des racines sortent du sol sous tes pieds, sans se presser, et se referment à deux doigts de tes chevilles. Il n'a même pas tourné la tête."}},
+ {t:"Repérer jusqu'où va la forêt", tag:"La carte",
+  eff:{obs:12, ruse:8},
+  why:"Ce qui a poussé en une nuit a une limite, et cette limite dit exactement ce qu'il peut faire.",
+  r:"Tu longes la lisière pendant deux heures. Elle s'arrête net à trois cents mètres de la mer, partout. Il ne peut pas franchir l'eau salée."}
+]});
+
+E({id:"vis_gunko", pic:'c_gunko', act:5, scene:"elbaf", w:9, once:1,
+kicker:"Une flèche plantée dans une porte", title:"La flèche dans la porte",
+text:"Une flèche est plantée dans la porte de l'auberge, à hauteur d'œil, et elle est entrée par l'intérieur.<br><br>Sur une table, un casque posé, et de la musique qui en sort. Quelqu'un écoutait quelque chose et vient de sortir en vitesse.",
+opts:[
+ {t:"Écouter ce qu'il y a dans le casque", tag:"La musique",
+  eff:{obs:12, vol:9, ruse:4},
+  why:"Quelqu'un a laissé ça allumé en partant précipitamment, et ce qu'on écoute en dit long sur qui on est.",
+  r:"C'est une chanson, très ancienne, jouée par un homme dont le squelette est célèbre. Tu ne comprends pas pourquoi ça te serre la gorge, mais ça te la serre."},
+ {t:"Regarder d'où la flèche est partie", tag:"La trajectoire",
+  eff:{obs:13, combat:6, ruse:5},
+  why:"Elle est entrée par l'intérieur de la salle, donc le tireur était assis quelque part dans cette pièce.",
+  r:"L'angle ne mène à aucune chaise. Il mène au plafond, à un endroit où rien ne tient. Une flèche est donc passée par là et a tourné."},
+ {t:"Sortir et suivre la personne partie", tag:"La poursuite", d:1,
+  eff:{obs:11, ruse:9, vol:-5},
+  why:"Elle a laissé son casque allumé, donc elle est partie vite, donc elle n'est pas loin.",
+  r:"Tu la rattrapes au bout de la rue, une armure blanche et un arc. Elle ne t'attaque pas. Elle te demande si la musique jouait encore, et elle a l'air d'y tenir.",
+  fail:{p:.32, on:"ruse", eff:{obs:5, renom:-6},
+   why:"Suivre un Chevalier Divin dans une rue d'Elbaf est une décision qu'on prend une seule fois.",
+   r:"Trois plaques d'armure se placent entre elle et toi sans que personne les tienne. Quand elles retombent, la rue est vide."}}
+]});
+
+E({id:"vis_sengoku", pic:'c_sengoku', act:5, scene:"marineford", w:9, once:1,
+kicker:"Un retraité qui lit des rapports", title:"Le retraité et ses rapports",
+text:"Un vieil homme lit des rapports sur un banc, devant le bâtiment qu'il a dirigé pendant vingt ans. Il n'a plus de grade et il reçoit toujours les rapports.<br><br>Il mange des biscuits de riz en lisant et il commente à voix basse, pour lui.",
+opts:[
+ {t:"S'asseoir et l'écouter commenter", tag:"Le banc",
+  eff:{obs:13, ruse:8, vol:5},
+  why:"Vingt ans à la tête de cette maison, et il continue de lire ce qui s'y passe. Ce qu'il en dit tout seul est plus honnête que n'importe quel discours officiel.",
+  r:"Il commente trois affaires en cours, dont deux que le public ne connaît pas. Il ne baisse pas la voix quand tu t'assois, ce qui est une façon de te les donner."},
+ {t:"Lui demander ce qu'il aurait fait autrement", tag:"Le regret", d:1,
+  eff:{vol:12, obs:9, renom:5},
+  why:"Il a ordonné une guerre entière et il lit encore les rapports vingt ans après. Ce n'est pas de la curiosité.",
+  r:"Il nomme une seule décision, un seul jour, et il ne se justifie pas. Puis il te tend un biscuit et il reprend sa lecture.",
+  fail:{p:.28, on:"vol", eff:{obs:5, renom:-5},
+   why:"On ne demande pas ça à quelqu'un qui a mis vingt ans à s'en remettre, sur le banc d'en face.",
+   r:"Il tourne une page sans répondre. Il tourne la suivante. Tu finis par te lever, et il ne relève pas la tête."}},
+ {t:"Regarder quels rapports il reçoit encore", tag:"Le circuit",
+  eff:{obs:12, ruse:10, renom:-5},
+  why:"Un homme sans grade qui reçoit les rapports du Quartier Général a gardé quelqu'un à l'intérieur.",
+  r:"Tu identifies le cachet du service et l'heure de distribution. Quelqu'un, quelque part dans ce bâtiment, continue de lui envoyer ce qu'il ne devrait plus voir."}
+]});
+
+E({id:"vis_loki", pic:'c_loki', act:5, scene:"elbaf", w:9, once:1,
+kicker:"Un trou au bord du village", title:"Le trou au bord du village",
+text:"Un puits large comme une place, au bord du village, et des chaînes qui descendent dedans. On entend rire au fond, très loin, à intervalles réguliers.<br><br>Personne du village ne s'approche du bord. Un vieux te dit qu'on l'accuse d'avoir tué son père, et il le dit sans conviction.",
+opts:[
+ {t:"Demander au village ce qui s'est vraiment passé", tag:"La version",
+  eff:{obs:13, ruse:8, vol:5},
+  why:"Le vieux l'a dit sans conviction, et un village entier qui n'y croit pas non plus ne l'a pas jeté là tout seul.",
+  r:"Trois personnes te donnent trois versions. Aucune ne colle avec l'accusation officielle, et toutes s'arrêtent au même endroit du récit."},
+ {t:"Descendre lui parler", tag:"Le fond", d:1,
+  eff:{vol:14, obs:9, renom:-6},
+  why:"Il rit à intervalles réguliers depuis des années et personne n'est jamais descendu vérifier pourquoi.",
+  r:"Il te dit ce que tu es venu chercher, exactement, et il a raison. Puis il te dit une phrase sur son père que tu ne répéteras à personne.",
+  fail:{p:.34, on:"vol", eff:{obs:6, vol:-7},
+   why:"Descendre au fond d'un trou où un géant est enchaîné est une idée dont on ne connaît le prix qu'en bas.",
+   r:"Une chaîne se tend et le sol se soulève de dix mètres. Tu remontes plus vite que tu n'es descendu, et le rire te suit jusqu'en haut."}},
+ {t:"Rester au bord et écouter le rythme", tag:"Le rythme",
+  eff:{obs:12, ruse:6, vol:5},
+  why:"Il rit à intervalles réguliers, et ce qui est régulier n'est pas de la folie.",
+  r:"Tu comptes. C'est régulier à la seconde près, et ça s'arrête net quand quelqu'un du village passe. Il sait exactement qui est en haut."}
+]});
+
+E({id:"vis_akainu", pic:'c_akainu', act:5, scene:"marineford", w:9, once:1,
+kicker:"Un bureau qui reçoit tard", title:"Le bureau qui reçoit tard",
+text:"Il reçoit à vingt-trois heures, seul, sans secrétaire, et il n'a pas mis les lumières. Sur son bureau, une seule chemise, ouverte, avec un nom que tu connais dessus.<br><br>Il ne te propose pas de t'asseoir. Il te demande ce que tu penses de la justice, et il attend vraiment une réponse.",
+opts:[
+ {t:"Répondre exactement ce que tu penses", tag:"La franchise", d:1,
+  eff:{vol:14, renom:9, ruse:-8},
+  why:"Il a posé la question à vingt-trois heures, sans témoin, et il saura tout de suite si la réponse est apprise.",
+  r:"Tu réponds sans arrondir. Il ne bouge pas pendant dix secondes. Puis il referme la chemise et il dit que c'est bien, et tu ne sauras jamais ce que ça veut dire.",
+  fail:{p:.3, on:"vol", eff:{renom:-9, vol:6},
+   why:"Il y a des convictions qu'on ne défend pas dans ce bureau-là, à cette heure-là, devant cet homme-là.",
+   r:"Il t'écoute jusqu'au bout, poliment. Puis il ouvre une deuxième chemise, sur laquelle il y a ton nom, et il en note une ligne."}},
+ {t:"Répondre ce qu'il attend", tag:"La ligne", ineed:"marine|gm",
+  eff:{ruse:11, renom:8, vol:-9},
+  why:"Sous cet uniforme, il y a une seule bonne réponse à cette question, et tout le monde la connaît.",
+  r:"Tu récites. Il hoche la tête et te congédie en trente secondes. Ta carrière n'a pas souffert, et tu n'as pas dormi cette nuit-là."},
+ {t:"Lui demander pourquoi il t'a fait venir", tag:"La convocation", sauf:"marine|gm",
+  eff:{obs:11, vol:9, renom:-5},
+  why:"Un homme comme lui ne reçoit personne à vingt-trois heures sans avoir décidé de la conversation à l'avance.",
+  r:"Il répond en désignant la chemise. Ce n'est pas ton dossier qui l'intéresse, c'est ce que tu sais de celui dont le nom est dessus."},
+ {t:"Lire le nom sur la chemise", tag:"Le dossier", d:1,
+  eff:{obs:13, ruse:9, renom:-6},
+  why:"Il a laissé la chemise ouverte, sous la lampe éteinte, et il n'a rien laissé ouvert par hasard de toute sa vie.",
+  r:"Tu lis le nom à l'envers, sans bouger la tête. C'est quelqu'un que tu connais, et le dossier n'est pas encore clos.",
+  fail:{p:.3, on:"ruse", eff:{obs:5, renom:-8},
+   why:"Il regarde tes yeux depuis que tu es entré, et il ne fait que ça depuis quarante ans.",
+   r:"Il retourne la chemise sans un mot et il attend. Le silence dure très longtemps, et c'est toi qui parles en premier."}}
+]});
+
+E({id:"vis_shamrock", pic:'c_shamrock', act:5, scene:"mariejoie", w:9, once:1,
+kicker:"Un visage qu'on croit reconnaître", title:"Le visage qu'on croit connaître",
+text:"Dans une galerie de Marie-Joie, un homme te tourne le dos et tu reconnais tout de suite la silhouette et les cheveux. Tu ouvres la bouche pour dire le nom.<br><br>Il se retourne avant. Ce n'est pas lui, ça n'a jamais été lui, et il attend visiblement de voir ce que tu vas faire de ta seconde d'erreur.",
+opts:[
+ {t:"Dire que tu t'es trompé, simplement", tag:"L'aveu",
+  eff:{vol:11, ruse:8, renom:-4},
+  why:"Il a vu ta bouche s'ouvrir. Nier serait un mensonge devant quelqu'un qui a déjà la réponse.",
+  r:"Tu dis le nom que tu allais dire. Il te demande si tu le connais bien, du même ton que pour la pluie, et il note ta réponse quelque part derrière ses yeux."},
+ {t:"Ne rien dire du tout", tag:"Le silence", d:1,
+  eff:{ruse:12, obs:9, vol:-5},
+  why:"Il attend une réaction et il n'y a aucune bonne réaction, donc il n'y a que celle qu'on ne donne pas.",
+  r:"Tu refermes la bouche et tu regardes le tableau derrière lui. Il attend, puis il s'en va. Tu as gagné quelque chose et tu ne sais pas quoi.",
+  fail:{p:.3, on:"ruse", eff:{obs:5, renom:-6},
+   why:"Ne rien dire devant un Chevalier Divin est aussi une réponse, et il la lit très bien.",
+   r:"Il te dit un nom qui n'est pas le sien et il te regarde réagir. Ton visage répond avant toi."}},
+ {t:"Lui demander qui il est vraiment", tag:"La question", d:1,
+  eff:{obs:12, vol:9, renom:-7},
+  why:"Il a laissé la ressemblance faire son travail et il attend. Poser la question est la seule façon de ne pas la subir.",
+  r:"Il donne son nom complet, avec le titre, très lentement, pour que tu comprennes chaque partie. Puis il te demande le tien.",
+  fail:{p:.32, on:"vol", eff:{renom:-8, obs:5},
+   why:"On ne demande pas son identité à un homme qui porte l'armure blanche, dans une galerie de Marie-Joie.",
+   r:"Sa lame sort et rentre. Tu ne la vois pas partir. Il y a une entaille dans le cadre du tableau derrière toi, et il est déjà loin."}}
+]});
+
+E({id:"vis_doyens", pic:'c_doyens', act:5, scene:"mariejoie", w:9, once:1, nmin:64,
+kicker:"Cinq fauteuils, cinq dossiers", title:"Cinq fauteuils",
+text:"Cinq hommes très vieux sont assis dans une salle sans fenêtre, et il y a cinq dossiers sur la table. Un seul porte ton nom.<br><br>Ils ne se gênent pas entre eux quand ils parlent. Ils ont l'habitude, et l'habitude est très longue.",
+opts:[
+ {t:"Écouter jusqu'à ce qu'ils aient fini", tag:"L'audience",
+  eff:{obs:13, vol:10, ruse:5},
+  why:"Ils t'ont fait venir. Tant qu'ils parlent, ils disent des choses, et ces choses ne s'entendent nulle part ailleurs.",
+  r:"Ils parlent de toi à la troisième personne pendant vingt minutes. Tu apprends ce que le Gouvernement Mondial sait de toi, et c'est plus que ce que tu croyais."},
+ {t:"Demander ce qu'il y a dans les quatre autres dossiers", tag:"La question", d:1,
+  eff:{obs:12, ruse:10, renom:-7},
+  why:"Il y a cinq dossiers sur cette table et un seul te concerne. Les quatre autres sont là pour une raison.",
+  r:"L'un d'eux retourne un dossier vers toi, deux secondes. Le nom dessus est celui de quelqu'un que tout le monde croit mort depuis vingt ans.",
+  fail:{p:.34, on:"ruse", eff:{obs:5, renom:-8},
+   why:"On ne pose pas de question dans cette salle. On répond aux leurs.",
+   r:"Aucun des cinq ne répond. L'un d'eux dit ton nom complet, celui de ta mère, et le nom d'une île rayée des cartes. La question est oubliée."}},
+ {t:"Leur dire non", tag:"Le refus", d:1,
+  eff:{vol:15, renom:10, ruse:-10}, f:"ennemi_gm",
+  why:"Ce qu'ils vont demander se refuse maintenant ou jamais, et personne dans cette salle n'a jamais entendu ce mot.",
+  r:"Tu dis non avant qu'ils aient fini la phrase. Le silence dure. Puis on te raccompagne, poliment, et tu ressors vivant, ce qui est déjà un exploit.",
+  fail:{p:.34, on:"vol", eff:{renom:-10, vol:8},
+   why:"Refuser aux Cinq Doyens ne coûte rien tout de suite. C'est plus tard que ça coûte.",
+   r:"Ils acceptent ton refus sans un mot et te raccompagnent. Ton nom est retiré de trois registres dans le mois qui suit, et personne ne te dit jamais pourquoi."}}
+]});
+
 /* ======================= L'ETAT DU MONDE ================================
    Enrick, 25 aout : « en dessous du panneau depliant on pourrait en mettre un
    deuxieme qui represente l'etat de One Piece, les quatre Empereurs quand tu
