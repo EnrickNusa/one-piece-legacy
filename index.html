@@ -13492,6 +13492,15 @@ function placeJoueur(G, cran){
     return null;
   }
   var cible = null, sous = '';
+  /* ON REPART DE ZERO A CHAQUE CALCUL. S._deloge n'etait ecrit que dans la
+     branche `if(cible)` : quand aucun siege n'est pris, l'ancienne valeur
+     restait en place. Un joueur monte au cran 73, deloge Big Mom, puis
+     redescend d'un cran avec l'age, et le tableau continuait de dire qu'il
+     avait sorti Big Mom. tientLeSiege() s'en protegeait deja en remettant la
+     valeur a null une fois par chapitre, donc aucune carte n'etait touchee,
+     mais toute autre lecture directe recevait une valeur perimee.
+     Releve avant correction : 1 cas sur 46 passages au cran bras droit. */
+  S._deloge = null;
 
   if(camp === 'pirate'){
     if(cran >= 85){ cible = trouve('Les Empereurs', 'Roi des Pirates'); sous = 'Le siège de Roger'; }
@@ -13502,9 +13511,27 @@ function placeJoueur(G, cran){
       sous = cible ? 'À la place ' + (cible.nom === 'Big Mom' ? 'de Big Mom' : 'de Mihawk') : '';
     }
     else if(cran === 68){
-      cible = trouve('Les Empereurs', 'Bras droit', 'Katakuri')
-           || trouve('Les Empereurs', 'Bras droit', 'Crocodile');
-      sous = cible ? 'Second ' + (cible.nom === 'Katakuri' ? 'de Big Mom' : 'de Mihawk') : '';
+      /* TU NE PRENDS LA PLACE DE PERSONNE, TU AJOUTES LA TIENNE.
+         Enrick, 26 aout : « quand je passe au cran bras droit, je n'ai pas de
+         capitaine, donc je deviens simplement le 5e bras droit ? Je n'ai pas
+         encore pris la place d'un Empereur et je ne peux pas devenir le bras
+         droit d'un autre. Plus simplement, je peux avoir ma propre ligne en 5e
+         au niveau bras droit. »
+         Il a raison, et le defaut etait grossier : le jeu te collait le
+         sous-titre « Second de Big Mom » alors que tu n'avais jamais rejoint
+         Big Mom. Le bloc des Empereurs est une chaine de VASSALITE, un
+         Empereur et son second, la ou les trois autres camps sont des echelles
+         de GRADE. « Bras droit » ne veut rien dire pour un pirate independant.
+         Et personne ne remplace un second etabli dans l'oeuvre : Katakuri
+         reste le second de Big Mom tant que Big Mom est la.
+         Le palier devient donc elastique, comme l'ordre des Chevaliers Divins
+         et comme le palier revolutionnaire. Aucun siege ne bouge, donc
+         S._deloge reste vide et tientLeSiege() continue de dire vrai. */
+      for(i = 0; i < G.length; i++) if(G[i].n === 'Les Empereurs'){
+        G[i].s.push({rang:'Bras droit', nom:S.name, pic:'c_toi',
+                     sous:'Ton pavillon, sans personne au-dessus', cran:68, toi:true});
+      }
+      return;
     }
   } else if(camp === 'marine'){
     if(cran >= 85){ cible = trouve('La Marine', 'Héros de la Marine'); sous = 'Le titre de Garp'; }
