@@ -1,3 +1,7 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
 <title>One Piece Legacy</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0a2438">
@@ -1195,18 +1199,52 @@ h1,h2,h3{text-wrap:balance}
    meme graisse, meme interligne, meme chevron. Seule la couleur du libelle et
    du chevron change, et un filet de la meme teinte marque la separation quand
    la barre est ouverte. Rien d'autre. */
-.mg.stt,.mg.mnd,.mg.atr{margin-bottom:15px}
-.mg.stt>summary{color:#0f6b43}
-.mg.mnd>summary{color:#5b3f7d}
-.mg.atr>summary{color:#8a6208}
-.mg.stt>summary:after{border-right-color:#3f9c72;border-bottom-color:#3f9c72}
-.mg.mnd>summary:after{border-right-color:#8a6fb0;border-bottom-color:#8a6fb0}
-.mg.atr>summary:after{border-right-color:#b9902f;border-bottom-color:#b9902f}
-.mg.stt[open]>summary,.mg.mnd[open]>summary,.mg.atr[open]>summary{
-  margin-bottom:12px;padding-bottom:9px;border-bottom:1px solid var(--line)}
-.mg.stt[open]>summary{border-bottom-color:#cfe8db}
-.mg.mnd[open]>summary{border-bottom-color:#ddd4ec}
-.mg.atr[open]>summary{border-bottom-color:#ecdfc2}
+/* ============ TROIS VRAIES BARRES, 26 AOUT ===============================
+   Enrick, capture a l'appui : « quand je parle de trois barres, je veux trois
+   barres aussi en place que celle-ci, que ce soit sur ordi ou telephone. Pas
+   les petites barres colorees que tu m'as faites. »
+   La barre qu'il montrait est .mgbar, le bouton dore : 15 px, fond plein,
+   bordure de 1,5 px, 12 px de marge interieure. Les trois barres reprennent
+   EXACTEMENT ce gabarit, chacune avec sa couleur, et portent un chiffre a
+   droite comme le dore portait « Niveau 25 · Ecumeur de cote ».
+   Ceci annule la consigne du 25 aout « ne pas remettre de fond sur la barre ».
+   Elle valait pour des barres fines ou le fond cognait avec le contenu range
+   dessous. Ici le fond EST la barre, et le contenu deplie reste blanc. */
+.mg.stt,.mg.mnd,.mg.atr{margin-bottom:14px}
+/* Le panneau posait un filet et dix-sept pixels entre deux blocs voisins.
+   Entre trois barres pleines ce filet ne separe plus rien, il creuse un
+   couloir gris au milieu du panneau. Les barres se separent toutes seules. */
+.mgr>.mg+.mg.stt,.mgr>.mg+.mg.atr,.mgr>.mg+.mg.mnd{
+  margin-top:0;padding-top:0;border-top:0}
+.mg.stt>summary,.mg.mnd>summary,.mg.atr>summary{
+  padding:13px 15px;border-radius:11px;border:1.5px solid;
+  font-size:13px;letter-spacing:.12em;min-height:52px;gap:12px}
+/* le libelle ne se laisse pas comprimer, la valeur prend ce qui reste */
+.mg.stt>summary .sml,.mg.mnd>summary .sml,.mg.atr>summary .sml{flex:0 0 auto}
+.mg.stt>summary .smv,.mg.mnd>summary .smv,.mg.atr>summary .smv{
+  margin-left:auto;text-align:right;font-family:var(--body);font-size:13px;
+  font-weight:700;letter-spacing:0;text-transform:none;opacity:.92;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+/* la valeur pousse deja tout a droite, le chevron n'a plus a le faire */
+.mg.stt>summary:after,.mg.mnd>summary:after,.mg.atr>summary:after{
+  margin-left:0;flex:0 0 auto}
+
+.mg.stt>summary{color:#ffffff;border-color:#0d5334;
+  background:linear-gradient(90deg,#3a9b6d,#186b43)}
+.mg.atr>summary{color:#3a2405;border-color:#b07f14;
+  background:linear-gradient(90deg,#f3ca74,#e8a72b)}
+.mg.mnd>summary{color:#ffffff;border-color:#43305e;
+  background:linear-gradient(90deg,#8f74b6,#5b3f7d)}
+.mg.stt>summary:after,.mg.mnd>summary:after{
+  border-right-color:rgba(255,255,255,.85);border-bottom-color:rgba(255,255,255,.85)}
+.mg.atr>summary:after{border-right-color:#5b3a08;border-bottom-color:#5b3a08}
+/* une barre ouverte garde son fond, elle ecarte seulement son contenu */
+.mg.stt[open]>summary,.mg.mnd[open]>summary,.mg.atr[open]>summary{margin-bottom:14px}
+/* LA VALEUR EST UN RESUME, PAS UN TITRE. Barre ouverte, « Niveau 24 · Ecumeur
+   de cote » se retrouvait juste au-dessus du bloc qui affiche le meme niveau
+   et le meme grade : le meme nom trois fois sur un ecran, le defaut que ce
+   projet a deja corrige ailleurs. La valeur ne sert que barre fermee. */
+.mg.stt[open]>summary .smv,.mg.mnd[open]>summary .smv,.mg.atr[open]>summary .smv{display:none}
 /* les blocs ranges dans une barre gardent la separation du panneau */
 .mg.stt>.mg,.mg.atr>.mg{margin-top:15px;padding-top:15px;border-top:1px solid var(--line)}
 .mg.stt>.mg:first-of-type,.mg.atr>.mg:first-of-type{margin-top:0;padding-top:0;border-top:0}
@@ -1237,7 +1275,48 @@ h1,h2,h3{text-wrap:balance}
 /* le contenu d'une barre ne colle pas au bord bas */
 .mg.stt[open],.mg.atr[open],.mg.mnd[open]{padding-bottom:4px}
 
+/* Les deux groupes de l'onglet Statistiques portent leur nom, comme le
+   depliant Haki le faisait avant d'y etre range. */
+.sgr{font-family:var(--disp);font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--gold2);margin:0 0 9px}
+.mg.stt>.mg+.sgr,.sts+.sgr{margin-top:16px}
+.sgr .gl{font-family:var(--body);font-size:10.5px;letter-spacing:0;
+  text-transform:none;color:var(--faint);font-weight:700}
+/* Le titre « Aptitudes » separe desormais les deux groupes. Le decalage que
+   .sts portait pour se separer du Haki faisait donc doublon avec lui, et
+   creusait quarante pixels de blanc entre le titre et la premiere aptitude. */
+.sts{margin-top:0;padding-top:0;border-top:0}
+
+/* ============ SUR MOBILE, LES TROIS BARRES SONT DIRECTEMENT LA ==========
+   Enrick, 26 aout : « sur mobile il faut que j'appuie sur le niveau 23 et
+   cumul de cotes, et ensuite j'ai acces aux petits panneaux. Moi je veux trois
+   gros panneaux de base. »
+   Le panneau entier vivait derriere un bouton d'ouverture, herite du temps ou
+   il n'etait qu'un seul bloc. Maintenant qu'il tient en trois depliants, ce
+   bouton ajoute un geste pour rien : on l'enleve partout et les trois barres
+   se presentent directement, assez hautes pour le pouce. */
+.mgbar{display:none !important}
+.side.fold .mgr{display:grid !important}
+@media (max-width:1039px){
+  .mg.stt>summary,.mg.mnd>summary,.mg.atr>summary{
+    min-height:60px;font-size:12.5px;letter-spacing:.11em;padding:14px 15px}
+  .mg.stt>summary:after,.mg.mnd>summary:after,.mg.atr>summary:after{
+    width:10px;height:10px;border-width:2.5px}
+  .mg.stt,.mg.mnd,.mg.atr{margin-bottom:12px}
+  /* Sur telephone la valeur n'a pas la place de tenir sur la meme ligne que
+     le libelle. La barre passe donc sur deux rangs plutot que de rogner le
+     chiffre, et elle reste d'un seul tenant. */
+  .mg.stt>summary,.mg.mnd>summary,.mg.atr>summary{flex-wrap:wrap;row-gap:3px}
+  .mg.stt>summary .smv,.mg.mnd>summary .smv,.mg.atr>summary .smv{
+    flex:1 0 100%;margin-left:0;text-align:left;order:3;font-size:14px;opacity:1}
+  /* le chevron reste cale a droite du libelle, pas colle contre lui */
+  .mg.stt>summary:after,.mg.mnd>summary:after,.mg.atr>summary:after{
+    margin-left:auto;order:2}
+}
+
 </style>
+</head>
+<body>
 <div class="scene" id="scene" data-scene="village">
   <div class="ph"></div>
   <div class="orb"></div>
@@ -14276,6 +14355,7 @@ function renderManager(){
     if(!d) return '';
     return '<em class="sd ' + (d > 0 ? 'up">▲ ' : 'dn">▼ ') + Math.abs(d) + '</em>';
   }
+  h += '<div class="sgr">Haki <span class="gl">(« Fluide » chez Glénat)</span></div>';
   h += '<div class="hk">';
   var ks=['arm','obs','rois'];
   for(var i=0;i<ks.length;i++){
@@ -14288,6 +14368,7 @@ function renderManager(){
   }
   /* LES QUATRE AUTRES. Elles se lisent sur 100, sans palier : ce sont des
      mesures brutes, pas des grades. La barre suit donc la valeur. */
+  h += '<div class="sgr">Aptitudes</div>';
   h += '<div class="sts">';
   var AUTRES = ['combat','vol','ruse','renom'];
   for(var ai=0; ai<AUTRES.length; ai++){
@@ -14307,7 +14388,21 @@ function renderManager(){
      Il se calcule a chaque rendu, rien n'est stocke dans la sauvegarde. */
   if(typeof mondeGroupes === 'function'){
     var GM_ = mondeGroupes(), gi, sj;
-    h += '<details class="mg wide fold mnd"><summary>L\'état du monde</summary><div class="mn">';
+    /* CE QUE LA BARRE FERMEE DIT. Enrick, 26 aout : les trois barres doivent
+       porter un chiffre parlant, comme la barre doree portait « Niveau 25 ·
+       Ecumeur de cote ». Ici le chiffre est une place : le siege qu'on tient,
+       sinon celui qu'on vise, sinon rien. On le lit dans GM_ qui vient d'etre
+       calcule, pour ne pas refaire le tour du tableau une seconde fois. */
+    var mrTiens = '', mrVise = '';
+    for(gi = 0; gi < GM_.length; gi++)
+      for(sj = 0; sj < GM_[gi].s.length; sj++){
+        var Sr = GM_[gi].s[sj];
+        if(Sr.toi && !mrTiens) mrTiens = Sr.rang || GM_[gi].n;
+        if(Sr.vise && !mrVise)  mrVise  = Sr.rang || GM_[gi].n;
+      }
+    var mResume = mrTiens ? mrTiens : (mrVise ? 'Vise ' + mrVise : 'Hors du tableau');
+    h += '<details class="mg wide fold mnd"><summary><span class="sml">L\'état du monde</span>'
+       + '<span class="smv">' + esc(mResume) + '</span></summary><div class="mn">';
     for(gi = 0; gi < GM_.length; gi++){
       var Gp = GM_[gi];
       h += '<div class="mnc"><div class="mnh"><span class="mnp" style="background:'
@@ -14436,12 +14531,18 @@ function renderManager(){
      un Fruit est une chose qu'on porte, avec un nom et une description. */
   $('manager').innerHTML =
       B_etat
-    + '<details class="mg wide fold stt" open><summary>Statistiques</summary>'
+    + '<details class="mg wide fold stt" open><summary><span class="sml">Statistiques</span>'
+    +   '<span class="smv">Niveau ' + nv + ' · ' + esc(pp.t) + '</span></summary>'
     +   B_niv + B_haki
     + '</details>'
     /* LE PERSONNEL AVANT LE GLOBAL. Enrick : « fais remonter Attributs au-dessus
        de l'etat du monde, on met les choses perso avant les globales ». */
-    + '<details class="mg wide fold atr"><summary>Attributs</summary>'
+    /* La valeur de la barre Attributs est la prime, la premiere chose que le
+       depliant montre. Un agent du Gouvernement n'en a pas : on descend alors
+       sur ce qu'il porte, et on le dit franchement s'il n'a rien. */
+    + '<details class="mg wide fold atr"><summary><span class="sml">Attributs</span>'
+    +   '<span class="smv">' + esc(p > 0 ? berry(p) + ' Berrys'
+          : (S.fruit ? S.fruit.fr : 'Aucune prime')) + '</span></summary>'
     +   B_prime + B_fruit + B_equipage + B_navire + B_flotte
     +   B_courbe + B_traits + B_faits
     + '</details>'
@@ -17998,3 +18099,5 @@ function reprendre(){
 })();
 
 </script>
+</body>
+</html>
