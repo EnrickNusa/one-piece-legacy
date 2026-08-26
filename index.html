@@ -13250,7 +13250,12 @@ function placeJoueur(G, cran){
       return;
     }
   }
-  if(cible){ cible.nom = S.name; cible.pic = 'c_toi'; cible.sous = sous; cible.toi = true; }
+  if(cible){
+    /* qui TU as fait sortir : c'est la seule chose que les cartes doivent
+       verifier. Voir tientLeSiege(). */
+    S._deloge = cible.nom;
+    cible.nom = S.name; cible.pic = 'c_toi'; cible.sous = sous; cible.toi = true;
+  }
 }
 
 /* --------------------------------------------------------- L'ASSEMBLAGE - */
@@ -13281,20 +13286,21 @@ function mondeGroupes(){
    un ordre ne doit plus tomber quand tu as pris son fauteuil.
    On ne reecrit pas 809 options, on leur donne un verrou : une carte qui
    porte enposte:'Akainu' ne sort que si Akainu tient encore son siege. */
-var _siegeCache = null, _siegeChap = -1;
+/* CE QUE LE VERROU DOIT VRAIMENT VERIFIER.
+   Premiere version : la carte ne sortait plus des que le personnage avait
+   quitte le tableau, pour QUELQUE raison que ce soit. Mesure sur 600
+   carrieres : six cartes ne tombaient plus jamais, dont a4_yonko, qui est
+   l'evenement CLE de la quete Marine. Barbe Blanche meurt a Marineford, donc
+   sa carte de l'acte 4 devenait injouable, et la quete avec.
+   La plainte d'Enrick etait precise : « je suis Amiral en chef mais Akainu me
+   donne encore des ordres, je devrais prendre son poste ». Ce qui doit
+   bloquer une carte, ce n'est pas la ligne du temps du lore, c'est TOI. */
 function tientLeSiege(nom){
-  if(!nom || typeof mondeGroupes !== 'function') return true;
-  /* mondeGroupes() est reconstruit a chaque appel : sans ce cache, le tirage
-     le rebatirait une fois par carte candidate, soit 800 fois par chapitre. */
-  if(_siegeChap !== S.chapter){
-    _siegeCache = {};
-    var G = mondeGroupes(), i, j;
-    for(i = 0; i < G.length; i++)
-      for(j = 0; j < G[i].s.length; j++)
-        if(G[i].s[j].nom) _siegeCache[G[i].s[j].nom] = 1;
-    _siegeChap = S.chapter;
+  if(!nom) return true;
+  if(typeof mondeGroupes === 'function' && S._delogeChap !== S.chapter){
+    S._deloge = null; mondeGroupes(); S._delogeChap = S.chapter;
   }
-  return !!_siegeCache[nom];
+  return nom !== S._deloge;
 }
 
 /* ON NE DEMANDE PAS SON NOM A UN EMPEREUR.
@@ -14156,7 +14162,7 @@ function renderManager(){
         if(Sg.rang && Sg.rang !== rangC){
           rangC = Sg.rang;
           h += '<div class="mnt' + (Sg.vise ? ' vise' : '') + '">' + esc(rangC)
-             + (Sg.vise ? '<em>ton prochain cran</em>' : '')
+             + (Sg.vise ? '<em>cran convoité</em>' : '')
              + '<b>' + Sg.cran + '</b></div>';
         }
         var im = Sg.pic && typeof PORTRAITS !== 'undefined' && PORTRAITS[Sg.pic];
