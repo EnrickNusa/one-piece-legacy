@@ -8652,7 +8652,7 @@ opts:[
 
 E({id:'a4_chevalier_killingham', verrou:62, gr:'chevalier', act:4, scene:'mariejoie', w:4, dt:1,
 kicker:"Armure blanche, une monture à corne unique", title:"Saint Killingham",
-text:"Il descend seul, sans escorte, sur une bête à corne unique qui marche dans l'air. Saint Killingham, Chevalier Divin.<br><br>Trois hommes de ton bord s'endorment debout pendant qu'il descend. Il t'appelle par ton nom complet, qu'il dit avoir lu dans un rêve.",
+text:"Il descend seul, sans escorte, sur une bête à corne unique qui marche dans l'air. Saint Killingham, Chevalier Divin.<br><br>Trois hommes s'endorment debout autour de toi pendant qu'il descend. Il t'appelle par ton nom complet, qu'il dit avoir lu dans un rêve.",
 opts:[
  {t:"Le combattre", tag:"Au-dessus de ta ligue", ineed:"pirate|revo", d:1, eff:{combat:17, arm:21, renom:20},
   why:"Quatorze minutes contre une armure blanche, c'est du Haki appris dans la douleur.",
@@ -10583,7 +10583,7 @@ opts:[
   r:"Tu fais évacuer les tiens en trois jours et tu laisses les clés sur la table. Zéro mort. Le monde entier apprend que tu as reculé, et c'est exactement ce que tu as choisi d'assumer."}
 ]});
 
-E({id:"pir5_b", act:5, scene:"loguetown", w:20, ineed:"pirate",
+E({id:"pir5_b", act:5, scene:"loguetown", w:20, ineed:"pirate", also:"!solo",
 kicker:"Un port où tu as commencé", title:"Le pavillon qu'on transmet",
 text:"Ton {PAVILLON} est cousu, recousu, brûlé par le sel et par deux incendies. Il a plus de trente ans.<br><br>Ton second te demande, sans te regarder, ce qu'il devient quand tu ne seras plus là.",
 opts:[
@@ -15292,7 +15292,7 @@ opts:[
 
 E({id:"vis_bonclay", pic:'c_bonclay', act:2, scene:"alabasta", w:9, once:1,
 kicker:"Deux fois la même personne", title:"Deux fois le même visage",
-text:"Au bout de la rue, quelqu'un de ton bord te fait signe. Il te fait signe une deuxième fois, à dix mètres du premier, et les deux ont exactement le même visage.<br><br>L'un des deux se touche la joue de la main droite, machinalement, comme s'il vérifiait que le visage tient.",
+text:"Au bout de la rue, quelqu'un que tu connais bien te fait signe. Il te fait signe une deuxième fois, à dix mètres du premier, et les deux ont exactement le même visage.<br><br>L'un des deux se touche la joue de la main droite, machinalement, comme s'il vérifiait que le visage tient.",
 opts:[
  {t:"Aller vers celui qui ne s'est pas touché la joue", tag:"Le détail",
   eff:{obs:14, ruse:9, combat:4, renom:-1, vol:-8},
@@ -15304,11 +15304,11 @@ opts:[
   r:"Tu restes planté au milieu de la rue. Au bout d'une minute, l'un des deux s'impatiente et parle en premier. C'était celui-là."},
  {t:"Frapper le plus proche", tag:"La force", d:1,
   eff:{combat:10, ruse:-8, renom:-5},
-  why:"Il y a une chance sur deux, et une chance sur deux vaut mieux que rester là.",
+  why:"Il y a une chance sur deux de tomber sur le bon, et une chance sur deux de frapper quelqu'un que tu aimes bien.",
   r:"Tu tombes sur le bon. Il encaisse en riant, très content du jeu, et il te dit que tu es le premier à ne pas hésiter.",
   fail:{p:.5, on:"combat", eff:{combat:4, renom:-9, vol:-5},
    why:"Une chance sur deux, c'est aussi une chance sur deux de frapper quelqu'un de son propre bord.",
-   r:"Tu frappes un des tiens en pleine figure devant la rue entière. Le vrai coupable applaudit depuis le trottoir d'en face."}}
+   r:"Tu frappes en pleine figure la personne que tu étais content de voir, devant la rue entière. Le vrai coupable applaudit depuis le trottoir d'en face."}}
 ]});
 
 /* ---------------------------- ACTE 3 ---------------------------- */
@@ -15549,12 +15549,12 @@ opts:[
 
 E({id:"vis_pica", pic:'c_pica', act:4, scene:"newworld", w:9, once:1,
 kicker:"Une voix dans toute la ville", title:"La voix dans les murs",
-text:"Une voix très aiguë résonne dans toute la ville et donne des ordres à des ouvriers qu'on ne voit pas. Deux de tes gens ricanent avant de comprendre d'où elle vient.<br><br>Un pan de rue se soulève à cinquante mètres. Ce n'était pas une rue.",
+text:"Une voix très aiguë résonne dans toute la ville et donne des ordres à des ouvriers qu'on ne voit pas. Deux marchands ricanent avant de comprendre d'où elle vient.<br><br>Un pan de rue se soulève à cinquante mètres. Ce n'était pas une rue.",
 opts:[
- {t:"Faire taire tes gens tout de suite", tag:"La discipline", ineed:"pirate|revo|marine|gm",
+ {t:"Faire taire les rieurs tout de suite", tag:"Le réflexe",
   eff:{ruse:11, obs:6, vol:-6},
-  why:"Il déteste qu'on rie de sa voix plus que tout au monde, et il entend chaque rire de la ville entière.",
-  r:"Tu coupes court d'un mot. La rue à cinquante mètres se repose doucement. Vous traversez la ville sans un incident."},
+  why:"Il déteste qu'on rie de sa voix plus que tout au monde, et il entend chaque rire de la ville entière. Ces deux-là ne le savent pas.",
+  r:"Tu coupes court d'un mot et tu les pousses sous un porche. La rue à cinquante mètres se repose doucement, et tu traverses la ville sans un incident."},
  {t:"Chercher où se trouve la partie humaine", tag:"Le corps", d:1,
   eff:{obs:14, ruse:8, combat:5},
   why:"Une montagne qui parle a forcément un homme dedans, et cet homme n'est pas au milieu du bloc.",
@@ -15591,12 +15591,12 @@ opts:[
 
 E({id:"vis_apoo", pic:'c_apoo', act:4, scene:"newworld", w:9, once:1,
 kicker:"Un concert sur le pont d'en face", title:"Le concert d'en face",
-text:"Un navire mouillé à cent mètres du tien donne un concert que personne n'a demandé. Le capitaine joue lui-même, et il joue bien.<br><br>À la troisième mesure, un mât de ton bord s'entaille tout seul sur trente centimètres.",
+text:"Un navire mouillé à cent mètres du tien donne un concert que personne n'a demandé. Le capitaine joue lui-même, et il joue bien.<br><br>À la troisième mesure, ton grand mât s'entaille tout seul sur trente centimètres.",
 opts:[
  {t:"Couvrir les oreilles de tout le monde", tag:"L'ordre",
   eff:{obs:12, ruse:8, renom:5, combat:-9},
   why:"L'entaille est arrivée avec la note. Ce qui coupe ici passe par ce qu'on entend.",
-  r:"Tu fais mettre du chiffon dans toutes les oreilles du bord avant la mesure suivante. Le concert continue et plus rien ne s'entaille."},
+  r:"Tu bourres tes oreilles de chiffon avant la mesure suivante et tu fais passer le mot. Le concert continue et plus rien ne s'entaille."},
  {t:"Applaudir très fort et demander un rappel", tag:"Le public", d:1,
   eff:{ruse:13, renom:8, obs:5},
   why:"Il est venu chercher une réaction, et un public qui redemande est la dernière chose qu'il attendait.",
@@ -15607,7 +15607,7 @@ opts:[
  {t:"Lever l'ancre et sortir de portée", tag:"La distance",
   eff:{ruse:9, obs:8, renom:-10, vol:-8},
   why:"Une arme qui passe par le son a une portée, et cent mètres est visiblement dedans.",
-  r:"Vous appareillez au milieu du morceau. À trois cents mètres, la musique n'est plus qu'une musique."}
+  r:"Tu appareilles au milieu du morceau. À trois cents mètres, la musique n'est plus qu'une musique."}
 ]});
 
 E({id:"vis_diamante", pic:'c_diamante', act:4, scene:"newworld", w:9, once:1,
@@ -15684,7 +15684,7 @@ opts:[
  {t:"Faire venir de l'eau pour eux", tag:"Le ravitaillement", ineed:"pirate|revo|marine",
   eff:{renom:13, vol:9, ruse:-8}, f:"reputation_pop",
   why:"Ils tiendront dix jours de plus, et dix jours suffisent parfois à ce que quelqu'un d'autre arrive.",
-  r:"Tu fais décharger ce que tu peux. Ce n'est pas assez et tout le monde le sait, mais le nom de ton pavillon reste sur cette île pour longtemps."},
+  r:"Tu fais décharger ce que tu peux. Ce n'est pas assez et tout le monde le sait, mais ton nom reste sur cette île pour longtemps."},
  {t:"Chercher ce qu'il venait chercher", tag:"L'enquête", d:1,
   eff:{obs:13, ruse:9, renom:-4},
   why:"Un homme qui écrase trois vallées sans rien emporter cherchait quelqu'un de précis, et il ne l'a pas trouvé.",
@@ -15791,10 +15791,14 @@ opts:[
   eff:{ruse:10, obs:9, renom:-4, vol:-3},
   why:"Un homme qui touche à huit cents mètres n'a pas raté, donc il n'a pas encore décidé de toucher.",
   r:"Le pont se vide en quinze secondes. Il n'y a pas de troisième coup, et vous appareillez à la nuit sans qu'un seul homme soit blessé."},
- {t:"Planter ton propre pavillon à l'endroit visé", tag:"Le signe", sauf:"sp_tir",
+ {t:"Planter ton propre pavillon à l'endroit visé", tag:"Le signe", ineed:"pirate|revo", sauf:"sp_tir",
   eff:{vol:4, renom:9, obs:5, ruse:-6},
   why:"Les deux impacts encadrent une place vide. Y mettre quelque chose est une réponse que n'importe qui peut donner.",
-  r:"Tu plantes ton pavillon entre les deux balles. Aucune troisième détonation ne vient, et c'est exactement ce que ça voulait dire."}
+  r:"Tu plantes ton pavillon entre les deux balles. Aucune troisième détonation ne vient, et c'est exactement ce que ça voulait dire."},
+ {t:"Laisser les deux balles où elles sont", tag:"Le signe", ineed:"marine|gm", sauf:"sp_tir",
+  eff:{obs:10, vol:8, ruse:5},
+  why:"Sous uniforme on ne répond pas à une provocation de tireur, on la consigne. Et un mât entaillé est une pièce.",
+  r:"Tu fais relever les deux impacts et la distance, et tu laisses les balles dans le bois. Le rapport partira ce soir, et il sera lu."}
 ]});
 
 E({id:"vis_serafim", pic:'c_serafim', act:4, scene:"mariejoie", w:9, once:1,
@@ -15807,7 +15811,7 @@ opts:[
   r:"Elle met trois secondes à répondre, ce qui est très long pour elle. Elle pose une question qui n'était dans aucun de ses programmes, puis le technicien revient.",
   fail:{p:.32, on:"vol", eff:{obs:5, renom:-7},
    why:"Ce qui est en face de toi a été fabriqué pour obéir, et ce genre d'écart se remonte.",
-   r:"Elle enregistre ton nom, ton grade et l'heure, à voix haute, du même ton que le reste. Tu comprends que ça vient d'être versé quelque part."}},
+   r:"Elle enregistre ton nom, ta taille et l'heure, à voix haute, du même ton que le reste. Tu comprends que ça vient d'être versé quelque part."}},
  {t:"Éviter son regard", tag:"Les yeux",
   eff:{obs:11, ruse:8, vol:-4, renom:-3},
   why:"Le visage qu'elle porte appartient à quelqu'un dont le regard change les gens en pierre, et ce n'est pas qu'une ressemblance.",
@@ -15887,7 +15891,7 @@ opts:[
 
 /* ---------------------------- ACTE 5 ---------------------------- */
 
-E({id:"vis_shiryu", pic:'c_shiryu', act:5, scene:"newworld", w:9, once:1,
+E({id:"vis_shiryu", pic:'c_shiryu', act:5, scene:"newworld", w:9, once:1, ineed:"!solo",
 kicker:"Une coupure sans personne autour", title:"La coupure sans personne",
 text:"Un homme de ton bord s'ouvre l'avant-bras sur trente centimètres. Il n'y avait personne à moins de cinq mètres et rien de tranchant à bord.<br><br>La pluie sur le pont dessine une forme creuse pendant une demi-seconde, à trois pas de toi, puis plus rien.",
 opts:[
@@ -15910,7 +15914,7 @@ opts:[
 
 E({id:"vis_kid", pic:'c_kid', act:5, scene:"newworld", w:9, once:1,
 kicker:"Une montagne de ferraille sur la plage", title:"La montagne de ferraille",
-text:"Sur la plage, trente mètres de ferraille empilée : ancres, canons, coques entières. Un homme au bras de métal est assis dessus et regarde la mer.<br><br>Toutes les pièces métalliques de ton bord tirent légèrement dans sa direction, y compris ce que tu portes.",
+text:"Sur la plage, trente mètres de ferraille empilée : ancres, canons, coques entières. Un homme au bras de métal est assis dessus et regarde la mer.<br><br>Toutes les pièces métalliques de ta coque tirent légèrement dans sa direction, y compris ce que tu portes.",
 opts:[
  {t:"Poser ton arme avant d'approcher", tag:"Le désarmement",
   eff:{ruse:11, vol:9, obs:6, renom:-9},
@@ -15922,8 +15926,8 @@ opts:[
   r:"Il dit un nom d'Empereur, sans emphase, comme un rendez-vous déjà pris. Tu comprends que ce tas est une arme en pièces détachées."},
  {t:"Faire demi-tour tout de suite", tag:"Le départ", d:1,
   eff:{obs:9, ruse:10, renom:-6},
-  why:"Il attire déjà le métal de ton bord depuis la plage, et ton navire en est plein.",
-  r:"Vous repartez avant qu'il se lève. À trois cents mètres, les pièces cessent de tirer et l'équipage recommence à respirer.",
+  why:"Il attire déjà le métal depuis la plage, et ta coque en est pleine.",
+  r:"Tu repars avant qu'il se lève. À trois cents mètres, les pièces cessent de tirer et la coque cesse de grincer.",
   fail:{p:.26, on:"ruse", eff:{obs:5, renom:-6},
    why:"Un navire ne fait pas demi-tour discrètement devant quelqu'un qui sent chaque clou de sa coque.",
    r:"Il lève la main sans se retourner. Deux ancres et un canon quittent ton pont et vont rejoindre le tas, tranquillement."}}
