@@ -1127,7 +1127,18 @@ h1,h2,h3{text-wrap:balance}
    separe par un filet, l'intitule ecrit une seule fois. Le palier dore est
    celui que le joueur vise : plein ou non, les gens dedans sont ceux qu'il
    faudra deloger. */
-.mnd{margin-bottom:12px}
+/* L'ETAT DU MONDE A SON PROPRE CADRE. Enrick, 26 aout : « fais en sorte qu'il
+   ait son propre menu depliant comme le truc jaune ecrit niveau 37, au-dessus,
+   dans une autre couleur, et le joueur ouvre celui qu'il veut ». Il portait le
+   depliant nu du Haki, sans cadre : il flottait au-dessus du panneau au lieu
+   d'en etre le premier bloc. Meme boite que .mg.niv, teinte violette du Trone
+   pour qu'on ne confonde pas les deux d'un coup d'oeil. */
+.mg.niv,.mg.mnd{border-radius:13px;padding:12px 14px}
+.mg.mnd{background:#f7f4fc;border:1px solid #e2daf0;margin-bottom:14px}
+.mg.mnd>summary{padding:0 0 2px}
+.mg.mnd>summary,.mg.mnd .mgl{color:#5b3f7d}
+.mg.mnd>summary:after{border-color:#8a6fb0}
+.mg.mnd[open]>summary{margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #e2daf0}
 .mn{display:flex; flex-direction:column; gap:0}
 .mnc{border-top:1px solid var(--line); padding:8px 0 4px}
 .mnc:first-child{border-top:0; padding-top:2px}
@@ -1158,6 +1169,16 @@ h1,h2,h3{text-wrap:balance}
 .mnr.vise .mnv{border-color:var(--gold)}
 .mnb{font-size:8px; font-weight:800; letter-spacing:.08em; text-transform:uppercase;
   background:var(--gold); color:#3a2a02; padding:2px 5px; border-radius:4px; flex:none}
+
+/* LE BLOC DE LA MORT, carte de fin. Il ouvre le recit au lieu de le laisser
+   commencer au milieu d'un paragraphe. */
+.mortbloc{border-radius:13px;padding:12px 15px;margin:0 0 14px;
+  background:rgba(198,47,34,.07);border:1px solid rgba(198,47,34,.24);
+  border-left:3px solid var(--bad)}
+.mortbloc .ml{font-family:var(--disp);font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--bad)}
+.mortbloc .mv{font-family:var(--disp);font-size:19px;line-height:1.2;
+  margin-top:3px;color:var(--ink)}
 
 </style>
 <div class="scene" id="scene" data-scene="village">
@@ -14139,13 +14160,9 @@ function renderManager(){
     h += '<div class="objp">encore '+S.etat.reste+(S.etat.reste>1?' chapitres':' chapitre')+'</div></div>';
   }
   var B_etat = h; h = '';
-  var OB = objectifZone();
-  if(OB){
-    var fait = objectifFait();
-    h += '<div class="mg wide obj'+(fait?' ok':'')+'"><div class="mgl">Objectif de la zone</div>';
-    h += '<div class="objt">'+esc(OB.t)+'</div>';
-    h += '<div class="objp">'+objectifAvance()+' / '+OB.n+(fait?'  ·  rempli':'')+'</div></div>';
-  }
+  /* L'OBJECTIF DE ZONE NE S'AFFICHE PLUS EN PARTIE. Enrick, 26 aout :
+     « on fera le recap sur la carte de fin d'acte, on n'en a pas besoin en
+     jeu ». Le compteur reste calcule, il sert au bilan de zone. */
   var B_obj = h; h = '';
 
   h += '<div class="mg">';
@@ -14343,7 +14360,7 @@ function renderManager(){
      proposition, qui la descendait tout en bas. */
   $('manager').innerHTML =
       B_monde                                   /* ou tu te situes dans le monde */
-    + B_niv + B_etat + B_obj + B_prime          /* ce qui decide maintenant */
+    + B_niv + B_etat + B_prime                  /* ce qui decide maintenant */
     + B_haki + B_fruit                          /* ce que tu es */
     + B_equipage + B_navire + B_flotte
     + B_courbe + B_traits + B_faits;            /* ce que tu as accompli */
@@ -16920,9 +16937,22 @@ function showEnd(){
 
   var txt;
   if(!S.alive){
+    /* LA MORT A SA PLACE, ET ELLE COMMENCE PAR UN NOM. Enrick, 26 aout : « mets
+       un endroit pour la raison de la mort, tu peux ecrire par exemple tue par
+       Mihawk a tel age, simple ». Le recit de la mort etait deverse en
+       paragraphe nu au milieu de la carte, sans titre : on tombait sur la
+       phrase de Mihawk sans savoir ce qu'on lisait. On annonce d'abord QUI et
+       QUAND, le recit vient dessous.
+       Le nom du tueur est deja dans la ligne de vie : c'est l'entree marquee
+       dead. */
+    var tueur = null, tueAge = S.age, _t;
+    for(_t = (S.tl||[]).length - 1; _t >= 0; _t--)
+      if(S.tl[_t].dead){ tueur = S.tl[_t].t; tueAge = S.tl[_t].a; break; }
+    txt = '<div class="mortbloc"><div class="ml">Mort</div><div class="mv">' +
+          (tueur ? 'Tué par ' + esc(tueur) : 'Mort') + ' à ' + tueAge + ' ans</div></div>';
     /* les causes de mort contiennent {EQUIPAGE}, {PAVILLON}, {MER}. Sans tpl()
        le joueur lisait le jeton brut sur sa carte de fin. */
-    txt = '<p>' + esc(tpl(S.cause||'')) + '</p>';
+    txt += '<p>' + esc(tpl(S.cause||'')) + '</p>';
     if(r===2) txt += "<p>Et pourtant tu y étais arrivé. Ce que tu cherchais, tu l'as touché avant de tomber. Roger non plus n'est pas mort dans son lit.</p>";
     else if(r===1) txt += "<p>Tu étais sur la bonne route. Il te manquait du temps, et le temps est la seule chose que cette mer ne rend jamais.</p>";
     else txt += "<p>Le monde a continué sans s'arrêter. Il reste ton nom dans quelques ports, et il s'effacera aussi.</p>";
@@ -17158,11 +17188,23 @@ function showEnd(){
      Chaque ligne repond maintenant a une question par un chiffre ou par non,
      et les lignes sont groupees par ce qu'elles racontent. */
   var ph='', eus=0, tot=0;
+  /* ON N'AFFICHE PLUS CE QUI N'A PAS EU LIEU. Enrick, 26 aout : « il y a
+     beaucoup de trucs dans la fin, les faits d'armes, il faut reduire au plus
+     important ou n'afficher que ceux qui se sont passes ».
+     La fiche listait TOUTES les lignes possibles, la plupart a « non » : on
+     lisait trente refus pour trouver six exploits. Les compteurs continuent de
+     tourner sur le total, c'est lui qui donne le pourcentage du palmares.
+     Un titre de section n'est pose que si une ligne le suit vraiment. */
+  var _sec = null;
   function lp(titre, val, ok){
-    tot++; if(ok) eus++;
-    return '<div class="lr'+(ok?'':' no')+'"><span>'+esc(titre)+'</span><b>'+esc(val)+'</b></div>';
+    tot++;
+    if(!ok) return '';
+    eus++;
+    var tete = '';
+    if(_sec){ tete = '<div class="palm-sec">'+esc(_sec)+'</div>'; _sec = null; }
+    return tete + '<div class="lr"><span>'+esc(titre)+'</span><b>'+esc(val)+'</b></div>';
   }
-  function sec(t){ return '<div class="palm-sec">'+esc(t)+'</div>'; }
+  function sec(t){ _sec = t; return ''; }
   function oui(cle, titre){ return lp(titre, S.f[cle] ? 'oui' : 'non', !!S.f[cle]); }
   function pourMoi(camps){ return String(camps).indexOf(S.camp) >= 0; }
 
