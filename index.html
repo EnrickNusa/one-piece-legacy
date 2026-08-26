@@ -5652,6 +5652,18 @@ function choisirAdv(){
     if(l[i].leg && l[i]._w < 3.4) l[i]._w = 3.4;
     if(contre[l[i].nat]) l[i]._w *= contre[l[i].nat];
     if(tenant && l[i].id === tenant) l[i]._w *= 3.2;
+    /* ============ TOMBER SUR PLUS DE MONDE ============
+       Enrick, 26 aout : « le but n'est pas d'avoir cent mille combats, c'est
+       juste de pouvoir tomber sur plus de monde ».
+       C'est une meilleure formulation du probleme que la mienne. Le tirage ne
+       regardait que l'ecart de niveau, donc dans une meme carriere il
+       reproposait volontiers le meme homme, pendant que dix adversaires
+       n'etaient JAMAIS affrontes sur 300 carrieres.
+       Un adversaire deja croise voit son poids divise. Il reste possible, il
+       cesse d'etre probable. Aucune difficulte ne change, aucun combat n'est
+       ajoute : c'est la variete qui monte, pas la charge. */
+    var dv = S.advVus && S.advVus[l[i].id];
+    if(dv) l[i]._w /= (1 + 2.5 * dv);
   }
   return wpick(l, '_w');
 }
@@ -5736,6 +5748,9 @@ function motManches(n){
   return ['zéro','une','deux','trois','quatre','cinq'][n] || String(n);
 }
 function lanceCombat(adv){
+  /* memoire des adversaires croises dans CETTE carriere, lue par choisirAdv */
+  if(adv && adv.id){ S.advVus = S.advVus || {};
+                     S.advVus[adv.id] = (S.advVus[adv.id] || 0) + 1; }
   var titre = estDuelDeTitre(adv);
   var nb = titre ? 5 : 3;
   S.cb = {adv:adv, r:1, av:0, dg:0, used:[], res:[], done:false,
@@ -16972,7 +16987,7 @@ function newState(){
     fruit:null, eveil:false, bmul:1,
     crew:0, crewList:[], shipCls:0, shipName:'', prime:0, etat:null, flotte:[], routes:{},
     age:17, agef:17, act:1, idx:0, chapter:0,
-    f:{}, used:{}, grp:{}, picN:{}, tl:[], alive:true, cause:null, snap:null, hist:[], niv:0, vus:{}, bossFait:0,
+    f:{}, used:{}, grp:{}, picN:{}, advVus:{}, tl:[], alive:true, cause:null, snap:null, hist:[], niv:0, vus:{}, bossFait:0,
     n:{wins:0, fails:0, iles:0, marines:0, duels:0, sauves:0, trahis:0, doctrine:0, advMax:0},
     ended:false
   };
@@ -18422,9 +18437,42 @@ function drawEvent(relax){
     var dc = byId(dk);
     if(dc){ S.used[dk] = true; return dc; }
   }
-  if(prochePorte && !S.bossFait){
+  /* ============ PLUS D'UN COMBAT PAR ACTE EN FIN DE CARRIERE ============
+     Enrick, 26 aout : « regle le probleme des plus forts, c'est primordial ».
+     Dix adversaires ne sont JAMAIS affrontes sur 300 carrieres, et ce sont les
+     plus puissants du jeu : Shanks, Barbe Blanche, Marco, Luffy, Sabo.
+
+     IL PROPOSAIT UN SIXIEME ACTE. LA MESURE DIT QUE ÇA N'AURAIT PAS MARCHE.
+     Combats lances par acte, 399 carrieres :
+         acte 1  400     acte 2  395     acte 3  295
+         acte 4  166     acte 5   48
+     Le nombre de combats S'EFFONDRE en montant, et c'est exactement la que
+     vivent les forts. Un acte de plus aurait ajoute des chapitres, pas des
+     combats : on aurait croise Shanks aussi rarement, juste plus tard.
+
+     LA VRAIE CAUSE : `S.bossFait` autorisait UN SEUL affrontement par acte,
+     et seulement a l'approche de la porte. A l'acte 5 il n'y a pas de porte,
+     donc le combat tombait en toute fin, et une carriere qui s'arrete avant
+     n'en livrait aucun.
+
+     Le quota monte donc avec l'acte, la ou la fenetre de tirage contient les
+     adversaires que personne ne voyait. Et a partir de l'acte 4, un
+     affrontement peut se declencher sans attendre la porte.
+
+     PREMIER REGLAGE ESSAYE ET REFUSE PAR LA MESURE : quota 1/1/2/3/4, ouvert
+     des l'acte 4. Il reglait le probleme, les dix adversaires jamais vus
+     tombaient a UN SEUL, mais il CASSAIT LA CARRIERE : la mort passait de 5 a
+     30 % des fins, et l'acte 5 de 39 % a 7 %. Quatre affrontements dans un
+     acte contre des gens de son niveau, personne n'y survit.
+     Reglage retenu : UN SEUL combat de plus, et seulement a l'acte 5, la ou
+     vivent precisement les adversaires que personne ne croisait. */
+  var QUOTA_BOSS = {1:1, 2:1, 3:1, 4:1, 5:2};
+  var quota = QUOTA_BOSS[act] || 1;
+  var faits = (typeof S.bossFait === 'number' && S.bossFait <= 9) ? S.bossFait : 1;
+  var ouvert = prochePorte || (act >= 5 && depuis >= 7 && S.idx >= 3);
+  if(ouvert && faits < quota){
     var adv = choisirAdv();
-    if(adv){ S.bossFait = act; S.cbDernier = S.chapter; return {combat:adv}; }
+    if(adv){ S.bossFait = faits + 1; S.cbDernier = S.chapter; return {combat:adv}; }
   }
   if(pool.length===0) return null;
   /* Une voie doit toujours rencontrer son occasion decisive, sinon elle est
