@@ -2225,15 +2225,14 @@ var SPECS = [
 ];
 
 
-/* ---------- REVES PERSONNELS ---------------------------------------------
-   Troisieme axe, independant du camp et de la voie. Le camp donne un sommet
-   hierarchique, la voie donne un titre mondial, le reve donne une quete
-   intime. Les trois se cumulent et aucun n'en bloque un autre. */
-/* ---------- REVES PERSONNELS ----------------------------------------------
-   Chaque camp voit EXACTEMENT sept reves : quatre ouverts a tous, trois qui
-   n'appartiennent qu'a lui. Rien n'est grise, on ne montre que ce qui est
-   jouable. Le reve n'est pas le sommet du camp, c'est ce qu'on ramene pour
-   soi : Zoro veut battre Mihawk sans jamais viser le titre de Roi. */
+/* ---------- LE REVE PERSONNEL A ETE RETIRE LE 27 AOUT ---------------------
+   Le jeu avait trois axes de fin qui se ressemblaient : le camp donne un
+   sommet hierarchique, la voie donne un titre mondial, et le reve donnait une
+   quete intime. Enrick : « on va se contenter de sommet et voie ». La table
+   des douze reves vivait ici, elle est partie avec l'ecran de choix, les six
+   fonctions qui la jugeaient et la faveur de progression qu'elle donnait.
+   Les vingt cartes qui exigeaient un reve precis n'ont PAS ete supprimees :
+   leur condition a ete levee, elles sont devenues des cartes ordinaires. */
 
 
 /* ---------- POTENTIEL (le prodige) ---------- */
@@ -13680,7 +13679,9 @@ opts:[
    dans une scene, contre quelqu'un, sur une ile precise, un jour donne.
    Deux evenements par reve : une ETAPE en acte III qui rapproche du but,
    une CONSECRATION en acte IV qui l'accomplit pour de bon.
-   Chaque evenement porte ineed:"reve_<id>" : personne d'autre ne le verra.
+   Ces cartes portaient toutes ineed:"reve_<id>" : personne d'autre ne les
+   voyait. Le reve a ete retire du jeu le 27 aout et la condition levee :
+   elles sont devenues des cartes ordinaires, le contenu n'est pas perdu.
    Concatene apres les autres fichiers : ne redeclare ni EV ni E.
    ========================================================================= */
 
@@ -19591,7 +19592,7 @@ function specPret(){
   return niveau() >= 68;
 }
 /* A-t-on servi quelqu'un ? Un pacte, un adoubement, une loyaute juree. */
-/* AS-TU JURE A QUELQU'UN ? Lu par le reve « Mourir le plus libre de tous ».
+/* AS-TU JURE A QUELQU'UN ?
    Il ne regardait que trois choses et laissait passer les plus flagrantes :
    un joueur « Allie d'un Empereur », avec le tatouage sur l'epaule et un
    tiers de ses prises, finissait declare le plus libre de tous.
@@ -19607,13 +19608,6 @@ function specPret(){
 
    Ce qui NE compte pas : allie_corsaire et allie_jeune sont des accords
    entre egaux, et rois_allies designe des rois rallies A toi. */
-function aServi(){
-  var f = S.f;
-  if(f.loyal_gm || f.adoube || f.vassal || f.allie_empereur || f.serment) return true;
-  if(f.dette_empereur && !f.dette_soldee) return true;
-  for(var k in f) if(k.indexOf('fait_pacte_')===0 && f[k]) return true;
-  return false;
-}
 /* ============ LE VERDICT DU REVE =========================================
    Le reve n'est pas une quete a cocher pendant la partie : c'est un ETAT,
    juge une seule fois, a la fin, sur ce que la carriere a reellement
@@ -19643,7 +19637,7 @@ function aServi(){
    ce plancher lisait deux phrases qui se contredisent : « Tu ne figures nulle
    part » suivi de « Tu ne l'as pas fait ». On dit donc ce qui manque, en
    clair et sans bareme. Les seuils vivent ici en un seul endroit, et ils
-   doivent rester d'accord avec reveResult(). */
+   */
 /* Les taux en commentaire sont ceux d'AVANT l'ajustement du 21 aout 2026,
    mesures sur 1200 carrieres. Bande visee : 20 a 40 %. Sept reves en
    sortaient, quatre trop faciles et trois trop durs. Chaque reve n'a
@@ -20125,56 +20119,6 @@ function traits(){
    avis de recherche. Celui-ci se compose a partir du personnage : la silhouette
    vient de la race, la coiffe de la voie, les cicatrices des echecs, et la
    croix rouge n'apparait que si la carriere s'est terminee par la mort. */
-function portrait(){
-  var race = S.race ? S.race.id : 'humain';
-  var voie = S.spec ? S.spec.id : '';
-  var I = '#231708', P = '#f2e6c8';
-
-  /* la tete, selon la race */
-  var tete, extra = '';
-  if(race === 'geant'){
-    tete = '<path d="M44 16 c-20 0 -30 14 -30 30 0 16 12 28 30 28 s30 -12 30 -28 c0 -16 -10 -30 -30 -30z" fill="'+P+'" stroke="'+I+'" stroke-width="3.5"/>';
-    extra = '<path d="M18 30 l-9 -13 12 3 M70 30 l9 -13 -12 3" stroke="'+I+'" stroke-width="3.5" fill="none" stroke-linecap="round"/>'
-          + '<path d="M28 70 q16 8 32 0" stroke="'+I+'" stroke-width="3" fill="none"/>';
-  } else if(race === 'poisson'){
-    tete = '<path d="M44 18 c-14 0 -23 11 -23 25 0 15 10 27 23 27 s23 -12 23 -27 c0 -14 -9 -25 -23 -25z" fill="'+P+'" stroke="'+I+'" stroke-width="3.5"/>';
-    extra = '<path d="M44 10 l7 10 -14 0z" fill="'+I+'"/>'
-          + '<path d="M25 46 h7 M25 53 h7 M56 46 h7 M56 53 h7" stroke="'+I+'" stroke-width="2.6" stroke-linecap="round"/>';
-  } else if(race === 'dragon'){
-    tete = '<path d="M44 20 c-13 0 -21 10 -21 23 0 14 9 25 21 25 s21 -11 21 -25 c0 -13 -8 -23 -21 -23z" fill="'+P+'" stroke="'+I+'" stroke-width="3.5"/>';
-    extra = '<circle cx="44" cy="44" r="31" stroke="'+I+'" stroke-width="2.2" fill="none" opacity=".55"/>'
-          + '<path d="M30 22 q14 -8 28 0" stroke="'+I+'" stroke-width="2.4" fill="none" opacity=".7"/>';
-  } else {
-    tete = '<path d="M44 20 c-14 0 -22 10 -22 24 0 13 8 23 22 23 s22 -10 22 -23 c0 -14 -8 -24 -22 -24z" fill="'+P+'" stroke="'+I+'" stroke-width="3.5"/>';
-  }
-
-  /* la coiffe ou la marque, selon la voie */
-  var marque = {
-    sabre:  '<path d="M8 78 L74 12" stroke="'+I+'" stroke-width="4.5" stroke-linecap="round"/>'
-           +'<path d="M70 8 l10 10 -6 6 -10 -10z" fill="'+I+'"/>',
-    arts:   '<circle cx="14" cy="70" r="7" fill="'+I+'"/><circle cx="74" cy="70" r="7" fill="'+I+'"/>',
-    fruit:  '<path d="M76 14 q-14 4 -14 16 q0 10 9 13" stroke="'+I+'" stroke-width="4" fill="none" stroke-linecap="round"/>',
-    tir:    '<circle cx="44" cy="44" r="34" stroke="'+I+'" stroke-width="2" fill="none" opacity=".5"/>'
-           +'<path d="M44 4 v10 M44 74 v10 M4 44 h10 M74 44 h10" stroke="'+I+'" stroke-width="2.4" opacity=".6"/>',
-    science:'<path d="M60 34 h16 M68 26 v16" stroke="'+I+'" stroke-width="3" stroke-linecap="round"/>'
-           +'<rect x="50" y="38" width="14" height="10" rx="2" stroke="'+I+'" stroke-width="2.6" fill="none"/>'
-  }[voie] || '';
-
-  /* le regard, et ce que la carriere y a laisse */
-  var yeux = '<circle cx="36" cy="42" r="3.6" fill="'+I+'"/><circle cx="52" cy="42" r="3.6" fill="'+I+'"/>';
-  if(S.f && S.f.haki_rois) yeux += '<path d="M30 34 q6 -4 12 0 M46 34 q6 -4 12 0" stroke="'+I+'" stroke-width="2.4" fill="none" stroke-linecap="round"/>';
-  var bouche = (S.n && S.n.fails > 6)
-    ? '<path d="M36 56 q8 5 16 -1" stroke="'+I+'" stroke-width="2.8" fill="none" stroke-linecap="round"/>'
-    : '<path d="M37 56 h14" stroke="'+I+'" stroke-width="2.8" stroke-linecap="round"/>';
-  var cica = (S.n && S.n.fails > 3)
-    ? '<path d="M52 30 l5 20" stroke="'+I+'" stroke-width="2.2" stroke-linecap="round" opacity=".85"/>' : '';
-  var mort = (S.alive === false)
-    ? '<path d="M12 12 L76 76 M76 12 L12 76" stroke="#8b140d" stroke-width="5" stroke-linecap="round" opacity=".8"/>' : '';
-
-  return '<svg viewBox="0 0 88 88" class="emb" aria-hidden="true">'
-       + marque + tete + extra + yeux + bouche + cica + mort + '</svg>';
-}
-function embleme(){ return portrait(); }
 
 /* Le Haki tel qu'il se lit sur l'ecran de fin : le nom du palier et le rang
    sur le total, exactement comme le panneau de jeu l'affiche en partie. */
@@ -21352,7 +21296,7 @@ function reprendre(){
      verification va chercher dans la page servie. Une premiere version le
      rangeait dans une variable intermediaire : le motif ne trouvait alors
      jamais rien et le jeu ne se serait jamais mis a jour. */
-  window.__OPL_VER = '1787830128';
+  window.__OPL_VER = '1787833360';
   var VER = window.__OPL_VER;
   /* on ne verifie ni trop souvent ni pendant un ecran de saisie */
   function verifie(){
