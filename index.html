@@ -16409,9 +16409,16 @@ function grTrone(){
 /* --------------------------------------------------------- LES PIRATES -- */
 function grPirates(a){
   var s = [sg('Roi des Pirates', null, null, 'Depuis l’exécution de Roger', 85)];
-  var bn = (a <= 1) ? ['Marco','c_marco','Second de Barbe Blanche']
+  /* BARBE NOIRE NE MONTE PAS A L'ACTE 2. Enrick le 27 aout : « j'avais 21 ans
+     et acte 2 et il l'etait deja ». Le fauteuil basculait des la fin de l'acte
+     1, ce qui faisait tomber Barbe Blanche pendant que le joueur etait encore
+     un debutant. Barbe Noire ne prend le siege qu'apres la chute de Barbe
+     Blanche : on la place a l'acte 3, quand le monde a deja bouge autour du
+     joueur. Le second suit son capitaine, sinon Aokiji servait un Empereur qui
+     n'existait pas encore. */
+  var bn = (a <= 2) ? ['Marco','c_marco','Second de Barbe Blanche']
                     : ['Aokiji','c_aokiji','Second de Barbe Noire'];
-  if(a <= 1){
+  if(a <= 2){
     s.push(sg('Empereur', 'Barbe Blanche', 'c_wb', null, 73));
   } else {
     s.push(sg('Empereur', 'Barbe Noire', 'c_teach', null, 73));
@@ -16602,6 +16609,34 @@ function placeJoueur(G, cran){
     /* qui TU as fait sortir : c'est la seule chose que les cartes doivent
        verifier. Voir tientLeSiege(). */
     S._deloge = cible.nom;
+    /* LE SECOND DU DELOGE NE RESTE PAS A SON POSTE.
+       Enrick le 27 aout : « quand je deviens empereur assure toi que mon bras
+       droit n'est pas de photo et soit inscrit ton bras droit et pas
+       Katakuri ». On prenait le fauteuil de Big Mom et la ligne d'en dessous
+       continuait d'afficher Katakuri, portrait compris, comme s'il servait
+       encore quelqu'un qui n'est plus la. Le siege existe, il est a toi, et
+       personne ne l'occupe : pas de nom, donc pas de visage. */
+    /* Le sous-titre dit « Second de Mihawk » quand la ligne du dessus dit
+       « Dracule Mihawk » : comparer les deux chaines telles quelles ratait ce
+       cas. On rapproche sur le nom porte par le sous-titre, dans les deux
+       sens. */
+    var quiSert = function(sous){
+      return String(sous || '').replace(/^Second de\s+/, '');
+    };
+    /* Le siege du Roi des Pirates est VACANT depuis l'execution de Roger : sa
+       ligne porte un nom nul. Le prendre ne deloge donc personne et n'a pas de
+       second a reprendre. Sans cette garde, lire cible.nom.indexOf plantait la
+       partie au moment precis ou le joueur atteignait le sommet. */
+    var dn = cible.nom || '';
+    for(g = 0; dn && g < G.length; g++){
+      for(j = 0; j < G[g].s.length; j++){
+        var sd = G[g].s[j], qs = quiSert(sd.sous);
+        if(sd.rang === 'Bras droit' && qs &&
+           (dn.indexOf(qs) >= 0 || qs.indexOf(dn) >= 0)){
+          sd.nom = 'Ton bras droit'; sd.pic = null; sd.sous = 'Le poste est à toi';
+        }
+      }
+    }
     cible.nom = S.name; cible.pic = 'c_toi'; cible.sous = sous; cible.toi = true;
   }
 }
@@ -17598,9 +17633,14 @@ function renderManager(){
 
   var tr = traits();
   if(tr.length){
-    h += '<details class="mg wide fold"><summary>Ce qu\'on dit de toi <b>'+tr.length+'</b></summary><div class="tro sm">';
+    /* MEME GABARIT QUE FAITS D'ARMES, SANS DEPLIANT. Enrick le 27 aout : « la
+       fenetre ce qu'on dit de toi, tu peux la laisser non depliante exactement
+       comme faits d'armes ». C'est une liste courte d'etiquettes : la replier
+       demandait un appui pour trois mots. */
+    h += '<div class="mg wide"><div class="mgl">Ce qu\'on dit de toi'
+       + ' <b class="cnt">'+tr.length+'</b></div><div class="tro sm">';
     for(var q=0;q<tr.length;q++) h += '<span class="t">'+esc(tr[q])+'</span>';
-    h += '</div></details>';
+    h += '</div></div>';
   }
 
   var B_traits = h; h = '';
@@ -21408,7 +21448,7 @@ function reprendre(){
      verification va chercher dans la page servie. Une premiere version le
      rangeait dans une variable intermediaire : le motif ne trouvait alors
      jamais rien et le jeu ne se serait jamais mis a jour. */
-  window.__OPL_VER = '1787770380';
+  window.__OPL_VER = '1787812656';
   var VER = window.__OPL_VER;
   /* on ne verifie ni trop souvent ni pendant un ecran de saisie */
   function verifie(){
